@@ -1,11 +1,15 @@
 import express from 'express';
+import dotenv from './config/dotenv';
+import Loaders from './loaders';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello');
-});
+const startServer = async () => {
+  await Loaders.init(app);
 
-app.listen(8080, () => {
-  console.log('Running');
-});
+  app.listen(dotenv.PORT, () => {
+    console.log(`Running ${dotenv.PORT}`);
+  });
+};
+
+startServer();
