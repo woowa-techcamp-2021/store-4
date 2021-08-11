@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 require('dotenv/config');
 
 module.exports = {
@@ -25,4 +26,5 @@ module.exports = {
     filename: 'bundle.js',
     clean: true,
   },
+  plugins: [new ForkTsCheckerWebpackPlugin()],
 };
