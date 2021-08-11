@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js --progress",
     "type": "tsc --watch",
-    "build": "tsc && webpack --config webpack.prod.js --progress"
+    "build": "tsc && webpack --config webpack.prod.js --progress",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
