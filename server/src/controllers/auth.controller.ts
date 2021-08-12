@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import googleAuth from '../third-party-auth/google';
+import facebookAuth from '../third-party-auth/facebook';
 import jwtService from '../services/jwt.service';
 
 class AuthController {
@@ -29,9 +30,7 @@ class AuthController {
   }
 
   facebookLogin(req: Request, res: Response) {
-    const authURL = ''; // Facebook auth URL
-
-    res.redirect(authURL);
+    res.redirect(facebookAuth.URL);
   }
 }
 
