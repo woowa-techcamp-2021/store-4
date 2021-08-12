@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState, PropsWithChildren } from 'react';
+import React, { useContext, useEffect, useState, PropsWithChildren, useCallback } from 'react';
 import { createContext } from 'react';
 
-type HistoryContextType = {
+type RouterContextType = {
   currentPathname: string;
   setCurrentPath: React.Dispatch<React.SetStateAction<string>>;
+  routeInfo: MatchResult;
   history: History;
 };
-
-const HistoryContext = createContext({} as HistoryContextType);
 
 type RouterProps = PropsWithChildren<{
   basename?: string;
@@ -23,67 +22,6 @@ type LinkProps = PropsWithChildren<{
   to: string;
 }>;
 
-export const Router = (props: RouterProps): React.ReactElement => {
-  const initialPath = window.location.pathname;
-  const [currentPathname, setCurrentPath] = useState(initialPath);
-  const { children } = props;
-  const { history } = window;
-
-  useEffect(() => {
-    window.addEventListener('popstate', (event: PopStateEvent) => {
-      event.preventDefault();
-
-      const path = window.location.pathname;
-      setCurrentPath(path);
-    });
-  }, []);
-
-  return (
-    <HistoryContext.Provider value={{ history, currentPathname, setCurrentPath }}>
-      {children}
-    </HistoryContext.Provider>
-  );
-};
-
-export const Route = (props: RouteProps): React.ReactElement | null => {
-  const { currentPathname } = useContext(HistoryContext);
-  const { path, component, exact = false, children } = props;
-  const { isMatch } = matchPath({ pathname: path, currentPathname, exact });
-
-  if (!isMatch) {
-    return null;
-  }
-
-  if (children) {
-    return <>{children}</>;
-  }
-
-  if (component) {
-    const value = React.createElement(component, {});
-    if (value === undefined) {
-      throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
-    }
-    return value;
-  }
-
-  return null;
-};
-
-export const Link = (props: LinkProps): React.ReactElement => {
-  const { setCurrentPath } = useContext(HistoryContext);
-  const { to, children } = props;
-  const handleClickLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    history.pushState({}, '', to);
-    setCurrentPath(to);
-  };
-  return (
-    <a href={to} onClick={handleClickLink}>
-      {children}
-    </a>
-  );
-};
-
 type MatchPathParams = {
   currentPathname: string;
   pathname: string;
@@ -98,6 +36,89 @@ type MatchResult = {
 type CompilePathParams = {
   paths: string[];
   currentPaths: string[];
+};
+
+const RouterContext = createContext({} as RouterContextType);
+
+export const Router = (props: RouterProps): React.ReactElement => {
+  const initialPath = window.location.pathname;
+  const [currentPathname, setCurrentPath] = useState(initialPath);
+  const { children } = props;
+  const { history } = window;
+  const routeInfo = { isMatch: true, keys: {} };
+
+  const handlePopState = useCallback((event: PopStateEvent) => {
+    event.preventDefault();
+    const path = window.location.pathname;
+    setCurrentPath(path);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [handlePopState]);
+
+  return (
+    <RouterContext.Provider value={{ history, currentPathname, setCurrentPath, routeInfo }}>
+      {children}
+    </RouterContext.Provider>
+  );
+};
+3;
+
+export const Route = (props: RouteProps): React.ReactElement | null => {
+  const context = useContext(RouterContext);
+  const { currentPathname } = context;
+  const { path, component, exact = false, children } = props;
+  const matchResult = matchPath({ pathname: path, currentPathname, exact });
+
+  if (!matchResult.isMatch) {
+    return null;
+  }
+
+  if (children) {
+    return (
+      <RouterContext.Provider value={Object.assign(context, { routeInfo: matchResult })}>
+        {children}
+      </RouterContext.Provider>
+    );
+  }
+
+  if (component) {
+    const value = React.createElement(component, {});
+    if (value === undefined) {
+      throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
+    }
+    return (
+      <RouterContext.Provider value={Object.assign(context, { routeInfo: matchResult })}>
+        {value}
+      </RouterContext.Provider>
+    );
+  }
+
+  return null;
+};
+
+export const Link = (props: LinkProps): React.ReactElement => {
+  const { setCurrentPath } = useContext(RouterContext);
+  const { to, children } = props;
+
+  const handleClickLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    history.pushState({}, '', to);
+    setCurrentPath(to);
+  };
+
+  return (
+    <a href={to} onClick={handleClickLink}>
+      {children}
+    </a>
+  );
+};
+
+export const useParams = (): { [key: string]: string } => {
+  const { routeInfo } = useContext(RouterContext);
+  return routeInfo.keys || {};
 };
 
 const removeUrlQuery = (pathname: string) => {
@@ -140,7 +161,9 @@ export const matchPath = (params: MatchPathParams): MatchResult => {
     .split('/')
     .filter((e) => e !== '');
 
-  console.log(paths, currentPaths);
+  if (currentPaths.length < paths.length) {
+    return { isMatch: false };
+  }
 
   if (exact && currentPaths.length !== paths.length) {
     return { isMatch: false };
