@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import Timestamp from './timestamp';
 
+@Entity('delivery_addresses')
 class DeliveryAddress extends Timestamp {
   @PrimaryGeneratedColumn()
   id!: number;
