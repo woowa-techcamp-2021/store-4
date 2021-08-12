@@ -1,5 +1,6 @@
 import Category from './category';
 import DeliveryAddress from './delivery-address';
+import Order from './order';
 import Product from './product';
 import ProductImage from './product-image';
 import ProductOption from './product-option';
@@ -20,6 +21,7 @@ const models = [
   Category,
   Review,
   ReviewImage,
+  Order,
 ];
 
 export default models;
