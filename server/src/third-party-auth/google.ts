@@ -17,6 +17,28 @@ class GoogleAuth {
     });
     return BASE_AUTH_URL + queryString;
   }
+
+  public async getUserToken(code: string): Promise<string> {
+    const requestBody = {
+      code,
+      client_id: dotenv.GOOGLE_CLIENT_ID,
+      client_secret: dotenv.GOOGLE_CLIENT_SECRET,
+      redirect_uri: REDIRECT_URL,
+      grant_type: 'authorization_code',
+    };
+
+    const response = await fetch(`${API_URL}/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const { id_token }: { id_token: string } = await response.json();
+
+    return id_token;
+  }
 }
 
 export default new GoogleAuth();

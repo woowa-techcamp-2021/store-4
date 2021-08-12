@@ -1,12 +1,34 @@
 import { Request, Response } from 'express';
 import googleAuth from '../third-party-auth/google';
+import jwtService from '../services/jwt.service';
 
 class AuthController {
   googleLogin(req: Request, res: Response) {
     res.redirect(googleAuth.URL);
   }
 
-  async facebookLogin(req: Request, res: Response) {
+  async googleCallback(req: Request, res: Response) {
+    try {
+      const { code } = req.query;
+      const token = await googleAuth.getUserToken(code as string);
+
+      const { email, name } = jwtService.decode(token);
+      console.log(token, email, name);
+
+      // check user from DB
+
+      // if new
+      // regiseter user
+
+      // res.redirect() to client with token
+
+      res.send('success');
+    } catch (err) {
+      res.send('fail');
+    }
+  }
+
+  facebookLogin(req: Request, res: Response) {
     const authURL = ''; // Facebook auth URL
 
     res.redirect(authURL);
