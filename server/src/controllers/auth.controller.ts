@@ -11,9 +11,10 @@ class AuthController {
   async googleCallback(req: Request, res: Response) {
     try {
       const { code } = req.query;
-      const token = await googleAuth.getUserToken(code as string);
+      const idToken = await googleAuth.getUserToken(code as string);
+      const { email, name } = jwtService.decode(idToken);
 
-      const { email, name } = jwtService.decode(token);
+      const token = jwtService.generate({ email, name });
       console.log(token, email, name);
 
       // check user from DB
@@ -36,9 +37,9 @@ class AuthController {
   async facebookCallback(req: Request, res: Response) {
     try {
       const { code } = req.query;
-      const { id: userId, email, name } = await facebookAuth.getUserData(code as string);
+      const { email, name } = await facebookAuth.getUserData(code as string);
 
-      const token = jwtService.generate({ name, email }, userId);
+      const token = jwtService.generate({ name, email });
       console.log(token, email, name);
 
       // check user from DB
