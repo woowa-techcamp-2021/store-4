@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, PropsWithChildren } from 'react
 import { createContext } from 'react';
 
 type HistoryContextType = {
-  currentPath: string;
+  currentPathname: string;
   setCurrentPath: React.Dispatch<React.SetStateAction<string>>;
   history: History;
 };
@@ -25,7 +25,7 @@ type LinkProps = PropsWithChildren<{
 
 export const Router = (props: RouterProps): React.ReactElement => {
   const initialPath = window.location.pathname;
-  const [currentPath, setCurrentPath] = useState(initialPath);
+  const [currentPathname, setCurrentPath] = useState(initialPath);
   const { children } = props;
   const { history } = window;
 
@@ -39,17 +39,17 @@ export const Router = (props: RouterProps): React.ReactElement => {
   }, []);
 
   return (
-    <HistoryContext.Provider value={{ history, currentPath, setCurrentPath }}>
+    <HistoryContext.Provider value={{ history, currentPathname, setCurrentPath }}>
       {children}
     </HistoryContext.Provider>
   );
 };
 
 export const Route = (props: RouteProps): React.ReactElement | null => {
-  const { currentPath } = useContext(HistoryContext);
+  const { currentPathname } = useContext(HistoryContext);
   const { path, component, exact = false } = props;
-  if (exact && path === currentPath) return component();
-  if (currentPath.includes(path)) return component();
+  const { isMatch } = matchPath({ pathname: path, currentPathname, exact });
+  if (isMatch) return component();
   return null;
 };
 
@@ -80,17 +80,8 @@ type MatchResult = {
 };
 
 type CompilePathParams = {
-  exact: boolean;
   paths: string[];
   currentPaths: string[];
-};
-
-const isNone = (value: unknown): boolean => {
-  return value === undefined || value === null;
-};
-
-const isNotNone = (value: unknown): boolean => {
-  return !isNone(value);
 };
 
 const removeUrlQuery = (pathname: string) => {
@@ -98,16 +89,16 @@ const removeUrlQuery = (pathname: string) => {
 };
 
 const compilePath = (params: CompilePathParams) => {
-  const { exact, paths, currentPaths } = params;
+  const { paths, currentPaths } = params;
+
   let result = { isMatch: true } as MatchResult;
 
-  for (const [index, pathWithQuery] of Object.entries(paths)) {
-    const path = removeUrlQuery(pathWithQuery);
+  for (const [index, path] of Object.entries(paths)) {
     const currentPath = currentPaths[+index];
     const isPathParam = path.includes(':');
 
-    if (!isPathParam && exact && path !== currentPath) {
-      return Object.assign(result, { isMatch: false });
+    if (!isPathParam && path !== currentPath) {
+      return { isMatch: false };
     }
 
     if (isPathParam) {
@@ -128,8 +119,16 @@ const compilePath = (params: CompilePathParams) => {
 export const matchPath = (params: MatchPathParams): MatchResult => {
   const { currentPathname, pathname, exact = false } = params;
 
-  const paths = pathname.split('/').filter(isNotNone);
-  const currentPaths = currentPathname.split('/').filter(isNotNone);
+  const paths = pathname.split('/').filter((e) => e !== '');
+  const currentPaths = removeUrlQuery(currentPathname)
+    .split('/')
+    .filter((e) => e !== '');
 
-  return compilePath({ exact, paths, currentPaths });
+  console.log(paths, currentPaths);
+
+  if (exact && currentPaths.length !== paths.length) {
+    return { isMatch: false };
+  }
+
+  return compilePath({ currentPaths, paths });
 };
