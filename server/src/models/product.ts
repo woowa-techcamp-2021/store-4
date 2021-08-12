@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import ProductImage from './product-image';
 import Timestamp from './timestamp';
 
 @Entity('products')
@@ -17,6 +18,9 @@ class Product extends Timestamp {
 
   @Column({ type: 'text' })
   content!: string;
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.product)
+  productImages!: ProductImage[];
 }
 
 export default Product;
