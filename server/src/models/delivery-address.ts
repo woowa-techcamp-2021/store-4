@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Timestamp from './timestamp';
+import User from './user';
 
 @Entity('delivery_addresses')
 class DeliveryAddress extends Timestamp {
@@ -17,6 +18,13 @@ class DeliveryAddress extends Timestamp {
 
   @Column({ name: 'recipient_phone_number' })
   recipientPhoneNumber!: string;
+
+  @ManyToOne(() => User, (user) => user.deliveryAddresses, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'user_id' })
+  user!: User;
 }
 
 export default DeliveryAddress;
