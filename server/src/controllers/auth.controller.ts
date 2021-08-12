@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import googleAuth from '../third-party-auth/google';
 import facebookAuth from '../third-party-auth/facebook';
 import jwtService from '../services/jwt.service';
+import userService from '../services/user.service';
+import dotenv from '../config/dotenv';
 
 class AuthController {
   googleLogin(req: Request, res: Response) {
@@ -14,18 +16,14 @@ class AuthController {
       const idToken = await googleAuth.getUserToken(code as string);
       const { email, name } = jwtService.decode(idToken);
 
-      const token = jwtService.generate({ email, name });
-      console.log(token, email, name);
+      const token = jwtService.generateToken({ email, name });
 
-      // check user from DB
+      await userService.checkUser(token);
 
-      // if new
-      // regiseter user
-
-      // res.redirect() to client with token
-
-      res.send('success');
+      res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {
+      // 임시 에러 처리
+      console.error(err);
       res.send('fail');
     }
   }
@@ -39,18 +37,14 @@ class AuthController {
       const { code } = req.query;
       const { email, name } = await facebookAuth.getUserData(code as string);
 
-      const token = jwtService.generate({ name, email });
-      console.log(token, email, name);
+      const token = jwtService.generateToken({ email, name });
 
-      // check user from DB
+      await userService.checkUser(token);
 
-      // if new
-      // regiseter user
-
-      // res.redirect() to client with token
-
-      res.send('success');
+      res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {
+      // 임시 에러 처리
+      console.error(err);
       res.send('fail');
     }
   }
