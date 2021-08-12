@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import ProductImage from './product-image';
+import ProductSelect from './product-select';
 import Review from './review';
 import Timestamp from './timestamp';
 import Wish from './wish';
@@ -29,6 +30,9 @@ class Product extends Timestamp {
 
   @OneToMany(() => Wish, (wish) => wish.product)
   wishes!: Wish[];
+
+  @OneToMany(() => ProductSelect, (productSelect) => productSelect.product)
+  productSelects!: ProductSelect[];
 }
 
 export default Product;

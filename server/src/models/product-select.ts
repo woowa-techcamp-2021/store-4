@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Product from './product';
 import ProductOption from './product-option';
 
 @Entity('product_selects')
@@ -11,6 +12,13 @@ class ProductSelect {
 
   @OneToMany(() => ProductOption, (productOption) => productOption.productSelect)
   productOptions!: ProductOption[];
+
+  @ManyToOne(() => Product, (product) => product.productSelects, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
+  @JoinColumn({ name: 'product_id' })
+  product!: Product;
 }
 
 export default ProductSelect;
