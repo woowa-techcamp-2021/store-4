@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
+import googleAuth from '../third-party-auth/google';
 
 class AuthController {
-  async googleLogin(req: Request, res: Response) {
-    const authURL = ''; // Google auth URL
-
-    res.redirect(authURL);
+  googleLogin(req: Request, res: Response) {
+    res.redirect(googleAuth.URL);
   }
 
   async facebookLogin(req: Request, res: Response) {
