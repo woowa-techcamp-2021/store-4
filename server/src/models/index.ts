@@ -1,7 +1,8 @@
 import DeliveryAddress from './delivery-address';
+import Product from './product';
 import User from './user';
-import Wishes from './Wish';
+import Wish from './wish';
 
-const models = [User, DeliveryAddress, Wishes];
+const models = [User, DeliveryAddress, Wish, Product];
 
 export default models;
