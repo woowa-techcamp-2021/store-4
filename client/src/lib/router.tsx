@@ -13,11 +13,11 @@ type RouterProps = PropsWithChildren<{
   basename?: string;
 }>;
 
-type RouteProps = {
-  component: () => React.ReactElement;
+type RouteProps = PropsWithChildren<{
+  component?: React.ComponentType;
   exact?: boolean;
   path: string;
-};
+}>;
 
 type LinkProps = PropsWithChildren<{
   to: string;
@@ -47,9 +47,25 @@ export const Router = (props: RouterProps): React.ReactElement => {
 
 export const Route = (props: RouteProps): React.ReactElement | null => {
   const { currentPathname } = useContext(HistoryContext);
-  const { path, component, exact = false } = props;
+  const { path, component, exact = false, children } = props;
   const { isMatch } = matchPath({ pathname: path, currentPathname, exact });
-  if (isMatch) return component();
+
+  if (!isMatch) {
+    return null;
+  }
+
+  if (children) {
+    return <>{children}</>;
+  }
+
+  if (component) {
+    const value = React.createElement(component, {});
+    if (value === undefined) {
+      throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
+    }
+    return value;
+  }
+
   return null;
 };
 
