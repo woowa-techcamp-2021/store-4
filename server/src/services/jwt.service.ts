@@ -1,16 +1,15 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import dotenv from '../config/dotenv';
 
 interface CustomJwtPayload extends JwtPayload {
   email: string;
   name: string;
 }
 
-const TOKEN_EXPIRE = '2h';
-
 class JwtService {
-  generate(payload: CustomJwtPayload, key: string) {
-    return jwt.sign(payload, key, {
-      expiresIn: TOKEN_EXPIRE,
+  generate(payload: CustomJwtPayload) {
+    return jwt.sign(payload, dotenv.JWT_SECRET, {
+      expiresIn: dotenv.JWT_EXPIRES_IN,
     });
   }
 
