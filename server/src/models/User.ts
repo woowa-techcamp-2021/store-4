@@ -1,9 +1,5 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import Timestamp from './timestampable';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import Timestamp from './timestamp';
 
 @Entity('users')
 class User extends Timestamp {
