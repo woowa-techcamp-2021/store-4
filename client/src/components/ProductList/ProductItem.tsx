@@ -3,7 +3,13 @@ import { ProductItemType } from '../../types/product';
 
 import styled from 'styled-components';
 
-const ProductItem = ({ name, price, uploadDate, imgSrc }: ProductItemType): React.ReactElement => {
+const ProductItem = ({
+  name,
+  price,
+  uploadDate,
+  point,
+  imgSrc,
+}: ProductItemType): React.ReactElement => {
   const ProductItem = styled.li`
     box-sizing: border-box;
     width: 300px;
@@ -27,6 +33,7 @@ const ProductItem = ({ name, price, uploadDate, imgSrc }: ProductItemType): Reac
       <Name>{name}</Name>
       <Price>{price.toLocaleString()}원</Price>
       <div>{uploadDate}(디버깅)</div>
+      <div>평점: {point} (디버깅)</div>
     </ProductItem>
   );
 };
