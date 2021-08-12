@@ -32,6 +32,27 @@ class AuthController {
   facebookLogin(req: Request, res: Response) {
     res.redirect(facebookAuth.URL);
   }
+
+  async facebookCallback(req: Request, res: Response) {
+    try {
+      const { code } = req.query;
+      const { id: userId, email, name } = await facebookAuth.getUserData(code as string);
+
+      const token = jwtService.generate({ name, email }, userId);
+      console.log(token, email, name);
+
+      // check user from DB
+
+      // if new
+      // regiseter user
+
+      // res.redirect() to client with token
+
+      res.send('success');
+    } catch (err) {
+      res.send('fail');
+    }
+  }
 }
 
 export default new AuthController();
