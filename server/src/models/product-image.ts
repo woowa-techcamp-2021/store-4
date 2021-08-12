@@ -11,6 +11,7 @@ class ProductImage {
 
   @ManyToOne(() => Product, (product) => product.productImages, {
     onDelete: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({ name: 'product_id' })
   product!: Product;

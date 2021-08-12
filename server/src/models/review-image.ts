@@ -11,6 +11,7 @@ class ReviewImage {
 
   @ManyToOne(() => Review, (review) => review.reviewImages, {
     onDelete: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({ name: 'review_id' })
   review!: Review;
