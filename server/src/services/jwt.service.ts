@@ -7,7 +7,7 @@ interface CustomJwtPayload extends JwtPayload {
 }
 
 class JwtService {
-  generate(payload: CustomJwtPayload) {
+  generateToken(payload: CustomJwtPayload) {
     return jwt.sign(payload, dotenv.JWT_SECRET, {
       expiresIn: dotenv.JWT_EXPIRES_IN,
     });
