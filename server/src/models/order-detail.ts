@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import Order from './order';
+import Product from './product';
 
 @Entity('order_details')
 class OrderDetail {
@@ -16,6 +18,19 @@ class OrderDetail {
 
   @Column()
   option!: string;
+
+  @ManyToOne(() => Order, (order) => order.orderDetails, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
+  @JoinColumn({ name: 'order_id' })
+  order!: Order[];
+
+  @ManyToOne(() => Product, (product) => product.orderDetails, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'product_id' })
+  product!: Product | null;
 }
 
 export default OrderDetail;

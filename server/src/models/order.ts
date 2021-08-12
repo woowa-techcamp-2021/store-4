@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import OrderDetail from './order-detail';
 import Timestamp from './timestamp';
 
 @Entity('orders')
@@ -14,6 +15,9 @@ class Order extends Timestamp {
 
   @Column({ name: 'recipient_name' })
   recipientName!: string;
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)
+  orderDetails!: OrderDetail[];
 }
 
 export default Order;

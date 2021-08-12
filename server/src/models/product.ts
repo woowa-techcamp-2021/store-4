@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Category from './category';
+import OrderDetail from './order-detail';
 import ProductImage from './product-image';
 import ProductSelect from './product-select';
 import Review from './review';
@@ -34,6 +35,9 @@ class Product extends Timestamp {
 
   @OneToMany(() => ProductSelect, (productSelect) => productSelect.product)
   productSelects!: ProductSelect[];
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
+  orderDetails!: OrderDetail[];
 
   @ManyToOne(() => Category, (category) => category.products, {
     onDelete: 'SET NULL',
