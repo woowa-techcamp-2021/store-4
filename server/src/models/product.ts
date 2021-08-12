@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import ProductImage from './product-image';
 import Review from './review';
 import Timestamp from './timestamp';
+import Wish from './wish';
 
 @Entity('products')
 class Product extends Timestamp {
@@ -25,6 +26,9 @@ class Product extends Timestamp {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews!: Review[];
+
+  @OneToMany(() => Wish, (wish) => wish.product)
+  wishes!: Wish[];
 }
 
 export default Product;
