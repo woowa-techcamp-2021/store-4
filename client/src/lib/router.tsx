@@ -16,7 +16,12 @@ type RouteProps = PropsWithChildren<{
   component?: React.ComponentType;
   exact?: boolean;
   path: string;
+  matchResult?: MatchResult;
 }>;
+
+type SwitchProps = {
+  children?: React.ReactNode;
+};
 
 type LinkProps = PropsWithChildren<{
   to: string;
@@ -70,7 +75,7 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
   const context = useContext(RouterContext);
   const { currentPathname } = context;
   const { path, component, exact = false, children } = props;
-  const matchResult = matchPath({ pathname: path, currentPathname, exact });
+  const matchResult = props.matchResult || matchPath({ pathname: path, currentPathname, exact });
 
   if (!matchResult.isMatch) {
     return null;
@@ -97,6 +102,41 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
   }
 
   return null;
+};
+
+export const Switch = (props: SwitchProps): React.ReactElement => {
+  const { children } = props;
+  const context = useContext(RouterContext);
+  const { currentPathname } = context;
+
+  const childArr = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      const { path, exact } = child.props;
+      const matchResult = matchPath({ currentPathname, pathname: path, exact });
+      return { child, matchResult };
+    }
+    return {};
+  });
+
+  if (!childArr) {
+    return <>{null}</>;
+  }
+
+  if (childArr.length === 0) {
+    return <>{null}</>;
+  }
+
+  const matchedChildren = childArr.filter(({ matchResult }) => {
+    if (!matchResult) {
+      return false;
+    }
+
+    return matchResult.isMatch;
+  });
+
+  const { child } = matchedChildren[0];
+
+  return <>{child}</>;
 };
 
 export const Link = (props: LinkProps): React.ReactElement => {
