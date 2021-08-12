@@ -5,7 +5,7 @@ type RouterContextType = {
   currentPathname: string;
   setCurrentPath: React.Dispatch<React.SetStateAction<string>>;
   routeInfo: MatchResult;
-  history: History;
+  history: HistoryType;
 };
 
 type RouterProps = PropsWithChildren<{
@@ -43,6 +43,10 @@ type CompilePathParams = {
   currentPaths: string[];
 };
 
+type HistoryType = {
+  push: (pathname: string) => void;
+};
+
 const RouterContext = createContext({} as RouterContextType);
 
 export const Router = (props: RouterProps): React.ReactElement => {
@@ -63,8 +67,22 @@ export const Router = (props: RouterProps): React.ReactElement => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [handlePopState]);
 
+  const handleHistoryPush = (pathname: string) => {
+    history.pushState({}, pathname, window.location.origin + pathname);
+    setCurrentPath(pathname);
+  };
+
   return (
-    <RouterContext.Provider value={{ history, currentPathname, setCurrentPath, routeInfo }}>
+    <RouterContext.Provider
+      value={{
+        history: {
+          push: handleHistoryPush,
+        },
+        currentPathname,
+        setCurrentPath,
+        routeInfo,
+      }}
+    >
       {children}
     </RouterContext.Provider>
   );
@@ -159,6 +177,11 @@ export const Link = (props: LinkProps): React.ReactElement => {
 export const useParams = (): { [key: string]: string } => {
   const { routeInfo } = useContext(RouterContext);
   return routeInfo.keys || {};
+};
+
+export const useHistory = (): HistoryType => {
+  const { history } = useContext(RouterContext);
+  return history;
 };
 
 const removeUrlQuery = (pathname: string) => {
