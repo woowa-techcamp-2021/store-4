@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Order from './order';
 import Review from './review';
 import Timestamp from './timestamp';
 import Wish from './wish';
@@ -17,8 +18,8 @@ class User extends Timestamp {
   @OneToMany(() => Review, (review) => review.user)
   reviews!: Review[];
 
-  @OneToMany(() => Wish, (wish) => wish.id)
-  wishes!: Review[];
+  @OneToMany(() => Wish, (wish) => wish.user)
+  wishes!: Wish[];
 }
 
 export default User;
