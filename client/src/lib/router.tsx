@@ -67,3 +67,69 @@ export const Link = (props: LinkProps): React.ReactElement => {
     </a>
   );
 };
+
+type MatchPathParams = {
+  currentPathname: string;
+  pathname: string;
+  exact?: boolean;
+};
+
+type MatchResult = {
+  isMatch: boolean;
+  keys?: { [key: string]: string };
+};
+
+type CompilePathParams = {
+  exact: boolean;
+  paths: string[];
+  currentPaths: string[];
+};
+
+const isNone = (value: unknown): boolean => {
+  return value === undefined || value === null;
+};
+
+const isNotNone = (value: unknown): boolean => {
+  return !isNone(value);
+};
+
+const removeUrlQuery = (pathname: string) => {
+  return pathname.split('?')[0];
+};
+
+const compilePath = (params: CompilePathParams) => {
+  const { exact, paths, currentPaths } = params;
+  let result = { isMatch: true } as MatchResult;
+
+  for (const [index, pathWithQuery] of Object.entries(paths)) {
+    const path = removeUrlQuery(pathWithQuery);
+    const currentPath = currentPaths[+index];
+    const isPathParam = path.includes(':');
+
+    if (!isPathParam && exact && path !== currentPath) {
+      return Object.assign(result, { isMatch: false });
+    }
+
+    if (isPathParam) {
+      const pathParam = path.slice(1);
+      const { keys } = result;
+      if (keys) {
+        const newKeysObject = Object.assign(keys, { [pathParam]: currentPath });
+        result = Object.assign(result, { keys: newKeysObject });
+      } else {
+        result = Object.assign(result, { keys: { [pathParam]: currentPath } });
+      }
+    }
+  }
+
+  return result;
+};
+
+export const matchPath = (params: MatchPathParams): MatchResult => {
+  const { currentPathname, pathname, exact = false } = params;
+
+  const paths = pathname.split('/').filter(isNotNone);
+  const currentPaths = currentPathname.split('/').filter(isNotNone);
+
+  return compilePath({ exact, paths, currentPaths });
+};
