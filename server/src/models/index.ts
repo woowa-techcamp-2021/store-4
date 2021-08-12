@@ -5,6 +5,7 @@ import ProductImage from './product-image';
 import ProductOption from './product-option';
 import ProductSelect from './product-select';
 import Review from './review';
+import ReviewImage from './review-image';
 import User from './user';
 import Wish from './wish';
 
@@ -18,6 +19,7 @@ const models = [
   ProductImage,
   Category,
   Review,
+  ReviewImage,
 ];
 
 export default models;
