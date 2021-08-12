@@ -1,13 +1,12 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import Timestamp from './timestampable';
 
 @Entity('users')
-class User {
+class User extends Timestamp {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -22,12 +21,6 @@ class User {
 
   @Column({ type: 'date' })
   birth!: string;
-
-  @CreateDateColumn({ name:"created_at" })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name:"updated_at" })
-  updatedAt!: Date;
 }
 
 export default User;
