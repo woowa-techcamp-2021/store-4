@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Category from './category';
 import ProductImage from './product-image';
 import ProductSelect from './product-select';
 import Review from './review';
@@ -33,6 +34,12 @@ class Product extends Timestamp {
 
   @OneToMany(() => ProductSelect, (productSelect) => productSelect.product)
   productSelects!: ProductSelect[];
+
+  @ManyToOne(() => Category, (category) => category.products, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'category_id' })
+  category!: Category | null;
 }
 
 export default Product;
