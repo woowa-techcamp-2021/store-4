@@ -21,4 +21,7 @@ export default {
   JWT_SECRET: loadEnv('JWT_SECRET'),
   JWT_EXPIRES_IN: loadEnv('JWT_EXPIRES_IN'),
   CLIENT_URL: loadEnv('CLIENT_URL'),
+  SERVER_URL: loadEnv('SERVER_URL'),
+  GOOGLE_CLIENT_ID: loadEnv('GOOGLE_CLIENT_ID'),
+  GOOGLE_CLIENt_SECRET: loadEnv('GOOGLE_CLIENT_SECRET'),
 };
