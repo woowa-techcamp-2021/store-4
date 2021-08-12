@@ -13,7 +13,7 @@ class Product extends Timestamp {
   @Column({ type: 'decimal', precision: 10, scale: 0 })
   price!: string;
 
-  @Column({ type: 'tinyint' })
+  @Column({ name: 'discount_rate', type: 'tinyint' })
   discountRate!: number;
 
   @Column({ type: 'text' })
