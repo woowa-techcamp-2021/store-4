@@ -28,7 +28,7 @@ class Review extends Timestamp {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'product_id' })
-  product!: Product;
+  product!: Product | null;
 }
 
 export default Review;
