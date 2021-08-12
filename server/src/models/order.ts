@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import OrderDetail from './order-detail';
 import Timestamp from './timestamp';
+import User from './user';
 
 @Entity('orders')
 class Order extends Timestamp {
@@ -18,6 +19,12 @@ class Order extends Timestamp {
 
   @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)
   orderDetails!: OrderDetail[];
+
+  @ManyToOne(() => User, (user) => user.orders, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user!: User | null;
 }
 
 export default Order;

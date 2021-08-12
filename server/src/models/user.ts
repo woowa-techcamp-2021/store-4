@@ -20,6 +20,9 @@ class User extends Timestamp {
 
   @OneToMany(() => Wish, (wish) => wish.user)
   wishes!: Wish[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders!: Order[];
 }
 
 export default User;
