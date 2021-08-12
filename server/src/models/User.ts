@@ -9,14 +9,8 @@ class User extends Timestamp {
   @Column({ unique: true })
   email!: string;
 
-  @Column({ name: 'phone_number' })
-  phoneNumber!: string;
-
   @Column()
   username!: string;
-
-  @Column({ type: 'date' })
-  birth!: string;
 }
 
 export default User;
