@@ -290,7 +290,7 @@ const compilePath = (params: CompilePathParams) => {
  * RouterContext currentPathname과 Route path props를 비교해서 매칭여부와 path parameter가 존재한다면 path parameter들을 반환
  * @param params
  * @param {string} params.currentPathname - 현재 RouterContext의 currentPathname
- * @param {string} params.pathname - 등록된 Route의 paht
+ * @param {string} params.pathname - 등록된 Route의 path
  * @param {boolean} param.exact - Route exact props 엄격한 검사의 유무(기본값 false)
  *
  * @returns {MatchResult} - pathname, currentPathname의 매칭 상태와 path parameter들을 가지고 있는 객체
