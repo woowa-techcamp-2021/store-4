@@ -87,7 +87,6 @@ export const Router = (props: RouterProps): React.ReactElement => {
     </RouterContext.Provider>
   );
 };
-3;
 
 export const Route = (props: RouteProps): React.ReactElement | null => {
   const context = useContext(RouterContext);
