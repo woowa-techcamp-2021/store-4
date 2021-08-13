@@ -1,8 +1,8 @@
 import { Router } from 'express';
-// import controllers
+import categoryRouter from '../category';
 
 const apiRouter = Router();
 
-// apiRouter.get('/products', );
+apiRouter.use('/category', categoryRouter);
 
 export default apiRouter;
