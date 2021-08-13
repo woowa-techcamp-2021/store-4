@@ -139,11 +139,11 @@ export const Switch = (props: SwitchProps): React.ReactElement => {
   });
 
   if (!childArr) {
-    return <>{null}</>;
+    return <></>;
   }
 
   if (childArr.length === 0) {
-    return <>{null}</>;
+    return <></>;
   }
 
   const matchedChildren = childArr.filter(({ matchResult }) => {
