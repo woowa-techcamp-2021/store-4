@@ -35,7 +35,7 @@ type MatchPathParams = {
 
 type MatchResult = {
   isMatch: boolean;
-  keys?: { [key: string]: string };
+  pathParams?: { [key: string]: string };
 };
 
 type CompilePathParams = {
@@ -100,7 +100,7 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
 
   if (children) {
     return (
-      <RouterContext.Provider value={Object.assign(context, { routeInfo: matchResult })}>
+      <RouterContext.Provider value={{ ...context, routeInfo: matchResult }}>
         {children}
       </RouterContext.Provider>
     );
@@ -112,7 +112,7 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
       throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
     }
     return (
-      <RouterContext.Provider value={Object.assign(context, { routeInfo: matchResult })}>
+      <RouterContext.Provider value={{ ...context, routeInfo: matchResult }}>
         {value}
       </RouterContext.Provider>
     );
@@ -175,7 +175,7 @@ export const Link = (props: LinkProps): React.ReactElement => {
 
 export const useParams = (): { [key: string]: string } => {
   const { routeInfo } = useContext(RouterContext);
-  return routeInfo.keys || {};
+  return routeInfo.pathParams ?? {};
 };
 
 export const useHistory = (): HistoryType => {
@@ -202,12 +202,17 @@ const compilePath = (params: CompilePathParams) => {
 
     if (isPathParam) {
       const pathParam = path.slice(1);
-      const { keys } = result;
-      if (keys) {
-        const newKeysObject = Object.assign(keys, { [pathParam]: currentPath });
-        result = Object.assign(result, { keys: newKeysObject });
+      const { pathParams } = result;
+
+      if (pathParams) {
+        const newPathParamsObject = {
+          ...pathParams,
+          [pathParam]: currentPath,
+        };
+
+        result = { ...result, pathParams: newPathParamsObject };
       } else {
-        result = Object.assign(result, { keys: { [pathParam]: currentPath } });
+        result = { ...result, pathParams: { [pathParam]: currentPath } };
       }
     }
   }
