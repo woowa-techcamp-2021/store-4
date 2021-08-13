@@ -13,7 +13,7 @@ export type ProductItemType = {
   ImgSrc: string;
 };
 
-export enum Order {
+export enum ProductListOrder {
   Popularity,
   Recent,
   PriceLow,

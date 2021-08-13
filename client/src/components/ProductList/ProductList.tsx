@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import ProductItem from './ProductItem';
 import { apiMock } from './mock/api';
-import { ProductItemType, Order } from '../../types/product';
+import { ProductItemType, ProductListOrder } from '../../types/product';
 
 import styled from 'styled-components';
 
@@ -53,7 +53,7 @@ const ProductList = (): React.ReactElement => {
   const totalProductCount = useRef(0);
   const totalPage = useRef(1);
   const currentPage = useRef(1);
-  const listOrder = useRef(Order.Recent);
+  const listOrder = useRef(ProductListOrder.Recent);
   const [productList, setProductList] = useState<ProductItemType[]>([]);
 
   const fetchProductList = useCallback(() => {
@@ -67,7 +67,7 @@ const ProductList = (): React.ReactElement => {
     fetchProductList();
   }, []);
 
-  const onClickSortButton = (order: Order) => (): void => {
+  const onClickSortButton = (order: ProductListOrder) => (): void => {
     listOrder.current = order;
     const resData = apiMock.getProductList(listOrder.current, currentPage.current);
     setProductList(resData.productList);
@@ -93,10 +93,12 @@ const ProductList = (): React.ReactElement => {
       <ListHeader>
         <TotalCount>총 {totalProductCount.current}개</TotalCount>
         <SortButtonList>
-          <SortButton onClick={onClickSortButton(Order.Popularity)}>인기순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.Recent)}>최신순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.PriceLow)}>낮은가격순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.PriceHigh)}>높은가격순</SortButton>
+          <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>인기순</SortButton>
+          <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
+          <SortButton onClick={onClickSortButton(ProductListOrder.PriceLow)}>낮은가격순</SortButton>
+          <SortButton onClick={onClickSortButton(ProductListOrder.PriceHigh)}>
+            높은가격순
+          </SortButton>
         </SortButtonList>
       </ListHeader>
       <ProductListWrapper>{ProductItemList}</ProductListWrapper>

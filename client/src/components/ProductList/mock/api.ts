@@ -1,8 +1,8 @@
 import { mockProductList } from './data';
-import { ProductItemType, Order } from '../../../types/product';
+import { ProductItemType, ProductListOrder } from '../../../types/product';
 
 export const apiMock = {
-  getProductList: (order: Order, page: number) => {
+  getProductList: (order: ProductListOrder, page: number) => {
     return {
       totalProductCount: mockProductList.length,
       totalPage: Math.floor(mockProductList.length / 20) + 1,
@@ -19,15 +19,15 @@ const getPageProducts = (productList: ProductItemType[], page: number) => {
   return productList.slice(PRODUCT_PER_PAGE * (page - 1), PRODUCT_PER_PAGE * page);
 };
 
-const sortProductList = (productList: Array<ProductItemType>, order: Order) => {
+const sortProductList = (productList: Array<ProductItemType>, order: ProductListOrder) => {
   switch (order) {
-    case Order.Popularity:
+    case ProductListOrder.Popularity:
       return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Point - a.Point);
-    case Order.PriceLow:
+    case ProductListOrder.PriceLow:
       return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.Price - b.Price);
-    case Order.PriceHigh:
+    case ProductListOrder.PriceHigh:
       return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Price - a.Price);
-    case Order.Recent:
+    case ProductListOrder.Recent:
       return [...productList].sort(
         (a: ProductItemType, b: ProductItemType) =>
           new Date(b.UploadDate).getTime() - new Date(a.UploadDate).getTime()
