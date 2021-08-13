@@ -195,8 +195,9 @@ const compilePath = (params: CompilePathParams) => {
 
   let result = { isMatch: true } as MatchResult;
 
-  for (const [index, path] of Object.entries(paths)) {
-    const currentPath = currentPaths[+index];
+  for (let index = 0; index < paths.length; index++) {
+    const path = paths[index];
+    const currentPath = currentPaths[index];
     const isPathParam = path.includes(':');
 
     if (!isPathParam && path !== currentPath) {
