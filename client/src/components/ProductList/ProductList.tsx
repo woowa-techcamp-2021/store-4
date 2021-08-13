@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ProductItem from './ProductItem';
-import { apiMock } from './ProductMock';
+import { apiMock } from './mock/api';
 import { ProductItemType, Order } from '../../types/product';
 
 import styled from 'styled-components';
