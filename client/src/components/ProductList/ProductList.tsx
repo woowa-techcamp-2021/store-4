@@ -69,7 +69,7 @@ const ProductList = (): React.ReactElement => {
     setProductList(resData.productList);
   };
 
-  const onClickPageButton = (pageNum: number): void => {
+  const onClickPageButton = (pageNum: number) => (): void => {
     currentPage.current = pageNum;
     const resData = apiMock.getProductList(listOrder.current, currentPage.current);
     setProductList(resData.productList);
@@ -99,12 +99,7 @@ const ProductList = (): React.ReactElement => {
       <PageNav>
         {createPageNumbers(totalPage.current).map((pageNum) => {
           return (
-            <PageNavItem
-              key={pageNum}
-              onClick={() => {
-                onClickPageButton(pageNum);
-              }}
-            >
+            <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
               {pageNum}
             </PageNavItem>
           );
