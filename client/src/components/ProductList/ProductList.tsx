@@ -63,7 +63,7 @@ const ProductList = (): React.ReactElement => {
     fetchProductList();
   }, []);
 
-  const onClickSortButton = (order: Order): void => {
+  const onClickSortButton = (order: Order) => (): void => {
     listOrder.current = order;
     const resData = apiMock.getProductList(listOrder.current, currentPage.current);
     setProductList(resData.productList);
@@ -80,51 +80,24 @@ const ProductList = (): React.ReactElement => {
       <ListHeader>
         <TotalCount>총 {totalProductCount.current}개</TotalCount>
         <SortButtonList>
-          <SortButton
-            onClick={() => {
-              onClickSortButton(Order.popularity);
-            }}
-          >
-            인기순
-          </SortButton>
-          <SortButton
-            onClick={() => {
-              onClickSortButton(Order.recent);
-            }}
-          >
-            최신순
-          </SortButton>
-          <SortButton
-            onClick={() => {
-              onClickSortButton(Order.priceLow);
-            }}
-          >
-            낮은가격순
-          </SortButton>
-          <SortButton
-            onClick={() => {
-              onClickSortButton(Order.priceHigh);
-            }}
-          >
-            높은가격순
-          </SortButton>
+          <SortButton onClick={onClickSortButton(Order.popularity)}>인기순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.recent)}>최신순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.priceLow)}>낮은가격순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.priceHigh)}>높은가격순</SortButton>
         </SortButtonList>
       </ListHeader>
       <ProductListWrapper>
         {productList.map((product) => (
           <ProductItem
             key={product.id}
-            id={product.id}
             name={product.name}
             price={product.price}
-            point={product.point}
-            uploadDate={product.uploadDate}
             imgSrc={product.imgSrc}
           ></ProductItem>
         ))}
       </ProductListWrapper>
       <PageNav>
-        {creatPageNumbers(totalPage.current).map((pageNum) => {
+        {createPageNumbers(totalPage.current).map((pageNum) => {
           return (
             <PageNavItem
               key={pageNum}
@@ -141,12 +114,12 @@ const ProductList = (): React.ReactElement => {
   );
 };
 
-function creatPageNumbers(totalPage: number): number[] {
+const createPageNumbers = (totalPage: number): number[] => {
   const pageNumbers = [];
   for (let num = 1; num <= totalPage; num++) {
     pageNumbers.push(num);
   }
   return pageNumbers;
-}
+};
 
 export default ProductList;
