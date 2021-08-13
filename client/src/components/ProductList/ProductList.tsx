@@ -79,6 +79,15 @@ const ProductList = (): React.ReactElement => {
     setProductList(resData.productList);
   };
 
+  const ProductItemList = productList.map((product) => (
+    <ProductItem
+      key={product.id}
+      name={product.name}
+      price={product.price}
+      imgSrc={product.imgSrc}
+    ></ProductItem>
+  ));
+
   return (
     <Main>
       <ListHeader>
@@ -90,16 +99,7 @@ const ProductList = (): React.ReactElement => {
           <SortButton onClick={onClickSortButton(Order.priceHigh)}>높은가격순</SortButton>
         </SortButtonList>
       </ListHeader>
-      <ProductListWrapper>
-        {productList.map((product) => (
-          <ProductItem
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            imgSrc={product.imgSrc}
-          ></ProductItem>
-        ))}
-      </ProductListWrapper>
+      <ProductListWrapper>{ProductItemList}</ProductListWrapper>
       <PageNav>
         {createPageNumbers(totalPage.current).map((pageNum) => {
           return (
