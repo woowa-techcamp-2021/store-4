@@ -1,3 +1,9 @@
+export type ProductItemPropsType = {
+  name: string;
+  price: number;
+  imgSrc: string;
+};
+
 export type ProductItemType = {
   id: number;
   name: string;
