@@ -1,5 +1,11 @@
-import React, { useContext, useEffect, useState, PropsWithChildren, useCallback } from 'react';
-import { createContext } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  PropsWithChildren,
+  useCallback,
+  createContext,
+} from 'react';
 
 type RouterContextType = {
   currentPathname: string;
