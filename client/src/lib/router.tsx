@@ -6,6 +6,7 @@ import React, {
   useCallback,
   createContext,
 } from 'react';
+import { isNone, isNotNone } from '../utils/typeGuard';
 
 type RouterContextType = {
   currentPathname: string;
@@ -133,7 +134,7 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
     return null;
   }
 
-  if (children) {
+  if (isNotNone(children)) {
     return (
       <RouterContext.Provider value={{ ...context, routeInfo: matchResult }}>
         {children}
@@ -141,7 +142,7 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
     );
   }
 
-  if (component) {
+  if (isNotNone(component)) {
     const reactElement = React.createElement(component, {});
     if (reactElement === undefined) {
       throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
@@ -177,7 +178,7 @@ export const Switch = (props: SwitchProps): React.ReactElement => {
     return {};
   });
 
-  if (!childArr) {
+  if (isNone(childArr)) {
     return <></>;
   }
 
@@ -276,7 +277,7 @@ const compilePath = (params: CompilePathParams) => {
       const pathParam = path.slice(1);
       const { pathParams } = result;
 
-      if (pathParams) {
+      if (isNotNone(pathParams)) {
         const newPathParamsObject = {
           ...pathParams,
           [pathParam]: currentPath,
