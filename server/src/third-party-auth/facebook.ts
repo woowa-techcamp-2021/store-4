@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import dotenv from '../config/dotenv';
-import getQueryString from '../util/get-query-string';
+import buildQueryString from '../util/build-query-string';
 
 const REDIRECT_URL = `${dotenv.SERVER_URL}/auth/facebook-callback`;
 const BASE_AUTH_URL = `https://www.facebook.com/v11.0/dialog/oauth`;
@@ -14,7 +14,7 @@ type FacebookUserData = {
 
 class FacebookAuth {
   public get URL(): string {
-    const queryString = getQueryString({
+    const queryString = buildQueryString({
       client_id: dotenv.FACEBOOK_CLIENT_ID,
       redirect_uri: REDIRECT_URL,
       scope: 'email',
@@ -24,7 +24,7 @@ class FacebookAuth {
 
   public async getUserData(code: string): Promise<FacebookUserData> {
     const accessToken = await this.getAccessToken(code);
-    const queryString = getQueryString({
+    const queryString = buildQueryString({
       fields: 'name,email',
       access_token: accessToken,
     });
@@ -36,7 +36,7 @@ class FacebookAuth {
   }
 
   private async getAccessToken(code: string): Promise<string> {
-    const queryString = getQueryString({
+    const queryString = buildQueryString({
       code,
       client_id: dotenv.FACEBOOK_CLIENT_ID,
       client_secret: dotenv.FACEBOOK_CLIENT_SECRET,
