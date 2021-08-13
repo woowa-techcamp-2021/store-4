@@ -16,9 +16,12 @@ class AuthController {
       const idToken = await googleAuth.getUserToken(code as string);
       const { email, name } = jwtService.decode(idToken);
 
-      const token = jwtService.generateToken({ email, name });
+      const isUser = await userService.checkUserByEmail(email);
+      if (!isUser) {
+        await userService.registerUser({ username: name, email });
+      }
 
-      await userService.checkUser(token);
+      const token = jwtService.generateToken({ email, name });
 
       res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {
@@ -37,9 +40,12 @@ class AuthController {
       const { code } = req.query;
       const { email, name } = await facebookAuth.getUserData(code as string);
 
-      const token = jwtService.generateToken({ email, name });
+      const isUser = await userService.checkUserByEmail(email);
+      if (!isUser) {
+        await userService.registerUser({ username: name, email });
+      }
 
-      await userService.checkUser(token);
+      const token = jwtService.generateToken({ email, name });
 
       res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {

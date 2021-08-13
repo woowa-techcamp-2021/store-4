@@ -1,18 +1,16 @@
 import { getCustomRepository } from 'typeorm';
-import jwtService from './jwt.service';
+import User from '../models/user';
 import UserRepository from '../repositories/user-repository';
 
 class UserService {
-  async checkUser(token: string): Promise<void> {
-    const { name, email } = jwtService.decode(token);
+  async checkUserByEmail(email: string): Promise<boolean> {
     const user = await getCustomRepository(UserRepository).findByEmail(email);
 
-    if (user === undefined) {
-      await this.createUser(name, email);
-    }
+    if (user instanceof User) return true;
+    else return false;
   }
 
-  private createUser(username: string, email: string) {
+  async registerUser({ username, email }: { username: string; email: string }) {
     return getCustomRepository(UserRepository).insert({ username, email });
   }
 }
