@@ -67,10 +67,13 @@ export const Router = (props: RouterProps): React.ReactElement => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [handlePopState]);
 
-  const handleHistoryPush = (pathname: string) => {
-    history.pushState({}, pathname, window.location.origin + pathname);
-    setCurrentPath(pathname);
-  };
+  const handleHistoryPush = useCallback(
+    (pathname: string) => {
+      history.pushState({}, pathname, window.location.origin + pathname);
+      setCurrentPath(pathname);
+    },
+    [history]
+  );
 
   return (
     <RouterContext.Provider
