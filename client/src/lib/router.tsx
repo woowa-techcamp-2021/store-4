@@ -110,13 +110,13 @@ export const Route = (props: RouteProps): React.ReactElement | null => {
   }
 
   if (component) {
-    const value = React.createElement(component, {});
-    if (value === undefined) {
+    const reactElement = React.createElement(component, {});
+    if (reactElement === undefined) {
       throw new Error('Component는 react element 또는 null을 반환해야 합니다.');
     }
     return (
       <RouterContext.Provider value={{ ...context, routeInfo: matchResult }}>
-        {value}
+        {reactElement}
       </RouterContext.Provider>
     );
   }
