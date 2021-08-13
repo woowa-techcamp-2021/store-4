@@ -5,17 +5,17 @@ export type ProductItemPropsType = {
 };
 
 export type ProductItemType = {
-  id: number;
-  name: string;
-  price: number;
-  point: number;
-  uploadDate: string;
-  imgSrc: string;
+  Id: number;
+  Name: string;
+  Price: number;
+  Point: number;
+  UploadDate: string;
+  ImgSrc: string;
 };
 
 export enum Order {
-  popularity,
-  recent,
-  priceLow,
-  priceHigh,
+  Popularity,
+  Recent,
+  PriceLow,
+  PriceHigh,
 }

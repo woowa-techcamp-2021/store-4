@@ -53,7 +53,7 @@ const ProductList = (): React.ReactElement => {
   const totalProductCount = useRef(0);
   const totalPage = useRef(1);
   const currentPage = useRef(1);
-  const listOrder = useRef(Order.recent);
+  const listOrder = useRef(Order.Recent);
   const [productList, setProductList] = useState<ProductItemType[]>([]);
 
   const fetchProductList = useCallback(() => {
@@ -81,10 +81,10 @@ const ProductList = (): React.ReactElement => {
 
   const ProductItemList = productList.map((product) => (
     <ProductItem
-      key={product.id}
-      name={product.name}
-      price={product.price}
-      imgSrc={product.imgSrc}
+      key={product.Id}
+      name={product.Name}
+      price={product.Price}
+      imgSrc={product.ImgSrc}
     ></ProductItem>
   ));
 
@@ -93,10 +93,10 @@ const ProductList = (): React.ReactElement => {
       <ListHeader>
         <TotalCount>총 {totalProductCount.current}개</TotalCount>
         <SortButtonList>
-          <SortButton onClick={onClickSortButton(Order.popularity)}>인기순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.recent)}>최신순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.priceLow)}>낮은가격순</SortButton>
-          <SortButton onClick={onClickSortButton(Order.priceHigh)}>높은가격순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.Popularity)}>인기순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.Recent)}>최신순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.PriceLow)}>낮은가격순</SortButton>
+          <SortButton onClick={onClickSortButton(Order.PriceHigh)}>높은가격순</SortButton>
         </SortButtonList>
       </ListHeader>
       <ProductListWrapper>{ProductItemList}</ProductListWrapper>

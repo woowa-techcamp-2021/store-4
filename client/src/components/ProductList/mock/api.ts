@@ -21,16 +21,16 @@ const getPageProducts = (productList: ProductItemType[], page: number) => {
 
 const sortProductList = (productList: Array<ProductItemType>, order: Order) => {
   switch (order) {
-    case Order.popularity:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.point - a.point);
-    case Order.priceLow:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.price - b.price);
-    case Order.priceHigh:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.price - a.price);
-    case Order.recent:
+    case Order.Popularity:
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Point - a.Point);
+    case Order.PriceLow:
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.Price - b.Price);
+    case Order.PriceHigh:
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Price - a.Price);
+    case Order.Recent:
       return [...productList].sort(
         (a: ProductItemType, b: ProductItemType) =>
-          new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
+          new Date(b.UploadDate).getTime() - new Date(a.UploadDate).getTime()
       );
   }
 };
