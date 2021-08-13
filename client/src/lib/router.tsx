@@ -154,6 +154,10 @@ export const Switch = (props: SwitchProps): React.ReactElement => {
     return matchResult.isMatch;
   });
 
+  if (matchedChildren.length === 0) {
+    return <></>;
+  }
+
   const { child } = matchedChildren[0];
 
   return <>{child}</>;
