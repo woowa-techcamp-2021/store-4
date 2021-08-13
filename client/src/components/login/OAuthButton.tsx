@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import facebook from './facebook.png';
-import google from './google.png';
+import facebook from './facebook.svg';
+import google from './google.svg';
 import kakao from './kakao.svg';
 
 const StyledOAuthButton = styled.button<{
@@ -13,21 +13,25 @@ const StyledOAuthButton = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  height: 60px;
-  width: 350px;
+  gap: 15px;
+  height: 50px;
+  width: 300px;
   padding: 15px;
   border: none;
   font-size: 16px;
   cursor: pointer;
 
   img {
-    height: 100%;
-    max-width: 60px;
+    max-width: 18px;
+    max-height: 18px;
   }
 `;
 
-type OAuthType = 'facebook' | 'google' | 'kakao';
+export enum OAuthType {
+  Facebook,
+  Google,
+  Kakao,
+}
 
 type ButtonInternal = {
   icon: string;
@@ -36,29 +40,29 @@ type ButtonInternal = {
   text: string;
 };
 
-type PropTypes = {
-  type: OAuthType;
-};
-
 const BUTTON_INTERNALS: { [key: string]: ButtonInternal } = {
-  facebook: {
+  [OAuthType.Facebook]: {
     icon: facebook,
     fontColor: '#ffffff',
     backgroundColor: '#4267b2',
-    text: '페이스북으로 로그인',
+    text: '페이스북으로 계속하기',
   },
-  google: {
+  [OAuthType.Google]: {
     icon: google,
     fontColor: '#ffffff',
     backgroundColor: '#EA4335',
-    text: '구글로 로그인',
+    text: '구글로 계속하기',
   },
-  kakao: {
+  [OAuthType.Kakao]: {
     icon: kakao,
     fontColor: '#000000',
     backgroundColor: '#ffe812',
-    text: '카카오로 로그인',
+    text: '카카오로 계속하기',
   },
+};
+
+type PropTypes = {
+  type: OAuthType;
 };
 
 const OAuthButton = ({ type }: PropTypes): JSX.Element => {
