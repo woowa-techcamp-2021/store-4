@@ -1,14 +1,18 @@
+import _ from 'lodash';
 import { getCustomRepository } from 'typeorm';
 import Category from '../models/category';
 import CategoryRepository from '../repositories/category-repository';
 
 class CategoryService {
   private insertChildrenCategories(parentCategory: Category, categories: Category[]): Category {
-    parentCategory.childCategories = categories
-      .filter((category) => category.parentCategory?.id === parentCategory.id)
-      .map((category) => this.insertChildrenCategories(category, categories));
+    const copiedParentCategory = _.cloneDeep(parentCategory);
+    const copiedCategories = _.cloneDeep(categories);
 
-    return parentCategory;
+    copiedParentCategory.childCategories = copiedCategories
+      .filter((category) => category.parentCategory?.id === parentCategory.id)
+      .map((category) => this.insertChildrenCategories(category, copiedCategories));
+
+    return copiedParentCategory;
   }
 
   async findCategoriesTree(): Promise<Category[]> {
