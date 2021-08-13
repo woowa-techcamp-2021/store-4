@@ -200,7 +200,7 @@ export const apiMock = {
   getProductList: (order: Order, page: number) => {
     return {
       totalProductCount: mockProductList.length,
-      totalPage: Number(mockProductList.length / 20) + 1,
+      totalPage: Math.floor(mockProductList.length / 20) + 1,
       productList: getPageProducts(sortProductList(mockProductList, order), page),
     };
   },
