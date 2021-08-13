@@ -19,7 +19,7 @@ class FacebookAuth {
       redirect_uri: REDIRECT_URL,
       scope: 'email',
     });
-    return BASE_AUTH_URL + queryString;
+    return `${BASE_AUTH_URL}${queryString}`;
   }
 
   public async getUserData(code: string): Promise<FacebookUserData> {
