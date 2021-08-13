@@ -22,13 +22,13 @@ const getPageProducts = (productList: ProductItemType[], page: number) => {
 const sortProductList = (productList: Array<ProductItemType>, order: Order) => {
   switch (order) {
     case Order.popularity:
-      return productList.sort((a: ProductItemType, b: ProductItemType) => b.point - a.point);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.point - a.point);
     case Order.priceLow:
-      return productList.sort((a: ProductItemType, b: ProductItemType) => a.price - b.price);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.price - b.price);
     case Order.priceHigh:
-      return productList.sort((a: ProductItemType, b: ProductItemType) => b.price - a.price);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.price - a.price);
     case Order.recent:
-      return productList.sort(
+      return [...productList].sort(
         (a: ProductItemType, b: ProductItemType) =>
           new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
       );
