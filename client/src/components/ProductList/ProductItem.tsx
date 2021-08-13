@@ -1,15 +1,10 @@
 import React from 'react';
-import { ProductItemType } from '../../types/product';
+import { ProductItemPropsType } from '../../types/product';
+import { getKoreanMoneyFormat } from '../../utils/moneyFormater';
 
 import styled from 'styled-components';
 
-const ProductItem = ({
-  name,
-  price,
-  uploadDate,
-  point,
-  imgSrc,
-}: ProductItemType): React.ReactElement => {
+const ProductItem = ({ name, price, imgSrc }: ProductItemPropsType): React.ReactElement => {
   const ProductItem = styled.li`
     box-sizing: border-box;
     width: 300px;
@@ -31,9 +26,7 @@ const ProductItem = ({
     <ProductItem>
       <Img src={imgSrc}></Img>
       <Name>{name}</Name>
-      <Price>{price.toLocaleString()}원</Price>
-      <div>{uploadDate}(디버깅)</div>
-      <div>평점: {point} (디버깅)</div>
+      <Price>{getKoreanMoneyFormat(price)}</Price>
     </ProductItem>
   );
 };
