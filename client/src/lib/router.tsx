@@ -307,10 +307,10 @@ const compilePath = (params: CompilePathParams) => {
 export const matchPath = (params: MatchPathParams): MatchResult => {
   const { currentPathname, pathname, exact = false } = params;
 
-  const paths = pathname.split('/').filter((e) => e !== '');
+  const paths = pathname.split('/').filter((path) => path !== '');
   const currentPaths = removeUrlQuery(currentPathname)
     .split('/')
-    .filter((e) => e !== '');
+    .filter((path) => path !== '');
 
   if (currentPaths.length < paths.length) {
     return { isMatch: false };
