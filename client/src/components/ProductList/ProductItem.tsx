@@ -6,13 +6,13 @@ import styled from 'styled-components';
 
 const ProductItem = ({ name, price, imgSrc }: ProductItemPropsType): React.ReactElement => {
   const ProductItem = styled.li`
+    list-style: none;
+
     box-sizing: border-box;
     width: 300px;
 
     padding: 0 10px;
     margin: 20px 0;
-
-    list-style: none;
   `;
 
   const Img = styled.img`

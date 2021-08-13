@@ -14,17 +14,18 @@ const Main = styled.div`
 `;
 
 const ListHeader = styled.div`
+  box-sizing: border-box;
   width: 1200px;
+
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
-
-  box-sizing: border-box;
 `;
 const TotalCount = styled.div``;
 
 const ProductListWrapper = styled.ul`
   width: 1200px;
+
   display: flex;
   flex-wrap: wrap;
 
@@ -36,6 +37,7 @@ const SortButton = styled.button``;
 
 const PageNav = styled.ul`
   list-style: none;
+
   display: flex;
   justify-content: center;
 
@@ -43,6 +45,7 @@ const PageNav = styled.ul`
 `;
 const PageNavItem = styled.li`
   padding: 5px;
+
   cursor: pointer;
 `;
 
