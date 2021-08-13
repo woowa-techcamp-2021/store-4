@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import ProductItem from './ProductItem';
 import { apiMock } from './mock/api';
 import { ProductItemType, Order } from '../../types/product';
@@ -56,13 +56,14 @@ const ProductList = (): React.ReactElement => {
   const listOrder = useRef(Order.recent);
   const [productList, setProductList] = useState<ProductItemType[]>([]);
 
+  const fetchProductList = useCallback(() => {
+    const resData = apiMock.getProductList(listOrder.current, currentPage.current);
+    totalProductCount.current = resData.totalProductCount;
+    totalPage.current = resData.totalPage;
+    setProductList(resData.productList);
+  }, []);
+
   useEffect(() => {
-    function fetchProductList() {
-      const resData = apiMock.getProductList(listOrder.current, currentPage.current);
-      totalProductCount.current = resData.totalProductCount;
-      totalPage.current = resData.totalPage;
-      setProductList(resData.productList);
-    }
     fetchProductList();
   }, []);
 
