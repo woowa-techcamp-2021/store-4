@@ -50,16 +50,17 @@ const PageNavItem = styled.li`
 `;
 
 const ProductList = (): React.ReactElement => {
-  const totalProductCount = useRef(0);
-  const totalPage = useRef(1);
+  const [totalProductCount, setTotalProductCount] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
+  const [productList, setProductList] = useState<ProductItemType[]>([]);
+
   const currentPage = useRef(1);
   const listOrder = useRef(ProductListOrder.Recent);
-  const [productList, setProductList] = useState<ProductItemType[]>([]);
 
   const fetchProductList = useCallback(() => {
     const resData = apiMock.getProductList(listOrder.current, currentPage.current);
-    totalProductCount.current = resData.totalProductCount;
-    totalPage.current = resData.totalPage;
+    setTotalProductCount(resData.totalProductCount);
+    setTotalPage(resData.totalPage);
     setProductList(resData.productList);
   }, []);
 
@@ -91,7 +92,7 @@ const ProductList = (): React.ReactElement => {
   return (
     <Main>
       <ListHeader>
-        <TotalCount>총 {totalProductCount.current}개</TotalCount>
+        <TotalCount>총 {totalProductCount}개</TotalCount>
         <SortButtonList>
           <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>인기순</SortButton>
           <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
@@ -103,7 +104,7 @@ const ProductList = (): React.ReactElement => {
       </ListHeader>
       <ProductListWrapper>{ProductItemList}</ProductListWrapper>
       <PageNav>
-        {createPageNumbers(totalPage.current).map((pageNum) => {
+        {createPageNumbers(totalPage).map((pageNum) => {
           return (
             <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
               {pageNum}
