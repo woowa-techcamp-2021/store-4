@@ -54,9 +54,9 @@ class ProductService {
       case 'recent':
         return products;
       case 'priceLow':
-        return products;
+        return [...products].sort((a, b) => parseInt(a.price) - parseInt(b.price));
       case 'priceHigh':
-        return products;
+        return [...products].sort((a, b) => parseInt(b.price) - parseInt(a.price));
       default:
         return products;
     }
