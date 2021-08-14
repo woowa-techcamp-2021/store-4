@@ -18,6 +18,6 @@ module.exports = merge(common, {
         mode: 'DEV',
       },
     }),
-    new EnvironmentPlugin([]),
+    new EnvironmentPlugin(['SERVER_URL']),
   ],
 });
