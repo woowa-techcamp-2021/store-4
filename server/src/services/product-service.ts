@@ -10,45 +10,49 @@ const ITEMS_PER_PAGE = 20;
 
 class ProductService {
   async findAll({ category, sort, pageNum }: ProductQuery): Promise<ProductResponse> {
-    const productDataFilteredByCategory = await this.findByCategory(category);
-    if (productDataFilteredByCategory.length === 0) throw ERROR_TYPE.INVALID_CATEGORY;
+    const productsByCategory = await this.filterProductsByCategory(category);
 
-    let productDataSorted;
-    if (sort === undefined) {
-      productDataSorted = productDataFilteredByCategory;
-    }
-    // sort option given
-    else {
-      if (SORT_OPTIONS.includes(sort)) {
-        productDataSorted = await this.sortProductData(productDataFilteredByCategory, sort);
-      }
-      // unknown option
-      else throw ERROR_TYPE.INVALID_SORT;
-    }
+    const productsSorted = await this.sortProducts(productsByCategory, sort);
 
-    const page = pageNum === undefined ? 1 : +pageNum;
-    const totalPages = this.getTotalPages(productDataSorted);
-    if (page > totalPages) throw ERROR_TYPE.INVALID_PAGE;
+    const { products, totalPages } = this.paginateProducts(productsSorted, pageNum);
 
-    const productData = productDataSorted.slice(ITEMS_PER_PAGE * (page - 1), ITEMS_PER_PAGE * page);
-
-    return { products: productData, totalPages };
+    return { products, totalPages };
   }
 
-  private findByCategory(categoryId: string | undefined) {
+  /**
+   *
+   * @param categoryId URL query : 주어지지 않은 경우 전체 상품 목록 반환
+   * @returns 주어진 카테고리 ID에 해당하는 상품 목록
+   *
+   * @throws 주어진 카테고리 ID에 해당하는 상품이 없을 경우, 카테고리 ID가 유효하지 않은 것으로 간주하고 에러 발생
+   */
+  private async filterProductsByCategory(categoryId: string | undefined) {
     const productRepository = getCustomRepository(ProductRepository);
 
     if (categoryId === undefined) return productRepository.find();
 
-    return productRepository.findByCategory(+categoryId);
+    const productsByCategory = await productRepository.findByCategory(+categoryId);
+    if (productsByCategory.length === 0) throw ERROR_TYPE.INVALID_CATEGORY;
+
+    return productsByCategory;
   }
 
-  private getTotalPages(products: Product[]): number {
-    return Math.ceil(products.length / ITEMS_PER_PAGE);
-  }
+  /**
+   *
+   * @param products
+   * @param sortOption URL query : 주어지지 않은 경우 products 그대로 반환
+   * @returns 주어진 정렬 옵션에 따라 정렬된 상태의 상품 목록 반환
+   *
+   * @throws 주어진 정렬 옵션이 SORT_OPTIONS에 존재하지 않으면 에러 발생
+   */
+  private async sortProducts(
+    products: Product[],
+    sortOption: string | undefined
+  ): Promise<Product[]> {
+    if (sortOption === undefined) return products;
+    if (!SORT_OPTIONS.includes(sortOption)) throw ERROR_TYPE.INVALID_SORT;
 
-  private async sortProductData(products: Product[], sort: string): Promise<Product[]> {
-    switch (sort) {
+    switch (sortOption) {
       case 'recommend':
         return this.sortByReviewPoints(products);
       case 'popularity':
@@ -62,6 +66,27 @@ class ProductService {
       default:
         return products;
     }
+  }
+
+  /**
+   *
+   * @param products
+   * @param pageNum URL query: 주어지지 않은 경우 기본값은 1
+   * @returns 주어진 페이지 번호에 맞는 상품 목록, 총 페이지 수 반환
+   *
+   * @throws 주어진 페이지 번호 형식이 올바르지 않은 경우 에러 발생
+   * @throws 주어진 페이지 번호가 총 페이지 수를 초과하면 에러 발생
+   */
+  private paginateProducts(products: Product[], pageNum: string | undefined) {
+    const page = pageNum === undefined ? 1 : +pageNum;
+    if (isNaN(page)) throw ERROR_TYPE.INVALID_PAGE;
+
+    const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+    if (page > totalPages) throw ERROR_TYPE.PAGE_OVERFLOW;
+
+    const productsByPage = products.slice(ITEMS_PER_PAGE * (page - 1), ITEMS_PER_PAGE * page);
+
+    return { products: productsByPage, totalPages };
   }
 
   private async sortByReviewPoints(products: Product[]): Promise<Product[]> {
