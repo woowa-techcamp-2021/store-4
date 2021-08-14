@@ -12,7 +12,6 @@ class ProductService {
 
     const page = pageNum === undefined ? 1 : +pageNum;
     const totalPages = this.getTotalPages(productDataFilteredByCategory);
-
     if (page > totalPages) throw ERROR_TYPE.INVALID_PAGE;
 
     const productData = productDataFilteredByCategory.slice(
