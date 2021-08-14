@@ -4,22 +4,22 @@ import Category from '../models/category';
 import CategoryRepository from '../repositories/category-repository';
 
 class CategoryService {
-  private insertChildrenCategories(parentCategory: Category, categories: Category[]): Category {
-    const copiedParentCategory = _.cloneDeep(parentCategory);
+  private insertChildrenCategories(currentCategory: Category, categories: Category[]): Category {
+    const copiedCurrentCategory = _.cloneDeep(currentCategory);
     const copiedCategories = _.cloneDeep(categories);
 
-    copiedParentCategory.childCategories = copiedCategories
-      .filter((category) => category.parentCategory?.id === parentCategory.id)
-      .map((category) => this.insertChildrenCategories(category, copiedCategories));
+    copiedCurrentCategory.childCategories = copiedCategories
+      .filter((category) => category.parentCategory?.id === currentCategory.id)
+      .map((childCategory) => this.insertChildrenCategories(childCategory, copiedCategories));
 
-    return copiedParentCategory;
+    return copiedCurrentCategory;
   }
 
   async findCategoriesTree(): Promise<Category[]> {
     const categories = await getCustomRepository(CategoryRepository).findAllWithParent();
     const categoriesTree = categories
       .filter((category) => category.parentCategory === null)
-      .map((parentCategory) => this.insertChildrenCategories(parentCategory, categories));
+      .map((rootCategory) => this.insertChildrenCategories(rootCategory, categories));
 
     return categoriesTree;
   }
