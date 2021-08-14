@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import categoryRouter from '../category';
+import categoryRouter from './category';
 
 const apiRouter = Router();
 
