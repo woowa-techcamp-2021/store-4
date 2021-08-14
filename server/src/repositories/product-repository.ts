@@ -25,14 +25,11 @@ class ProductRepository extends Repository<Product> {
   }
 
   find(): Promise<Product[]> {
-    return createQueryBuilder(Product).orderBy('Product.updated_at', 'DESC').getMany();
+    return createQueryBuilder(Product).getMany();
   }
 
   findByCategory(categoryId: number): Promise<Product[]> {
-    return createQueryBuilder(Product)
-      .where({ category: categoryId })
-      .orderBy('Product.updated_at', 'DESC')
-      .getMany();
+    return createQueryBuilder(Product).where({ category: categoryId }).getMany();
   }
 }
 
