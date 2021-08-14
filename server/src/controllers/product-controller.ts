@@ -17,6 +17,7 @@ export enum ERROR_TYPE {
   INVALID_CATEGORY,
   INVALID_PAGE,
   INVALID_SORT,
+  PAGE_OVERFLOW,
 }
 
 class ProductController {
@@ -31,10 +32,12 @@ class ProductController {
       switch (err) {
         case ERROR_TYPE.INVALID_CATEGORY:
           return res.status(404).json({ message: '카테고리가 존재하지 않습니다' });
-        case ERROR_TYPE.INVALID_PAGE:
+        case ERROR_TYPE.PAGE_OVERFLOW:
           return res.status(404).json({ message: '요청한 페이지가 총 페이지 수를 초과했습니다' });
         case ERROR_TYPE.INVALID_SORT:
-          return res.status(404).json({ message: '요청한 정렬 방식이 잘못되었습니다' });
+          return res.status(400).json({ message: '요청한 정렬 방식이 잘못되었습니다' });
+        case ERROR_TYPE.INVALID_PAGE:
+          return res.status(400).json({ message: '요청한 페이지 형식이 잘못되었습니다' });
         default:
           throw err;
       }
