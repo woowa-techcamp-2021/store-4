@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import Product from '../models/product';
 import ProductRepository from '../repositories/product-repository';
 import { ProductQuery, ProductResponse, ERROR_TYPE } from '../controllers/product-controller';
+import ReviewService from './review-service';
 
 const SORT_OPTIONS = ['recommend', 'popularity', 'recent', 'priceLow', 'priceHigh'];
 const ITEMS_PER_PAGE = 20;
@@ -18,7 +19,7 @@ class ProductService {
     // sort option given
     else {
       if (SORT_OPTIONS.includes(sort)) {
-        productDataSorted = this.sortProductData(productDataFilteredByCategory, sort);
+        productDataSorted = await this.sortProductData(productDataFilteredByCategory, sort);
       }
       // unknown option
       else throw ERROR_TYPE.INVALID_SORT;
@@ -45,10 +46,10 @@ class ProductService {
     return Math.ceil(products.length / ITEMS_PER_PAGE);
   }
 
-  private sortProductData(products: Product[], sort: string): Product[] {
+  private async sortProductData(products: Product[], sort: string): Promise<Product[]> {
     switch (sort) {
       case 'recommend':
-        return products;
+        return this.sortByReviewPoints(products);
       case 'popularity':
         return products;
       case 'recent':
@@ -60,6 +61,19 @@ class ProductService {
       default:
         return products;
     }
+  }
+
+  private async sortByReviewPoints(products: Product[]): Promise<Product[]> {
+    const reviewPoints = await Promise.all(
+      products.map(({ id }) => ReviewService.getAveragePointOfProduct(id))
+    );
+
+    const reviewPointsByProductId: { [key: string]: number } = {};
+    products.forEach(({ id }, index) => (reviewPointsByProductId[id] = reviewPoints[index]));
+
+    return [...products].sort(
+      (a, b) => reviewPointsByProductId[b.id] - reviewPointsByProductId[a.id]
+    );
   }
 }
 
