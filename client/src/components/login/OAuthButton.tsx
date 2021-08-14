@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import facebook from './facebook.svg';
-import google from './google.svg';
-import kakao from './kakao.svg';
 
-const StyledOAuthButton = styled.button<{
+type ContainerProps = {
   backgroundColor: string;
   fontColor: string;
-}>`
+};
+
+const OAuthButtonContainer = styled.button<ContainerProps>`
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.fontColor};
   display: flex;
@@ -18,61 +17,38 @@ const StyledOAuthButton = styled.button<{
   width: 300px;
   padding: 15px;
   border: none;
-  font-size: 16px;
   cursor: pointer;
-
-  img {
-    max-width: 18px;
-    max-height: 18px;
-  }
 `;
 
-export enum OAuthType {
-  Facebook,
-  Google,
-  Kakao,
-}
+const OAuthIcon = styled.img`
+  max-width: 18px;
+  max-height: 100%;
+`;
 
-type ButtonInternal = {
-  icon: string;
+const OAuthButtonContent = styled.span`
+  font-size: 16px;
+`;
+
+type Props = {
   backgroundColor: string;
   fontColor: string;
-  text: string;
+  icon: string;
+  content: string;
+  onClick: MouseEventHandler;
 };
 
-const BUTTON_INTERNALS: { [key: string]: ButtonInternal } = {
-  [OAuthType.Facebook]: {
-    icon: facebook,
-    fontColor: '#ffffff',
-    backgroundColor: '#4267b2',
-    text: '페이스북으로 계속하기',
-  },
-  [OAuthType.Google]: {
-    icon: google,
-    fontColor: '#ffffff',
-    backgroundColor: '#EA4335',
-    text: '구글로 계속하기',
-  },
-  [OAuthType.Kakao]: {
-    icon: kakao,
-    fontColor: '#000000',
-    backgroundColor: '#ffe812',
-    text: '카카오로 계속하기',
-  },
-};
-
-type PropTypes = {
-  type: OAuthType;
-};
-
-const OAuthButton = ({ type }: PropTypes): JSX.Element => {
-  const { icon, fontColor, backgroundColor, text } = BUTTON_INTERNALS[type];
-
+const OAuthButton = ({
+  icon,
+  fontColor,
+  backgroundColor,
+  content,
+  onClick,
+}: Props): JSX.Element => {
   return (
-    <StyledOAuthButton fontColor={fontColor} backgroundColor={backgroundColor}>
-      <img src={icon} />
-      <span>{text}</span>
-    </StyledOAuthButton>
+    <OAuthButtonContainer fontColor={fontColor} backgroundColor={backgroundColor} onClick={onClick}>
+      <OAuthIcon src={icon} />
+      <OAuthButtonContent>{content}</OAuthButtonContent>
+    </OAuthButtonContainer>
   );
 };
 
