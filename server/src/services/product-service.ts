@@ -3,6 +3,7 @@ import Product from '../models/product';
 import ProductRepository from '../repositories/product-repository';
 import { ProductQuery, ProductResponse, ERROR_TYPE } from '../controllers/product-controller';
 import ReviewService from './review-service';
+import OrderDetailService from './order-detail-service';
 
 const SORT_OPTIONS = ['recommend', 'popularity', 'recent', 'priceLow', 'priceHigh'];
 const ITEMS_PER_PAGE = 20;
@@ -51,7 +52,7 @@ class ProductService {
       case 'recommend':
         return this.sortByReviewPoints(products);
       case 'popularity':
-        return products;
+        return this.sortBySalesCount(products);
       case 'recent':
         return products;
       case 'priceLow':
@@ -74,6 +75,17 @@ class ProductService {
     return [...products].sort(
       (a, b) => reviewPointsByProductId[b.id] - reviewPointsByProductId[a.id]
     );
+  }
+
+  private async sortBySalesCount(products: Product[]): Promise<Product[]> {
+    const salesCounts = await Promise.all(
+      products.map(({ id }) => OrderDetailService.getTotalOrderCountOfProduct(id))
+    );
+
+    const salesCountByProductId: { [key: string]: number } = {};
+    products.forEach(({ id }, index) => (salesCountByProductId[id] = salesCounts[index]));
+
+    return [...products].sort((a, b) => salesCountByProductId[b.id] - salesCountByProductId[a.id]);
   }
 }
 
