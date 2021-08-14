@@ -3,6 +3,7 @@ import dotenv from '../config/dotenv';
 import models from '../models';
 import { insertDummyCategoryData } from '../dummy-data/category';
 import { insertDummyProductData } from '../dummy-data/product';
+import { insertDummyReviewData } from '../dummy-data/reviews';
 
 const loader = async (): Promise<void> => {
   const db = new Database({
@@ -20,6 +21,7 @@ const loader = async (): Promise<void> => {
 
   await insertDummyCategoryData();
   await insertDummyProductData();
+  await insertDummyReviewData();
 };
 
 export default loader;
