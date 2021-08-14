@@ -12,7 +12,10 @@ class ProductController {
     const { category, sort, pageNum } = req.query as ProductQuery;
 
     const products = await productService.findAll({ category, sort, pageNum });
-    res.send('GET /product');
+
+    res.status(200).json({
+      products,
+    });
   }
 }
 

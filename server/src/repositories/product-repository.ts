@@ -1,4 +1,4 @@
-import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
+import { createQueryBuilder, EntityRepository, getCustomRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { ProductData } from '../dummy-data/product';
 import CategoryRepository from './category-repository';
@@ -22,6 +22,10 @@ class ProductRepository extends Repository<Product> {
     );
 
     return this.save(products);
+  }
+
+  findByCategory(categoryId: number): Promise<Product[]> {
+    return createQueryBuilder(Product).where({ category: categoryId }).getMany();
   }
 }
 
