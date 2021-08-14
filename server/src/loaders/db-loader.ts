@@ -1,6 +1,7 @@
 import Database from '../database';
 import dotenv from '../config/dotenv';
 import models from '../models';
+import { insertDummyCategoryData } from '../dummy-data/category';
 
 const loader = async (): Promise<void> => {
   const db = new Database({
@@ -15,6 +16,8 @@ const loader = async (): Promise<void> => {
   });
 
   await db.connect();
+
+  await insertDummyCategoryData();
 };
 
 export default loader;
