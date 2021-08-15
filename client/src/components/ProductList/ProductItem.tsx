@@ -1,33 +1,37 @@
 import React from 'react';
-import { ProductItemPropsType } from '../../types/product';
 import { getKoreanMoneyFormat } from '../../utils/moneyFormater';
-
 import styled from 'styled-components';
 
-const ProductItem = ({ name, price, imgSrc }: ProductItemPropsType): React.ReactElement => {
-  const ProductItem = styled.li`
-    list-style: none;
+export type ProductItemProps = {
+  name: string;
+  price: number;
+  imgSrc: string;
+};
 
-    box-sizing: border-box;
-    width: 300px;
+const ProductItemContainer = styled.li`
+  list-style: none;
 
-    padding: 0 10px;
-    margin: 20px 0;
-  `;
+  box-sizing: border-box;
+  width: 300px;
 
-  const Img = styled.img`
-    width: 100%;
-  `;
+  padding: 0 10px;
+  margin: 20px 0;
+`;
 
-  const Name = styled.div``;
-  const Price = styled.div``;
+const Img = styled.img`
+  width: 100%;
+`;
 
+const Name = styled.div``;
+const Price = styled.div``;
+
+const ProductItem = ({ name, price, imgSrc }: ProductItemProps): React.ReactElement => {
   return (
-    <ProductItem>
+    <ProductItemContainer>
       <Img src={imgSrc}></Img>
       <Name>{name}</Name>
       <Price>{getKoreanMoneyFormat(price)}</Price>
-    </ProductItem>
+    </ProductItemContainer>
   );
 };
 
