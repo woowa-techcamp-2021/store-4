@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import ProductItem from './ProductItem';
+import React, { useEffect, useState, useCallback } from 'react';
+import ProductItemContainer from './ProductItem';
 import { apiMock } from './mock/api';
-import { ProductItemType, ProductListOrder } from '../../types/product';
+import { ProductListResponseType, ProductListOrder } from '../../types/product';
+import { range } from '../../utils/range';
 
 import styled from 'styled-components';
 
@@ -12,7 +13,6 @@ const Main = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-
 const ListHeader = styled.div`
   box-sizing: border-box;
   width: 1200px;
@@ -22,7 +22,6 @@ const ListHeader = styled.div`
   padding: 0 10px;
 `;
 const TotalCount = styled.div``;
-
 const ProductListWrapper = styled.ul`
   width: 1200px;
 
@@ -31,10 +30,8 @@ const ProductListWrapper = styled.ul`
 
   padding: 0;
 `;
-
 const SortButtonList = styled.div``;
 const SortButton = styled.button``;
-
 const PageNav = styled.ul`
   list-style: none;
 
@@ -50,78 +47,78 @@ const PageNavItem = styled.li`
 `;
 
 const ProductList = (): React.ReactElement => {
-  const [totalProductCount, setTotalProductCount] = useState(0);
-  const [totalPage, setTotalPage] = useState(1);
-  const [productList, setProductList] = useState<ProductItemType[]>([]);
+  const [productListResponse, setProductListResponse] = useState<ProductListResponseType | null>(
+    null
+  );
 
-  const currentPage = useRef(1);
-  const listOrder = useRef(ProductListOrder.Recent);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [listOrder, setListOrder] = useState(ProductListOrder.Recent);
 
   const fetchProductList = useCallback(() => {
-    const resData = apiMock.getProductList(listOrder.current, currentPage.current);
-    setTotalProductCount(resData.totalProductCount);
-    setTotalPage(resData.totalPage);
-    setProductList(resData.productList);
-  }, []);
+    const resData = apiMock.getProductList(listOrder, currentPage);
+    setProductListResponse(resData);
+  }, [currentPage, listOrder]);
 
   useEffect(() => {
     fetchProductList();
-  }, []);
+  }, [fetchProductList, currentPage, listOrder]);
 
   const onClickSortButton = (order: ProductListOrder) => (): void => {
-    listOrder.current = order;
-    const resData = apiMock.getProductList(listOrder.current, currentPage.current);
-    setProductList(resData.productList);
+    setListOrder(order);
   };
 
   const onClickPageButton = (pageNum: number) => (): void => {
-    currentPage.current = pageNum;
-    const resData = apiMock.getProductList(listOrder.current, currentPage.current);
-    setProductList(resData.productList);
+    setCurrentPage(pageNum);
   };
 
-  const ProductItemList = productList.map((product) => (
-    <ProductItem
-      key={product.Id}
-      name={product.Name}
-      price={product.Price}
-      imgSrc={product.ImgSrc}
-    ></ProductItem>
+  const productItemList = productListResponse?.productList.map((product) => (
+    <ProductItemContainer
+      key={product.id}
+      name={product.name}
+      price={product.price}
+      imgSrc={product.imgSrc}
+    ></ProductItemContainer>
   ));
 
-  return (
-    <Main>
-      <ListHeader>
-        <TotalCount>총 {totalProductCount}개</TotalCount>
-        <SortButtonList>
-          <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>인기순</SortButton>
-          <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
-          <SortButton onClick={onClickSortButton(ProductListOrder.PriceLow)}>낮은가격순</SortButton>
-          <SortButton onClick={onClickSortButton(ProductListOrder.PriceHigh)}>
-            높은가격순
-          </SortButton>
-        </SortButtonList>
-      </ListHeader>
-      <ProductListWrapper>{ProductItemList}</ProductListWrapper>
-      <PageNav>
-        {createPageNumbers(totalPage).map((pageNum) => {
-          return (
-            <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
-              {pageNum}
-            </PageNavItem>
-          );
-        })}
-      </PageNav>
-    </Main>
-  );
-};
+  const pageNavItem = () => {
+    if (productListResponse === null) return <></>;
+    return range(productListResponse.totalPage).map((index) => {
+      const pageNum = index + 1;
+      return (
+        <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
+          {pageNum}
+        </PageNavItem>
+      );
+    });
+  };
 
-const createPageNumbers = (totalPage: number): number[] => {
-  const pageNumbers = [];
-  for (let num = 1; num <= totalPage; num++) {
-    pageNumbers.push(num);
-  }
-  return pageNumbers;
+  return (
+    <>
+      {productListResponse === null ? (
+        <div>로딩중..</div>
+      ) : (
+        <Main>
+          <ListHeader>
+            <TotalCount>총 {productListResponse.totalProductCount}개</TotalCount>
+            <SortButtonList>
+              <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>
+                인기순
+              </SortButton>
+              <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
+              <SortButton onClick={onClickSortButton(ProductListOrder.PriceLow)}>
+                낮은가격순
+              </SortButton>
+              <SortButton onClick={onClickSortButton(ProductListOrder.PriceHigh)}>
+                높은가격순
+              </SortButton>
+            </SortButtonList>
+          </ListHeader>
+          <ProductListWrapper>{productItemList}</ProductListWrapper>
+          <PageNav>{pageNavItem()}</PageNav>
+        </Main>
+      )}
+    </>
+  );
 };
 
 export default ProductList;

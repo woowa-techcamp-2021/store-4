@@ -1,16 +1,16 @@
-export type ProductItemPropsType = {
-  name: string;
-  price: number;
-  imgSrc: string;
+export type ProductListResponseType = {
+  totalProductCount: number;
+  totalPage: number;
+  productList: ProductItemType[];
 };
 
 export type ProductItemType = {
-  Id: number;
-  Name: string;
-  Price: number;
-  Point: number;
-  UploadDate: string;
-  ImgSrc: string;
+  id: number;
+  name: string;
+  price: number;
+  point: number;
+  uploadDate: string;
+  imgSrc: string;
 };
 
 export enum ProductListOrder {
