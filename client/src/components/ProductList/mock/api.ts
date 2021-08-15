@@ -1,8 +1,8 @@
 import { mockProductList } from './data';
-import { ProductItemType, ProductListOrder } from '../../../types/product';
+import { ProductListResponseType, ProductItemType, ProductListOrder } from '../../../types/product';
 
 export const apiMock = {
-  getProductList: (order: ProductListOrder, page: number) => {
+  getProductList: (order: ProductListOrder, page: number): ProductListResponseType => {
     return {
       totalProductCount: mockProductList.length,
       totalPage: Math.floor(mockProductList.length / 20) + 1,
@@ -22,15 +22,15 @@ const getPageProducts = (productList: ProductItemType[], page: number) => {
 const sortProductList = (productList: Array<ProductItemType>, order: ProductListOrder) => {
   switch (order) {
     case ProductListOrder.Popularity:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Point - a.Point);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.point - a.point);
     case ProductListOrder.PriceLow:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.Price - b.Price);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => a.price - b.price);
     case ProductListOrder.PriceHigh:
-      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.Price - a.Price);
+      return [...productList].sort((a: ProductItemType, b: ProductItemType) => b.price - a.price);
     case ProductListOrder.Recent:
       return [...productList].sort(
         (a: ProductItemType, b: ProductItemType) =>
-          new Date(b.UploadDate).getTime() - new Date(a.UploadDate).getTime()
+          new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
       );
   }
 };
