@@ -5,7 +5,7 @@ export type MockProductItemType = ProductItemType & { discountRate: number };
 
 const mockProductList: MockProductItemType[] = [
   {
-    id: 0,
+    id: 1,
     name: '컴퓨터싸인펜. 오늘이 전설이 될 것이다',
     price: 2000,
     point: 5,
@@ -14,7 +14,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 1,
   },
   {
-    id: 1,
+    id: 2,
     name: '잘나가요 세트',
     price: 15000,
     point: 4.87,
@@ -23,7 +23,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 2,
   },
   {
-    id: 2,
+    id: 3,
     name: '일기장. 쓰고 자자',
     price: 3000,
     point: 2,
@@ -32,7 +32,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 3,
   },
   {
-    id: 3,
+    id: 4,
     name: '떡볶이 테이스팅 노트. 먹고쓰자',
     price: 3500,
     point: 0,
@@ -41,7 +41,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 5,
   },
   {
-    id: 4,
+    id: 5,
     name: '종이로 만든 박스테이프. 두근두근',
     price: 4500,
     point: 4,
@@ -50,7 +50,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 4,
   },
   {
-    id: 5,
+    id: 6,
     name: '다 때가 있다',
     price: 500,
     point: 0,
@@ -59,7 +59,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 8,
   },
   {
-    id: 6,
+    id: 7,
     name: '포스터. 왕배달이',
     price: 2000,
     point: 1,
@@ -68,7 +68,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 7,
   },
   {
-    id: 7,
+    id: 8,
     name: '포스터. 봉다리배달이',
     price: 2000,
     point: 0,
@@ -77,7 +77,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 9,
   },
   {
-    id: 8,
+    id: 9,
     name: '포스터. 메이배달이',
     price: 2000,
     point: 4,
@@ -86,7 +86,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 3,
   },
   {
-    id: 9,
+    id: 10,
     name: '포스터. 냥이배달이',
     price: 2000,
     point: 4.8,
@@ -95,7 +95,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 6,
   },
   {
-    id: 10,
+    id: 11,
     name: '포스터. 독고배달이',
     price: 2000,
     point: 5,
@@ -104,7 +104,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 5,
   },
   {
-    id: 11,
+    id: 12,
     name: '포스터. 왕배달이',
     price: 2000,
     point: 3,
@@ -113,7 +113,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 4,
   },
   {
-    id: 12,
+    id: 13,
     name: '컴퓨터싸인펜. 오늘이 전설이 될 것이다',
     price: 2000,
     point: 2,
@@ -122,7 +122,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 1,
   },
   {
-    id: 13,
+    id: 14,
     name: '잘나가요 세트',
     price: 15000,
     point: 4,
@@ -131,7 +131,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 8,
   },
   {
-    id: 14,
+    id: 15,
     name: '일기장. 쓰고 자자',
     price: 3000,
     point: 5,
@@ -140,7 +140,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 9,
   },
   {
-    id: 15,
+    id: 16,
     name: '떡볶이 테이스팅 노트. 먹고쓰자',
     price: 3500,
     point: 5,
@@ -149,7 +149,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 2,
   },
   {
-    id: 16,
+    id: 17,
     name: '종이로 만든 박스테이프. 두근두근',
     price: 4500,
     point: 2.5,
@@ -158,7 +158,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 3,
   },
   {
-    id: 17,
+    id: 18,
     name: '다 때가 있다',
     price: 500,
     point: 2.5,
@@ -167,7 +167,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 4,
   },
   {
-    id: 18,
+    id: 19,
     name: '포스터. 메이배달이',
     price: 2000,
     point: 2.4,
@@ -176,7 +176,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 6,
   },
   {
-    id: 19,
+    id: 20,
     name: '포스터. 냥이배달이',
     price: 2000,
     point: 2.5,
@@ -185,7 +185,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 7,
   },
   {
-    id: 20,
+    id: 21,
     name: '포스터. 독고배달이',
     price: 2000,
     point: 4.2,
@@ -194,7 +194,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 8,
   },
   {
-    id: 21,
+    id: 22,
     name: '포스터. 왕배달이',
     price: 2000,
     point: 4.2,
@@ -203,7 +203,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 2,
   },
   {
-    id: 22,
+    id: 23,
     name: '컴퓨터싸인펜. 오늘이 전설이 될 것이다',
     price: 2000,
     point: 4.1,
@@ -212,7 +212,7 @@ const mockProductList: MockProductItemType[] = [
     discountRate: 9,
   },
   {
-    id: 23,
+    id: 24,
     name: '잘나가요 세트',
     price: 15000,
     point: 3.2,

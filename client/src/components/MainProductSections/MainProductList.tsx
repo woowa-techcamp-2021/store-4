@@ -22,12 +22,12 @@ const ProductItemWrapper = styled.div`
 
 type MainProductListProps = {
   title: string;
-  data: MockProductItemType[];
+  products: MockProductItemType[];
 };
 
 const MainProductList = (props: MainProductListProps): JSX.Element => {
-  const { title, data } = props;
-  const ProductItems = data.map((product, index) => (
+  const { title, products } = props;
+  const ProductItems = products.map((product, index) => (
     <ProductItem key={`title${index}`} {...product} />
   ));
   return (
