@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useProductAdList } from './hooks/useProductAdList';
 import { useProductList } from './hooks/useProductList';
+import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
 import { MockProductItemType } from './mock';
 
@@ -18,6 +20,8 @@ const SECTION_TITLE = {
   [FILTER_OPTION.DISCOUNT]: '지금 할인 중',
 };
 
+const AD_TITLE = '선물하기 딱 좋아요!';
+
 const descendingDate = (a: MockProductItemType, b: MockProductItemType) => {
   return a.uploadDate.localeCompare(b.uploadDate);
 };
@@ -30,6 +34,8 @@ const MainProductSections = (): React.ReactElement => {
   const { MOST_SALES, RECENT, DISCOUNT } = FILTER_OPTION;
 
   const productList = useProductList();
+  const productAdList = useProductAdList();
+
   const mostSalesProductList = [...productList].sort().slice(0, 4);
   const recentProductList = [...productList].sort(descendingDate).slice(0, 8);
   const discountProductList = [...productList].sort(descendingDiscountRate).slice(0, 8);
@@ -53,6 +59,7 @@ const MainProductSections = (): React.ReactElement => {
     <MainProductSectionsContainer>
       <MainProductList {...filteredDatas[FILTER_OPTION.MOST_SALES]} />
       <MainProductList {...filteredDatas[FILTER_OPTION.RECENT]} />
+      <MainAdList title={AD_TITLE} products={productAdList} />
       <MainProductList {...filteredDatas[FILTER_OPTION.DISCOUNT]} />
     </MainProductSectionsContainer>
   );
