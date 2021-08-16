@@ -7,7 +7,7 @@ import Review from './review';
 import Timestamp from './timestamp';
 import Wish from './wish';
 
-@Entity({ name: 'products', orderBy: { updated_at: 'DESC' } })
+@Entity('products')
 class Product extends Timestamp {
   @PrimaryGeneratedColumn()
   id!: string;
