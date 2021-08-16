@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import searchIcon from './searchIcon.svg';
 
@@ -36,9 +36,20 @@ const SearchButton = styled.button`
 `;
 
 const SearchBar = (): JSX.Element => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const handleSearchInputChange = useCallback(
+    (e) => setSearchTerm(e.target.value),
+    [setSearchTerm]
+  );
+
   return (
     <Wrapper>
-      <SearchInput type="text" placeholder={INPUT_PLACEHOLDER} />
+      <SearchInput
+        type="text"
+        placeholder={INPUT_PLACEHOLDER}
+        value={searchTerm}
+        onChange={handleSearchInputChange}
+      />
       <SearchButton type="button">
         <img src={searchIcon} />
       </SearchButton>
