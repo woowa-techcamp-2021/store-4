@@ -15,7 +15,7 @@ class ProductRepository extends Repository<Product> {
     const products = this.create(
       productData.map(({ name, price, content }, index) => ({
         name,
-        price: price + '',
+        price,
         content,
         category: categories[index],
       }))
