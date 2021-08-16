@@ -1,6 +1,6 @@
 import MockImg from '../../../assets/images/towel.png';
-import Science from './mock/hyoja_pc.png';
-import FakeSet from './mock/pc_kkfakeset.png';
+import Science from './hyoja_pc.png';
+import FakeSet from './pc_kkfakeset.png';
 import { ProductItemType } from '../../../types/product';
 
 export type MockProductItemType = ProductItemType & { discountRate: number };
