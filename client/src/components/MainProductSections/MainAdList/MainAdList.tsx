@@ -5,7 +5,11 @@ import MainAdListItem from './MainAdListItem';
 
 const MainAdListContainer = styled.div``;
 
-const MainAdTitle = styled.div``;
+const MainAdTitle = styled.div`
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 12px;
+`;
 
 const MainAdListItemsWrapper = styled.div``;
 

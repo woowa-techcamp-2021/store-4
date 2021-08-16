@@ -1,17 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const MainAdListItemContainer = styled.div``;
+const MainAdListItemContainer = styled.div`
+  display: flex;
+`;
 
 const ImageWrapper = styled.div``;
 
 const AdImage = styled.img``;
 
-const ItemTitles = styled.div``;
+const ItemTitles = styled.div`
+  padding: 16px;
+`;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-size: 30px;
+  margin-bottom: 6px;
+`;
 
-const SubTitle = styled.div``;
+const SubTitle = styled.div`
+  font-size: 14px;
+`;
 
 type MainAddListItemProps = {
   id: number;
