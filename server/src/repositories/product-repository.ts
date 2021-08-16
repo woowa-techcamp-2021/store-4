@@ -1,4 +1,4 @@
-import { createQueryBuilder, EntityRepository, getCustomRepository, Repository } from 'typeorm';
+import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { ProductData } from '../dummy-data/product';
 import CategoryRepository from './category-repository';
