@@ -6,7 +6,13 @@ import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
 import { MockProductItemType } from './mock';
 
-const MainProductSectionsContainer = styled.div``;
+const MainProductSectionsContainer = styled.div`
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+`;
 
 enum FILTER_OPTION {
   RECENT = 'recent',

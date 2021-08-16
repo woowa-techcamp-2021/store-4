@@ -13,11 +13,9 @@ const ProductListTitle = styled.div`
 `;
 
 const ProductItemWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   flex-wrap: wrap;
-  &:div {
-    flex: 25%;
-  }
 `;
 
 type MainProductListProps = {
