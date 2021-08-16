@@ -1,7 +1,10 @@
 import MockImg from '../../../assets/images/towel.png';
+import Science from './mock/hyoja_pc.png';
+import FakeSet from './mock/pc_kkfakeset.png';
 import { ProductItemType } from '../../../types/product';
 
 export type MockProductItemType = ProductItemType & { discountRate: number };
+export type MockProductAdItemType = { id: number; title: string; subTitle: string; imgSrc: string };
 
 const mockProductList: MockProductItemType[] = [
   {
@@ -222,6 +225,15 @@ const mockProductList: MockProductItemType[] = [
   },
 ];
 
+const adMockData = [
+  { id: 1, title: '효자손은 과학이다', subTitle: '시원하게 긁어드려요', imgSrc: Science },
+  { id: 2, title: '꼭꼭 숨어라', subTitle: 'ㅋㅋ안 보이는 양말세트', imgSrc: FakeSet },
+];
+
 export const getProductList = (): Promise<MockProductItemType[]> => {
   return Promise.resolve(mockProductList);
+};
+
+export const getAdProductList = (): Promise<MockProductAdItemType[]> => {
+  return Promise.resolve(adMockData);
 };
