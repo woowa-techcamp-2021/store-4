@@ -1,5 +1,5 @@
 import React from 'react';
-import { getKoreanMoneyFormat } from '../../utils/moneyFormater';
+import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import styled from 'styled-components';
 
 export type ProductItemProps = {
@@ -30,7 +30,7 @@ const ProductItem = ({ name, price, imgSrc }: ProductItemProps): React.ReactElem
     <ProductItemContainer>
       <Img src={imgSrc}></Img>
       <Name>{name}</Name>
-      <Price>{getKoreanMoneyFormat(price)}</Price>
+      <Price>{toKoreanMoneyFormat(price)}</Price>
     </ProductItemContainer>
   );
 };

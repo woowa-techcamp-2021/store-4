@@ -1,3 +1,3 @@
-export const getKoreanMoneyFormat = (amount: number): string => {
+export const toKoreanMoneyFormat = (amount: number): string => {
   return `${amount.toLocaleString()}원`;
 };
