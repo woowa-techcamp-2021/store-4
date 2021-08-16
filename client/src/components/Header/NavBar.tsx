@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from '../../lib/router';
 
@@ -27,9 +27,6 @@ const Nav = styled.nav`
 
 const NavList = styled.ul`
   list-style: none;
-  margin: 0;
-  padding: 0;
-
   display: flex;
   align-items: center;
   font-size: 12px;
@@ -44,26 +41,37 @@ const NavListItem = styled.li`
     padding: 0 10px;
   }
 
-  span {
+  .seperator {
     display: inline-block;
     width: 1px;
     height: 7px;
     background-color: #ddd;
   }
 
-  :last-child span {
+  :last-child .seperator {
     display: none;
+  }
+
+  .badge {
+    font-size: 10px;
+    line-height: 11px;
+    color: #29c1bc;
+    padding: 0 2px;
   }
 `;
 
-const NavListItems = NAV_ITEMS.map((item, index) => (
-  <NavListItem key={index}>
-    <Link to={item.path}>{item.text}</Link>
-    <span></span>
-  </NavListItem>
-));
-
 const NavBar = (): JSX.Element => {
+  const [cartItemCount, setCartItemCount] = useState(0);
+
+  const NavListItems = NAV_ITEMS.map((item, index) => (
+    <NavListItem key={index}>
+      <Link to={item.path}>
+        {item.text} {item.path === 'cart' ? <span className="badge">{cartItemCount}</span> : null}
+      </Link>
+      <span className="seperator"></span>
+    </NavListItem>
+  ));
+
   return (
     <Wrapper>
       <Nav>
