@@ -10,6 +10,7 @@ module.exports = merge(common, {
   devServer: {
     hot: true,
     port: 3000,
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({

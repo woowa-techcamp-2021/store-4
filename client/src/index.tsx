@@ -1,4 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<div>Hello</div>, document.querySelector('#root'));
+import ProductListWrapper from './components/ProductList/ProductList';
+
+ReactDOM.render(
+  <div>
+    <ProductListWrapper></ProductListWrapper>
+  </div>,
+  document.querySelector('#root')
+);
