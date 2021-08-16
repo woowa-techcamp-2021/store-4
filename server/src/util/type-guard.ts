@@ -1,4 +1,4 @@
-export const isNone = (value: unknown): boolean => {
+export const isNone = <T>(value: unknown): value is T => {
   return value === undefined || value === null;
 };
 
