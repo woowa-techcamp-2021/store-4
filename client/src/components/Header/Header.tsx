@@ -1,6 +1,6 @@
 import React from 'react';
-import NavBar from './NavBar';
-import HeaderMain from './HeaderMain';
+import NavBar from './NavBar/NavBar';
+import HeaderMain from './HeaderMain/HeaderMain';
 
 const Header = (): JSX.Element => {
   return (

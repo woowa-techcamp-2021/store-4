@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from '../../lib/router';
+import { Link } from '../../../lib/router';
 
 const NAV_ITEMS = [
   { text: '로그인', path: 'login' },
