@@ -12,10 +12,16 @@ import OrderDetailService from './order-detail-service';
 
 class ProductService {
   async findAll({ categoryId, sortOption, pageNum, limit }: FIND_OPTION): Promise<void> {
-    // const productsByCategory = await this.filterProductsByCategory(category);
-    // const productsSorted = await this.sortProducts(productsByCategory, sort);
-    // const { products, totalPages } = this.paginateProducts(productsSorted, pageNum);
-    // return { products, totalPages };
+    if (sortOption === SORT_OPTIONS['recommend']) return this.findAllWithReviewPoint();
+    if (sortOption === SORT_OPTIONS['popularity']) return this.findAllWithSalesCount();
+  }
+
+  private async findAllWithReviewPoint(): Promise<void> {
+    //
+  }
+
+  private async findAllWithSalesCount(): Promise<void> {
+    //
   }
 
   // /**
