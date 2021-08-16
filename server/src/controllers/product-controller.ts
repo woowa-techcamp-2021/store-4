@@ -9,24 +9,24 @@ type ProductRequestQuery = {
   limit?: string;
 };
 
-export enum SORT_OPTION {
-  RECOMMEND,
-  POPULARITY,
-  RECENT,
-  PRICE_LOW,
-  PRICE_HIGH,
+export enum SortOption {
+  Recommend,
+  Popularity,
+  Recent,
+  PriceLow,
+  PriceHigh,
 }
 
-export type FIND_OPTION = {
+export type FindOption = {
   categoryId: number;
-  sortOption: SORT_OPTION;
+  sortOption: SortOption;
   pageNum: number;
   limit: number;
 };
 
-const DEFAULT_OPTIONS: FIND_OPTION = {
+const DEFAULT_OPTIONS: FindOption = {
   categoryId: -1,
-  sortOption: SORT_OPTION.RECOMMEND,
+  sortOption: SortOption.Recommend,
   pageNum: 1,
   limit: 20,
 };
@@ -70,7 +70,7 @@ class ProductController {
     }
   };
 
-  private buildFindOption(query: ProductRequestQuery): FIND_OPTION {
+  private buildFindOption(query: ProductRequestQuery): FindOption {
     const { category, sort, pageNum, limit } = query;
 
     const categoryId = category === undefined ? DEFAULT_OPTIONS.categoryId : +category;
@@ -91,15 +91,15 @@ class ProductController {
   private convertSortOption(sortOptionQuery: string) {
     switch (sortOptionQuery) {
       case 'recommend':
-        return SORT_OPTION.RECOMMEND;
+        return SortOption.Recommend;
       case 'popularity':
-        return SORT_OPTION.POPULARITY;
+        return SortOption.Popularity;
       case 'recent':
-        return SORT_OPTION.RECENT;
+        return SortOption.Recent;
       case 'priceLow':
-        return SORT_OPTION.PRICE_LOW;
+        return SortOption.PriceLow;
       case 'priceHigh':
-        return SORT_OPTION.PRICE_HIGH;
+        return SortOption.PriceHigh;
       default:
         throw ERROR_TYPE.INVALID_SORT;
     }

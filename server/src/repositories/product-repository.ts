@@ -2,7 +2,7 @@ import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { ProductData } from '../dummy-data/product';
 import CategoryRepository from './category-repository';
-import { SORT_OPTION } from '../controllers/product-controller';
+import { SortOption } from '../controllers/product-controller';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
@@ -27,7 +27,7 @@ class ProductRepository extends Repository<Product> {
 
   findProducts(
     categoryId: number,
-    sortOption: SORT_OPTION,
+    sortOption: SortOption,
     pageNum: number,
     limit: number
   ): Promise<[Product[], number]> {
@@ -37,13 +37,13 @@ class ProductRepository extends Repository<Product> {
 
     let order: { [key: string]: 'ASC' | 'DESC' };
     switch (sortOption) {
-      case SORT_OPTION.RECENT:
+      case SortOption.Recent:
         order = { updatedAt: 'DESC' };
         break;
-      case SORT_OPTION.PRICE_HIGH:
+      case SortOption.PriceHigh:
         order = { price: 'DESC' };
         break;
-      case SORT_OPTION.PRICE_LOW:
+      case SortOption.PriceLow:
         order = { price: 'ASC' };
         break;
       default:
