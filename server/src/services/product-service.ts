@@ -104,7 +104,7 @@ class ProductService {
 
   private async sortBySalesCount(products: Product[]): Promise<Product[]> {
     const salesCounts = await Promise.all(
-      products.map(({ id }) => OrderDetailService.getTotalOrderCountOfProduct(id))
+      products.map(({ id }) => OrderDetailService.countTotalSalesOfProduct(id))
     );
 
     const salesCountByProductId: { [key: string]: number } = {};
