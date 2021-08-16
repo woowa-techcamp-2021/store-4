@@ -9,24 +9,24 @@ type ProductRequestQuery = {
   limit?: string;
 };
 
+export enum SORT_OPTION {
+  RECOMMEND,
+  POPULARITY,
+  RECENT,
+  PRICE_LOW,
+  PRICE_HIGH,
+}
+
 export type FIND_OPTION = {
   categoryId: number;
-  sortOption: number;
+  sortOption: SORT_OPTION;
   pageNum: number;
   limit: number;
 };
 
-export const SORT_OPTIONS: { [key: string]: number } = {
-  recommend: 0,
-  popularity: 1,
-  recent: 2,
-  priceLow: 3,
-  priceHigh: 4,
-};
-
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: FIND_OPTION = {
   categoryId: -1,
-  sortOption: SORT_OPTIONS.recommend,
+  sortOption: SORT_OPTION.RECOMMEND,
   pageNum: 1,
   limit: 20,
 };
@@ -45,7 +45,7 @@ export enum ERROR_TYPE {
 }
 
 class ProductController {
-  async getAll(req: Request, res: Response) {
+  getAll = async (req: Request, res: Response) => {
     try {
       const findOption = this.buildFindOption(req.query as ProductRequestQuery);
 
@@ -68,16 +68,16 @@ class ProductController {
           throw err;
       }
     }
-  }
+  };
 
-  buildFindOption(query: ProductRequestQuery): FIND_OPTION {
+  private buildFindOption(query: ProductRequestQuery): FIND_OPTION {
     const { category, sort, pageNum, limit } = query;
 
     const categoryId = category === undefined ? DEFAULT_OPTIONS.categoryId : +category;
     if (isNaN(categoryId)) throw ERROR_TYPE.INVALID_CATEGORY;
 
-    const sortOption = sort === undefined ? DEFAULT_OPTIONS.sortOption : SORT_OPTIONS[sort];
-    if (sortOption === undefined) throw ERROR_TYPE.INVALID_SORT;
+    const sortOption =
+      sort === undefined ? DEFAULT_OPTIONS.sortOption : this.convertSortOption(sort);
 
     const _pageNum = pageNum === undefined ? DEFAULT_OPTIONS.pageNum : +pageNum;
     if (isNaN(_pageNum)) throw ERROR_TYPE.INVALID_PAGE;
@@ -86,6 +86,23 @@ class ProductController {
     if (isNaN(_limit)) throw ERROR_TYPE.INVALID_LIMIT;
 
     return { categoryId, sortOption, pageNum: _pageNum, limit: _limit };
+  }
+
+  private convertSortOption(sortOptionQuery: string) {
+    switch (sortOptionQuery) {
+      case 'recommend':
+        return SORT_OPTION.RECOMMEND;
+      case 'popularity':
+        return SORT_OPTION.POPULARITY;
+      case 'recent':
+        return SORT_OPTION.RECENT;
+      case 'priceLow':
+        return SORT_OPTION.PRICE_LOW;
+      case 'priceHigh':
+        return SORT_OPTION.PRICE_HIGH;
+      default:
+        throw ERROR_TYPE.INVALID_SORT;
+    }
   }
 }
 
