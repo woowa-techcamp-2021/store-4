@@ -1,18 +1,18 @@
 import { getCustomRepository } from 'typeorm';
 import Product from '../models/product';
 import ProductRepository from '../repositories/product-repository';
-import { ProductResponse, FIND_OPTION, SORT_OPTION } from '../controllers/product-controller';
+import { ProductResponse, FindOption, SortOption } from '../controllers/product-controller';
 import ReviewService from './review-service';
 import OrderDetailService from './order-detail-service';
 
 class ProductService {
-  async findAll({ categoryId, sortOption, pageNum, limit }: FIND_OPTION): Promise<ProductResponse> {
+  async findAll({ categoryId, sortOption, pageNum, limit }: FindOption): Promise<ProductResponse> {
     const productRepository = getCustomRepository(ProductRepository);
-    if (sortOption === SORT_OPTION.RECOMMEND || sortOption === SORT_OPTION.POPULARITY) {
+    if (sortOption === SortOption.Recommend || sortOption === SortOption.Popularity) {
       const where = categoryId === -1 ? {} : { category: categoryId };
       const products = await productRepository.find({ where });
 
-      if (sortOption === SORT_OPTION.RECOMMEND)
+      if (sortOption === SortOption.Recommend)
         return this.findAllAndSortByReviewPoint(products, pageNum, limit);
       else return this.findAllAndSortBySalesCount(products, pageNum, limit);
     }
