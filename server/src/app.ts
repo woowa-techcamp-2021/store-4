@@ -3,7 +3,7 @@ import dotenv from './config/dotenv';
 import Loaders from './loaders';
 import apiRouter from './routers/api';
 import authRouter from './routers/auth';
-import errorMiddleware from './middlewares/error.middleware';
+import errorMiddleware from './middlewares/error-middleware';
 
 const app = express();
 
