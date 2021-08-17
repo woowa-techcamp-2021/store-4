@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "target": "ES5",
     "noEmit": true,
     "isolatedModules": true,
     "noImplicitAny": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src/", "module.d.ts"]
 }
