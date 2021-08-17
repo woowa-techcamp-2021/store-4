@@ -31,15 +31,14 @@ const CategoryMenu = (): JSX.Element => {
     () => setShowLayer(!showLayer),
     [showLayer, setShowLayer]
   );
+  const closeLayer = useCallback(() => {
+    if (showLayer) setShowLayer(false);
+  }, [showLayer, setShowLayer]);
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOnShowLayer);
-
-    function handleClickOnShowLayer() {
-      if (showLayer) setShowLayer(false);
-    }
-    return () => document.removeEventListener('click', handleClickOnShowLayer);
-  }, [showLayer, setShowLayer]);
+    document.addEventListener('click', closeLayer);
+    return () => document.removeEventListener('click', closeLayer);
+  }, [closeLayer]);
 
   return (
     <Wrapper>
