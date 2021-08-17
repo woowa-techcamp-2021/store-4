@@ -16,6 +16,10 @@ class JwtService {
   decode(token: string) {
     return jwt.decode(token) as CustomJwtPayload;
   }
+
+  verify(token: string) {
+    return jwt.verify(token, dotenv.JWT_SECRET) as CustomJwtPayload;
+  }
 }
 
 export default new JwtService();
