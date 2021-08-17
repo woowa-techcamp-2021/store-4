@@ -74,6 +74,7 @@ const ProductList = (): React.ReactElement => {
   const productItemList = productListResponse?.productList.map((product) => (
     <ProductItemContainer
       key={product.id}
+      id={product.id}
       name={product.name}
       price={product.price}
       imgSrc={product.imgSrc}

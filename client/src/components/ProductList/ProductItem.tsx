@@ -1,8 +1,10 @@
 import React from 'react';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import styled from 'styled-components';
+import { Link } from '../../lib/router';
 
 export type ProductItemProps = {
+  id: number;
   name: string;
   price: number;
   imgSrc: string;
@@ -25,13 +27,15 @@ const Img = styled.img`
 const Name = styled.div``;
 const Price = styled.div``;
 
-const ProductItem = ({ name, price, imgSrc }: ProductItemProps): React.ReactElement => {
+const ProductItem = ({ id, name, price, imgSrc }: ProductItemProps): React.ReactElement => {
   return (
-    <ProductItemContainer>
-      <Img src={imgSrc}></Img>
-      <Name>{name}</Name>
-      <Price>{toKoreanMoneyFormat(price)}</Price>
-    </ProductItemContainer>
+    <Link to={`/product/${id}`}>
+      <ProductItemContainer>
+        <Img src={imgSrc}></Img>
+        <Name>{name}</Name>
+        <Price>{toKoreanMoneyFormat(price)}</Price>
+      </ProductItemContainer>
+    </Link>
   );
 };
 
