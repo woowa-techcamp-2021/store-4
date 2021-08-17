@@ -38,7 +38,7 @@ const SearchButton = styled.button`
 const SearchBar = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const handleSearchInputChange = useCallback(
-    (e) => setSearchTerm(e.target.value),
+    (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
     [setSearchTerm]
   );
 
