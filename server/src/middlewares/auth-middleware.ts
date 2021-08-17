@@ -17,7 +17,7 @@ const authMiddleware =
 
     const { authorization } = req.headers;
     if (isNone(authorization)) {
-      throw new InvalidTokenException('토큰 정보가 옳바르지 않습니다.');
+      throw new InvalidTokenException('토큰 정보가 올바르지 않습니다.');
     }
 
     try {
@@ -26,9 +26,9 @@ const authMiddleware =
       next();
     } catch (error) {
       if (error instanceof TokenExpiredError) {
-        throw new TokenExpiredException('토큰이 만료됬습니다.');
+        throw new TokenExpiredException('토큰이 만료됐습니다.');
       } else {
-        throw new InvalidTokenException('토큰 정보가 옳바르지 않습니다.');
+        throw new InvalidTokenException('토큰 정보가 올바르지 않습니다.');
       }
     }
   };
