@@ -1,8 +1,8 @@
 class Category {
-  id!: number;
-  name!: string;
-  parentCategory!: Category | null;
-  childCategories!: Category[];
+  id: number;
+  name: string;
+  parentCategory: Category | null;
+  childCategories: Category[];
 
   constructor(data: Category) {
     this.id = data.id;
