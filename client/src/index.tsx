@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import ProductListWrapper from './components/ProductList/ProductList';
+import Header from './components/Header/Header';
+import Login from './components/login/Login';
+import { Router, Route } from './lib/router';
 
 ReactDOM.render(
-  <div>
-    <ProductListWrapper></ProductListWrapper>
-  </div>,
+  <Router>
+    <Header />
+    <Route path="/login">
+      <Login />
+    </Route>
+  </Router>,
   document.querySelector('#root')
 );
