@@ -31,6 +31,14 @@ const DEFAULT_OPTIONS: FindOption = {
   limit: 20,
 };
 
+const MATCH_SORT_OPTION: { [key: string]: SortOption } = {
+  recommend: SortOption.Recommend,
+  popularity: SortOption.Popularity,
+  recent: SortOption.Recent,
+  priceLow: SortOption.PriceLow,
+  priceHigh: SortOption.PriceHigh,
+};
+
 export type ProductResponse = {
   products: Product[];
   totalPages: number;
@@ -89,20 +97,10 @@ class ProductController {
   }
 
   private convertSortOption(sortOptionQuery: string) {
-    switch (sortOptionQuery) {
-      case 'recommend':
-        return SortOption.Recommend;
-      case 'popularity':
-        return SortOption.Popularity;
-      case 'recent':
-        return SortOption.Recent;
-      case 'priceLow':
-        return SortOption.PriceLow;
-      case 'priceHigh':
-        return SortOption.PriceHigh;
-      default:
-        throw ERROR_TYPE.INVALID_SORT;
-    }
+    const sortOption = MATCH_SORT_OPTION[sortOptionQuery];
+    if (sortOption === undefined) throw ERROR_TYPE.INVALID_SORT;
+
+    return sortOption;
   }
 }
 
