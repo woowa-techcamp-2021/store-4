@@ -1,3 +1,5 @@
+import { isNotNone } from '../utils/typeGuard';
+
 class Category {
   id: number;
   name: string;
@@ -8,7 +10,14 @@ class Category {
     this.id = data.id;
     this.name = data.name;
     this.parentCategory = data.parentCategory && new Category(data.parentCategory);
-    this.childCategories = data.childCategories.map((childCategory) => new Category(childCategory));
+
+    if (isNotNone(data.childCategories)) {
+      this.childCategories = data.childCategories.map(
+        (childCategory) => new Category(childCategory)
+      );
+    } else {
+      this.childCategories = [];
+    }
   }
 
   get isRoot(): boolean {
