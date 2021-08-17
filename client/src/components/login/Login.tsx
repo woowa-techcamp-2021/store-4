@@ -10,7 +10,7 @@ enum OAuthType {
 }
 
 const Header = styled.h1`
-  font-size: 24px;
+  font-size: ${(props) => props.theme.fontSize.large};
   font-weight: normal;
 `;
 
