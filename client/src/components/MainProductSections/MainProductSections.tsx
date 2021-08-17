@@ -14,16 +14,16 @@ const MainProductSectionsContainer = styled.div`
   gap: 60px;
 `;
 
-enum FILTER_OPTION {
+enum FilterOption {
   RECENT = 'recent',
   DISCOUNT = 'discount',
   MOST_SALES = 'mostSales',
 }
 
 const SECTION_TITLE = {
-  [FILTER_OPTION.MOST_SALES]: '잘나가요',
-  [FILTER_OPTION.RECENT]: '새로 나왔어요',
-  [FILTER_OPTION.DISCOUNT]: '지금 할인 중',
+  [FilterOption.MOST_SALES]: '잘나가요',
+  [FilterOption.RECENT]: '새로 나왔어요',
+  [FilterOption.DISCOUNT]: '지금 할인 중',
 };
 
 const AD_TITLE = '선물하기 딱 좋아요!';
@@ -37,7 +37,7 @@ const descendingDiscountRate = (a: MockProductItemType, b: MockProductItemType) 
 };
 
 const MainProductSections = (): React.ReactElement => {
-  const { MOST_SALES, RECENT, DISCOUNT } = FILTER_OPTION;
+  const { MOST_SALES, RECENT, DISCOUNT } = FilterOption;
 
   const productList = useProductList();
   const productAdList = useProductAdList();
