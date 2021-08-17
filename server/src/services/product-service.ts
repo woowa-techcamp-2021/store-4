@@ -4,6 +4,11 @@ import ProductRepository from '../repositories/product-repository';
 import { ProductResponse, FindOption, SortOption } from '../controllers/product-controller';
 import ReviewService from './review-service';
 import OrderDetailService from './order-detail-service';
+import PageOverflowException from '../exceptions/page-overflow-exception';
+
+const ERROR_MESSAGES = {
+  PAGE_OVERFLOW: '요청한 페이지가 전체 페이지 수를 초과했습니다',
+};
 
 class ProductService {
   async findAll({ categoryId, sortOption, pageNum, limit }: FindOption): Promise<ProductResponse> {
@@ -12,9 +17,11 @@ class ProductService {
       const where = categoryId === -1 ? {} : { category: categoryId };
       const products = await productRepository.find({ where });
 
-      if (sortOption === SortOption.Recommend)
+      if (sortOption === SortOption.Recommend) {
         return this.findAllAndSortByReviewPoint(products, pageNum, limit);
-      else return this.findAllAndSortBySalesCount(products, pageNum, limit);
+      } else {
+        return this.findAllAndSortBySalesCount(products, pageNum, limit);
+      }
     }
 
     const [products, totalCount] = await productRepository.findProducts(
@@ -25,6 +32,10 @@ class ProductService {
     );
 
     const totalPages = Math.ceil(totalCount / limit);
+
+    if (pageNum > totalPages) {
+      throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
+    }
 
     return { products, totalPages };
   }
@@ -45,6 +56,10 @@ class ProductService {
     const skip = (pageNum - 1) * limit;
     const totalPages = Math.ceil(products.length / limit);
 
+    if (pageNum > totalPages) {
+      throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
+    }
+
     return { products: products.slice(skip, skip + limit), totalPages };
   }
 
@@ -63,6 +78,10 @@ class ProductService {
 
     const skip = (pageNum - 1) * limit;
     const totalPages = Math.ceil(products.length / limit);
+
+    if (pageNum > totalPages) {
+      throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
+    }
 
     return { products: products.slice(skip, skip + limit), totalPages };
   }
