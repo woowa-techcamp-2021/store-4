@@ -7,7 +7,7 @@ class OrderDetail {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ name: 'discount_rate', type: 'tinyint' })
+  @Column({ name: 'discount_rate', type: 'tinyint', default: 0 })
   discountRate!: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 0 })
@@ -24,7 +24,7 @@ class OrderDetail {
     nullable: false,
   })
   @JoinColumn({ name: 'order_id' })
-  order!: Order[];
+  order!: Order;
 
   @ManyToOne(() => Product, (product) => product.orderDetails, {
     onDelete: 'SET NULL',

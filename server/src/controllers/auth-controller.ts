@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import googleAuth from '../third-party-auth/google';
 import facebookAuth from '../third-party-auth/facebook';
-import jwtService from '../services/jwt.service';
-import userService from '../services/user.service';
+import jwtService from '../services/jwt-service';
+import userService from '../services/user-service';
 import dotenv from '../config/dotenv';
 
 class AuthController {

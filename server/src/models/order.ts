@@ -8,7 +8,7 @@ class Order extends Timestamp {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 0 })
+  @Column({ name: 'total_price', type: 'decimal', precision: 10, scale: 0 })
   totalPrice!: number;
 
   @Column()
