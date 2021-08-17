@@ -28,8 +28,8 @@ const Wrapper = styled.div`
 const CategoryMenu = (): JSX.Element => {
   const [showLayer, setShowLayer] = useState(false);
   const handleLayerButtonClick = useCallback(
-    () => setShowLayer(!showLayer),
-    [showLayer, setShowLayer]
+    () => setShowLayer((prevShowLayer) => !prevShowLayer),
+    [setShowLayer]
   );
   const closeLayer = useCallback(() => {
     if (showLayer) setShowLayer(false);
