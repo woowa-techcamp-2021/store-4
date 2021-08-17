@@ -10,7 +10,7 @@ type HTTPErrors = {
 
 const errors: { [key: string]: HTTPErrors } = {
   [InvalidTokenException.name]: { status: 401 },
-  [TokenExpiredException.name]: { status: 401 },
+  [TokenExpiredException.name]: { status: 410 },
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {
