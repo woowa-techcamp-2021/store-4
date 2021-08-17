@@ -4,7 +4,8 @@ import theme from '../../styles/theme';
 import GlobalStyle from '../../styles/global';
 import { Route, Router, Switch } from '../../lib/router';
 import Header from '../Header/Header';
-import Login from '../login/Login';
+import HomePage from '../../pages/Home';
+import LoginPage from '../../pages/Login';
 
 const App = (): JSX.Element => {
   return (
@@ -13,7 +14,8 @@ const App = (): JSX.Element => {
       <Router>
         <Header />
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={LoginPage} />
         </Switch>
       </Router>
     </ThemeProvider>
