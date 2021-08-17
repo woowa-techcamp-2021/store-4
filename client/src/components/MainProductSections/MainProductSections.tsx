@@ -63,10 +63,10 @@ const MainProductSections = (): React.ReactElement => {
 
   return (
     <MainProductSectionsContainer>
-      <MainProductList {...filteredDatas[FILTER_OPTION.MOST_SALES]} />
-      <MainProductList {...filteredDatas[FILTER_OPTION.RECENT]} />
+      <MainProductList {...filteredDatas[MOST_SALES]} />
+      <MainProductList {...filteredDatas[RECENT]} />
       <MainAdList title={AD_TITLE} products={productAdList} />
-      <MainProductList {...filteredDatas[FILTER_OPTION.DISCOUNT]} />
+      <MainProductList {...filteredDatas[DISCOUNT]} />
     </MainProductSectionsContainer>
   );
 };
