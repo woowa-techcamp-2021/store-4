@@ -15,15 +15,15 @@ const MainProductSectionsContainer = styled.div`
 `;
 
 enum FilterOption {
-  RECENT = 'recent',
-  DISCOUNT = 'discount',
-  MOST_SALES = 'mostSales',
+  MostSales = 'mostSales',
+  Recent = 'recent',
+  Discount = 'discount',
 }
 
 const SECTION_TITLE = {
-  [FilterOption.MOST_SALES]: '잘나가요',
-  [FilterOption.RECENT]: '새로 나왔어요',
-  [FilterOption.DISCOUNT]: '지금 할인 중',
+  [FilterOption.MostSales]: '잘나가요',
+  [FilterOption.Recent]: '새로 나왔어요',
+  [FilterOption.Discount]: '지금 할인 중',
 };
 
 const AD_TITLE = '선물하기 딱 좋아요!';
@@ -37,7 +37,7 @@ const descendingDiscountRate = (a: MockProductItemType, b: MockProductItemType) 
 };
 
 const MainProductSections = (): React.ReactElement => {
-  const { MOST_SALES, RECENT, DISCOUNT } = FilterOption;
+  const { MostSales, Recent, Discount } = FilterOption;
 
   const productList = useProductList();
   const productAdList = useProductAdList();
@@ -47,26 +47,26 @@ const MainProductSections = (): React.ReactElement => {
   const discountProductList = [...productList].sort(descendingDiscountRate).slice(0, 8);
 
   const filteredDatas = {
-    [MOST_SALES]: {
-      title: SECTION_TITLE[MOST_SALES],
+    [MostSales]: {
+      title: SECTION_TITLE[MostSales],
       products: mostSalesProductList,
     },
-    [RECENT]: {
-      title: SECTION_TITLE[RECENT],
+    [Recent]: {
+      title: SECTION_TITLE[Recent],
       products: recentProductList,
     },
-    [DISCOUNT]: {
-      title: SECTION_TITLE[DISCOUNT],
+    [Discount]: {
+      title: SECTION_TITLE[Discount],
       products: discountProductList,
     },
   };
 
   return (
     <MainProductSectionsContainer>
-      <MainProductList {...filteredDatas[MOST_SALES]} />
-      <MainProductList {...filteredDatas[RECENT]} />
+      <MainProductList {...filteredDatas[MostSales]} />
+      <MainProductList {...filteredDatas[Recent]} />
       <MainAdList title={AD_TITLE} products={productAdList} />
-      <MainProductList {...filteredDatas[DISCOUNT]} />
+      <MainProductList {...filteredDatas[Discount]} />
     </MainProductSectionsContainer>
   );
 };
