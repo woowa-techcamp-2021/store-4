@@ -21,7 +21,7 @@ type MainAdListProps = {
 const MainAdList = (props: MainAdListProps): JSX.Element => {
   const { title, products } = props;
   const MainAdListItems = products.map((product) => (
-    <MainAdListItem key={product.id} {...product} />
+    <MainAdListItem key={product.id} product={product} />
   ));
   return (
     <MainAdListContainer>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { MockProductAdItemType } from '../mock';
 
 const MainAdListItemContainer = styled.div`
   display: flex;
@@ -23,14 +24,11 @@ const SubTitle = styled.div`
 `;
 
 type MainAddListItemProps = {
-  id: number;
-  title: string;
-  subTitle: string;
-  imgSrc: string;
+  product: MockProductAdItemType;
 };
 
 const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
-  const { title, subTitle, imgSrc } = props;
+  const { title, subTitle, imgSrc } = props.product;
   return (
     <MainAdListItemContainer>
       <ImageWrapper>
