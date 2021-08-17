@@ -1,21 +1,6 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
+import apis from '../api';
 import Category from '../models/category';
-
-const fetchCategoriesAPI = () => {
-  return new Promise((res) => {
-    setTimeout(() => {
-      res({
-        categories: [
-          {
-            id: 1,
-            name: '',
-            childCategories: [],
-          },
-        ],
-      });
-    }, 1000);
-  });
-};
 
 class CategoryStore {
   @observable
@@ -27,7 +12,7 @@ class CategoryStore {
 
   @action
   async fetchCategories() {
-    const { categories } = (await fetchCategoriesAPI()) as any;
+    const { categories } = await apis.categoryAPI.fetchCategories();
 
     runInAction(() => {
       this.categories = categories.map((category: Category) => new Category(category));
