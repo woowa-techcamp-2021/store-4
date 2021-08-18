@@ -21,3 +21,8 @@ jobs:
         working-directory: client
       - run: npx tsc
         working-directory: client
+
+      - run: npm ci
+        working-directory: server
+      - run: npx tsc
+        working-directory: server
