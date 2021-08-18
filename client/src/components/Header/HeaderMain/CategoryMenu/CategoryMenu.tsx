@@ -1,28 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import menuIcon from './menuIcon.png';
+import MENU_ICON from './menuIcon.png';
 import CategoryLayer from './CategoryLayer';
 
-const Wrapper = styled.div`
+const CATEGORY_BUTTON_TEXT = '전체 카테고리';
+
+const Container = styled.div`
   position: relative;
+`;
 
-  .button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+const CategoryMenuButton = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 
-    .icon {
-      width: 20px;
-      height: auto;
+const CategoryMenuButtonIcon = styled.img`
+  width: 20px;
+  height: auto;
+  margin-right: 8px;
+`;
 
-      margin-right: 8px;
-    }
-
-    .text {
-      font-size: 14px;
-      color: #333;
-    }
-  }
+const CategoryMenuButtonText = styled.span`
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.color.grey5};
 `;
 
 const CategoryMenu = (): JSX.Element => {
@@ -41,13 +42,13 @@ const CategoryMenu = (): JSX.Element => {
   }, [closeLayer]);
 
   return (
-    <Wrapper>
-      <div className="button" onClick={handleLayerButtonClick}>
-        <img className="icon" src={menuIcon} />
-        <span className="text">전체 카테고리</span>
-      </div>
-      {showLayer ? <CategoryLayer /> : null}
-    </Wrapper>
+    <Container>
+      <CategoryMenuButton onClick={handleLayerButtonClick}>
+        <CategoryMenuButtonIcon src={MENU_ICON} />
+        <CategoryMenuButtonText>{CATEGORY_BUTTON_TEXT}</CategoryMenuButtonText>
+      </CategoryMenuButton>
+      {showLayer && <CategoryLayer />}
+    </Container>
   );
 };
 
