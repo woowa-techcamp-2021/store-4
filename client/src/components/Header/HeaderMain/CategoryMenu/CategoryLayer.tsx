@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { categories } from './dummy';
+import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
+import Category from '../../../../models/category';
 
 const Container = styled.div`
   position: absolute;
@@ -38,7 +39,13 @@ const CategoryListItem = styled.li<CategoryListItemProps>`
     props.isCurrent ? props.theme.color.white2 : props.theme.color.white1};
 `;
 
-const CategoryLayer = (): JSX.Element => {
+export type Props = {
+  categories: Category[];
+  onCategoryClick: CategoryClickHandler;
+};
+
+const CategoryLayer = (props: Props): JSX.Element => {
+  const { categories, onCategoryClick } = props;
   const rootCategories = categories.filter(({ parentCategory }) => parentCategory === null);
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
 
@@ -47,13 +54,14 @@ const CategoryLayer = (): JSX.Element => {
       key={category.id}
       isCurrent={category.id === currentCategory.id}
       onMouseEnter={() => setCurrentCategory(category)}
+      onClick={() => onCategoryClick(category)}
     >
       {category.name}
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem isCurrent={true} key={category.id}>
+    <CategoryListItem isCurrent={true} key={category.id} onClick={() => onCategoryClick(category)}>
       {category.name}
     </CategoryListItem>
   ));

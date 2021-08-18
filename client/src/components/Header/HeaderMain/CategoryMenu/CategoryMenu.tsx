@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MENU_ICON from './menuIcon.png';
-import CategoryLayer from './CategoryLayer';
+import CategoryLayerContainer from '../../../../containers/CategoryLayerContainer';
 
 const CATEGORY_BUTTON_TEXT = '전체 카테고리';
 
@@ -47,7 +47,7 @@ const CategoryMenu = (): JSX.Element => {
         <CategoryMenuButtonIcon src={MENU_ICON} />
         <CategoryMenuButtonText>{CATEGORY_BUTTON_TEXT}</CategoryMenuButtonText>
       </CategoryMenuButton>
-      {showLayer && <CategoryLayer />}
+      {showLayer && <CategoryLayerContainer />}
     </Container>
   );
 };
