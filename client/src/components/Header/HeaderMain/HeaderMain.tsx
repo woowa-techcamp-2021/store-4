@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
-import Logo from './logo.png';
+import LOGO from './logo.png';
 import SearchBar from './SearchBar/SearchBar';
 
 const LOGO_SIZE = 160;
@@ -37,7 +37,7 @@ const HeaderMain = (): JSX.Element => {
     <Container>
       <CategoryMenu />
       <LogoContainer>
-        <LogoImage src={Logo} />
+        <LogoImage src={LOGO} />
       </LogoContainer>
       <SearchBar />
     </Container>
