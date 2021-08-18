@@ -14,6 +14,7 @@ export type ProductItemType = {
 };
 
 export enum ProductListOrder {
+  Recommend,
   Popularity,
   Recent,
   PriceLow,
