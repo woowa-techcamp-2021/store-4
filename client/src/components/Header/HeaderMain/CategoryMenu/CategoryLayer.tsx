@@ -46,7 +46,7 @@ export type Props = {
 
 const CategoryLayer = (props: Props): JSX.Element => {
   const { categories, onCategoryClick } = props;
-  const rootCategories = categories.filter(({ parentCategory }) => parentCategory === null);
+  const rootCategories = categories.filter((category) => category.isRoot);
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
 
   const rootItems = rootCategories.map((category) => (
