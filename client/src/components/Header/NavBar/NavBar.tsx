@@ -9,13 +9,14 @@ const NAV_ITEMS = [
   { text: '마이페이지', path: 'my' },
   { text: '장바구니', path: CART_PATH },
 ];
+const NAV_BAR_HEIGHT = 40;
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: ${NAV_BAR_HEIGHT}px;
   border-bottom: 1px solid ${(props) => props.theme.color.grey1};
 `;
 

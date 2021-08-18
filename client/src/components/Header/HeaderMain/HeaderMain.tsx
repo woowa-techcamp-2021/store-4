@@ -5,6 +5,7 @@ import Logo from './logo.png';
 import SearchBar from './SearchBar/SearchBar';
 
 const LOGO_SIZE = 160;
+const HEADER_HEIGHT = 100;
 
 const Container = styled.div`
   position: relative;
@@ -12,7 +13,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: ${(props) => props.theme.device.desktop};
-  height: 100px;
+  height: ${HEADER_HEIGHT}px;
   margin: 0 auto;
   padding: 0 50px;
 `;
