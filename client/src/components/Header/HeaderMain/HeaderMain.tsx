@@ -1,17 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
-import logo from './logo.png';
+import Logo from './logo.png';
 import SearchBar from './SearchBar/SearchBar';
 
-const Wrapper = styled.div`
+const LOGO_SIZE = 160;
+
+const Container = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1100px;
+  width: ${(props) => props.theme.device.desktop};
   height: 100px;
   margin: 0 auto;
+  padding: 0 50px;
 `;
 
 const LogoContainer = styled.div`
@@ -19,24 +22,24 @@ const LogoContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 160px;
+  width: ${LOGO_SIZE}px;
+`;
 
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
+const LogoImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 `;
 
 const HeaderMain = (): JSX.Element => {
   return (
-    <Wrapper>
+    <Container>
       <CategoryMenu />
       <LogoContainer>
-        <img src={logo} />
+        <LogoImage src={Logo} />
       </LogoContainer>
       <SearchBar />
-    </Wrapper>
+    </Container>
   );
 };
 
