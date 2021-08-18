@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import useInfiniteSlide from './hooks/useInfiniteSlide';
 import styled from 'styled-components';
 import CarouselController from './CarouselController';
 import CarouselItem from './CarouselItem';
@@ -23,15 +22,6 @@ type Props = {
 const Carousel = (props: Props): JSX.Element => {
   const { images } = props;
   const [currentIndex, setIndex] = useState(0);
-  const handleInfiniteSlide = useCallback(() => {
-    if (images.length === currentIndex + 1) {
-      setIndex(0);
-      return;
-    }
-    setIndex(currentIndex + 1);
-  }, [currentIndex, setIndex, images.length]);
-
-  useInfiniteSlide(currentIndex, handleInfiniteSlide, 2000);
 
   const handleDotClick = useCallback(
     (index: number) => () => {
