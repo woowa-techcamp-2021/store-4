@@ -1,14 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import { useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import MagnifierImage from './MagnifierImage';
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+`;
 
 const ImageSelectorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-right: 40px;
 `;
 
 type ImageSelectorProps = { isSelected: boolean };
@@ -17,12 +21,9 @@ const ImageSelector = styled.img<ImageSelectorProps>`
   width: 80px;
   height: 80px;
   object-fit: contain;
+  cursor: pointer;
 
-  ${(props) =>
-    props.isSelected &&
-    css`
-      border: 2px solid ${props.theme.color.mint2};
-    `}
+  border: 2px solid ${(props) => (props.isSelected ? props.theme.color.mint2 : 'transparent')};
 `;
 
 type Props = {
@@ -52,6 +53,7 @@ const ProductDetailImages = (props: Props): JSX.Element => {
   return (
     <Container>
       <ImageSelectorWrapper>{ImageSelectors}</ImageSelectorWrapper>
+      <MagnifierImage image={images[selectedImageIndex]} />
     </Container>
   );
 };

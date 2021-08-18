@@ -34,7 +34,8 @@ const MagnifierPointer = styled.div`
   position: absolute;
   width: ${MAGNIFIER_POINTER.WIDTH}px;
   height: ${MAGNIFIER_POINTER.HEIGHT}px;
-  background-color: ${(props) => props.theme.color.grey4};
+  background-color: ${(props) => props.theme.color.grey1};
+  border: 1px solid ${(props) => props.theme.color.grey4};
   opacity: 0.4;
 `;
 
@@ -51,6 +52,7 @@ const MagnifiedViewer = styled.div<MagnifiedViewerProps>`
   background-color: red;
   width: ${MAGNIFIED_IMAGE_VIEWER.WIDTH}px;
   height: ${MAGNIFIED_IMAGE_VIEWER.HEIGHT}px;
+  border-radius: 8px;
 `;
 
 type MagnifyWrapperProps = {
