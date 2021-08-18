@@ -3,8 +3,10 @@ import { Option } from '../types/option';
 import { ProductListOrder } from '../types/product';
 
 const DEFAULT_OPTION: Option = {
+  categoryId: null,
   sortOption: ProductListOrder.Recommend,
   pageNum: 1,
+  searchTerm: null,
 };
 
 class OptionStore {
