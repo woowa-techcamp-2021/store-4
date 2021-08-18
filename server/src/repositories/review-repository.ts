@@ -3,7 +3,7 @@ import Review from '../models/review';
 
 @EntityRepository(Review)
 class ReviewRepository extends Repository<Review> {
-  async findByProduct(product: string): Promise<Review[]> {
+  async findByProduct(product: number): Promise<Review[]> {
     return createQueryBuilder(Review).where({ product }).getMany();
   }
 }
