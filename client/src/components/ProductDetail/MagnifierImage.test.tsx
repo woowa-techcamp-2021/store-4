@@ -4,7 +4,7 @@ import provideTheme2Test from '../../lib/provideTheme2Test';
 import MagnifierImage from './MagnifierImage';
 import userEvent from '@testing-library/user-event';
 
-describe('Login 컴포넌트', () => {
+describe('MagnifierImage 컴포넌트', () => {
   beforeEach(() => {
     render(provideTheme2Test(<MagnifierImage image="" />));
   });

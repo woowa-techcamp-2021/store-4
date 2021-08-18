@@ -172,7 +172,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image src={image} />
+        <Image data-testid="selected-image" src={image} />
         {isMagnifierVisible && (
           <MagnifyWrapper data-testid="magnifier">
             <MagnifierPointer ref={magnifier} />
