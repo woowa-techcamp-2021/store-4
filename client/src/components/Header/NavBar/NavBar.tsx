@@ -46,15 +46,14 @@ const Badge = styled.span`
   padding: 0 2px;
 `;
 
-const Seperator = styled.span`
-  display: inline-block;
+type SeperatorProps = {
+  isLastItem: boolean;
+};
+const Seperator = styled.span<SeperatorProps>`
+  display: ${(props) => (props.isLastItem ? 'none' : '')};
   width: 1px;
   height: 7px;
   background-color: ${(props) => props.theme.color.grey2};
-
-  &:last-child {
-    display: none;
-  }
 `;
 
 const NavBar = (): JSX.Element => {
@@ -68,7 +67,7 @@ const NavBar = (): JSX.Element => {
           {item.text} {item.path === CART_PATH && <Badge>{cartItemCount}</Badge>}
         </Link>
       </NavListItem>
-      <Seperator />
+      <Seperator isLastItem={index === NAV_ITEMS.length - 1} />
     </React.Fragment>
   ));
 
