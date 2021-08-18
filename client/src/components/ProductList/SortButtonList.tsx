@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SortButton } from '../../../containers/ProductListContainer';
-import { ProductListOrder } from '../../../types/product';
+import { SortButton } from '../../containers/ProductListContainer';
+import { ProductListOrder } from '../../types/product';
 
 const Container = styled.div``;
 
