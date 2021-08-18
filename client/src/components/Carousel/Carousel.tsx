@@ -18,12 +18,13 @@ export type CarouselImage = {
 
 type Props = {
   images: CarouselImage[];
+  interval: number;
 };
 
 const useInfiniteSlide = generateUseInfiniteSlide();
 
 const Carousel = (props: Props): JSX.Element => {
-  const { images } = props;
+  const { images, interval } = props;
   const [currentIndex, setIndex] = useState(0);
 
   const handleInfiniteSlide = useCallback(() => {
@@ -34,7 +35,7 @@ const Carousel = (props: Props): JSX.Element => {
     setIndex(currentIndex + 1);
   }, [currentIndex, setIndex, images.length]);
 
-  useInfiniteSlide(currentIndex, handleInfiniteSlide, 2000);
+  useInfiniteSlide(currentIndex, handleInfiniteSlide, interval);
 
   const handleDotClick = useCallback(
     (index: number) => () => {

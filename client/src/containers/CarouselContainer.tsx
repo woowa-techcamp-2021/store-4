@@ -10,8 +10,10 @@ const mockImages = [
   { index: 2, src: Beer },
 ];
 
+const CAROUSEL_INTERVAL_TIME = 2000;
+
 const CarouselContainer = (): JSX.Element => {
-  return <Carousel images={mockImages} />;
+  return <Carousel images={mockImages} interval={CAROUSEL_INTERVAL_TIME} />;
 };
 
 export default CarouselContainer;
