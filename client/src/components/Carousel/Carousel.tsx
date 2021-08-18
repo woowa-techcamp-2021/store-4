@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import CarouselController from './CarouselController';
 import CarouselItem from './CarouselItem';
+import generateUseInfiniteSlide from './hooks/useInfiniteSlide';
 
 const Container = styled.div`
   position: relative;
@@ -19,9 +20,21 @@ type Props = {
   images: CarouselImage[];
 };
 
+const useInfiniteSlide = generateUseInfiniteSlide();
+
 const Carousel = (props: Props): JSX.Element => {
   const { images } = props;
   const [currentIndex, setIndex] = useState(0);
+
+  const handleInfiniteSlide = useCallback(() => {
+    if (images.length === currentIndex + 1) {
+      setIndex(0);
+      return;
+    }
+    setIndex(currentIndex + 1);
+  }, [currentIndex, setIndex, images.length]);
+
+  useInfiniteSlide(currentIndex, handleInfiniteSlide, 2000);
 
   const handleDotClick = useCallback(
     (index: number) => () => {
