@@ -1,3 +1,10 @@
+import Product from '../models/product';
+
+export type ProductResponse = {
+  products: Product[];
+  totalPages: number;
+};
+
 export type ProductListResponseType = {
   totalProductCount: number;
   totalPage: number;
