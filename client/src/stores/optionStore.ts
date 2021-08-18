@@ -9,16 +9,39 @@ const DEFAULT_OPTION: Option = {
   searchTerm: null,
 };
 
+const SORT_OPTION: { [key: string]: ProductListOrder } = {
+  recommend: ProductListOrder.Recommend,
+  popularity: ProductListOrder.Popularity,
+  recent: ProductListOrder.Recent,
+  priceHigh: ProductListOrder.PriceHigh,
+  priceLow: ProductListOrder.PriceLow,
+};
+
 class OptionStore {
   @observable
-  option: Option = DEFAULT_OPTION;
+  option: Option;
 
   constructor() {
     makeAutoObservable(this);
+    this.option = this.parseQueryToOption();
+  }
+
+  private resetOption = () => (this.option = DEFAULT_OPTION);
+
+  private parseQueryToOption() {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    const categoryId = +(queryParams.get('category') || '') || DEFAULT_OPTION.categoryId;
+    const sortOption = SORT_OPTION[queryParams.get('sort') || ''] || DEFAULT_OPTION.sortOption;
+    const pageNum = +(queryParams.get('pageNum') || '') || DEFAULT_OPTION.pageNum;
+    const searchTerm = queryParams.get('search') || DEFAULT_OPTION.searchTerm;
+
+    return { categoryId, sortOption, pageNum, searchTerm };
   }
 
   @action
   setCategory(categoryId: number) {
+    this.resetOption();
     this.option.categoryId = categoryId;
   }
 
@@ -34,6 +57,7 @@ class OptionStore {
 
   @action
   setSearchTerm(searchTerm: string) {
+    this.resetOption();
     this.option.searchTerm = searchTerm;
   }
 }
