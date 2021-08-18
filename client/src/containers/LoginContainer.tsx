@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Login from '../components/login/Login';
+import Login from '../components/Login/Login';
 import FACEBOOK from '../assets/icons/facebook.svg';
 import GOOGLE from '../assets/icons/google.svg';
 
