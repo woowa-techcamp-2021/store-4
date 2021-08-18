@@ -1,18 +1,20 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import ProductItemContainer from './ProductItem';
-import { apiMock } from './mock/api';
-import { ProductListResponseType, ProductListOrder } from '../../types/product';
+import React from 'react';
+import ProductItem from './ProductItem';
+import styled from 'styled-components';
+import SortButtonList from './SortButtonList';
+import Product from '../../models/product';
+import { SortButton } from '../../containers/ProductListContainer';
+import { ProductListOrder } from '../../types/product';
 import { range } from '../../utils/range';
 
-import styled from 'styled-components';
-
-const Main = styled.div`
+const Container = styled.div`
   width: 1200px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
+
 const ListHeader = styled.div`
   box-sizing: border-box;
   width: 1200px;
@@ -21,7 +23,9 @@ const ListHeader = styled.div`
   justify-content: space-between;
   padding: 0 10px;
 `;
+
 const TotalCount = styled.div``;
+
 const ProductListWrapper = styled.ul`
   width: 1200px;
 
@@ -30,8 +34,7 @@ const ProductListWrapper = styled.ul`
 
   padding: 0;
 `;
-const SortButtonList = styled.div``;
-const SortButton = styled.button``;
+
 const PageNav = styled.ul`
   list-style: none;
 
@@ -40,85 +43,71 @@ const PageNav = styled.ul`
 
   padding: 0;
 `;
-const PageNavItem = styled.li`
-  padding: 5px;
 
+type PageNavItemProps = {
+  isSelected: boolean;
+};
+
+const PageNavItem = styled.li<PageNavItemProps>`
+  padding: 5px;
+  color: ${(props) => (props.isSelected ? props.theme.color.black : props.theme.color.grey4)};
   cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.color.black};
+  }
 `;
 
-const ProductList = (): React.ReactElement => {
-  const [productListResponse, setProductListResponse] = useState<ProductListResponseType | null>(
-    null
-  );
+type Props = {
+  products: Product[];
+  buttons: SortButton[];
+  totalProductCount: number;
+  totalPageCount: number;
+  currentPage: number;
+  onClickSortButton: (option: ProductListOrder) => () => void;
+  onClickPageNum: (pageNum: number) => () => void;
+};
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [listOrder, setListOrder] = useState(ProductListOrder.Recent);
+const ProductList = (props: Props): JSX.Element => {
+  const {
+    products,
+    buttons,
+    totalProductCount,
+    totalPageCount,
+    currentPage,
+    onClickSortButton,
+    onClickPageNum,
+  } = props;
 
-  const fetchProductList = useCallback(() => {
-    const resData = apiMock.getProductList(listOrder, currentPage);
-    setProductListResponse(resData);
-  }, [currentPage, listOrder]);
-
-  useEffect(() => {
-    fetchProductList();
-  }, [fetchProductList, currentPage, listOrder]);
-
-  const onClickSortButton = (order: ProductListOrder) => (): void => {
-    setListOrder(order);
-  };
-
-  const onClickPageButton = (pageNum: number) => (): void => {
-    setCurrentPage(pageNum);
-  };
-
-  const productItemList = productListResponse?.productList.map((product) => (
-    <ProductItemContainer
+  const ProductItems = products.map((product) => (
+    <ProductItem
       key={product.id}
-      id={product.id}
-      name={product.name}
-      price={product.price}
-      imgSrc={product.imgSrc}
-    ></ProductItemContainer>
+      {...product}
+      // imgSrc={product.imgSrc}
+    />
   ));
 
-  const pageNavItem = () => {
-    if (productListResponse === null) return <></>;
-    return range(productListResponse.totalPage).map((index) => {
-      const pageNum = index + 1;
-      return (
-        <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
-          {pageNum}
-        </PageNavItem>
-      );
-    });
-  };
+  const PageNavItems = range(totalPageCount).map((index) => {
+    const pageNum = index + 1;
+    return (
+      <PageNavItem
+        key={pageNum}
+        isSelected={currentPage === pageNum}
+        onClick={onClickPageNum(pageNum)}
+      >
+        {pageNum}
+      </PageNavItem>
+    );
+  });
 
   return (
-    <>
-      {productListResponse === null ? (
-        <div>로딩중..</div>
-      ) : (
-        <Main>
-          <ListHeader>
-            <TotalCount>총 {productListResponse.totalProductCount}개</TotalCount>
-            <SortButtonList>
-              <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>
-                인기순
-              </SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.PriceLow)}>
-                낮은가격순
-              </SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.PriceHigh)}>
-                높은가격순
-              </SortButton>
-            </SortButtonList>
-          </ListHeader>
-          <ProductListWrapper>{productItemList}</ProductListWrapper>
-          <PageNav>{pageNavItem()}</PageNav>
-        </Main>
-      )}
-    </>
+    <Container>
+      <ListHeader>
+        <TotalCount>총 {totalProductCount}개</TotalCount>
+        <SortButtonList buttons={buttons} onClickSortButton={onClickSortButton} />
+      </ListHeader>
+      <ProductListWrapper>{ProductItems}</ProductListWrapper>
+      <PageNav>{PageNavItems}</PageNav>
+    </Container>
   );
 };
 
