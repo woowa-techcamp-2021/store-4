@@ -69,7 +69,9 @@ const CategoryLayer = (props: Props): JSX.Element => {
   return (
     <Container>
       <CategoryList isRoot={true}>{rootItems}</CategoryList>
-      <CategoryList isRoot={false}>{childItems}</CategoryList>
+      <CategoryList isRoot={false} data-testid="child-list">
+        {childItems}
+      </CategoryList>
     </Container>
   );
 };
