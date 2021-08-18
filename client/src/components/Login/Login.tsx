@@ -5,10 +5,9 @@ import OAuthButton from './OAuthButton';
 
 const Header = styled.h1`
   font-size: ${(props) => props.theme.fontSize.large};
-  font-weight: normal;
 `;
 
-const LoginContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +40,7 @@ const Login = (props: Props): JSX.Element => {
   const { onOAuthButtonClick, buttons } = props;
 
   return (
-    <LoginContainer>
+    <Container>
       <Header>회원 로그인</Header>
       <OAuthButtonWrapper>
         <OAuthButton
@@ -53,7 +52,7 @@ const Login = (props: Props): JSX.Element => {
           {...buttons[OAuthType.Google]}
         />
       </OAuthButtonWrapper>
-    </LoginContainer>
+    </Container>
   );
 };
 
