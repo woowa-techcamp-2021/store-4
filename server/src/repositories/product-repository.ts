@@ -1,4 +1,4 @@
-import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
+import { createQueryBuilder, EntityRepository, getCustomRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { ProductData } from '../dummy-data/product';
 import CategoryRepository from './category-repository';
@@ -6,7 +6,18 @@ import { SortOption } from '../controllers/product-controller';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
-  async createProducts(productData: Array<ProductData>): Promise<Product[]> {
+  async findProduct(id: number): Promise<Product | undefined> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .leftJoinAndSelect('Product.reviews', 'reviews')
+      .leftJoinAndSelect('Product.wishes', 'wishes')
+      .leftJoinAndSelect('Product.productSelects', 'productSelects')
+      .leftJoinAndSelect('productSelects.productOptions', 'productOptions')
+      .where({ id })
+      .getOne();
+  }
+
+  async createProducts(productData: ProductData[]): Promise<Product[]> {
     const categories = await Promise.all(
       productData.map(({ categoryId }) =>
         getCustomRepository(CategoryRepository).findOne(categoryId)
