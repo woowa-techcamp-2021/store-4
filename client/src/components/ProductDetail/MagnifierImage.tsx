@@ -55,13 +55,8 @@ const MagnifiedViewer = styled.div<MagnifiedViewerProps>`
   border-radius: 8px;
 `;
 
-type MagnifyWrapperProps = {
-  isVisible: boolean;
-};
-
-const MagnifyWrapper = styled.div<MagnifyWrapperProps>`
+const MagnifyWrapper = styled.div`
   pointer-events: none;
-  display: ${(props) => (props.isVisible ? 'block' : 'none')};
 `;
 
 type Props = {
@@ -172,15 +167,18 @@ const MagnifierImage = (props: Props): JSX.Element => {
   return (
     <Container>
       <ImageViewer
+        data-testid="image-viewer"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
         <Image src={image} />
-        <MagnifyWrapper isVisible={isMagnifierVisible}>
-          <MagnifierPointer ref={magnifier} />
-          <MagnifiedViewer ref={magnifiedViewer} backgroundURL={image} />
-        </MagnifyWrapper>
+        {isMagnifierVisible && (
+          <MagnifyWrapper data-testid="magnifier">
+            <MagnifierPointer ref={magnifier} />
+            <MagnifiedViewer ref={magnifiedViewer} backgroundURL={image} />
+          </MagnifyWrapper>
+        )}
       </ImageViewer>
     </Container>
   );
