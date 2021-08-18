@@ -26,7 +26,7 @@ const OAuthIcon = styled.img`
 `;
 
 const OAuthButtonContent = styled.span`
-  font-size: 16px;
+  font-size: ${(props) => props.theme.fontSize.normal};
 `;
 
 type Props = {
@@ -37,13 +37,9 @@ type Props = {
   onClick: MouseEventHandler;
 };
 
-const OAuthButton = ({
-  icon,
-  fontColor,
-  backgroundColor,
-  content,
-  onClick,
-}: Props): JSX.Element => {
+const OAuthButton = (props: Props): JSX.Element => {
+  const { icon, fontColor, backgroundColor, content, onClick } = props;
+
   return (
     <OAuthButtonContainer fontColor={fontColor} backgroundColor={backgroundColor} onClick={onClick}>
       <OAuthIcon src={icon} />
