@@ -10,7 +10,7 @@ const ProductItemContainer = styled.li`
 
   box-sizing: border-box;
   width: 280px;
-  margin: 20px 0px;
+  margin-bottom: 32px;
 `;
 
 const Img = styled.img`

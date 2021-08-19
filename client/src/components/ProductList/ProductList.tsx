@@ -9,7 +9,7 @@ import { range } from '../../utils/range';
 
 const Container = styled.div`
   width: 1200px;
-
+  margin: 100px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,10 +18,9 @@ const Container = styled.div`
 const ListHeader = styled.div`
   box-sizing: border-box;
   width: 1200px;
-
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
+  margin: 32px 0px;
 `;
 
 const TotalCount = styled.div``;
