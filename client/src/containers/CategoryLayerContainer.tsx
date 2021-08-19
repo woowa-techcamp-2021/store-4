@@ -15,10 +15,11 @@ const handleCategoryClick: CategoryClickHandler = (category: Category) =>
 
 const CategoryContainer = (): JSX.Element => {
   const categories = categoryStore.categories;
+  const option = optionStore.option;
 
   if (categories.length === 0) return <Empty />;
 
-  const props: Props = { categories, onCategoryClick: handleCategoryClick };
+  const props: Props = { categories, onCategoryClick: handleCategoryClick, option };
   return <CategoryLayer {...props} />;
 };
 

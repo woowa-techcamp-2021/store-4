@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
+import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
+import { Option } from '../../../../types/option';
+import buildQueryString from '../../../../utils/build-query-string';
 
 const Container = styled.div`
   position: absolute;
@@ -13,6 +16,7 @@ const Container = styled.div`
   flex-direction: row;
   border: 1px solid ${(props) => props.theme.color.grey2};
   cursor: pointer;
+  z-index: 999;
 `;
 
 type CategoryListProps = {
@@ -42,26 +46,40 @@ const CategoryListItem = styled.li<CategoryListItemProps>`
 export type Props = {
   categories: Category[];
   onCategoryClick: CategoryClickHandler;
+  option: Option;
 };
 
 const CategoryLayer = (props: Props): JSX.Element => {
-  const { categories, onCategoryClick } = props;
+  const { categories, onCategoryClick, option } = props;
   const rootCategories = categories.filter((category) => category.isRoot);
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
+  const history = useHistory();
+
+  const handleHistoryPush = useCallback(
+    (category: Category) => () => {
+      const query = buildQueryString({
+        ...option,
+        category: category.id,
+      });
+      history.push(`/products${query}`);
+      onCategoryClick(category);
+    },
+    [onCategoryClick, option, history]
+  );
 
   const rootItems = rootCategories.map((category) => (
     <CategoryListItem
       key={category.id}
       isCurrent={category.id === currentCategory.id}
       onMouseEnter={() => setCurrentCategory(category)}
-      onClick={() => onCategoryClick(category)}
+      onClick={handleHistoryPush(category)}
     >
       {category.name}
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem isCurrent={true} key={category.id} onClick={() => onCategoryClick(category)}>
+    <CategoryListItem isCurrent={true} key={category.id} onClick={handleHistoryPush(category)}>
       {category.name}
     </CategoryListItem>
   ));
