@@ -67,6 +67,7 @@ const ProductListContainer = (): JSX.Element => {
       onClickSortButton={handleClickSortButton}
       onClickPageNum={handleClickPageNum}
       currentPage={currentPage}
+      searchTerm={option.searchTerm}
     />
   );
 };

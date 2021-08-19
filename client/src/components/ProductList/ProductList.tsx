@@ -23,6 +23,10 @@ const ListHeader = styled.div`
   margin: 32px 0px;
 `;
 
+const ListHeaderLeft = styled.div`
+  font-weight: 600;
+`;
+
 const TotalCount = styled.div``;
 
 const ProductListWrapper = styled.ul`
@@ -63,6 +67,7 @@ type Props = {
   totalProductCount: number;
   totalPageCount: number;
   currentPage: number;
+  searchTerm: string | null;
   onClickSortButton: (option: ProductListOrder) => () => void;
   onClickPageNum: (pageNum: number) => () => void;
 };
@@ -74,6 +79,7 @@ const ProductList = (props: Props): JSX.Element => {
     totalProductCount,
     totalPageCount,
     currentPage,
+    searchTerm,
     onClickSortButton,
     onClickPageNum,
   } = props;
@@ -98,7 +104,13 @@ const ProductList = (props: Props): JSX.Element => {
   return (
     <Container>
       <ListHeader>
-        <TotalCount>총 {totalProductCount}개</TotalCount>
+        {searchTerm ? (
+          <ListHeaderLeft>
+            &quot;{searchTerm}&quot; 검색결과 {totalProductCount}개
+          </ListHeaderLeft>
+        ) : (
+          <TotalCount>총 {totalProductCount}개</TotalCount>
+        )}
         <SortButtonList buttons={buttons} onClickSortButton={onClickSortButton} />
       </ListHeader>
       <ProductListWrapper>{ProductItems}</ProductListWrapper>
