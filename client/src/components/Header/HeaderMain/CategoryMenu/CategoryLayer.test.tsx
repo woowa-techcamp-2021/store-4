@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import provideTheme2Test from '../../../../lib/provideTheme2Test';
+import provideRouter2Test from '../../../../lib/provideRouter2Test';
 import CategoryLayer, { Props } from './CategoryLayer';
 import Category from '../../../../models/category';
 import userEvent from '@testing-library/user-event';
@@ -49,7 +50,7 @@ describe('CategoryLayer 컴포넌트', () => {
   };
 
   beforeEach(() => {
-    render(provideTheme2Test(<CategoryLayer {...props} />));
+    render(provideRouter2Test(provideTheme2Test(<CategoryLayer {...props} />)));
   });
 
   test('랜더링', () => {
