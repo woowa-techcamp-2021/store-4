@@ -2,6 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from '../config/dotenv';
 
 interface CustomJwtPayload extends JwtPayload {
+  id: number;
   email: string;
   name: string;
 }
