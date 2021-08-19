@@ -8,6 +8,7 @@ const productRouter = Router();
 
 productRouter.get('/', wrapAsync(productController.getAll));
 productRouter.get('/:id', wrapAsync(productController.findOne));
-productRouter.get('/:id/wish', authMiddleware('user'), wrapAsync(wishController.insertWish));
+productRouter.post('/:id/wish', authMiddleware('user'), wrapAsync(wishController.insertWish));
+productRouter.delete('/:id/wish', authMiddleware('user'), wrapAsync(wishController.deleteWish));
 
 export default productRouter;
