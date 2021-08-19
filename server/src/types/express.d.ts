@@ -1,6 +1,6 @@
 declare namespace Express {
   export interface Request {
-    decoded: {
+    decoded?: {
       id: number;
       email: string;
       name: string;
