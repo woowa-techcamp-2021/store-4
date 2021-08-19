@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import apis from '../../../api';
 import Product from '../../../models/product';
+import productStore from '../../../stores/productStore';
 import { ProductListOrder } from '../../../types/product';
 
 export const useProductList = (): Product[] => {
   const [productList, setProductList] = useState([] as Product[]);
 
   useEffect(() => {
-    apis.productAPI
+    productStore
       .fetchProducts({
         category: null,
         sort: ProductListOrder.Recommend,

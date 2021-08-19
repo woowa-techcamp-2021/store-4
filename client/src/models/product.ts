@@ -22,13 +22,13 @@ class ProductAttributes {
     this.price = product.price;
     this.discountRate = product.discountRate;
     this.content = product.content;
-    this.productImages = product.productImages.map(
-      (productImage) => new ProductImage(productImage)
-    );
-    this.reviews = product.reviews.map((review) => new Review(review));
-    this.productSelects = product.productSelects.map(
-      (productSelect) => new ProductSelect(productSelect)
-    );
+    this.productImages = product.productImages
+      ? product.productImages.map((productImage) => new ProductImage(productImage))
+      : [];
+    this.reviews = product.reviews ? product.reviews.map((review) => new Review(review)) : [];
+    this.productSelects = product.productSelects
+      ? product.productSelects.map((productSelect) => new ProductSelect(productSelect))
+      : [];
     this.isWished = product.isWished;
     this.createdAt = product.createdAt;
     this.updatedAt = product.updatedAt;

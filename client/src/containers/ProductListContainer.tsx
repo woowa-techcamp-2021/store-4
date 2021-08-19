@@ -3,9 +3,9 @@ import ProductList from '../components/ProductList/ProductList';
 import optionStore from '../stores/optionStore';
 import { Option } from '../types/option';
 import Product from '../models/product';
-import apis from '../api';
 import { ProductListOrder } from '../types/product';
 import { observer } from 'mobx-react';
+import productStore from '../stores/productStore';
 
 export type SortButton = {
   key: ProductListOrder;
@@ -26,7 +26,7 @@ const ProductListContainer = (): JSX.Element => {
   const totalPages = useRef(1);
   const fetchProductList = useCallback(async (option: Option) => {
     const { products: fetchedProducts, totalPages: fetchedTotalPages } =
-      await apis.productAPI.fetchProducts(option);
+      await productStore.fetchProducts(option);
 
     totalPages.current = fetchedTotalPages;
     setProducts(fetchedProducts);
