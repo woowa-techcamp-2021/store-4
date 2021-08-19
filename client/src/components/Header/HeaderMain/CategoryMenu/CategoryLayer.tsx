@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { categories } from './dummy';
+import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
+import Category from '../../../../models/category';
 
-const HOVER_COLOR = '#f9f9f9';
-
-const Wrapper = styled.div`
+const Container = styled.div`
   position: absolute;
   top: calc(100% + 5px);
   left: 0;
@@ -12,50 +11,68 @@ const Wrapper = styled.div`
   min-height: 300px;
   display: flex;
   flex-direction: row;
-  border: 1px solid #333;
+  border: 1px solid ${(props) => props.theme.color.grey2};
   cursor: pointer;
 `;
 
-const CategoryList = styled.ul`
+type CategoryListProps = {
+  isRoot: boolean;
+};
+
+const CategoryList = styled.ul<CategoryListProps>`
   flex: 1;
-  list-style: none;
   margin: 0;
   padding: 0;
 
-  background-color: ${(props) => (props.className === 'child' ? HOVER_COLOR : '#fff')};
+  background-color: ${(props) =>
+    props.isRoot ? props.theme.color.white1 : props.theme.color.white2};
 `;
 
-const CategoryListItem = styled.li`
+type CategoryListItemProps = {
+  isCurrent: boolean;
+};
+
+const CategoryListItem = styled.li<CategoryListItemProps>`
   padding: 12px 20px;
 
-  &.current {
-    background-color: ${HOVER_COLOR};
-  }
+  background-color: ${(props) =>
+    props.isCurrent ? props.theme.color.white2 : props.theme.color.white1};
 `;
 
-const CategoryLayer = (): JSX.Element => {
-  const rootCategories = categories.filter(({ parentCategory }) => parentCategory === null);
+export type Props = {
+  categories: Category[];
+  onCategoryClick: CategoryClickHandler;
+};
+
+const CategoryLayer = (props: Props): JSX.Element => {
+  const { categories, onCategoryClick } = props;
+  const rootCategories = categories.filter((category) => category.isRoot);
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
 
   const rootItems = rootCategories.map((category) => (
     <CategoryListItem
       key={category.id}
-      className={category.id === currentCategory.id ? 'current' : ''}
+      isCurrent={category.id === currentCategory.id}
       onMouseEnter={() => setCurrentCategory(category)}
+      onClick={() => onCategoryClick(category)}
     >
       {category.name}
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem key={category.id}>{category.name}</CategoryListItem>
+    <CategoryListItem isCurrent={true} key={category.id} onClick={() => onCategoryClick(category)}>
+      {category.name}
+    </CategoryListItem>
   ));
 
   return (
-    <Wrapper>
-      <CategoryList>{rootItems}</CategoryList>
-      <CategoryList className="child">{childItems}</CategoryList>
-    </Wrapper>
+    <Container>
+      <CategoryList isRoot={true}>{rootItems}</CategoryList>
+      <CategoryList isRoot={false} data-testid="child-list">
+        {childItems}
+      </CategoryList>
+    </Container>
   );
 };
 
