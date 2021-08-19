@@ -16,7 +16,8 @@ type CarouselImgProps = {
 };
 
 const CarouselImg = styled.img<CarouselImgProps>`
-  ${(props) => (props.isShow ? show : hide)}
+  ${(props) => (props.isShow ? show : hide)};
+  animation-fill-mode: forwards;
 `;
 
 type CarouselItemProps = {
