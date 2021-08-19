@@ -24,7 +24,6 @@ const ProductListContainer = (): JSX.Element => {
   const option = optionStore.option;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = useRef(1);
-
   const fetchProductList = useCallback(async (option: Option) => {
     const { products: fetchedProducts, totalPages: fetchedTotalPages } =
       await apis.productAPI.fetchProducts(option);
@@ -36,14 +35,7 @@ const ProductListContainer = (): JSX.Element => {
   useEffect(() => {
     console.log(option);
     fetchProductList(option);
-  }, [
-    option,
-    option.categoryId,
-    option.pageNum,
-    option.searchTerm,
-    option.sortOption,
-    fetchProductList,
-  ]);
+  }, [option, option.category, option.pageNum, option.searchTerm, option.sort, fetchProductList]);
 
   const handleClickSortButton = useCallback(
     (order: ProductListOrder) => (): void => {
