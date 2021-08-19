@@ -50,12 +50,12 @@ describe('CategoryLayer 컴포넌트', () => {
     render(provideTheme2Test(<CategoryLayer {...props} />));
   });
 
-  test('랜더링', async () => {
+  test('랜더링', () => {
     expect(screen.getByText(PARENT_CATEGORY_NAME)).toBeInTheDocument();
     expect(screen.getByText(CHILD_CATEGORY_NAME)).toBeInTheDocument();
   });
 
-  test('부모 카테고리 호버', async () => {
+  test('부모 카테고리 호버', () => {
     const $parentWithoutChild = screen.getByText(PARENT_CATEGORY_NAME_2);
     userEvent.hover($parentWithoutChild);
     expect(screen.getByTestId('child-list')).toBeEmptyDOMElement();
@@ -65,7 +65,7 @@ describe('CategoryLayer 컴포넌트', () => {
     expect(screen.getByTestId('child-list')).not.toBeEmptyDOMElement();
   });
 
-  test('자식 카테고리 클릭', async () => {
+  test('자식 카테고리 클릭', () => {
     const $childCategory = screen.getByText(CHILD_CATEGORY_NAME);
     userEvent.click($childCategory);
 
