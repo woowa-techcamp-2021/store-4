@@ -6,6 +6,7 @@ import Product from '../../models/product';
 import { SortButton } from '../../containers/ProductListContainer';
 import { ProductListOrder } from '../../types/product';
 import { range } from '../../utils/range';
+import ProductListHeader from './ProductListHeader';
 
 const Container = styled.div`
   width: 1200px;
@@ -14,20 +15,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-
-const ListHeader = styled.div`
-  box-sizing: border-box;
-  width: 1200px;
-  display: flex;
-  justify-content: space-between;
-  margin: 32px 0px;
-`;
-
-const ListHeaderLeft = styled.div`
-  font-weight: 600;
-`;
-
-const TotalCount = styled.div``;
 
 const ProductListWrapper = styled.ul`
   width: 1200px;
@@ -104,16 +91,12 @@ const ProductList = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ListHeader>
-        {searchTerm ? (
-          <ListHeaderLeft data-testid="listHeaderLeft">
-            &quot;{searchTerm}&quot; 검색결과 {totalProductCount}개
-          </ListHeaderLeft>
-        ) : (
-          <TotalCount data-testid="totalCount">총 {totalProductCount}개</TotalCount>
-        )}
-        <SortButtonList buttons={buttons} onClickSortButton={onClickSortButton} />
-      </ListHeader>
+      <ProductListHeader
+        searchTerm={searchTerm}
+        buttons={buttons}
+        totalProductCount={totalProductCount}
+        onClickSortButton={onClickSortButton}
+      />
       <ProductListWrapper>{ProductItems}</ProductListWrapper>
       <PageNav>{PageNavItems}</PageNav>
     </Container>
