@@ -78,6 +78,17 @@ class ProductController {
     }
   };
 
+  async findOne(req: Request, res: Response) {
+    const userId = req.decoded?.id ?? null;
+    const productId = Number(req.params.id);
+
+    const product = await productService.findOne(userId, productId);
+
+    res.status(200).json({
+      product,
+    });
+  }
+
   private buildFindOption(query: ProductRequestQuery): FindOption {
     const { category, sort, pageNum, limit } = query;
 
