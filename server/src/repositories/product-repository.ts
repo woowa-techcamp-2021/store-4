@@ -1,9 +1,21 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { SortOption } from '../controllers/product-controller';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
+  async findProduct(id: number): Promise<Product | undefined> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .leftJoinAndSelect('Product.reviews', 'reviews')
+      .leftJoinAndSelect('reviews.user', 'user')
+      .leftJoinAndSelect('reviews.reviewImages', 'reviewImages')
+      .leftJoinAndSelect('Product.productSelects', 'productSelects')
+      .leftJoinAndSelect('productSelects.productOptions', 'productOptions')
+      .where({ id })
+      .getOne();
+  }
+
   findProducts(
     categoryId: number,
     sortOption: SortOption,

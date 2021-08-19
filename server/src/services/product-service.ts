@@ -5,9 +5,12 @@ import { ProductResponse, FindOption, SortOption } from '../controllers/product-
 import ReviewService from './review-service';
 import OrderDetailService from './order-detail-service';
 import PageOverflowException from '../exceptions/page-overflow-exception';
+import WishRepository from '../repositories/wish-repository';
+import ProductNotfoundException from '../exceptions/product-notfound-exception';
 
 const ERROR_MESSAGES = {
   PAGE_OVERFLOW: '요청한 페이지가 전체 페이지 수를 초과했습니다',
+  PRODUCT_NOTFOUND: '요청한 상품이 존재하지 않습니다',
 };
 
 class ProductService {
@@ -38,6 +41,27 @@ class ProductService {
     }
 
     return { products, totalPages };
+  }
+
+  async findOne(userId: number | null, productId: number) {
+    const productRepository = getCustomRepository(ProductRepository);
+    const wishRepository = getCustomRepository(WishRepository);
+
+    const product = await productRepository.findProduct(productId);
+    if (product === undefined) {
+      throw new ProductNotfoundException(ERROR_MESSAGES.PRODUCT_NOTFOUND);
+    }
+
+    let isWished = false;
+    if (userId !== null) {
+      const myWish = await wishRepository.findByUserAndProduct(userId, productId);
+      isWished = myWish === undefined ? false : true;
+    }
+
+    return {
+      ...product,
+      isWished,
+    };
   }
 
   private async findAllAndSortByReviewPoint(
