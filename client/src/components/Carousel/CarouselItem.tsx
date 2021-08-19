@@ -17,7 +17,6 @@ type CarouselImgProps = {
 
 const CarouselImg = styled.img<CarouselImgProps>`
   ${(props) => (props.isShow ? show : hide)};
-  animation-fill-mode: forwards;
 `;
 
 type CarouselItemProps = {
@@ -30,7 +29,7 @@ const CarouselItem = (props: CarouselItemProps): JSX.Element => {
   const { src, index, currentIndex } = props;
   return (
     <Container>
-      <CarouselImg isShow={index === currentIndex} src={src} />
+      <CarouselImg data-testid={`img${index}`} isShow={index === currentIndex} src={src} />
     </Container>
   );
 };

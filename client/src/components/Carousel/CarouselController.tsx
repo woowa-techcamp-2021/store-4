@@ -41,6 +41,7 @@ const CarouselController = (props: Props): JSX.Element => {
       key={image.index}
       isSelected={currentIndex === image.index}
       onClick={onDotClick(image.index)}
+      data-testid={`dot${image.index}`}
     />
   ));
 

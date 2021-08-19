@@ -20,9 +20,11 @@ const fadeout = keyframes`
 `;
 
 export const show = css`
+  opacity: 1;
   animation: 1s ease-in ${fadein};
 `;
 
 export const hide = css`
+  opacity: 0;
   animation: 1s ease-in ${fadeout};
 `;
