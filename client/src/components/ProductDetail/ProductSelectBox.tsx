@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProductOption from '../../models/product-option';
+import ProductSelect from '../../models/product-select';
 
 const Container = styled.div``;
 
 const Select = styled.select`
-  width: 200px;
+  width: 250px;
   border: 1px solid ${(props) => props.theme.color.grey3};
   padding: 3px;
   outline: none;
@@ -17,11 +17,11 @@ const Select = styled.select`
 const Option = styled.option``;
 
 type Props = {
-  productOptions: ProductOption[];
+  productSelect: ProductSelect;
 };
 
 const ProductSelectBox = (props: Props): JSX.Element => {
-  const { productOptions } = props;
+  const { name, productOptions } = props.productSelect;
 
   const options = productOptions.map(({ id, name, additionalPrice }) => (
     <Option
@@ -32,7 +32,10 @@ const ProductSelectBox = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <Select>{options}</Select>
+      <Select>
+        {options}
+        <Option selected disabled>{`${name}옵션을 선택해주세요`}</Option>
+      </Select>
     </Container>
   );
 };
