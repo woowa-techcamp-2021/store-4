@@ -16,7 +16,7 @@ class ProductRepository extends Repository<Product> {
       .getOne();
   }
 
-  findProducts({
+  async findProducts({
     categoryId,
     sortOption,
     pageNum,
@@ -25,6 +25,8 @@ class ProductRepository extends Repository<Product> {
     const query = createQueryBuilder(Product);
 
     if (categoryId !== null) query.where({ category: categoryId });
+
+    query.leftJoinAndSelect('Product.productImages', 'images');
 
     switch (sortOption) {
       case SortOption.Recommend:
