@@ -3,6 +3,8 @@ import ProductOption from './product-option';
 import ProductSelect from './product-select';
 import Review from './review';
 
+const MILLISECONDS_IN_A_MONTH = 30 * 24 * 60 * 60 * 1000;
+
 class ProductAttributes {
   id: number;
   name: string;
@@ -30,8 +32,8 @@ class ProductAttributes {
       ? product.productSelects.map((productSelect) => new ProductSelect(productSelect))
       : [];
     this.isWished = product.isWished;
-    this.createdAt = product.createdAt;
-    this.updatedAt = product.updatedAt;
+    this.createdAt = new Date(product.createdAt);
+    this.updatedAt = new Date(product.updatedAt);
   }
 }
 
@@ -42,6 +44,11 @@ class Product extends ProductAttributes {
 
   get isDiscountRate(): boolean {
     return this.discountRate > 0 ? true : false;
+  }
+
+  get isNew(): boolean {
+    const beforeOneMonth = Date.now() - MILLISECONDS_IN_A_MONTH;
+    return this.createdAt.getTime() > beforeOneMonth;
   }
 
   get thumbnail(): string | null {

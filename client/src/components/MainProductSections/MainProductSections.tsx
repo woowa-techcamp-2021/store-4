@@ -29,7 +29,7 @@ const SECTION_TITLE = {
 const AD_TITLE = '선물하기 딱 좋아요!';
 
 const descendingDate = (a: Product, b: Product) => {
-  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  return b.createdAt.getTime() - a.createdAt.getTime();
 };
 
 const descendingDiscountRate = (a: Product, b: Product) => {
