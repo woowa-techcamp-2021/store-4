@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
-import { getProductList, MockProductItemType } from '../mock';
+import apis from '../../../api';
+import Product from '../../../models/product';
+import { ProductListOrder } from '../../../types/product';
 
-export const useProductList = (): MockProductItemType[] => {
-  const [productList, setProductList] = useState([] as MockProductItemType[]);
+export const useProductList = (): Product[] => {
+  const [productList, setProductList] = useState([] as Product[]);
 
   useEffect(() => {
-    getProductList().then((data) => setProductList(data));
+    apis.productAPI
+      .fetchProducts({
+        category: null,
+        sort: ProductListOrder.Recommend,
+        pageNum: 1,
+        searchTerm: null,
+      })
+      .then(({ products }) => setProductList(products));
   }, []);
 
   return productList;

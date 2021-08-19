@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Product from '../../models/product';
 import ProductItem from '../ProductList/ProductItem';
-import { MockProductItemType } from './mock';
 
 const ProductList = styled.div``;
 
@@ -20,13 +20,13 @@ const ProductItemWrapper = styled.div`
 
 type MainProductListProps = {
   title: string;
-  products: MockProductItemType[];
+  products: Product[];
 };
 
 const MainProductList = (props: MainProductListProps): JSX.Element => {
   const { title, products } = props;
   const ProductItems = products.map((product, index) => (
-    <ProductItem key={`title${index}`} {...product} />
+    <ProductItem key={`title${index}`} product={product} />
   ));
   return (
     <ProductList>

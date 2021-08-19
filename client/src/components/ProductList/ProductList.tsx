@@ -79,11 +79,7 @@ const ProductList = (props: Props): JSX.Element => {
   } = props;
 
   const ProductItems = products.map((product) => (
-    <ProductItem
-      key={product.id}
-      {...product}
-      // imgSrc={product.imgSrc}
-    />
+    <ProductItem key={product.id} product={product} />
   ));
 
   const PageNavItems = range(totalPageCount).map((index) => {

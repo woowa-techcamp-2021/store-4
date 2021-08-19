@@ -2,6 +2,8 @@ import React from 'react';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import styled from 'styled-components';
 import { Link } from '../../lib/router';
+import Product from '../../models/product';
+import NoImage from '../../assets/images/no-image.png';
 
 const ProductItemContainer = styled.li`
   list-style: none;
@@ -21,18 +23,16 @@ const Name = styled.div``;
 const Price = styled.div``;
 
 type Props = {
-  id: number;
-  name: string;
-  price: number;
-  // imgSrc: string;
+  product: Product;
 };
 
 const ProductItem = (props: Props): React.ReactElement => {
-  const { id, name, price } = props;
+  const { product } = props;
+  const { id, name, price, thumbnail } = product;
   return (
     <Link to={`/product/${id}`}>
       <ProductItemContainer>
-        {/* <Img src={imgSrc}></Img> */}
+        <Img src={thumbnail || NoImage} />
         <Name>{name}</Name>
         <Price>{toKoreanMoneyFormat(price)}</Price>
       </ProductItemContainer>
