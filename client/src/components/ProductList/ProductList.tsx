@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductItem from './ProductItem';
+import ProductItem from './ProductItem/ProductItem';
 import styled from 'styled-components';
 import SortButtonList from './SortButtonList';
 import Product from '../../models/product';
