@@ -144,7 +144,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
 
     if (magnifiedViewer.current !== null) {
       const viewerX = (x * -MAGNIFIED_IMAGE_VIEWER.WIDTH) / MAGNIFIER_POINTER.WIDTH;
-      const viewerY = (y * -MAGNIFIED_IMAGE_VIEWER.WIDTH) / MAGNIFIER_POINTER.WIDTH;
+      const viewerY = (y * -MAGNIFIED_IMAGE_VIEWER.HEIGHT) / MAGNIFIER_POINTER.WIDTH;
 
       magnifiedViewer.current.style.backgroundPositionX = `${viewerX}px`;
       magnifiedViewer.current.style.backgroundPositionY = `${viewerY}px`;
