@@ -54,6 +54,7 @@ const ProductListContainer = (): JSX.Element => {
     (pageNum: number) => () => {
       optionStore.setPageNum(pageNum);
       setCurrentPage(pageNum);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     []
   );
