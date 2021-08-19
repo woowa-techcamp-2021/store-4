@@ -103,12 +103,12 @@ const ProductItem = (props: Props): React.ReactElement => {
           <Name>{name}</Name>
           {isDiscountRate ? (
             <PriceWrapper>
-              <NormalPrice>{toKoreanMoneyFormat(price)}</NormalPrice>
-              <Price>{toKoreanMoneyFormat(discountedPrice)}</Price>
+              <NormalPrice data-testid="price">{toKoreanMoneyFormat(price)}</NormalPrice>
+              <Price data-testid="discountedPrice">{toKoreanMoneyFormat(discountedPrice)}</Price>
             </PriceWrapper>
           ) : (
             <PriceWrapper>
-              <Price>{toKoreanMoneyFormat(price)}</Price>
+              <Price data-testid="price">{toKoreanMoneyFormat(price)}</Price>
             </PriceWrapper>
           )}
         </DescriptionWrapper>
