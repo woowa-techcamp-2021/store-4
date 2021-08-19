@@ -21,7 +21,7 @@ const ProductListWrapper = styled.ul`
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 24px;
 
   padding: 0;
 `;
