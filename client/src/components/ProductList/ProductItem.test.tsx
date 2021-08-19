@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import provideTheme2Test from '../../lib/provideTheme2Test';
-import ProductItem from './ProductItem';
+import ProductItem from './ProductItem/ProductItem';
 import Product from '../../models/product';
 import ProductImage from '../../models/product-image';
 import Review from '../../models/review';
