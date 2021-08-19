@@ -8,7 +8,7 @@ import MainProductList from './MainProductList';
 
 const MainProductSectionsContainer = styled.div`
   width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto;
   display: flex;
   flex-direction: column;
   gap: 60px;

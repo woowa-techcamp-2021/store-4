@@ -31,6 +31,7 @@ const ProductListWrapper = styled.ul`
 
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   padding: 0;
 `;

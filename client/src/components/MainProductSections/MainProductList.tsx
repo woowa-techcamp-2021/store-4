@@ -8,8 +8,9 @@ const ProductList = styled.div``;
 const ProductListTitle = styled.div`
   display: flex;
   justify-content: flex-start;
-  font-size: 24px;
+  font-size: ${(props) => props.theme.fontSize.large};
   font-weight: 700;
+  margin: 32px 0px;
 `;
 
 const ProductItemWrapper = styled.div`
