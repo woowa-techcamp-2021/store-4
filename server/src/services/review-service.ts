@@ -5,7 +5,7 @@ const DECIMAL_POINTS = 1;
 const DEFAULT_POINT = 3;
 
 class ReviewService {
-  async getAveragePointOfProduct(productId: string): Promise<number> {
+  async getAveragePointOfProduct(productId: number): Promise<number> {
     const reviews = await getCustomRepository(ReviewRepository).findByProduct(productId);
     if (reviews.length === 0) return DEFAULT_POINT;
 
