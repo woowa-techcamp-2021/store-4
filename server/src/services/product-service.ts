@@ -13,15 +13,12 @@ const ERROR_MESSAGES = {
 class ProductService {
   async findAll({ categoryId, sortOption, pageNum, limit }: FindOption): Promise<ProductResponse> {
     const [products, totalProductCount] = await getCustomRepository(ProductRepository).findProducts(
-      categoryId,
-      sortOption,
-      pageNum,
-      limit
+      { categoryId, sortOption, pageNum, limit }
     );
 
     const totalPages = Math.ceil(totalProductCount / limit);
 
-    if (pageNum > totalPages) {
+    if (totalProductCount && pageNum > totalPages) {
       throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
     }
 

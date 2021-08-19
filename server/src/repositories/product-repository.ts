@@ -1,6 +1,6 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
 import Product from '../models/product';
-import { SortOption } from '../controllers/product-controller';
+import { FindOption, SortOption } from '../controllers/product-controller';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
@@ -16,15 +16,15 @@ class ProductRepository extends Repository<Product> {
       .getOne();
   }
 
-  findProducts(
-    categoryId: number,
-    sortOption: SortOption,
-    pageNum: number,
-    limit: number
-  ): Promise<[Product[], number]> {
+  findProducts({
+    categoryId,
+    sortOption,
+    pageNum,
+    limit,
+  }: FindOption): Promise<[Product[], number]> {
     const query = createQueryBuilder(Product);
 
-    if (categoryId !== -1) query.where({ category: categoryId });
+    if (categoryId !== null) query.where({ category: categoryId });
 
     switch (sortOption) {
       case SortOption.Recommend:
