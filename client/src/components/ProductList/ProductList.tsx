@@ -95,6 +95,7 @@ const ProductList = (props: Props): JSX.Element => {
         key={pageNum}
         isSelected={currentPage === pageNum}
         onClick={onClickPageNum(pageNum)}
+        data-testid={`pageNav${pageNum}`}
       >
         {pageNum}
       </PageNavItem>
@@ -105,11 +106,11 @@ const ProductList = (props: Props): JSX.Element => {
     <Container>
       <ListHeader>
         {searchTerm ? (
-          <ListHeaderLeft>
+          <ListHeaderLeft data-testid="listHeaderLeft">
             &quot;{searchTerm}&quot; 검색결과 {totalProductCount}개
           </ListHeaderLeft>
         ) : (
-          <TotalCount>총 {totalProductCount}개</TotalCount>
+          <TotalCount data-testid="totalCount">총 {totalProductCount}개</TotalCount>
         )}
         <SortButtonList buttons={buttons} onClickSortButton={onClickSortButton} />
       </ListHeader>
