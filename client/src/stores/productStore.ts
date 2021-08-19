@@ -6,10 +6,11 @@ import { Option } from '../types/option';
 class ProductStore {
   @action
   async fetchProducts(option: Option) {
-    const { products, totalPages } = await apis.productAPI.fetchProducts(option);
+    const { products, totalPages, totalProductCount } = await apis.productAPI.fetchProducts(option);
     return {
       products: products.map((product: Product) => new Product(product)),
       totalPages,
+      totalProductCount,
     };
   }
 }

@@ -13,6 +13,7 @@ export type SortButton = {
 };
 
 const SORT_BUTTONS = [
+  { key: ProductListOrder.Recommend, body: '추천순' },
   { key: ProductListOrder.Popularity, body: '인기순' },
   { key: ProductListOrder.Recent, body: '최신순' },
   { key: ProductListOrder.PriceLow, body: '낮은가격순' },
@@ -23,17 +24,22 @@ const ProductListContainer = (): JSX.Element => {
   const [products, setProducts] = useState<Product[]>([] as Product[]);
   const option = optionStore.option;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = useRef(1);
-  const fetchProductList = useCallback(async (option: Option) => {
-    const { products: fetchedProducts, totalPages: fetchedTotalPages } =
-      await productStore.fetchProducts(option);
+  const totalPageCount = useRef(1);
+  const totalProductCount = useRef(0);
 
-    totalPages.current = fetchedTotalPages;
+  const fetchProductList = useCallback(async (option: Option) => {
+    const {
+      products: fetchedProducts,
+      totalPages: fetchedTotalPages,
+      totalProductCount: fetchedTotalProductCount,
+    } = await productStore.fetchProducts(option);
+
+    totalPageCount.current = fetchedTotalPages;
+    totalProductCount.current = fetchedTotalProductCount;
     setProducts(fetchedProducts);
   }, []);
 
   useEffect(() => {
-    console.log(option);
     fetchProductList(option);
   }, [option, option.category, option.pageNum, option.searchTerm, option.sort, fetchProductList]);
 
@@ -56,8 +62,8 @@ const ProductListContainer = (): JSX.Element => {
     <ProductList
       products={products}
       buttons={SORT_BUTTONS}
-      totalProductCount={totalPages.current}
-      totalPageCount={totalPages.current}
+      totalProductCount={totalProductCount.current}
+      totalPageCount={totalPageCount.current}
       onClickSortButton={handleClickSortButton}
       onClickPageNum={handleClickPageNum}
       currentPage={currentPage}

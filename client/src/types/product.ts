@@ -3,6 +3,7 @@ import Product from '../models/product';
 export type ProductResponse = {
   products: Product[];
   totalPages: number;
+  totalProductCount: number;
 };
 
 export type ProductListResponseType = {
