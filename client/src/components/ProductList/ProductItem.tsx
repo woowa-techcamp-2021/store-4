@@ -59,19 +59,19 @@ type Props = {
 
 const ProductItem = (props: Props): React.ReactElement => {
   const { product } = props;
-  const { id, name, price, thumbnail, discountRate } = product;
+  const { id, name, price, thumbnail, discountRate, isDiscountRate, discountedPrice } = product;
 
   return (
     <Link to={`/product/${id}`}>
       <ProductItemContainer>
         <Img src={thumbnail || NoImage} />
         <DescriptionWrapper>
-          {discountRate > 0 && <DiscountRate>{discountRate}%</DiscountRate>}
+          {isDiscountRate && <DiscountRate>{discountRate}%</DiscountRate>}
           <Name>{name}</Name>
-          {discountRate > 0 ? (
+          {isDiscountRate ? (
             <PriceWrapper>
               <NormalPrice>{toKoreanMoneyFormat(price)}</NormalPrice>
-              <Price>{toKoreanMoneyFormat(product.discountedPrice)}</Price>
+              <Price>{toKoreanMoneyFormat(discountedPrice)}</Price>
             </PriceWrapper>
           ) : (
             <PriceWrapper>

@@ -40,6 +40,10 @@ class Product extends ProductAttributes {
     return this.price * (1 - this.discountRate / 100);
   }
 
+  get isDiscountRate(): boolean {
+    return this.discountRate > 0 ? true : false;
+  }
+
   get thumbnail(): string | null {
     if (this.productImages.length <= 0) {
       return null;
