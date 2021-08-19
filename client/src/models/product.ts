@@ -3,7 +3,7 @@ import ProductOption from './product-option';
 import ProductSelect from './product-select';
 import Review from './review';
 
-class Product {
+class ProductAttributes {
   id: number;
   name: string;
   price: number;
@@ -16,7 +16,7 @@ class Product {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(product: Product) {
+  constructor(product: ProductAttributes) {
     this.id = product.id;
     this.name = product.name;
     this.price = product.price;
@@ -33,7 +33,9 @@ class Product {
     this.createdAt = product.createdAt;
     this.updatedAt = product.updatedAt;
   }
+}
 
+class Product extends ProductAttributes {
   get discountedPrice(): number {
     return this.price * (1 - this.discountRate / 100);
   }
