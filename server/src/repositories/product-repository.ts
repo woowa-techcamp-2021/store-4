@@ -22,26 +22,38 @@ class ProductRepository extends Repository<Product> {
     pageNum: number,
     limit: number
   ): Promise<[Product[], number]> {
-    const where = categoryId === -1 ? {} : { category: categoryId };
-    const skip = (pageNum - 1) * limit;
-    const take = limit;
+    const query = createQueryBuilder(Product);
 
-    let order: { [key: string]: 'ASC' | 'DESC' };
+    if (categoryId !== -1) query.where({ category: categoryId });
+
     switch (sortOption) {
+      case SortOption.Recommend:
+        query
+          .leftJoin('Product.reviews', 'reviews')
+          .groupBy('Product.id')
+          .orderBy('AVG(reviews.point)', 'DESC');
+        break;
+      case SortOption.Popularity:
+        query
+          .leftJoin('Product.orderDetails', 'orderDetails')
+          .groupBy('Product.id')
+          .orderBy('COUNT(orderDetails.id)', 'DESC');
+        break;
       case SortOption.Recent:
-        order = { updatedAt: 'DESC' };
+        query.orderBy('updated_at', 'DESC');
         break;
       case SortOption.PriceHigh:
-        order = { price: 'DESC' };
+        query.orderBy('price', 'DESC');
         break;
       case SortOption.PriceLow:
-        order = { price: 'ASC' };
+        query.orderBy('price', 'ASC');
         break;
-      default:
-        order = { updatedAt: 'DESC' };
     }
 
-    return this.findAndCount({ where, skip, take, order });
+    query.offset((pageNum - 1) * limit);
+    query.limit(limit);
+
+    return query.getManyAndCount();
   }
 }
 
