@@ -1,4 +1,5 @@
 import React from 'react';
+import Review from '../components/Review/Review';
 
 export type Mock = {
   id: number;
@@ -40,7 +41,7 @@ const mockReviewData: Mock[] = [
 ];
 
 const ReviewConatiner = (): JSX.Element => {
-  return <ReviewComponent reviews={mockReviewData} />;
+  return <Review reviews={mockReviewData} />;
 };
 
 export default ReviewConatiner;
