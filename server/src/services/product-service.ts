@@ -12,20 +12,20 @@ const ERROR_MESSAGES = {
 
 class ProductService {
   async findAll({ categoryId, sortOption, pageNum, limit }: FindOption): Promise<ProductResponse> {
-    const [products, totalCount] = await getCustomRepository(ProductRepository).findProducts(
+    const [products, totalProductCount] = await getCustomRepository(ProductRepository).findProducts(
       categoryId,
       sortOption,
       pageNum,
       limit
     );
 
-    const totalPages = Math.ceil(totalCount / limit);
+    const totalPages = Math.ceil(totalProductCount / limit);
 
     if (pageNum > totalPages) {
       throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
     }
 
-    return { products, totalPages };
+    return { products, totalPages, totalProductCount };
   }
 
   async findOne(userId: number | null, productId: number) {

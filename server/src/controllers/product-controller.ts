@@ -42,6 +42,7 @@ const MATCH_SORT_OPTION: { [key: string]: SortOption } = {
 export type ProductResponse = {
   products: Product[];
   totalPages: number;
+  totalProductCount: number;
 };
 
 export enum ERROR_TYPE {
