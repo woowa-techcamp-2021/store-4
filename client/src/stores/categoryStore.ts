@@ -8,6 +8,8 @@ class CategoryStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    this.fetchCategories();
   }
 
   @action
