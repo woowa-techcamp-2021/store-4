@@ -35,14 +35,14 @@ const Carousel = (props: Props): JSX.Element => {
     setIndex(currentIndex + 1);
   }, [currentIndex, setIndex, images.length]);
 
-  useInfiniteSlide(currentIndex, handleInfiniteSlide, interval);
-
   const handleDotClick = useCallback(
     (index: number) => () => {
       setIndex(index);
     },
     []
   );
+
+  useInfiniteSlide(currentIndex, handleInfiniteSlide, interval);
 
   const CarouselItems = images.map((data) => (
     <CarouselItem key={data.index} currentIndex={currentIndex} {...data} />
