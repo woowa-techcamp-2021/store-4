@@ -9,7 +9,7 @@ class UserService {
     return user;
   }
 
-  async registerUser({ username, email }: { username: string; email: string }): Promise<User> {
+  registerUser({ username, email }: { username: string; email: string }): Promise<User> {
     return getCustomRepository(UserRepository).save({ username, email });
   }
 }
