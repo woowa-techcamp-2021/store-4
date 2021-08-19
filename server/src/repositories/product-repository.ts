@@ -10,7 +10,6 @@ class ProductRepository extends Repository<Product> {
     return createQueryBuilder(Product)
       .leftJoinAndSelect('Product.productImages', 'productImages')
       .leftJoinAndSelect('Product.reviews', 'reviews')
-      .leftJoinAndSelect('Product.wishes', 'wishes')
       .leftJoinAndSelect('Product.productSelects', 'productSelects')
       .leftJoinAndSelect('productSelects.productOptions', 'productOptions')
       .where({ id })
