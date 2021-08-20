@@ -11,21 +11,39 @@ const Container = styled.nav`
   justify-content: space-between;
 `;
 
-const NavButton = styled.button``;
+const NavButton = styled.button`
+  border: none;
+  background: none;
+  font-size: ${(props) => props.theme.fontSize.small};
+  color: ${(props) => props.theme.color.grey5};
+  cursor: pointer;
+
+  :disabled {
+    color: ${(props) => props.theme.color.grey2};
+    cursor: not-allowed;
+  }
+`;
 
 const NavList = styled.ul`
   display: flex;
 `;
 
 const NavListItem = styled.li`
-  margin: 0 6px;
+  margin: 0 8px;
 `;
 
 type NumberButtonProps = {
   isCurrent: boolean;
 };
 const NumberButton = styled.button<NumberButtonProps>`
+  border: none;
+  background: none;
   color: ${(props) => (props.isCurrent ? props.theme.color.mint2 : props.theme.color.grey5)};
+  cursor: pointer;
+
+  :hover {
+    color: ${(props) => props.theme.color.mint3};
+  }
 `;
 
 type Props = {
