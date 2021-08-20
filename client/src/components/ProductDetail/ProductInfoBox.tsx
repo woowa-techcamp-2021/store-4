@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { ChangeEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
+import { CartType, SelectWithSelected } from '../../types/product';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
+import ProductCountController from './ProductCountController';
 import ProductSelectBox from './ProductSelectBox';
 
 const Container = styled.div``;
@@ -34,35 +37,75 @@ const InfoRowWrapper = styled.div`
 `;
 
 type Props = {
-  product: Product;
+  cartType: CartType;
+  cartsInProduct: CartInProduct[];
+  product: Product | null;
+  selectsWithSelected: SelectWithSelected[];
+  getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
+  getOnCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
+  getIncreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
+  getDecreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
+  getRemoveCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
 };
 
 const ProductInfoBox = (props: Props): JSX.Element => {
-  const { product } = props;
-  const { name, discountRate, discountedPrice, price, productSelects } = product;
+  const {
+    selectsWithSelected,
+    product,
+    getSelectChangeHandler,
+    cartType,
+    cartsInProduct,
+    getIncreaseCartHandler,
+    getDecreaseCartHandler,
+    getRemoveCartHandler,
+    getOnCountChangeHandler,
+  } = props;
 
-  const ProductSelects = productSelects.map((productSelect) => (
-    <InfoRowWrapper key={productSelect.id}>
-      <InfoLabel>{productSelect.name}</InfoLabel>
-      <ProductSelectBox productSelect={productSelect} />
+  const ProductSelects = selectsWithSelected.map((selectWithSelected) => (
+    <InfoRowWrapper key={selectWithSelected.id}>
+      <InfoLabel>{selectWithSelected.name}</InfoLabel>
+      <ProductSelectBox
+        productSelect={selectWithSelected}
+        selected={selectWithSelected.selectedOption}
+        onChange={getSelectChangeHandler(selectWithSelected)}
+      />
     </InfoRowWrapper>
   ));
 
+  const ProductCountControllers = cartsInProduct.map((cartInProduct) => (
+    <ProductCountController
+      key={cartInProduct.uuid}
+      cartType={cartType}
+      onIncreaseClick={getIncreaseCartHandler(cartInProduct)}
+      onDecreaseClick={getDecreaseCartHandler(cartInProduct)}
+      onRemoveClick={getRemoveCartHandler(cartInProduct)}
+      onCountChange={getOnCountChangeHandler(cartInProduct)}
+      cartInProduct={cartInProduct}
+    />
+  ));
+
   return (
-    <Container>
-      <ProductTitle>{name}</ProductTitle>
-      {discountRate !== 0 && (
-        <InfoRowWrapper>
-          <InfoLabel>정가</InfoLabel>
-          <CostPrice>{toKoreanMoneyFormat(price)}</CostPrice>
-        </InfoRowWrapper>
+    <>
+      {product !== null ? (
+        <Container>
+          <ProductTitle>{product.name}</ProductTitle>
+          {product.discountRate !== 0 && (
+            <InfoRowWrapper>
+              <InfoLabel>정가</InfoLabel>
+              <CostPrice>{toKoreanMoneyFormat(product.price)}</CostPrice>
+            </InfoRowWrapper>
+          )}
+          <InfoRowWrapper>
+            <InfoLabel>판매가</InfoLabel>
+            <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
+          </InfoRowWrapper>
+          {ProductSelects}
+          {ProductCountControllers}
+        </Container>
+      ) : (
+        <div>로딩중</div>
       )}
-      <InfoRowWrapper>
-        <InfoLabel>판매가</InfoLabel>
-        <DiscountedPrice>{toKoreanMoneyFormat(discountedPrice)}</DiscountedPrice>
-      </InfoRowWrapper>
-      {ProductSelects}
-    </Container>
+    </>
   );
 };
 
