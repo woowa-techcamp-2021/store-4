@@ -21,7 +21,7 @@ const SORT_BUTTONS = [
 ];
 
 const ProductListContainer = (): JSX.Element => {
-  const [products, setProducts] = useState<Product[]>([] as Product[]);
+  const [products, setProducts] = useState<Product[]>([]);
   const option = optionStore.option;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPageCount = useRef(1);
