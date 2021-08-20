@@ -4,7 +4,7 @@ import { Mock } from '../../../../containers/ReviewContainer';
 import formatDate from '../../../../utils/formatDate';
 import ReviewDetail from './ReviewDetail/ReviewDetail';
 import ReviewSummary from './ReviewSummary/ReviewSummary';
-import { generateStars } from './Star';
+import { generateStars } from './Stars/Stars';
 
 export const MAX_TITLE_WIDTH = 700;
 
@@ -22,7 +22,7 @@ const ReviewDisplayContainer = styled.div`
   align-items: center;
 `;
 
-const ReviewStars = styled.div`
+const ReviewStarsContainer = styled.div`
   flex-shrink: 0;
   width: 80px;
   margin-right: 40px;
@@ -60,7 +60,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <ReviewDisplayContainer>
-        <ReviewStars>{stars}</ReviewStars>
+        <ReviewStarsContainer>{stars}</ReviewStarsContainer>
         <ReviewSummary
           content={review.content}
           onClick={handleReviewSummaryClick}
