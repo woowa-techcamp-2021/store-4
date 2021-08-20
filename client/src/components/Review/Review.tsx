@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Mock } from '../../containers/ReviewContainer';
 import getPaginatedArray from '../../utils/getPaginatedArray';
+import ReviewInputButton from './ReviewInput/ReviewInputButton';
 import ReviewList from './ReviewList/ReviewList';
 import ReviewPagination from './ReviewPagination/ReviewPagination';
 
@@ -14,11 +15,17 @@ const Container = styled.section`
   margin: 0 auto;
 `;
 
+const ReviewHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid ${(props) => props.theme.color.grey3};
+`;
+
 const ReviewTitle = styled.h3`
   font-size: ${(props) => props.theme.fontSize.medium};
   font-weight: 500;
-  padding: 16px 0;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey3};
 `;
 
 type ReviewTitleBadgeProps = {
@@ -56,10 +63,13 @@ const Review = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ReviewTitle>
-        {REVIEW_TITLE_TEXT}
-        <ReviewTitleBadge hasNoReview={hasNoReview}>{reviews.length}</ReviewTitleBadge>
-      </ReviewTitle>
+      <ReviewHeader>
+        <ReviewTitle>
+          {REVIEW_TITLE_TEXT}
+          <ReviewTitleBadge hasNoReview={hasNoReview}>{reviews.length}</ReviewTitleBadge>
+        </ReviewTitle>
+        <ReviewInputButton />
+      </ReviewHeader>
       {hasNoReview ? (
         <ReviewEmpty>{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (
