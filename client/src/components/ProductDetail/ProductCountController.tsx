@@ -1,5 +1,8 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+import CartInProduct from '../../models/cart-in-product';
+import { CartType } from '../../types/product';
+import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import ProductCounter from './ProductCounter';
 
 const Container = styled.div`
@@ -40,33 +43,39 @@ const RemoveButton = styled.button`
 `;
 
 type Props = {
-  title: string;
-  count: number;
-  price: number;
-  increase: () => void;
-  decrease: () => void;
-  remove: () => void;
-  hasOption: boolean;
+  cartType: CartType;
+  cartInProduct: CartInProduct;
+  onIncreaseClick: MouseEventHandler;
+  onDecreaseClick: MouseEventHandler;
+  onRemoveClick?: MouseEventHandler;
   onCountChange: ChangeEventHandler;
 };
 
 const ProductCounterController = (props: Props): JSX.Element => {
-  const { title, count, price, increase, decrease, remove, hasOption, onCountChange } = props;
+  const {
+    cartType,
+    cartInProduct,
+    onIncreaseClick,
+    onDecreaseClick,
+    onRemoveClick,
+    onCountChange,
+  } = props;
+  const { count, totalPrice, titleWithOption } = cartInProduct;
 
   return (
     <Container>
-      <ProductTitle>{title}</ProductTitle>
+      <ProductTitle>{titleWithOption}</ProductTitle>
       <ProductCounterWrapper>
         <ProductCounter
           count={count}
           onCountChange={onCountChange}
-          increase={increase}
-          decrease={decrease}
+          onIncreaseClick={onIncreaseClick}
+          onDecreaseClick={onDecreaseClick}
         />
       </ProductCounterWrapper>
-      <ProductPrice>{price}</ProductPrice>
-      {hasOption && (
-        <RemoveButton onClick={remove} data-testid="product-count-controller-remove">
+      <ProductPrice>{toKoreanMoneyFormat(totalPrice)}</ProductPrice>
+      {cartType === 'multi' && (
+        <RemoveButton onClick={onRemoveClick} data-testid="product-count-controller-remove">
           X
         </RemoveButton>
       )}
