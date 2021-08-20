@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Mock } from '../../containers/ReviewContainer';
 import ReviewList from './ReviewList/ReviewList';
+import ReviewPagination from './ReviewPagination/ReviewPagination';
 
 const REVIEW_TITLE_TEXT = '상품후기';
 const REVIEW_EMPTY_TEXT = '첫 번째 후기를 남겨보세요!';
@@ -51,7 +52,10 @@ const Review = (props: Props): JSX.Element => {
       {hasNoReview ? (
         <ReviewEmpty>{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (
-        <ReviewList reviews={reviews} />
+        <>
+          <ReviewList reviews={reviews} />
+          <ReviewPagination />
+        </>
       )}
     </Container>
   );
