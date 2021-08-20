@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
+import ProductOption from '../../models/product-option';
 import ProductSelect from '../../models/product-select';
 
 const Container = styled.div``;
@@ -18,23 +19,27 @@ const Option = styled.option``;
 
 type Props = {
   productSelect: ProductSelect;
+  selected: ProductOption | null;
+  onChange: ChangeEventHandler;
 };
 
 const ProductSelectBox = (props: Props): JSX.Element => {
-  const { name, productOptions } = props.productSelect;
+  const { selected, onChange, productSelect } = props;
+  const { name, productOptions } = productSelect;
 
   const options = productOptions.map(({ id, name, additionalPrice }) => (
     <Option
       key={id}
+      value={id}
       data-testid="product-select-product-option"
     >{`${name} (+${additionalPrice})`}</Option>
   ));
 
   return (
     <Container>
-      <Select>
+      <Select value={selected?.id ?? 'default'} onChange={onChange}>
+        <Option value="default" disabled>{`${name}옵션을 선택해주세요`}</Option>
         {options}
-        <Option selected disabled>{`${name}옵션을 선택해주세요`}</Option>
       </Select>
     </Container>
   );
