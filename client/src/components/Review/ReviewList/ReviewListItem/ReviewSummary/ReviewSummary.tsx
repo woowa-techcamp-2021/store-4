@@ -42,7 +42,7 @@ type Props = {
   content: string;
   onClick: MouseEventHandler;
   isClickable: boolean;
-  reviewTitleRef: RefObject<HTMLHeadingElement>;
+  reviewTitleRef: RefObject<HTMLSpanElement>;
   reviewDetailOpen: boolean;
 };
 const ReviewSummary = (props: Props): JSX.Element => {

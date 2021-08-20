@@ -43,7 +43,7 @@ type Props = {
 const ReviewListItem = (props: Props): JSX.Element => {
   const { review } = props;
   const [reviewDetailOpen, setReviewDetailOpen] = useState(false);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLSpanElement>(null);
   const [hasMoreContent, setHasMoreContent] = useState(review.reviewImages.length > 0);
   const stars = generateStars(review.point);
 
