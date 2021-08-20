@@ -9,6 +9,7 @@ const MAX_NUMBER_BUTTONS = 9;
 const Container = styled.nav`
   width: ${PAGINATION_WIDTH}px;
   margin: 0 auto;
+  padding: 16px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
