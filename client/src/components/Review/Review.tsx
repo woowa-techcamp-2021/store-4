@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Mock } from '../../containers/ReviewContainer';
 import getPaginatedArray from '../../utils/getPaginatedArray';
-import ReviewInputButton from './ReviewInput/ReviewInputButton';
+import ReviewPost from './ReviewPost/ReviewPost';
 import ReviewList from './ReviewList/ReviewList';
 import ReviewPagination from './ReviewPagination/ReviewPagination';
 
@@ -68,7 +68,7 @@ const Review = (props: Props): JSX.Element => {
           {REVIEW_TITLE_TEXT}
           <ReviewTitleBadge hasNoReview={hasNoReview}>{reviews.length}</ReviewTitleBadge>
         </ReviewTitle>
-        <ReviewInputButton />
+        <ReviewPost />
       </ReviewHeader>
       {hasNoReview ? (
         <ReviewEmpty>{REVIEW_EMPTY_TEXT}</ReviewEmpty>
