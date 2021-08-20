@@ -1,6 +1,7 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
 import Product from '../models/product';
 import { FindOption, SortOption } from '../controllers/product-controller';
+import { isNotNone } from '../util/type-guard';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
@@ -24,7 +25,9 @@ class ProductRepository extends Repository<Product> {
   }: FindOption): Promise<[Product[], number]> {
     const query = createQueryBuilder(Product);
 
-    if (categoryId !== null) query.where({ category: categoryId });
+    if (isNotNone(categoryId)) {
+      query.where({ category: categoryId });
+    }
 
     query.leftJoinAndSelect('Product.productImages', 'images');
 
