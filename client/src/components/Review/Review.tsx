@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Mock } from '../../containers/ReviewContainer';
+import getPaginatedArray from '../../utils/getPaginatedArray';
 import ReviewList from './ReviewList/ReviewList';
 import ReviewPagination from './ReviewPagination/ReviewPagination';
 
 const REVIEW_TITLE_TEXT = '상품후기';
 const REVIEW_EMPTY_TEXT = '첫 번째 후기를 남겨보세요!';
+const REVIEW_PER_PAGE = 2;
 
 const Container = styled.section`
   width: ${(props) => props.theme.device.desktop};
@@ -38,10 +40,19 @@ const ReviewEmpty = styled.div`
 type Props = {
   reviews: Mock[];
 };
-
 const Review = (props: Props): JSX.Element => {
   const { reviews } = props;
   const hasNoReview = reviews.length === 0;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(reviews.length / REVIEW_PER_PAGE);
+  const showPagination = totalPages > 1;
+  const displayedReviews = getPaginatedArray(reviews, REVIEW_PER_PAGE, currentPage);
+
+  const handlePageNumClick = useCallback((pageNum) => setCurrentPage(pageNum), []);
+  const handlePageNavButtonClick = useCallback(
+    (isPrev) => setCurrentPage((prevPage) => (isPrev ? prevPage - 1 : prevPage + 1)),
+    []
+  );
 
   return (
     <Container>
@@ -53,8 +64,15 @@ const Review = (props: Props): JSX.Element => {
         <ReviewEmpty>{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (
         <>
-          <ReviewList reviews={reviews} />
-          <ReviewPagination />
+          <ReviewList reviews={displayedReviews} />
+          {showPagination && (
+            <ReviewPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageNumClick={handlePageNumClick}
+              onPageNavButtonClick={handlePageNavButtonClick}
+            />
+          )}
         </>
       )}
     </Container>

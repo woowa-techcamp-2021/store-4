@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 const PAGINATION_WIDTH = 450;
@@ -21,21 +21,45 @@ const NavListItem = styled.li`
   margin: 0 6px;
 `;
 
-const NumberButton = styled.button``;
+type NumberButtonProps = {
+  isCurrent: boolean;
+};
+const NumberButton = styled.button<NumberButtonProps>`
+  color: ${(props) => (props.isCurrent ? props.theme.color.mint2 : props.theme.color.grey5)};
+`;
 
-const ReviewPagination = (): JSX.Element => {
-  const totalPages = 10;
-  const navListItems = Array.from({ length: totalPages }).map((_, i) => (
-    <NavListItem key={i}>
-      <NumberButton>{i + 1}</NumberButton>
-    </NavListItem>
-  ));
+type Props = {
+  currentPage: number;
+  totalPages: number;
+  onPageNumClick: (pageNum: number) => void;
+  onPageNavButtonClick: (isPrev: boolean) => void;
+};
+const ReviewPagination = (props: Props): JSX.Element => {
+  const { currentPage, totalPages, onPageNumClick, onPageNavButtonClick } = props;
+  const onPrevButtonClick = useCallback(() => onPageNavButtonClick(true), [onPageNavButtonClick]);
+  const onNextButtonClick = useCallback(() => onPageNavButtonClick(false), [onPageNavButtonClick]);
+
+  const navListItems = Array.from({ length: totalPages }).map((_, i) => {
+    const pageNum = i + 1;
+
+    return (
+      <NavListItem key={i}>
+        <NumberButton onClick={() => onPageNumClick(pageNum)} isCurrent={currentPage === pageNum}>
+          {pageNum}
+        </NumberButton>
+      </NavListItem>
+    );
+  });
 
   return (
     <Container>
-      <NavButton>이전</NavButton>
+      <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
+        이전
+      </NavButton>
       <NavList>{navListItems}</NavList>
-      <NavButton>다음</NavButton>
+      <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
+        다음
+      </NavButton>
     </Container>
   );
 };
