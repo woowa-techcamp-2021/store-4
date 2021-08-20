@@ -7,7 +7,7 @@ import ReviewPagination from './ReviewPagination/ReviewPagination';
 
 const REVIEW_TITLE_TEXT = '상품후기';
 const REVIEW_EMPTY_TEXT = '첫 번째 후기를 남겨보세요!';
-const REVIEW_PER_PAGE = 2;
+const REVIEW_PER_PAGE = 5;
 
 const Container = styled.section`
   width: ${(props) => props.theme.device.desktop};

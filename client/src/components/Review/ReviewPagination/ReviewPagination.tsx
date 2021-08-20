@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const PAGINATION_WIDTH = 450;
 const PREV_BUTTON_TEXT = '<';
 const NEXT_BUTTON_TEXT = '>';
+const MAX_NUMBER_BUTTONS = 9;
 
 const Container = styled.nav`
   width: ${PAGINATION_WIDTH}px;
@@ -31,7 +32,8 @@ const NavList = styled.ul`
 `;
 
 const NavListItem = styled.li`
-  margin: 0 8px;
+  width: 36px;
+  text-align: center;
 `;
 
 type NumberButtonProps = {
@@ -71,12 +73,16 @@ const ReviewPagination = (props: Props): JSX.Element => {
     );
   });
 
+  const [start, end] = getNumberButtonRange(currentPage, totalPages, MAX_NUMBER_BUTTONS);
+
+  const renderNavListItems = navListItems.slice(start, end);
+
   return (
     <Container>
       <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
         {PREV_BUTTON_TEXT}
       </NavButton>
-      <NavList>{navListItems}</NavList>
+      <NavList>{renderNavListItems}</NavList>
       <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
         {NEXT_BUTTON_TEXT}
       </NavButton>
@@ -85,3 +91,11 @@ const ReviewPagination = (props: Props): JSX.Element => {
 };
 
 export default ReviewPagination;
+
+const getNumberButtonRange = (current: number, total: number, max: number): [number, number] => {
+  if (total <= max) return [0, total];
+
+  if (current <= max / 2) return [0, max];
+  else if (current >= total - max / 2) return [total - max, total];
+  else return [Math.floor(current - max / 2), Math.floor(current + max / 2)];
+};
