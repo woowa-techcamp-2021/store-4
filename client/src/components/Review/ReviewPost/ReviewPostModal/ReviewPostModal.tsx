@@ -16,10 +16,12 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
+  width: 700px;
   height: 600px;
+  padding: 30px 50px;
   background-color: ${(props) => props.theme.color.white1};
-  border: 1px solid ${(props) => props.theme.color.white2};
+  border-radius: 8px;
+  box-shadow: ${(props) => props.theme.color.grey4} 1px 1px 5px;
 
   z-index: 999;
 `;
