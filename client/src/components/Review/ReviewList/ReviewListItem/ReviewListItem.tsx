@@ -49,11 +49,11 @@ const ReviewListItem = (props: Props): JSX.Element => {
 
   useLayoutEffect(() => {
     const isTitleOverflowed = titleRef.current?.clientWidth === MAX_TITLE_WIDTH;
-    setHasMoreContent((prevState) => prevState || isTitleOverflowed);
+    setHasMoreContent((hasMoreContent) => hasMoreContent || isTitleOverflowed);
   }, []);
 
-  const handleReviewItemClick = useCallback(
-    () => setReviewDetailOpen((prev) => !prev),
+  const handleReviewSummaryClick = useCallback(
+    () => setReviewDetailOpen((reviewDetailOpen) => !reviewDetailOpen),
     [setReviewDetailOpen]
   );
 
@@ -63,7 +63,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
         <ReviewStars>{stars}</ReviewStars>
         <ReviewSummary
           content={review.content}
-          onClick={handleReviewItemClick}
+          onClick={handleReviewSummaryClick}
           isClickable={hasMoreContent}
           reviewTitleRef={titleRef}
           reviewDetailOpen={reviewDetailOpen}
