@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import ReviewPostFormContainer from '../../../../containers/ReviewPostFormContainer';
 
 const Overlay = styled.div`
   position: fixed;
@@ -42,10 +43,7 @@ const ReviewPostModal = (props: Props): JSX.Element => {
   return (
     <Overlay onClick={handleOverlayClick}>
       <Modal className="modal">
-        <h1>글쓰기</h1>
-        <input type="text" />
-        <input type="file" />
-        <button onClick={onClose}>닫기</button>
+        <ReviewPostFormContainer onCancelButtonClick={onClose} />
       </Modal>
     </Overlay>
   );
