@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 const PAGINATION_WIDTH = 450;
+const PREV_BUTTON_TEXT = '<';
+const NEXT_BUTTON_TEXT = '>';
 
 const Container = styled.nav`
   width: ${PAGINATION_WIDTH}px;
@@ -72,11 +74,11 @@ const ReviewPagination = (props: Props): JSX.Element => {
   return (
     <Container>
       <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
-        이전
+        {PREV_BUTTON_TEXT}
       </NavButton>
       <NavList>{navListItems}</NavList>
       <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
-        다음
+        {NEXT_BUTTON_TEXT}
       </NavButton>
     </Container>
   );
