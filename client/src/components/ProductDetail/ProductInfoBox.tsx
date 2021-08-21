@@ -62,7 +62,7 @@ const TotalPrice = styled.div`
 type Props = {
   cartType: CartType;
   cartsInProduct: CartInProduct[];
-  product: Product | null;
+  product: Product;
   selectsWithSelected: SelectWithSelected[];
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
   getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
