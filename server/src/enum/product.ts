@@ -3,5 +3,5 @@ export enum SortOption {
   Popularity = 'popularity',
   Recent = 'recent',
   PriceLow = 'priceLow',
-  PriceHigh = 'priceHight',
+  PriceHigh = 'priceHigh',
 }
