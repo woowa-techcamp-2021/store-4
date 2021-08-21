@@ -1,5 +1,6 @@
-import { IsOptional, IsInt, IsEnum, ValidateIf } from 'class-validator';
+import { IsInt, IsEnum, IsPositive, IsOptional } from 'class-validator';
 import { SortOption } from '../enum/product';
+import { isNone } from '../util/type-guard';
 import BaseValidator from './base-validator';
 
 const DEFAULT_QUERY = {
@@ -10,9 +11,9 @@ const DEFAULT_QUERY = {
 };
 
 class ProductFindQuery extends BaseValidator {
-  @IsInt()
   @IsOptional()
-  @ValidateIf((_, value) => value !== null)
+  @IsInt()
+  @IsPositive()
   category: number | null;
 
   @IsEnum([
@@ -22,23 +23,22 @@ class ProductFindQuery extends BaseValidator {
     SortOption.PriceLow,
     SortOption.PriceHigh,
   ])
-  @IsOptional()
   sort: SortOption;
 
   @IsInt()
-  @IsOptional()
+  @IsPositive()
   pageNum: number;
 
   @IsInt()
-  @IsOptional()
+  @IsPositive()
   limit: number;
 
   constructor(data: ProductFindQuery) {
     super();
-    this.category = data.category === null ? DEFAULT_QUERY.category : +data.category;
-    this.sort = data.sort ?? DEFAULT_QUERY.sort;
-    this.pageNum = +(data.pageNum ?? DEFAULT_QUERY.pageNum);
-    this.limit = +(data.limit ?? DEFAULT_QUERY.limit);
+    this.category = isNone(data.category) ? DEFAULT_QUERY.category : +data.category;
+    this.sort = isNone(data.sort) ? DEFAULT_QUERY.sort : data.sort;
+    this.pageNum = isNone(data.pageNum) ? DEFAULT_QUERY.pageNum : +data.pageNum;
+    this.limit = isNone(data.limit) ? DEFAULT_QUERY.limit : +data.limit;
   }
 }
 
