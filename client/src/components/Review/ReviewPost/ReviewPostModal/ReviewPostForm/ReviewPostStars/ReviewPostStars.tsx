@@ -12,12 +12,18 @@ type StarPathProps = {
   isSettled: boolean;
 };
 const StarPath = styled.path<StarPathProps>`
-  fill: ${(props) =>
-    props.isFilled
-      ? props.isSettled
-        ? props.theme.color.mint2
-        : props.theme.color.mint1
-      : 'none'};
+  fill: ${(props) => {
+    const notFilled = !props.isFilled;
+    if (notFilled) {
+      return 'none';
+    }
+
+    if (props.isSettled) {
+      return props.theme.color.mint2;
+    } else {
+      return props.theme.color.mint1;
+    }
+  }};
   stroke: ${(props) =>
     props.isFilled && props.isSettled ? props.theme.color.mint2 : props.theme.color.mint1};
 `;
