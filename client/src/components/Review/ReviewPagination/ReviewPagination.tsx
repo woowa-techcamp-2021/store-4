@@ -55,12 +55,12 @@ type Props = {
   currentPage: number;
   totalPages: number;
   onPageNumClick: (pageNum: number) => void;
-  onPageNavButtonClick: (isPrev: boolean) => void;
+  onPageNavButtonClick: (type: 'prev' | 'next') => void;
 };
 const ReviewPagination = (props: Props): JSX.Element => {
   const { currentPage, totalPages, onPageNumClick, onPageNavButtonClick } = props;
-  const onPrevButtonClick = useCallback(() => onPageNavButtonClick(true), [onPageNavButtonClick]);
-  const onNextButtonClick = useCallback(() => onPageNavButtonClick(false), [onPageNavButtonClick]);
+  const onPrevButtonClick = useCallback(() => onPageNavButtonClick('prev'), [onPageNavButtonClick]);
+  const onNextButtonClick = useCallback(() => onPageNavButtonClick('next'), [onPageNavButtonClick]);
 
   const navListItems = Array.from({ length: totalPages }).map((_, i) => {
     const pageNum = i + 1;

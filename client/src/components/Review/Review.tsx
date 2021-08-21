@@ -57,7 +57,10 @@ const Review = (props: Props): JSX.Element => {
 
   const handlePageNumClick = useCallback((pageNum) => setCurrentPage(pageNum), []);
   const handlePageNavButtonClick = useCallback(
-    (isPrev) => setCurrentPage((prevPage) => (isPrev ? prevPage - 1 : prevPage + 1)),
+    (type) =>
+      setCurrentPage((prevCurrentPage) =>
+        type === 'prev' ? prevCurrentPage - 1 : prevCurrentPage + 1
+      ),
     []
   );
 
