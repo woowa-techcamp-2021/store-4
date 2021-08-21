@@ -5,6 +5,7 @@ import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
 import { CartType, SelectWithSelected } from '../../types/product';
 import ProductDetailImages from './ProductDetailImages';
+import ProductDetailSkeleton from './ProductDetailSkeleton';
 import ProductInfoBox from './ProductInfoBox';
 
 const Container = styled.div`
@@ -13,8 +14,6 @@ const Container = styled.div`
   justify-content: space-between;
   width: ${(props) => props.theme.device.desktop};
 `;
-
-const SkeletonUI = styled.div``;
 
 type Props = {
   cartType: CartType;
@@ -41,7 +40,7 @@ const ProductDetail = (props: Props): JSX.Element => {
   }, [product]);
 
   if (product === null) {
-    return <SkeletonUI />;
+    return <ProductDetailSkeleton />;
   }
 
   return (
