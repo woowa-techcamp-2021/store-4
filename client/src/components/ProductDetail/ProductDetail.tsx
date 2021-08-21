@@ -10,9 +10,28 @@ import ProductInfoBox from './ProductInfoBox';
 
 const Container = styled.div`
   margin: 40px auto;
+  width: ${(props) => props.theme.device.desktop};
+`;
+
+const ProductInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: ${(props) => props.theme.device.desktop};
+`;
+
+const ProductContentWrapper = styled.div`
+  width: 100%;
+  margin: 50px 0px;
+`;
+
+const ProductContentTitle = styled.h1`
+  padding: 10px;
+  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
+  font-size: ${(props) => props.theme.fontSize.large};
+`;
+
+const ProductContent = styled.div`
+  width: fit-content;
+  margin: 40px auto;
 `;
 
 type Props = {
@@ -45,8 +64,14 @@ const ProductDetail = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ProductDetailImages images={productImages} />
-      <ProductInfoBox {...props} product={product} />
+      <ProductInfoWrapper>
+        <ProductDetailImages images={productImages} />
+        <ProductInfoBox {...props} product={product} />
+      </ProductInfoWrapper>
+      <ProductContentWrapper>
+        <ProductContentTitle>상품설명</ProductContentTitle>
+        <ProductContent dangerouslySetInnerHTML={{ __html: product.content }} />
+      </ProductContentWrapper>
     </Container>
   );
 };

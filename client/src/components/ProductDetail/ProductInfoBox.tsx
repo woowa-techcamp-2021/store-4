@@ -8,7 +8,7 @@ import ProductCartItem from './ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
 
 const Container = styled.div`
-  width: 600px;
+  width: 550px;
 `;
 
 const ProductTitle = styled.h1`
@@ -51,7 +51,7 @@ const TotalPriceWrapper = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid ${(props) => props.theme.color.grey2};
+  border-top: 1px solid ${(props) => props.theme.color.grey1};
   padding: 20px 0px;
 `;
 
