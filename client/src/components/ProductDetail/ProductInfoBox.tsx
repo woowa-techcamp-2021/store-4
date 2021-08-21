@@ -117,7 +117,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
 
   return (
     <>
-      {product !== null ? (
+      {product !== null && (
         <Container>
           <ProductTitle>{product.name}</ProductTitle>
           {product.discountRate !== 0 && (
@@ -138,8 +138,6 @@ const ProductInfoBox = (props: Props): JSX.Element => {
             <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
           </TotalPriceWrapper>
         </Container>
-      ) : (
-        <div>로딩중</div>
       )}
     </>
   );
