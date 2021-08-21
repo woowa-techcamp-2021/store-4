@@ -36,7 +36,7 @@ const ProductSelectBox = (props: Props): JSX.Element => {
   ));
 
   return (
-    <Container>
+    <Container data-testid="product-select">
       <Select value={selected?.id ?? 'default'} onChange={onChange}>
         <Option value="default" disabled>{`${name}옵션을 선택해주세요`}</Option>
         {options}

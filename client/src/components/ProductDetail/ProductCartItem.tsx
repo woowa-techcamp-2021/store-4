@@ -52,7 +52,7 @@ type Props = {
   onCountChange: ChangeEventHandler;
 };
 
-const ProductCounterController = (props: Props): JSX.Element => {
+const ProductCartItem = (props: Props): JSX.Element => {
   const {
     cartType,
     cartInProduct,
@@ -65,7 +65,7 @@ const ProductCounterController = (props: Props): JSX.Element => {
   const { count, totalPrice, titleWithOption } = cartInProduct;
 
   return (
-    <Container>
+    <Container data-testid="product-cart">
       <ProductTitle>{titleWithOption}</ProductTitle>
       <ProductCounterWrapper>
         <ProductCounter
@@ -78,7 +78,7 @@ const ProductCounterController = (props: Props): JSX.Element => {
       </ProductCounterWrapper>
       <ProductPrice>{toKoreanMoneyFormat(totalPrice)}</ProductPrice>
       {cartType === 'multi' && (
-        <RemoveButton onClick={onRemoveClick} data-testid="product-count-controller-remove">
+        <RemoveButton onClick={onRemoveClick} data-testid="product-cart-remove">
           X
         </RemoveButton>
       )}
@@ -86,4 +86,4 @@ const ProductCounterController = (props: Props): JSX.Element => {
   );
 };
 
-export default ProductCounterController;
+export default ProductCartItem;

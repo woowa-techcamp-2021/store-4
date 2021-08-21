@@ -4,7 +4,7 @@ import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
 import { CartType, SelectWithSelected } from '../../types/product';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
-import ProductCountController from './ProductCountController';
+import ProductCartItem from './ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
 
 const Container = styled.div``;
@@ -74,8 +74,8 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     </InfoRowWrapper>
   ));
 
-  const ProductCountControllers = cartsInProduct.map((cartInProduct) => (
-    <ProductCountController
+  const ProductCartItems = cartsInProduct.map((cartInProduct) => (
+    <ProductCartItem
       key={cartInProduct.uuid}
       cartType={cartType}
       onBlur={getCountBlurHandler(cartInProduct)}
@@ -103,7 +103,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
             <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
           </InfoRowWrapper>
           {ProductSelects}
-          {ProductCountControllers}
+          {ProductCartItems}
         </Container>
       ) : (
         <div>로딩중</div>
