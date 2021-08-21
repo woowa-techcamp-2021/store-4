@@ -38,10 +38,10 @@ const ReviewPostForm = (props: Props): JSX.Element => {
     setPoint(point);
     setInputText(DEFAULT_TEXT_FOR_POINT[point]);
   }, []);
-  const handleTextChange = useCallback((event: ChangeEvent) => {
-    const target = event.target as HTMLTextAreaElement;
-    setInputText(target.value);
-  }, []);
+  const handleTextChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => setInputText(event.target.value),
+    []
+  );
 
   return (
     <Container>
