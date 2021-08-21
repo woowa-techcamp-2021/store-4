@@ -4,9 +4,10 @@ import { Mock } from '../../../../containers/ReviewContainer';
 import formatDate from '../../../../utils/formatDate';
 import ReviewDetail from './ReviewDetail/ReviewDetail';
 import ReviewSummary from './ReviewSummary/ReviewSummary';
-import { generateStars } from './Stars/Stars';
+import Star from './Star/Star';
 
 const MAX_TITLE_WIDTH = 700;
+const MAX_REVIEW_POINT = 5;
 
 const Container = styled.li`
   padding: 10px 20px;
@@ -45,7 +46,9 @@ const ReviewListItem = (props: Props): JSX.Element => {
   const [reviewDetailOpen, setReviewDetailOpen] = useState(false);
   const titleRef = useRef<HTMLSpanElement>(null);
   const [hasMoreContent, setHasMoreContent] = useState(review.reviewImages.length > 0);
-  const stars = generateStars(review.point);
+  const Stars = Array.from({ length: MAX_REVIEW_POINT }).map((_, i) => (
+    <Star key={i} isFilled={i < review.point} />
+  ));
 
   useLayoutEffect(() => {
     const isTitleOverflowed = titleRef.current?.clientWidth === MAX_TITLE_WIDTH;
@@ -60,7 +63,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
   return (
     <Container data-testid="review-list-item">
       <ReviewDisplayContainer>
-        <ReviewStarsContainer>{stars}</ReviewStarsContainer>
+        <ReviewStarsContainer>{Stars}</ReviewStarsContainer>
         <ReviewSummary
           content={review.content}
           maxTitleWidth={MAX_TITLE_WIDTH}

@@ -26,6 +26,4 @@ const Star = (props: StarPathProps): JSX.Element => {
   );
 };
 
-export const generateStars = (point: number): JSX.Element[] => {
-  return Array.from({ length: 5 }).map((_, i) => <Star key={i} isFilled={i < point} />);
-};
+export default Star;
