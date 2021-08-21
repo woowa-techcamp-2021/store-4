@@ -7,7 +7,12 @@ import { CartType, SelectWithSelected } from '../../types/product';
 import ProductDetailImages from './ProductDetailImages';
 import ProductInfoBox from './ProductInfoBox';
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+  width: ${(props) => props.theme.device.desktop};
+`;
 
 const SkeletonUI = styled.div``;
 

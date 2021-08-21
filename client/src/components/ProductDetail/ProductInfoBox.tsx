@@ -7,9 +7,12 @@ import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import ProductCartItem from './ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 600px;
+`;
 
 const ProductTitle = styled.h1`
+  margin: 0;
   margin-bottom: 40px;
 `;
 
