@@ -17,7 +17,7 @@ const ADD_IMAGE_BUTTON_TEXT = '사진 추가';
 const IMAGE_THUMBNAIL_SIZE = 90;
 const IMAGE_LIST_PLACEHOLDER_TEXT = '사진을 추가하려면 왼쪽 버튼을 클릭하세요';
 const CANCEL_BUTTON_TEXT = '취소';
-const SUBMIT_BUTTON_TEXT = '리뷰 남기기';
+const SUBMIT_BUTTON_TEXT = '후기 남기기';
 
 const Container = styled.form`
   display: flex;
