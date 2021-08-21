@@ -18,7 +18,7 @@ class ProductService {
 
     const totalPages = Math.ceil(totalProductCount / limit);
 
-    if (totalProductCount && pageNum > totalPages) {
+    if (totalProductCount > 0 && pageNum > totalPages) {
       throw new PageOverflowException(ERROR_MESSAGES.PAGE_OVERFLOW);
     }
 
