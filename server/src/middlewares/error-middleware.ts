@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import BusinessException from '../exceptions/business-exception';
-import InvalidTokenException from '../exceptions/invaild-token-exception';
+import InvalidTokenException from '../exceptions/invalid-token-exception';
 import InvalidInputException from '../exceptions/invalid-input-exception';
 import PageOverflowException from '../exceptions/page-overflow-exception';
 import TokenExpiredException from '../exceptions/token-expired-exception';
