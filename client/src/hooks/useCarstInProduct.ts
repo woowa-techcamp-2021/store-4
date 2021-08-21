@@ -21,7 +21,8 @@ type UseCartsInProduct = [
   (cartInProduct: CartInProduct) => void,
   (cartInProduct: CartInProduct) => void,
   (cartInProduct: CartInProduct) => void,
-  (cartInProduct: CartInProduct, count: number) => void
+  (cartInProduct: CartInProduct, count: number) => void,
+  (cartInProduct: CartInProduct) => void
 ];
 
 const useCartsInProduct = (product: Product | null): UseCartsInProduct => {
@@ -55,6 +56,16 @@ const useCartsInProduct = (product: Product | null): UseCartsInProduct => {
 
       cartInProduct.count = count;
       handleReplace(cartInProduct);
+    },
+    [handleReplace]
+  );
+
+  const handleChangeInvalidCount = useCallback(
+    (cartInProduct: CartInProduct) => {
+      if (cartInProduct.count <= 0) {
+        cartInProduct.count = 1;
+        handleReplace(cartInProduct);
+      }
     },
     [handleReplace]
   );
@@ -152,6 +163,7 @@ const useCartsInProduct = (product: Product | null): UseCartsInProduct => {
     handleIncrease,
     handleDecrease,
     handleChangeCount,
+    handleChangeInvalidCount,
   ];
 };
 

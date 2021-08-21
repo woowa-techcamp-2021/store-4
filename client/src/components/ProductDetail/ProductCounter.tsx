@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -38,17 +38,23 @@ const ControlButtonWrapper = styled.div`
 
 type Props = {
   count: number;
+  onBlur: FocusEventHandler;
   onIncreaseClick: MouseEventHandler;
   onDecreaseClick: MouseEventHandler;
   onCountChange: ChangeEventHandler;
 };
 
 const ProductCounter = (props: Props): JSX.Element => {
-  const { count, onIncreaseClick, onDecreaseClick, onCountChange } = props;
+  const { count, onBlur, onIncreaseClick, onDecreaseClick, onCountChange } = props;
 
   return (
     <Container>
-      <CountInput value={count} onChange={onCountChange} data-testid="product-counter-count" />
+      <CountInput
+        value={count}
+        onBlur={onBlur}
+        onChange={onCountChange}
+        data-testid="product-counter-count"
+      />
       <ControlButtonWrapper>
         <ControlButton onClick={onIncreaseClick} data-testid="product-counter-increase">
           +

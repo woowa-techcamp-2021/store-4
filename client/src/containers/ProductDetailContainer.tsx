@@ -17,6 +17,7 @@ const ProductDetailContainer = (): JSX.Element => {
     handleIncrease,
     handleDecrease,
     handleChangeCount,
+    handleChangeInvalidCount,
   ] = useCartsInProduct(product);
 
   const handleGetSelectChangeHandler = useCallback(
@@ -43,7 +44,7 @@ const ProductDetailContainer = (): JSX.Element => {
     [handleAppend, resetOption, selectOption, selectsWithSelected]
   );
 
-  const handleGetOnCountChangeHandler = useCallback(
+  const handleGetCountChangeHandler = useCallback(
     (cartInProduct: CartInProduct) =>
       ({ target }: ChangeEvent<HTMLInputElement>) => {
         const { value } = target;
@@ -55,6 +56,13 @@ const ProductDetailContainer = (): JSX.Element => {
         handleChangeCount(cartInProduct, +value);
       },
     [handleChangeCount]
+  );
+
+  const handleGetCountBlurHandler = useCallback(
+    (cartInProduct: CartInProduct) => () => {
+      handleChangeInvalidCount(cartInProduct);
+    },
+    [handleChangeInvalidCount]
   );
 
   const handleGetIncreaseHandler = useCallback(
@@ -76,10 +84,11 @@ const ProductDetailContainer = (): JSX.Element => {
     <ProductInfoBox
       cartType={cartType}
       cartsInProduct={cartsInProduct}
-      getOnCountChangeHandler={handleGetOnCountChangeHandler}
+      getCountChangeHandler={handleGetCountChangeHandler}
       getIncreaseCartHandler={handleGetIncreaseHandler}
       getDecreaseCartHandler={handleGetDecreaseHandler}
       getRemoveCartHandler={handleGetRemoveHandler}
+      getCountBlurHandler={handleGetCountBlurHandler}
       product={product}
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}

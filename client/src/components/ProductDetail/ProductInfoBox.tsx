@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
@@ -42,7 +42,8 @@ type Props = {
   product: Product | null;
   selectsWithSelected: SelectWithSelected[];
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
-  getOnCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
+  getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
+  getCountBlurHandler: (cartInProduct: CartInProduct) => FocusEventHandler;
   getIncreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getDecreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getRemoveCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
@@ -58,7 +59,8 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     getIncreaseCartHandler,
     getDecreaseCartHandler,
     getRemoveCartHandler,
-    getOnCountChangeHandler,
+    getCountChangeHandler,
+    getCountBlurHandler,
   } = props;
 
   const ProductSelects = selectsWithSelected.map((selectWithSelected) => (
@@ -76,10 +78,11 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     <ProductCountController
       key={cartInProduct.uuid}
       cartType={cartType}
+      onBlur={getCountBlurHandler(cartInProduct)}
       onIncreaseClick={getIncreaseCartHandler(cartInProduct)}
       onDecreaseClick={getDecreaseCartHandler(cartInProduct)}
       onRemoveClick={getRemoveCartHandler(cartInProduct)}
-      onCountChange={getOnCountChangeHandler(cartInProduct)}
+      onCountChange={getCountChangeHandler(cartInProduct)}
       cartInProduct={cartInProduct}
     />
   ));

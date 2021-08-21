@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import CartInProduct from '../../models/cart-in-product';
 import { CartType } from '../../types/product';
@@ -45,6 +45,7 @@ const RemoveButton = styled.button`
 type Props = {
   cartType: CartType;
   cartInProduct: CartInProduct;
+  onBlur: FocusEventHandler;
   onIncreaseClick: MouseEventHandler;
   onDecreaseClick: MouseEventHandler;
   onRemoveClick?: MouseEventHandler;
@@ -55,6 +56,7 @@ const ProductCounterController = (props: Props): JSX.Element => {
   const {
     cartType,
     cartInProduct,
+    onBlur,
     onIncreaseClick,
     onDecreaseClick,
     onRemoveClick,
@@ -67,6 +69,7 @@ const ProductCounterController = (props: Props): JSX.Element => {
       <ProductTitle>{titleWithOption}</ProductTitle>
       <ProductCounterWrapper>
         <ProductCounter
+          onBlur={onBlur}
           count={count}
           onCountChange={onCountChange}
           onIncreaseClick={onIncreaseClick}
