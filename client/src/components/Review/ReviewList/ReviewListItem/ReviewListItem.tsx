@@ -6,7 +6,7 @@ import ReviewDetail from './ReviewDetail/ReviewDetail';
 import ReviewSummary from './ReviewSummary/ReviewSummary';
 import { generateStars } from './Stars/Stars';
 
-export const MAX_TITLE_WIDTH = 700;
+const MAX_TITLE_WIDTH = 700;
 
 const Container = styled.li`
   padding: 10px 20px;
@@ -63,6 +63,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
         <ReviewStarsContainer>{stars}</ReviewStarsContainer>
         <ReviewSummary
           content={review.content}
+          maxTitleWidth={MAX_TITLE_WIDTH}
           onClick={handleReviewSummaryClick}
           isClickable={hasMoreContent}
           reviewTitleRef={titleRef}

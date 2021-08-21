@@ -1,6 +1,5 @@
 import React, { MouseEventHandler, RefObject } from 'react';
 import styled from 'styled-components';
-import { MAX_TITLE_WIDTH } from '../ReviewListItem';
 import CHEVRON_DOWN from './chevronDown.png';
 
 type ContainerProps = {
@@ -14,9 +13,12 @@ const Container = styled.div<ContainerProps>`
   cursor: ${(props) => (props.isClickable ? 'pointer' : 'default')};
 `;
 
-const ReviewTitle = styled.span`
+type ReviewTitleProps = {
+  maxWidth: number;
+};
+const ReviewTitle = styled.span<ReviewTitleProps>`
   font-size: ${(props) => props.theme.fontSize.small};
-  max-width: ${MAX_TITLE_WIDTH}px;
+  max-width: ${(props) => props.maxWidth}px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -40,16 +42,19 @@ const SeeMore = styled.button<SeeMoreProps>`
 
 type Props = {
   content: string;
+  maxTitleWidth: number;
   onClick: MouseEventHandler;
   isClickable: boolean;
   reviewTitleRef: RefObject<HTMLSpanElement>;
   reviewDetailOpen: boolean;
 };
 const ReviewSummary = (props: Props): JSX.Element => {
-  const { onClick, isClickable, content, reviewTitleRef, reviewDetailOpen } = props;
+  const { onClick, isClickable, content, maxTitleWidth, reviewTitleRef, reviewDetailOpen } = props;
   return (
     <Container onClick={onClick} isClickable={isClickable}>
-      <ReviewTitle ref={reviewTitleRef}>{content}</ReviewTitle>
+      <ReviewTitle maxWidth={maxTitleWidth} ref={reviewTitleRef}>
+        {content}
+      </ReviewTitle>
       {isClickable && <SeeMore isCloseIcon={reviewDetailOpen} />}
     </Container>
   );
