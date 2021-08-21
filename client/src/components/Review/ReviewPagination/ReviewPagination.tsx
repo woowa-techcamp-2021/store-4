@@ -62,7 +62,7 @@ const ReviewPagination = (props: Props): JSX.Element => {
   const onPrevButtonClick = useCallback(() => onPageNavButtonClick('prev'), [onPageNavButtonClick]);
   const onNextButtonClick = useCallback(() => onPageNavButtonClick('next'), [onPageNavButtonClick]);
 
-  const navListItems = Array.from({ length: totalPages }).map((_, i) => {
+  const NavListItems = Array.from({ length: totalPages }).map((_, i) => {
     const pageNum = i + 1;
 
     return (
@@ -80,14 +80,14 @@ const ReviewPagination = (props: Props): JSX.Element => {
 
   const [start, end] = getNumberButtonRange(currentPage, totalPages, MAX_NUMBER_BUTTONS);
 
-  const renderNavListItems = navListItems.slice(start, end);
+  const NavListItemsSliced = NavListItems.slice(start, end);
 
   return (
     <Container>
       <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
         {PREV_BUTTON_TEXT}
       </NavButton>
-      <NavList data-testid="pagination-button-list">{renderNavListItems}</NavList>
+      <NavList data-testid="pagination-button-list">{NavListItemsSliced}</NavList>
       <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
         {NEXT_BUTTON_TEXT}
       </NavButton>

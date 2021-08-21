@@ -14,11 +14,11 @@ type Props = {
 const ReviewList = (props: Props): JSX.Element => {
   const { reviews } = props;
 
-  const reviewListItems = reviews.map((review) => (
+  const ReviewListItems = reviews.map((review) => (
     <ReviewListItem key={review.id} review={review} />
   ));
 
-  return <Container>{reviewListItems}</Container>;
+  return <Container>{ReviewListItems}</Container>;
 };
 
 export default ReviewList;

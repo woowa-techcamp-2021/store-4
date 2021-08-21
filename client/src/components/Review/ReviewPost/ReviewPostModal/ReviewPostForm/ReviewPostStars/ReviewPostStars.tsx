@@ -91,7 +91,7 @@ const ReviewPostStars = (props: Props): JSX.Element => {
     }
   }, [filledCount, isSettled, onStarClick]);
 
-  const renderStars = Array.from({ length: 5 }).map((_, i) => (
+  const Stars = Array.from({ length: 5 }).map((_, i) => (
     <Star
       key={i}
       onClick={getClickHandler(i)}
@@ -103,7 +103,7 @@ const ReviewPostStars = (props: Props): JSX.Element => {
 
   return (
     <Container width={width} onMouseLeave={handleMouseLeave}>
-      {renderStars}
+      {Stars}
     </Container>
   );
 };

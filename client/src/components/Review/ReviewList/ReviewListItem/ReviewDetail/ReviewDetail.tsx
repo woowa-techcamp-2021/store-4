@@ -33,18 +33,18 @@ const ReviewContent = styled.p`
 
 const ReviewDetail = (props: Props): JSX.Element => {
   const { review } = props;
-  const reviewImages = review.reviewImages.map((imageUrl, i) => (
+  const ReviewImages = review.reviewImages.map((imageUrl, i) => (
     <ReviewDetailImage
       key={i}
       imageUrl={imageUrl}
       height={REVIEW_DETAIL_WIDTH / IMAGE_GRID_COLUMNS}
     />
   ));
-  const shouldRenderReviewImageList = reviewImages.length > 0;
+  const shouldRenderReviewImageList = review.reviewImages.length > 0;
 
   return (
     <Container>
-      {shouldRenderReviewImageList && <ReviewImageList>{reviewImages}</ReviewImageList>}
+      {shouldRenderReviewImageList && <ReviewImageList>{ReviewImages}</ReviewImageList>}
       <ReviewContent>{review.content}</ReviewContent>
     </Container>
   );
