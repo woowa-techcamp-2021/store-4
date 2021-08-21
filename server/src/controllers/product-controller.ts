@@ -11,7 +11,7 @@ export type ProductResponse = {
 };
 
 class ProductController {
-  getAll = async (req: Request, res: Response) => {
+  async getAll(req: Request, res: Response) {
     const query = req.query as unknown as ProductFindQuery;
     const productFindQuery = new ProductFindQuery(query);
     await productFindQuery.validate();
@@ -19,7 +19,7 @@ class ProductController {
     const productResponse = await productService.findAll(productFindQuery);
 
     res.status(200).json(productResponse);
-  };
+  }
 
   async findOne(req: Request, res: Response) {
     const userId = req.decoded?.id ?? null;
