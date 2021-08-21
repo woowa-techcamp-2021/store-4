@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import BusinessException from '../exceptions/business-exception';
 import InvalidTokenException from '../exceptions/invaild-token-exception';
+import InvalidInputException from '../exceptions/invalid-input-exception';
 import PageOverflowException from '../exceptions/page-overflow-exception';
 import TokenExpiredException from '../exceptions/token-expired-exception';
 
@@ -11,6 +12,7 @@ type HTTPErrors = {
 
 const errors: { [key: string]: HTTPErrors } = {
   [InvalidTokenException.name]: { status: 401 },
+  [InvalidInputException.name]: { status: 400 },
   [TokenExpiredException.name]: { status: 410 },
   [PageOverflowException.name]: { status: 400 },
 };
