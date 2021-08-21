@@ -6,12 +6,12 @@ import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import ProductCounter from './ProductCounter';
 
 const Container = styled.div`
-  width: 500px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${(props) => props.theme.color.grey1};
-  padding: 18px;
+  padding: 12px;
 `;
 
 const ProductTitle = styled.strong`
@@ -21,7 +21,7 @@ const ProductTitle = styled.strong`
 `;
 
 const ProductPrice = styled.strong`
-  flex: 1;
+  flex: 2;
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: bold;
   text-align: right;

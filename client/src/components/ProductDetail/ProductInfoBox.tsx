@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
+import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler, useMemo } from 'react';
 import styled from 'styled-components';
 import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
@@ -20,7 +20,7 @@ const CostPrice = styled.div`
 const DiscountedPrice = styled.div`
   font-size: ${(props) => props.theme.fontSize.large};
   font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
+  font-family: ${(props) => props.theme.fontFamily.number};
 `;
 
 const InfoLabel = styled.div`
@@ -34,6 +34,29 @@ const InfoRowWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin: 12px 0;
+`;
+
+const ProductCartListWrapper = styled.div`
+  margin-top: 50px;
+  height: 120px;
+  overflow: scroll;
+`;
+
+const TotalPriceWrapper = styled.div`
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid ${(props) => props.theme.color.grey2};
+  padding: 20px 0px;
+`;
+
+const TotalPrice = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.number};
+  font-size: ${(props) => props.theme.fontSize.xLarge};
+  font-weight: bold;
+  color: ${(props) => props.theme.color.mint2};
 `;
 
 type Props = {
@@ -87,6 +110,11 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     />
   ));
 
+  const totalPrice = useMemo(
+    () => cartsInProduct.reduce((sum, cartInProduct) => sum + cartInProduct.totalPrice, 0),
+    [cartsInProduct]
+  );
+
   return (
     <>
       {product !== null ? (
@@ -103,7 +131,12 @@ const ProductInfoBox = (props: Props): JSX.Element => {
             <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
           </InfoRowWrapper>
           {ProductSelects}
-          {ProductCartItems}
+
+          <ProductCartListWrapper>{ProductCartItems}</ProductCartListWrapper>
+          <TotalPriceWrapper>
+            <InfoLabel>총 합계 금액</InfoLabel>
+            <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
+          </TotalPriceWrapper>
         </Container>
       ) : (
         <div>로딩중</div>
