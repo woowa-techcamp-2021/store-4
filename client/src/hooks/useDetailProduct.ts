@@ -10,15 +10,22 @@ const useDetailProduct = (): Product | null => {
       name: '상품',
       price: 10000,
       discountRate: 10,
-      content: '상품 정보',
-      productImages: [],
+      content: `
+      <img referrerPolicy="no-referrer" src="https://store.baemin.com/data/editor/goods/36b575e3495a6158.jpg"/>
+      `,
+      productImages: [
+        {
+          id: 0,
+          url: 'https://img.29cm.co.kr/next-product/2020/11/12/9ed60df4fa3642df840615910c94f996_20201112165804.jpg?width=700',
+        },
+      ],
       reviews: [],
       productSelects: [
         {
           id: 1,
           name: '색상',
           productOptions: [
-            { id: 1, name: '화이트', additionalPrice: 0 },
+            { id: 1, name: '화이트', additionalPrice: 2000 },
             { id: 2, name: '블랙', additionalPrice: 0 },
           ],
         },
@@ -36,7 +43,9 @@ const useDetailProduct = (): Product | null => {
       updatedAt: new Date(2021, 0, 1),
     });
 
-    setProduct(product);
+    setTimeout(() => {
+      setProduct(product);
+    }, 600);
   }, []);
 
   return product;

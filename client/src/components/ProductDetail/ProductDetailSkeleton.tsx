@@ -4,6 +4,9 @@ import styled from 'styled-components';
 const Container = styled.div`
   width: ${(props) => props.theme.device.desktop};
   margin: 40px auto;
+`;
+
+const HeadWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -22,7 +25,7 @@ const ImageWrapper = styled.div`
 const ImageSideSkeleton = styled(Skeleton)`
   width: 80px;
   height: 80px;
-  margin-right: 20px;
+  margin-right: 40px;
 `;
 
 const ImageSkeleton = styled(Skeleton)`
@@ -31,7 +34,7 @@ const ImageSkeleton = styled(Skeleton)`
 `;
 
 const ProductInfoWrapper = styled.div`
-  width: 600px;
+  width: 550px;
   height: 500px;
 `;
 
@@ -58,30 +61,53 @@ const InfoRowContentSkeleton = styled(Skeleton)`
   margin-left: 20px;
 `;
 
+const ContentWrapper = styled.div`
+  margin: 50px 0;
+  padding: 10px;
+`;
+
+const ContentTitleSkeleton = styled(Skeleton)`
+  width: 200px;
+  height: 40px;
+`;
+
+const ContentSkeleton = styled(Skeleton)`
+  width: 100%;
+  height: 200px;
+  margin: 40px auto;
+`;
+
 const ProductDetailSkeleton = (): JSX.Element => {
   return (
     <Container>
-      <ImageWrapper>
-        <ImageSideSkeleton />
-        <ImageSkeleton />
-      </ImageWrapper>
-      <ProductInfoWrapper>
-        <ProductTitleSkeleton />
-        <InfoRowWrapper>
-          <InfoRowLabelSkeleton />
-          <InfoRowContentSkeleton />
-        </InfoRowWrapper>
+      <HeadWrapper>
+        <ImageWrapper>
+          <ImageSideSkeleton />
+          <ImageSkeleton />
+        </ImageWrapper>
+        <ProductInfoWrapper>
+          <ProductTitleSkeleton />
+          <InfoRowWrapper>
+            <InfoRowLabelSkeleton />
+            <InfoRowContentSkeleton />
+          </InfoRowWrapper>
 
-        <InfoRowWrapper>
-          <InfoRowLabelSkeleton />
-          <InfoRowContentSkeleton />
-        </InfoRowWrapper>
+          <InfoRowWrapper>
+            <InfoRowLabelSkeleton />
+            <InfoRowContentSkeleton />
+          </InfoRowWrapper>
 
-        <InfoRowWrapper>
-          <InfoRowLabelSkeleton />
-          <InfoRowContentSkeleton />
-        </InfoRowWrapper>
-      </ProductInfoWrapper>
+          <InfoRowWrapper>
+            <InfoRowLabelSkeleton />
+            <InfoRowContentSkeleton />
+          </InfoRowWrapper>
+        </ProductInfoWrapper>
+      </HeadWrapper>
+
+      <ContentWrapper>
+        <ContentTitleSkeleton />
+        <ContentSkeleton />
+      </ContentWrapper>
     </Container>
   );
 };
