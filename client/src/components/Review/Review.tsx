@@ -8,7 +8,7 @@ import ReviewPagination from './ReviewPagination/ReviewPagination';
 
 const REVIEW_TITLE_TEXT = '상품후기';
 const REVIEW_EMPTY_TEXT = '첫 번째 후기를 남겨보세요!';
-const REVIEW_PER_PAGE = 5;
+export const REVIEW_PER_PAGE = 5;
 
 const Container = styled.section`
   width: ${(props) => props.theme.device.desktop};
@@ -66,12 +66,14 @@ const Review = (props: Props): JSX.Element => {
       <ReviewHeader>
         <ReviewTitle>
           {REVIEW_TITLE_TEXT}
-          <ReviewTitleBadge hasNoReview={hasNoReview}>{reviews.length}</ReviewTitleBadge>
+          <ReviewTitleBadge hasNoReview={hasNoReview} data-testid="review-badge">
+            {reviews.length}
+          </ReviewTitleBadge>
         </ReviewTitle>
         <ReviewPost />
       </ReviewHeader>
       {hasNoReview ? (
-        <ReviewEmpty>{REVIEW_EMPTY_TEXT}</ReviewEmpty>
+        <ReviewEmpty data-testid="no-review">{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (
         <>
           <ReviewList reviews={displayedReviews} />

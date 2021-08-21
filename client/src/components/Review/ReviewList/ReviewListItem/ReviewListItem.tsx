@@ -58,7 +58,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
   );
 
   return (
-    <Container>
+    <Container data-testid="review-list-item">
       <ReviewDisplayContainer>
         <ReviewStarsContainer>{stars}</ReviewStarsContainer>
         <ReviewSummary

@@ -67,7 +67,11 @@ const ReviewPagination = (props: Props): JSX.Element => {
 
     return (
       <NavListItem key={i}>
-        <NumberButton onClick={() => onPageNumClick(pageNum)} isCurrent={currentPage === pageNum}>
+        <NumberButton
+          data-testid={`number-button-${pageNum}`}
+          onClick={() => onPageNumClick(pageNum)}
+          isCurrent={currentPage === pageNum}
+        >
           {pageNum}
         </NumberButton>
       </NavListItem>
@@ -83,7 +87,7 @@ const ReviewPagination = (props: Props): JSX.Element => {
       <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
         {PREV_BUTTON_TEXT}
       </NavButton>
-      <NavList>{renderNavListItems}</NavList>
+      <NavList data-testid="pagination-button-list">{renderNavListItems}</NavList>
       <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
         {NEXT_BUTTON_TEXT}
       </NavButton>
