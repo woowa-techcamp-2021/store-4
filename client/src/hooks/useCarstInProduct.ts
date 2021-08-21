@@ -49,7 +49,7 @@ const useCartsInProduct = (product: Product | null): UseCartsInProduct => {
 
   const handleChangeCount = useCallback(
     (cartInProduct: CartInProduct, count: number) => {
-      if (count <= 0) {
+      if (count < 0) {
         return;
       }
 
