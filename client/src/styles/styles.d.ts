@@ -35,5 +35,9 @@ declare module 'styled-components' {
       small: string;
       tiny: string;
     };
+
+    fontFamily: {
+      number: string;
+    };
   }
 }
