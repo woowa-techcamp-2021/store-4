@@ -18,14 +18,14 @@ export enum SortOption {
 }
 
 export type FindOption = {
-  categoryId: number;
+  categoryId: number | null;
   sortOption: SortOption;
   pageNum: number;
   limit: number;
 };
 
 const DEFAULT_OPTIONS: FindOption = {
-  categoryId: -1,
+  categoryId: null,
   sortOption: SortOption.Recommend,
   pageNum: 1,
   limit: 20,
@@ -42,6 +42,7 @@ const MATCH_SORT_OPTION: { [key: string]: SortOption } = {
 export type ProductResponse = {
   products: Product[];
   totalPages: number;
+  totalProductCount: number;
 };
 
 export enum ERROR_TYPE {
@@ -93,7 +94,6 @@ class ProductController {
     const { category, sort, pageNum, limit } = query;
 
     const categoryId = category === undefined ? DEFAULT_OPTIONS.categoryId : +category;
-    if (isNaN(categoryId)) throw ERROR_TYPE.INVALID_CATEGORY;
 
     const sortOption =
       sort === undefined ? DEFAULT_OPTIONS.sortOption : this.convertSortOption(sort);
