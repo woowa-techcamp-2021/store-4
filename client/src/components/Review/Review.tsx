@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Mock } from '../../containers/ReviewContainer';
 import getPaginatedArray from '../../utils/getPaginatedArray';
-import ReviewPost from './ReviewPost/ReviewPost';
+import ReviewHeader from './ReviewHeader/ReviewHeader';
 import ReviewList from './ReviewList/ReviewList';
 import ReviewPagination from './ReviewPagination/ReviewPagination';
 
@@ -13,28 +13,6 @@ export const REVIEW_PER_PAGE = 5;
 const Container = styled.section`
   width: ${(props) => props.theme.device.desktop};
   margin: 0 auto;
-`;
-
-const ReviewHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey3};
-`;
-
-const ReviewTitle = styled.h3`
-  font-size: ${(props) => props.theme.fontSize.medium};
-  font-weight: 500;
-`;
-
-type ReviewTitleBadgeProps = {
-  hasNoReview: boolean;
-};
-const ReviewTitleBadge = styled.span<ReviewTitleBadgeProps>`
-  font-size: ${(props) => props.theme.fontSize.normal};
-  color: ${(props) => (props.hasNoReview ? props.theme.color.mint1 : props.theme.color.mint2)};
-  padding: 0 10px;
 `;
 
 const ReviewEmpty = styled.div`
@@ -49,7 +27,6 @@ type Props = {
 };
 const Review = (props: Props): JSX.Element => {
   const { reviews } = props;
-  const hasNoReview = reviews.length === 0;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(reviews.length / REVIEW_PER_PAGE);
   const showPagination = totalPages > 1;
@@ -66,16 +43,8 @@ const Review = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ReviewHeader>
-        <ReviewTitle>
-          {REVIEW_TITLE_TEXT}
-          <ReviewTitleBadge hasNoReview={hasNoReview} data-testid="review-badge">
-            {reviews.length}
-          </ReviewTitleBadge>
-        </ReviewTitle>
-        <ReviewPost />
-      </ReviewHeader>
-      {hasNoReview ? (
+      <ReviewHeader title={REVIEW_TITLE_TEXT} reviewCount={reviews.length} />
+      {reviews.length === 0 ? (
         <ReviewEmpty data-testid="no-review">{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (
         <>
