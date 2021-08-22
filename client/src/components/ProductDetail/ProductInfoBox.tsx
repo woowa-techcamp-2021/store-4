@@ -16,7 +16,7 @@ const ProductTitle = styled.h1`
   margin-bottom: 40px;
 `;
 
-const CostPrice = styled.div`
+const OriginPrice = styled.div`
   text-decoration: line-through;
 `;
 
@@ -125,7 +125,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
         {product.discountRate !== 0 && (
           <InfoRowWrapper>
             <InfoLabel>정가</InfoLabel>
-            <CostPrice>{toKoreanMoneyFormat(product.price)}</CostPrice>
+            <OriginPrice>{toKoreanMoneyFormat(product.price)}</OriginPrice>
           </InfoRowWrapper>
         )}
         <InfoRowWrapper>
