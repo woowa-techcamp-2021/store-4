@@ -26,8 +26,8 @@ type MainProductListProps = {
 
 const MainProductList = (props: MainProductListProps): JSX.Element => {
   const { title, products } = props;
-  const ProductItems = products.map((product, index) => (
-    <ProductItem key={`title${index}`} product={product} />
+  const ProductItems = products.map((product) => (
+    <ProductItem key={product.id} product={product} />
   ));
   return (
     <ProductList>
