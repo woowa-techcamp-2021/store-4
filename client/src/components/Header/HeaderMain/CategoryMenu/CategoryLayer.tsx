@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
 import { useHistory } from '../../../../lib/router';
@@ -55,7 +55,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
   const history = useHistory();
 
-  const handleHistoryPush = useCallback(
+  const handleGetCategoryClickHandler = useCallback(
     (category: Category) => () => {
       const query = buildQueryString({
         ...option,
@@ -72,14 +72,18 @@ const CategoryLayer = (props: Props): JSX.Element => {
       key={category.id}
       isCurrent={category.id === currentCategory.id}
       onMouseEnter={() => setCurrentCategory(category)}
-      onClick={handleHistoryPush(category)}
+      onClick={handleGetCategoryClickHandler(category)}
     >
       {category.name}
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem isCurrent={true} key={category.id} onClick={handleHistoryPush(category)}>
+    <CategoryListItem
+      isCurrent={true}
+      key={category.id}
+      onClick={handleGetCategoryClickHandler(category)}
+    >
       {category.name}
     </CategoryListItem>
   ));
