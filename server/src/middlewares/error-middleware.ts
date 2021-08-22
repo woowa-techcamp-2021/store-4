@@ -9,6 +9,7 @@ import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import TokenExpiredException from '../exceptions/token-expired-exception';
 import UnauthenticatedException from '../exceptions/unauthenticated-exception';
 import UserNotfoundException from '../exceptions/user-notfound-exception';
+import ProductNotOrderedException from '../exceptions/product-notordered-exception';
 
 type HTTPErrors = {
   status: number;
@@ -23,6 +24,7 @@ const errors: { [key: string]: HTTPErrors } = {
   [UnauthenticatedException.name]: { status: 401 },
   [UserNotfoundException.name]: { status: 404 },
   [ProductNotfoundException.name]: { status: 404 },
+  [ProductNotOrderedException.name]: { status: 401 },
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {

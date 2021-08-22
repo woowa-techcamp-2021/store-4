@@ -10,7 +10,10 @@ class ReviewController {
       return;
     }
 
-    reviewService.postReview(userId);
+    const { productId, point, content } = req.body;
+    // validator 추가 필요
+
+    await reviewService.postReview({ userId, productId: +productId, point: +point, content });
 
     res.status(200).json({ userId });
   }
