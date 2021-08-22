@@ -1,7 +1,6 @@
 import React from 'react';
 import ProductItem from './ProductItem/ProductItem';
 import styled from 'styled-components';
-import SortButtonList from './SortButtonList';
 import Product from '../../models/product';
 import { SortButton } from '../../containers/ProductListContainer';
 import { ProductListOrder } from '../../types/product';
