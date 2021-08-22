@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
     "strict": true,
