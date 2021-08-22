@@ -31,7 +31,7 @@ const ProductListHeader = (props: Props): JSX.Element => {
     <ListHeader>
       {searchTerm ? (
         <ListHeaderLeft data-testid="listHeaderLeft">
-          &quot;{searchTerm}&quot; 검색결과 {totalProductCount}개
+          {`"${searchTerm}" 검색결과 ${totalProductCount}개`}
         </ListHeaderLeft>
       ) : (
         <TotalCount data-testid="totalCount">총 {totalProductCount}개</TotalCount>
