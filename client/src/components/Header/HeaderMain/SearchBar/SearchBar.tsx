@@ -1,24 +1,26 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Dropdown from './Dropdown';
 import searchIcon from './searchIcon.svg';
 
 const INPUT_PLACEHOLDER = '검색어를 입력해주세요';
 
-const Wrapper = styled.div`
+const Container = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 `;
 
 const SearchInput = styled.input`
   width: 220px;
-  height: 20px;
-  padding: 0 0 5px 3px;
+  height: 100%;
+  padding: 0 0 5px 4px;
   background: #fff;
   border: none;
   outline: none;
   border-bottom: 1px solid #333;
   font-size: 14px;
-
+  z-index: 0;
   :placeholder {
     color: #999;
   }
@@ -37,23 +39,49 @@ const SearchButton = styled.button`
 
 const SearchBar = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isOpenDropBox, setDropboxOpen] = useState(false);
   const handleSearchInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
     [setSearchTerm]
   );
 
+  const handleOpenDropdown = () => {
+    setDropboxOpen(true);
+  };
+
+  const handleCloseDropdown = () => {
+    setDropboxOpen(false);
+  };
+
+  const handleCloseDropdownToDocument = useCallback((event: Event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.closest('.search-bar')) {
+      return;
+    }
+
+    setDropboxOpen(false);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('click', handleCloseDropdownToDocument);
+    return () => document.removeEventListener('click', handleCloseDropdownToDocument);
+  }, [handleCloseDropdownToDocument]);
+
   return (
-    <Wrapper>
+    <Container className="search-bar">
       <SearchInput
         type="text"
         placeholder={INPUT_PLACEHOLDER}
         value={searchTerm}
         onChange={handleSearchInputChange}
+        onFocus={handleOpenDropdown}
       />
       <SearchButton type="button">
         <img src={searchIcon} />
       </SearchButton>
-    </Wrapper>
+      {isOpenDropBox && <Dropdown onClose={handleCloseDropdown} />}
+    </Container>
   );
 };
 
