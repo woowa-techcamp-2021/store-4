@@ -58,7 +58,7 @@ class ReviewService {
       throw new ReviewNotWrittenByUserException(ERROR_MESSAGES['REVIEW_NOT_WRITTEN_BY_USER']);
     }
 
-    await getCustomRepository(ReviewRepository).delete(reviewId);
+    getCustomRepository(ReviewRepository).delete(reviewId);
   }
 }
 
