@@ -2,16 +2,10 @@ import React, { useReducer, useRef } from 'react';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/ModifyDeliveryAddresForm';
 import DeliveryAddress from '../models/delivery-address';
+import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
 
 type Props = {
   deliveryAddress: DeliveryAddress;
-};
-
-export type DeliveryAddressFormRef = {
-  readonly name: string;
-  readonly recipientName: string;
-  readonly address: string;
-  readonly recipientPhoneNumber: string;
 };
 
 enum Modes {

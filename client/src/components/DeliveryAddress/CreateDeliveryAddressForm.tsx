@@ -1,7 +1,6 @@
 import React, { forwardRef, MouseEventHandler, Ref } from 'react';
 import styled from 'styled-components';
 import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
-import DeliveryAddress from '../../models/delivery-address';
 import DeliveryAddressForm from './DeliveryAddressForm';
 
 const Container = styled.div`
@@ -13,14 +12,14 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const ModifyFormWrapper = styled.div``;
+const CreateFormWrapper = styled.div``;
 
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 5px;
 `;
 
-const ModifyFormButton = styled.button`
+const CreateFormButton = styled.button`
   width: 80px;
   height: 30px;
   outline: none;
@@ -28,38 +27,37 @@ const ModifyFormButton = styled.button`
   cursor: pointer;
 `;
 
-const CancelButton = styled(ModifyFormButton)`
+const CancelButton = styled(CreateFormButton)`
   border: 1px solid ${(props) => props.theme.color.grey3};
   background-color: ${(props) => props.theme.color.white1};
   color: ${(props) => props.theme.color.grey5};
 `;
 
-const SaveButton = styled(ModifyFormButton)`
+const SaveButton = styled(CreateFormButton)`
   border: none;
   background-color: ${(props) => props.theme.color.black};
   color: ${(props) => props.theme.color.white1};
 `;
 
 type Props = {
-  deliveryAddress: DeliveryAddress;
-  onCancelModifyClick: MouseEventHandler;
+  onCancelCreateClick: MouseEventHandler;
 };
 
-const ModifyDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
-  const { deliveryAddress, onCancelModifyClick } = props;
+const CreateDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
+  const { onCancelCreateClick } = props;
 
   return (
     <Container>
-      <ModifyFormWrapper>
-        <DeliveryAddressForm ref={ref} deliveryAddress={deliveryAddress} />
-      </ModifyFormWrapper>
+      <CreateFormWrapper>
+        <DeliveryAddressForm ref={ref} />
+      </CreateFormWrapper>
 
       <ButtonWrapper>
-        <CancelButton onClick={onCancelModifyClick}>취소</CancelButton>
+        <CancelButton onClick={onCancelCreateClick}>취소</CancelButton>
         <SaveButton>완료</SaveButton>
       </ButtonWrapper>
     </Container>
   );
 };
 
-export default forwardRef<DeliveryAddressFormRef, Props>(ModifyDeliveryAddressForm);
+export default forwardRef<DeliveryAddressFormRef, Props>(CreateDeliveryAddressForm);
