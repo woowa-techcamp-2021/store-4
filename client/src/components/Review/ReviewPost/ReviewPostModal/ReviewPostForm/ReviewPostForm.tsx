@@ -1,6 +1,7 @@
 import React, {
   ChangeEvent,
   ChangeEventHandler,
+  FormEventHandler,
   MouseEventHandler,
   useCallback,
   useState,
@@ -32,13 +33,18 @@ const Container = styled.form`
 
 const ReviewPostStarsContainer = styled.div``;
 
+const PointsInput = styled.input`
+  display: none;
+`;
+
 type Props = {
   onCancelButtonClick: MouseEventHandler;
   onImageUpload: ChangeEventHandler;
+  onSubmit: FormEventHandler;
   thumbnails: string[];
 };
 const ReviewPostForm = (props: Props): JSX.Element => {
-  const { onCancelButtonClick, onImageUpload, thumbnails } = props;
+  const { onCancelButtonClick, onImageUpload, onSubmit, thumbnails } = props;
   const [point, setPoint] = useState(0);
   const [inputText, setInputText] = useState('');
   const handleStarClick = useCallback((point: number) => {
@@ -51,9 +57,10 @@ const ReviewPostForm = (props: Props): JSX.Element => {
   );
 
   return (
-    <Container>
+    <Container onSubmit={onSubmit}>
       <ReviewPostStarsContainer>
         <ReviewPostStars width={STARS_WIDTH} onStarClick={handleStarClick} />
+        <PointsInput name="point" value={point} readOnly />
       </ReviewPostStarsContainer>
       <ReviewPostText value={inputText} onChange={handleTextChange} />
       <ReviewPostImages

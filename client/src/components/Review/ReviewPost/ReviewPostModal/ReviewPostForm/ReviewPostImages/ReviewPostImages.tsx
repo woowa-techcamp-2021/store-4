@@ -92,7 +92,13 @@ const ReviewPostImages = (props: Props): JSX.Element => {
     <Container>
       <InputFileLabel size={imageThumbnailSize}>
         {addImageButtonText}
-        <InputFile type="file" multiple={true} onChange={onImageUpload} accept="image/*" />
+        <InputFile
+          name="images"
+          type="file"
+          multiple={true}
+          onChange={onImageUpload}
+          accept="image/*"
+        />
       </InputFileLabel>
       <ImageList thumbnailSize={imageThumbnailSize}>
         {images.length === 0 ? (

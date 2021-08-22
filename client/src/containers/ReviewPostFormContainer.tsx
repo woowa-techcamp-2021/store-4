@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEventHandler, useState } from 'react';
+import React, { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
 import ReviewPostForm from '../components/Review/ReviewPost/ReviewPostModal/ReviewPostForm/ReviewPostForm';
 
 const validateFileInputs = (files: FileList) => {
@@ -40,10 +40,22 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     });
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formElement = event.currentTarget;
+
+    const point = +formElement['point'].value;
+    const content = formElement['content'].value;
+    const reviewImages = formElement['images'].files;
+
+    console.log(point, content, reviewImages);
+  };
+
   return (
     <ReviewPostForm
       onCancelButtonClick={onCancelButtonClick}
       onImageUpload={handleImageUpload}
+      onSubmit={handleSubmit}
       thumbnails={thumbnails}
     />
   );

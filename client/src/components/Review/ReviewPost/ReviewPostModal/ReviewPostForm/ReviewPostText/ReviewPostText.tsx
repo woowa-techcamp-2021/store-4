@@ -38,7 +38,7 @@ const ReviewPostText = (props: Props): JSX.Element => {
     <Container>
       <InputTextareaLabel>
         {ADD_CONTENT_LABEL_TEXT}
-        <InputTextarea value={value} required={true} onChange={onChange} />
+        <InputTextarea name="content" value={value} required={true} onChange={onChange} />
       </InputTextareaLabel>
     </Container>
   );
