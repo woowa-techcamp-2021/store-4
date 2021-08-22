@@ -1,6 +1,6 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
-import { DeliveryAddressFormRef } from '../../containers/DeliveryAddressItemContainer';
+import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
 import DeliveryAddress from '../../models/delivery-address';
 import { isNotNone } from '../../utils/typeGuard';
 
