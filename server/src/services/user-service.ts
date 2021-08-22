@@ -12,6 +12,10 @@ class UserService {
   registerUser({ username, email }: { username: string; email: string }): Promise<User> {
     return getCustomRepository(UserRepository).save({ username, email });
   }
+
+  findUser(userId: number): Promise<User | undefined> {
+    return getCustomRepository(UserRepository).findOne({ id: userId });
+  }
 }
 
 export default new UserService();
