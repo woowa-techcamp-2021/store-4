@@ -21,7 +21,7 @@ describe('ProductList 테스트', () => {
     products: [] as Product[],
     buttons: SORT_BUTTONS,
     currentPage: 1,
-    onClickSortButton: (option: ProductListOrder) => () => {
+    onClickSortButton: () => () => {
       return;
     },
     onClickPageNum: (pageNum: number) => () => {
