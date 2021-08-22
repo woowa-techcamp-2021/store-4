@@ -19,18 +19,18 @@ type Props = {
 
 const ProductItem = (props: Props): React.ReactElement => {
   const { product } = props;
-  const { id, name, price, thumbnail, discountRate, isDiscountRate, discountedPrice, isNew } =
+  const { id, name, price, thumbnail, discountRate, isDiscounting, discountedPrice, isNew } =
     product;
 
   return (
     <Link to={`/product/${id}`}>
       <ProductItemContainer>
-        <ProductItemImage thumbnail={thumbnail} isNew={isNew} isDiscountRate={isDiscountRate} />
+        <ProductItemImage thumbnail={thumbnail} isNew={isNew} isDiscounting={isDiscounting} />
         <ProductItemDescription
           name={name}
           price={price}
           discountRate={discountRate}
-          isDiscountRate={isDiscountRate}
+          isDiscounting={isDiscounting}
           discountedPrice={discountedPrice}
         />
       </ProductItemContainer>

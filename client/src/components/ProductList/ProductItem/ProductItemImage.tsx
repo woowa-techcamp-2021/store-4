@@ -35,17 +35,17 @@ const Img = styled.img`
 type Props = {
   thumbnail: string | null;
   isNew: boolean;
-  isDiscountRate: boolean;
+  isDiscounting: boolean;
 };
 
 const ProductItemImage = (props: Props): JSX.Element => {
-  const { thumbnail, isNew, isDiscountRate } = props;
+  const { thumbnail, isNew, isDiscounting } = props;
   return (
     <ImageWrapper>
       <Img src={thumbnail || NoImage} />
       <BadgeWrapper>
         {isNew && <NewBadge>NEW</NewBadge>}
-        {isDiscountRate && <SalesBadge>SALE</SalesBadge>}
+        {isDiscounting && <SalesBadge>SALE</SalesBadge>}
       </BadgeWrapper>
     </ImageWrapper>
   );

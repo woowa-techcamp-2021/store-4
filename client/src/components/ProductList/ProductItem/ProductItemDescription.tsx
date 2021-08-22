@@ -39,7 +39,7 @@ const Price = styled.div`
 `;
 
 type Props = {
-  isDiscountRate: boolean;
+  isDiscounting: boolean;
   discountRate: number;
   name: string;
   price: number;
@@ -47,12 +47,12 @@ type Props = {
 };
 
 const ProductItemDescription = (props: Props): JSX.Element => {
-  const { isDiscountRate, discountRate, name, price, discountedPrice } = props;
+  const { isDiscounting, discountRate, name, price, discountedPrice } = props;
   return (
     <DescriptionWrapper>
-      {isDiscountRate && <DiscountRate>{discountRate}%</DiscountRate>}
+      {isDiscounting && <DiscountRate>{discountRate}%</DiscountRate>}
       <Name>{name}</Name>
-      {isDiscountRate ? (
+      {isDiscounting ? (
         <PriceWrapper>
           <NormalPrice data-testid="price">{toKoreanMoneyFormat(price)}</NormalPrice>
           <Price data-testid="discountedPrice">{toKoreanMoneyFormat(discountedPrice)}</Price>
