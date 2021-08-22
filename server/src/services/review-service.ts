@@ -1,5 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import ProductNotOrderedException from '../exceptions/product-notordered-exception';
+import Review from '../models/review';
+import ReviewRepository from '../repositories/review-repository';
 import UserRepository from '../repositories/user-repository';
 
 type PostReviewQuery = {
@@ -14,18 +16,30 @@ const ERROR_MESSAGES = {
 };
 
 class ReviewService {
-  async postReview({ userId, point, content, productId }: PostReviewQuery): Promise<void> {
-    const { orders } = await getCustomRepository(UserRepository).findOneOrFail(userId, {
+  async postReview({ userId, point, content, productId }: PostReviewQuery): Promise<Review> {
+    const user = await getCustomRepository(UserRepository).findOneOrFail(userId, {
       relations: ['orders', 'orders.orderDetails', 'orders.orderDetails.product'],
     });
 
-    const productIdsOrderedByUser = Array.from(
-      orders.flatMap((order) => order.orderDetails.map((orderDetail) => orderDetail.product?.id))
-    );
+    const product = (function findProductInUserOrders() {
+      for (const order of user.orders) {
+        for (const orderDetail of order.orderDetails) {
+          if (orderDetail.product?.id === productId) {
+            return orderDetail.product;
+          }
+        }
+      }
 
-    if (!productIdsOrderedByUser.includes(productId)) {
       throw new ProductNotOrderedException(ERROR_MESSAGES['PRODUCT_NOT_ORDERED']);
-    }
+    })();
+
+    return getCustomRepository(ReviewRepository).save({
+      user,
+      point,
+      content,
+      product,
+      reviewImages: [],
+    });
   }
 }
 

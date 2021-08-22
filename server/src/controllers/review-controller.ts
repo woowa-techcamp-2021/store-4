@@ -13,9 +13,14 @@ class ReviewController {
     const { productId, point, content } = req.body;
     // validator 추가 필요
 
-    await reviewService.postReview({ userId, productId: +productId, point: +point, content });
+    const review = await reviewService.postReview({
+      userId,
+      productId: +productId,
+      point: +point,
+      content,
+    });
 
-    res.status(200).json({ userId });
+    res.status(201).json({ reviewId: review.id });
   }
 }
 
