@@ -1,4 +1,10 @@
-import React, { ChangeEvent, MouseEventHandler, useCallback, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ReviewPostStars from './ReviewPostStars/ReviewPostStars';
 import ReviewPostText from './ReviewPostText/ReviewPostText';
@@ -28,12 +34,13 @@ const ReviewPostStarsContainer = styled.div``;
 
 type Props = {
   onCancelButtonClick: MouseEventHandler;
+  onImageUpload: ChangeEventHandler;
+  thumbnails: string[];
 };
 const ReviewPostForm = (props: Props): JSX.Element => {
+  const { onCancelButtonClick, onImageUpload, thumbnails } = props;
   const [point, setPoint] = useState(0);
   const [inputText, setInputText] = useState('');
-  const imageList: string[] = [];
-  const { onCancelButtonClick } = props;
   const handleStarClick = useCallback((point: number) => {
     setPoint(point);
     setInputText(DEFAULT_TEXT_FOR_POINT[point]);
@@ -53,7 +60,8 @@ const ReviewPostForm = (props: Props): JSX.Element => {
         addImageButtonText={ADD_IMAGE_BUTTON_TEXT}
         imageThumbnailSize={IMAGE_THUMBNAIL_SIZE}
         imageListPlaceholderText={IMAGE_LIST_PLACEHOLDER_TEXT}
-        images={imageList}
+        onImageUpload={onImageUpload}
+        images={thumbnails}
       />
       <ReviewPostButtonGroup
         cancelButtonText={CANCEL_BUTTON_TEXT}
