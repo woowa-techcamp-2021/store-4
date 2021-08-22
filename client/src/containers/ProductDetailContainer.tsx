@@ -66,17 +66,17 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 
   const handleGetIncreaseHandler = useCallback(
-    (cartInProduct) => () => handleIncrease(cartInProduct),
+    (cartInProduct: CartInProduct) => () => handleIncrease(cartInProduct),
     [handleIncrease]
   );
 
   const handleGetDecreaseHandler = useCallback(
-    (cartInProduct) => () => handleDecrease(cartInProduct),
+    (cartInProduct: CartInProduct) => () => handleDecrease(cartInProduct),
     [handleDecrease]
   );
 
   const handleGetRemoveHandler = useCallback(
-    (cartInProduct) => () => handleRemove(cartInProduct),
+    (cartInProduct: CartInProduct) => () => handleRemove(cartInProduct),
     [handleRemove]
   );
 

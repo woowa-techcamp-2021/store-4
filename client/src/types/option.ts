@@ -1,8 +1,8 @@
 import { ProductListOrder } from '../types/product';
 
 export type Option = {
-  categoryId: number | null;
-  sortOption: ProductListOrder;
+  category: number | null;
+  sort: ProductListOrder;
   pageNum: number;
   searchTerm: string | null;
 };

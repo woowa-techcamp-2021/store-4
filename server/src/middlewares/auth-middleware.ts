@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwtService from '../services/jwt-service';
-import InvalidTokenException from '../exceptions/invaild-token-exception';
+import InvalidTokenException from '../exceptions/invalid-token-exception';
 import TokenExpiredException from '../exceptions/token-expired-exception';
 import { TokenExpiredError } from 'jsonwebtoken';
 import { isNone } from '../util/type-guard';

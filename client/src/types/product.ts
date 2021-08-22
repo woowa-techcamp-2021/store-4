@@ -1,5 +1,13 @@
+
 import ProductOption from '../models/product-option';
 import ProductSelect from '../models/product-select';
+import Product from '../models/product';
+
+export type ProductResponse = {
+  products: Product[];
+  totalPages: number;
+  totalProductCount: number;
+};
 
 export type ProductListResponseType = {
   totalProductCount: number;
@@ -25,11 +33,11 @@ export type OptionWithSelected = ProductOption & {
 };
 
 export enum ProductListOrder {
-  Recommend,
-  Popularity,
-  Recent,
-  PriceLow,
-  PriceHigh,
+  Recommend = 'recommend',
+  Popularity = 'popularity',
+  Recent = 'recent',
+  PriceLow = 'priceLow',
+  PriceHigh = 'priceHigh',
 }
 
 export type CartType = 'single' | 'multi';

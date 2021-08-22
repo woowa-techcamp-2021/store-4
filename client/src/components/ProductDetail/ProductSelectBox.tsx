@@ -27,7 +27,7 @@ const ProductSelectBox = (props: Props): JSX.Element => {
   const { selected, onChange, productSelect } = props;
   const { name, productOptions } = productSelect;
 
-  const options = productOptions.map(({ id, name, additionalPrice }) => (
+  const Options = productOptions.map(({ id, name, additionalPrice }) => (
     <Option
       key={id}
       value={id}
@@ -39,7 +39,7 @@ const ProductSelectBox = (props: Props): JSX.Element => {
     <Container data-testid="product-select">
       <Select value={selected?.id ?? 'default'} onChange={onChange}>
         <Option value="default" disabled>{`${name}옵션을 선택해주세요`}</Option>
-        {options}
+        {Options}
       </Select>
     </Container>
   );
