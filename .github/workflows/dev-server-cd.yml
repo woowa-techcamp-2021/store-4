@@ -12,9 +12,10 @@ jobs:
       - uses: technote-space/get-diff-action@v4
         with:
           PATTERNS: |
-            server/src/**/*.+(ts|tsx)
+            src/**/*.+(ts|tsx)
           FILES: |
-            server/package.json
+            package.json
+          RELATIVE: "server"
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -36,7 +37,7 @@ jobs:
 
       - name: if changed dependencies, install dependencies
         run: ssh develop 'cd ~/store-4/server && npm i'
-        if: env.GIT_MATCHED_FILES
+        if: env.MATCHED_FILES
 
       - name: Reload Pm2
         run: ssh develop 'cd ~/store-4/server && npm run build && sudo pm2 reload store-4'
