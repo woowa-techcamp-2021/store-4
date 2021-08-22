@@ -1,7 +1,8 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
+import { SortOption } from '../enum/product';
 import Product from '../models/product';
-import { FindOption, SortOption } from '../controllers/product-controller';
 import { isNotNone } from '../util/type-guard';
+import ProductFindQuery from '../validations/product-find-query';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
@@ -18,20 +19,20 @@ class ProductRepository extends Repository<Product> {
   }
 
   async findProducts({
-    categoryId,
-    sortOption,
+    category,
+    sort,
     pageNum,
     limit,
-  }: FindOption): Promise<[Product[], number]> {
+  }: ProductFindQuery): Promise<[Product[], number]> {
     const query = createQueryBuilder(Product);
 
-    if (isNotNone(categoryId)) {
-      query.where({ category: categoryId });
+    if (isNotNone(category)) {
+      query.where({ category });
     }
 
     query.leftJoinAndSelect('Product.productImages', 'images');
 
-    switch (sortOption) {
+    switch (sort) {
       case SortOption.Recommend:
         query
           .leftJoin('Product.reviews', 'reviews')

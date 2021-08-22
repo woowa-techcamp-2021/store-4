@@ -1,9 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import ProductRepository from '../repositories/product-repository';
-import { ProductResponse, FindOption } from '../controllers/product-controller';
+import { ProductResponse } from '../controllers/product-controller';
 import PageOverflowException from '../exceptions/page-overflow-exception';
 import WishRepository from '../repositories/wish-repository';
 import ProductNotfoundException from '../exceptions/product-notfound-exception';
+import ProductFindQuery from '../validations/product-find-query';
 
 const ERROR_MESSAGES = {
   PAGE_OVERFLOW: '요청한 페이지가 전체 페이지 수를 초과했습니다',
@@ -11,9 +12,10 @@ const ERROR_MESSAGES = {
 };
 
 class ProductService {
-  async findAll({ categoryId, sortOption, pageNum, limit }: FindOption): Promise<ProductResponse> {
+  async findAll(productFindQuery: ProductFindQuery): Promise<ProductResponse> {
+    const { pageNum, limit } = productFindQuery;
     const [products, totalProductCount] = await getCustomRepository(ProductRepository).findProducts(
-      { categoryId, sortOption, pageNum, limit }
+      productFindQuery
     );
 
     const totalPages = Math.ceil(totalProductCount / limit);
