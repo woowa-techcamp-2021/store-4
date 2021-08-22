@@ -22,6 +22,21 @@ class ReviewController {
 
     res.status(201).json({ reviewId: review.id });
   }
+
+  async delete(req: Request, res: Response) {
+    const userId = req.decoded?.id;
+    if (isNone(userId)) {
+      res.end();
+      return;
+    }
+
+    const { reviewId } = req.params;
+    // validator 추가 필요
+
+    await reviewService.deleteReview({ userId, reviewId: +reviewId });
+
+    res.status(200).send('deleted');
+  }
 }
 
 export default new ReviewController();

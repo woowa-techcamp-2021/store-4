@@ -1,5 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import ProductNotOrderedException from '../exceptions/product-notordered-exception';
+import ReviewNotfoundException from '../exceptions/review-notfound-exception';
+import ReviewNotWrittenByUserException from '../exceptions/review-notwrittenbyuser-exception';
 import Review from '../models/review';
 import ProductRepository from '../repositories/product-repository';
 import ReviewRepository from '../repositories/review-repository';
@@ -13,8 +15,15 @@ type PostReviewQuery = {
   productId: number;
 };
 
+type DeleteReviewQuery = {
+  userId: number;
+  reviewId: number;
+};
+
 const ERROR_MESSAGES = {
   PRODUCT_NOT_ORDERED: '해당 상품 구매내역이 없습니다',
+  REVIEW_NOT_FOUND: '리뷰가 존재하지 않습니다',
+  REVIEW_NOT_WRITTEN_BY_USER: '해당 리뷰에 대한 권한이 없습니다',
 };
 
 class ReviewService {
@@ -34,6 +43,22 @@ class ReviewService {
       product,
       reviewImages: [],
     });
+  }
+
+  async deleteReview({ userId, reviewId }: DeleteReviewQuery): Promise<void> {
+    const review = await getCustomRepository(ReviewRepository).findOne(reviewId, {
+      relations: ['user'],
+    });
+
+    if (isNone(review)) {
+      throw new ReviewNotfoundException(ERROR_MESSAGES['REVIEW_NOT_FOUND']);
+    }
+
+    if (review.user?.id !== userId) {
+      throw new ReviewNotWrittenByUserException(ERROR_MESSAGES['REVIEW_NOT_WRITTEN_BY_USER']);
+    }
+
+    await getCustomRepository(ReviewRepository).delete(reviewId);
   }
 }
 
