@@ -1,0 +1,142 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import provideTheme2Test from '../../lib/provideTheme2Test';
+import Review, { REVIEW_PER_PAGE } from './Review';
+import userEvent from '@testing-library/user-event';
+
+type Mock = {
+  id: number;
+  content: string;
+  point: number;
+  reviewImages: string[];
+  updatedAt: Date;
+};
+
+describe('Review 컴포넌트 테스트: 상품후기 없을 때', () => {
+  const mockReviewData: Mock[] = [];
+
+  beforeEach(() => {
+    render(provideTheme2Test(<Review reviews={mockReviewData} />));
+  });
+
+  test('상품후기 개수 badge 랜더링', () => {
+    expect(screen.getByTestId('review-badge').textContent).toBe('0');
+  });
+
+  test('상품후기 없음 표시', () => {
+    expect(screen.getByTestId('no-review')).toBeInTheDocument();
+  });
+});
+
+describe('Review 컴포넌트 테스트', () => {
+  const mockReviewData: Mock[] = [
+    {
+      id: 1,
+      content:
+        '상당히 마음에 듭니다. 더 살지 고민이에요. 너무 좋아요 하하하하하. 고민 중이라면 그냥 사세요. 두 번 사세요. 세 번 사세요.',
+      point: 5,
+      reviewImages: ['https://source.unsplash.com/random/300x400'],
+      updatedAt: new Date(),
+    },
+    {
+      id: 2,
+      content: '별로에요 별로에요 별로에요 별로에요',
+      point: 2,
+      reviewImages: [],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    },
+    {
+      id: 3,
+      content: '좋아요',
+      point: 4,
+      reviewImages: ['https://source.unsplash.com/random/700x500'],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2),
+    },
+    {
+      id: 4,
+      content: '그냥저냥',
+      point: 3,
+      reviewImages: [
+        'https://source.unsplash.com/random/600x400',
+        'https://source.unsplash.com/random/400x300',
+      ],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+    },
+    {
+      id: 5,
+      content:
+        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis sed tempora aspernatur sequi molestias nulla voluptatum iusto impedit error consectetur?',
+      point: 3,
+      reviewImages: [
+        'https://source.unsplash.com/random/600x400',
+        'https://source.unsplash.com/random/400x300',
+      ],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+    },
+    {
+      id: 6,
+      content:
+        'r sit, amet consectetur adipisicing elit. Facilis sed tempora aspernatur sequi molestias nulla voluptatum',
+      point: 3,
+      reviewImages: [
+        'https://source.unsplash.com/random/600x500',
+        'https://source.unsplash.com/random/500x400',
+      ],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4),
+    },
+    {
+      id: 7,
+      content:
+        'um dolor sit, amet consectetur adipisicing elit. Facilis sed tempora aspernatur sequi molestias nulla voluptatum iusto impedit error consect',
+      point: 4,
+      reviewImages: [
+        'https://source.unsplash.com/random/600x400',
+        'https://source.unsplash.com/random/400x300',
+      ],
+      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4.5),
+    },
+  ];
+
+  beforeEach(() => {
+    render(provideTheme2Test(<Review reviews={mockReviewData} />));
+  });
+
+  test('상품후기 개수 badge 랜더링', () => {
+    expect(screen.getByTestId('review-badge').textContent).toBe(String(mockReviewData.length));
+  });
+
+  test('상품후기 목록 첫 페이지 랜더링', () => {
+    expect(screen.getAllByTestId('review-list-item').length).toBe(REVIEW_PER_PAGE);
+  });
+
+  test('Pagination 숫자 버튼 랜더링', () => {
+    expect(screen.getByTestId('pagination-button-list').childNodes.length).toBe(
+      Math.ceil(mockReviewData.length / REVIEW_PER_PAGE)
+    );
+  });
+
+  test('Pagination 숫자 버튼 기능: Page 2 클릭 -> 상품후기 개수 2개', () => {
+    const pageButton2 = screen.getByTestId('number-button-2');
+    userEvent.click(pageButton2);
+
+    expect(screen.getAllByTestId('review-list-item').length).toBe(2);
+  });
+
+  test('모달창 랜더링, 닫기 기능', () => {
+    const writeReviewButton = screen.getByText('상품후기 글쓰기');
+    userEvent.click(writeReviewButton);
+    expect(screen.getByTestId('review-post-modal')).toBeInTheDocument();
+
+    const modal = screen.getByTestId('review-post-modal');
+    const overlay = screen.getByTestId('review-post-overlay');
+
+    // modal 창은 클릭해도 닫히지 않음
+    userEvent.click(modal);
+    expect(modal).toBeInTheDocument();
+
+    // overlay 클릭시 닫힘
+    userEvent.click(overlay);
+    expect(modal).not.toBeInTheDocument();
+  });
+});

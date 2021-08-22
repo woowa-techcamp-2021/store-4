@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import Product from '../../models/product';
 import { useProductAdList } from './hooks/useProductAdList';
 import { useProductList } from './hooks/useProductList';
 import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
-import { MockProductItemType } from './mock';
 
 const MainProductSectionsContainer = styled.div`
   width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto;
   display: flex;
   flex-direction: column;
   gap: 60px;
@@ -28,11 +28,11 @@ const SECTION_TITLE = {
 
 const AD_TITLE = '선물하기 딱 좋아요!';
 
-const descendingDate = (a: MockProductItemType, b: MockProductItemType) => {
-  return a.uploadDate.localeCompare(b.uploadDate);
+const descendingDate = (a: Product, b: Product) => {
+  return b.createdAt.getTime() - a.createdAt.getTime();
 };
 
-const descendingDiscountRate = (a: MockProductItemType, b: MockProductItemType) => {
+const descendingDiscountRate = (a: Product, b: Product) => {
   return b.discountRate - a.discountRate;
 };
 

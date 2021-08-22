@@ -1,6 +1,8 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
+import { SortOption } from '../enum/product';
 import Product from '../models/product';
-import { SortOption } from '../controllers/product-controller';
+import { isNotNone } from '../util/type-guard';
+import ProductFindQuery from '../validations/product-find-query';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
@@ -16,32 +18,48 @@ class ProductRepository extends Repository<Product> {
       .getOne();
   }
 
-  findProducts(
-    categoryId: number,
-    sortOption: SortOption,
-    pageNum: number,
-    limit: number
-  ): Promise<[Product[], number]> {
-    const where = categoryId === -1 ? {} : { category: categoryId };
-    const skip = (pageNum - 1) * limit;
-    const take = limit;
+  async findProducts({
+    category,
+    sort,
+    pageNum,
+    limit,
+  }: ProductFindQuery): Promise<[Product[], number]> {
+    const query = createQueryBuilder(Product);
 
-    let order: { [key: string]: 'ASC' | 'DESC' };
-    switch (sortOption) {
-      case SortOption.Recent:
-        order = { updatedAt: 'DESC' };
-        break;
-      case SortOption.PriceHigh:
-        order = { price: 'DESC' };
-        break;
-      case SortOption.PriceLow:
-        order = { price: 'ASC' };
-        break;
-      default:
-        order = { updatedAt: 'DESC' };
+    if (isNotNone(category)) {
+      query.where({ category });
     }
 
-    return this.findAndCount({ where, skip, take, order });
+    query.leftJoinAndSelect('Product.productImages', 'images');
+
+    switch (sort) {
+      case SortOption.Recommend:
+        query
+          .leftJoin('Product.reviews', 'reviews')
+          .groupBy('Product.id')
+          .orderBy('AVG(reviews.point)', 'DESC');
+        break;
+      case SortOption.Popularity:
+        query
+          .leftJoin('Product.orderDetails', 'orderDetails')
+          .groupBy('Product.id')
+          .orderBy('COUNT(orderDetails.id)', 'DESC');
+        break;
+      case SortOption.Recent:
+        query.orderBy('updated_at', 'DESC');
+        break;
+      case SortOption.PriceHigh:
+        query.orderBy('price', 'DESC');
+        break;
+      case SortOption.PriceLow:
+        query.orderBy('price', 'ASC');
+        break;
+    }
+
+    query.offset((pageNum - 1) * limit);
+    query.limit(limit);
+
+    return query.getManyAndCount();
   }
 }
 
