@@ -17,6 +17,6 @@ module.exports = merge(common, {
         removeComments: true,
       },
     }),
-    new EnvironmentPlugin([]),
+    new EnvironmentPlugin(['SERVER_URL']),
   ],
 });
