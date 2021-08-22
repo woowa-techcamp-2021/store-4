@@ -33,8 +33,8 @@ jobs:
           SSH_KEY: ${{ secrets.DEV_PRIVATE_KEY }}
       - name: Checkout and Pull origin
         run: ssh develop 'cd ~/store-4 && git checkout develop && git pull origin'
-      
-      - name: if changed dependencies, install dependencies 
+
+      - name: if changed dependencies, install dependencies
         run: ssh develop 'cd ~/store-4/server && npm i'
         if: env.GIT_MATCHED_FILES
 
@@ -72,9 +72,12 @@ jobs:
           SSH_HOST: ${{ secrets.DEV_HOSTNAME }}
           SSH_USER: ${{ secrets.DEV_USERNAME }}
           SSH_KEY: ${{ secrets.DEV_PRIVATE_KEY }}
+      - name: Touch .env file
+        run: |
+          cat >>./.env <<END
+          SERVER_URL=${{ secrets.DEV_SERVER_URL }}
+          END
+        working-directory: client
       - name: Run build script && Sync build files to server
         run: cd client && npm i && npm run build && rsync -avz ./dist/ develop:~/store-4/client/dist
         if: env.GIT_DIFF
-
-        
-        
