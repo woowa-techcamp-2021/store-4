@@ -62,6 +62,38 @@ const TotalPrice = styled.div`
   color: ${(props) => props.theme.color.mint2};
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+const CommonButton = styled.button`
+  height: 50px;
+  cursor: pointer;
+`;
+
+const WishButton = styled(CommonButton)`
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
+  width: 50px;
+`;
+
+const ToCartButton = styled(CommonButton)`
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
+  width: 160px;
+`;
+
+const PurchaseButton = styled(CommonButton)`
+  border: none;
+  color: ${(props) => props.theme.color.white1};
+  background-color: ${(props) => props.theme.color.black};
+  width: 180px;
+`;
+
 type Props = {
   cartType: CartType;
   cartsInProduct: CartInProduct[];
@@ -139,6 +171,11 @@ const ProductInfoBox = (props: Props): JSX.Element => {
           <InfoLabel>총 합계 금액</InfoLabel>
           <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
         </TotalPriceWrapper>
+        <ButtonWrapper>
+          <WishButton>찜</WishButton>
+          <ToCartButton>장바구니</ToCartButton>
+          <PurchaseButton>바로구매</PurchaseButton>
+        </ButtonWrapper>
       </Container>
     </>
   );
