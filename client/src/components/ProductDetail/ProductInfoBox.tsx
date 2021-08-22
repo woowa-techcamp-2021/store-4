@@ -40,8 +40,8 @@ const InfoRowWrapper = styled.div`
 `;
 
 const ProductCartListWrapper = styled.div`
-  margin-top: 50px;
-  height: 120px;
+  margin-top: 30px;
+  height: 100px;
   overflow: scroll;
 `;
 
