@@ -1,3 +1,6 @@
+
+import ProductOption from '../models/product-option';
+import ProductSelect from '../models/product-select';
 import Product from '../models/product';
 
 export type ProductResponse = {
@@ -21,6 +24,14 @@ export type ProductItemType = {
   imgSrc: string;
 };
 
+export type SelectWithSelected = ProductSelect & {
+  selectedOption: ProductOption | null;
+};
+
+export type OptionWithSelected = ProductOption & {
+  selected: boolean;
+};
+
 export enum ProductListOrder {
   Recommend = 'recommend',
   Popularity = 'popularity',
@@ -28,3 +39,5 @@ export enum ProductListOrder {
   PriceLow = 'priceLow',
   PriceHigh = 'priceHigh',
 }
+
+export type CartType = 'single' | 'multi';
