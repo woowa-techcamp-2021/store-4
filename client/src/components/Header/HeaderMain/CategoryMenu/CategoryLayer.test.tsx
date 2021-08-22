@@ -43,8 +43,12 @@ describe('CategoryLayer 컴포넌트', () => {
     isRoot: true,
   });
 
+  const categories = [parentWithChild, parentWithoutChild, childCategory];
+
+  const rootCategories = categories.filter((category) => category.isRoot);
+
   const props: Props = {
-    categories: [parentWithChild, parentWithoutChild, childCategory],
+    rootCategories,
     onCategoryClick,
     option: {} as Option,
   };
