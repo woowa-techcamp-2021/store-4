@@ -3,8 +3,8 @@ import { Option } from '../types/option';
 import { ProductListOrder } from '../types/product';
 
 const DEFAULT_OPTION: Option = {
-  categoryId: null,
-  sortOption: ProductListOrder.Recommend,
+  category: null,
+  sort: ProductListOrder.Recommend,
   pageNum: 1,
   searchTerm: null,
 };
@@ -31,23 +31,23 @@ class OptionStore {
   private parseQueryToOption() {
     const queryParams = new URLSearchParams(window.location.search);
 
-    const categoryId = +(queryParams.get('category') || '') || DEFAULT_OPTION.categoryId;
-    const sortOption = SORT_OPTION[queryParams.get('sort') || ''] || DEFAULT_OPTION.sortOption;
+    const category = +(queryParams.get('category') || '') || DEFAULT_OPTION.category;
+    const sort = SORT_OPTION[queryParams.get('sort') || ''] || DEFAULT_OPTION.sort;
     const pageNum = +(queryParams.get('pageNum') || '') || DEFAULT_OPTION.pageNum;
     const searchTerm = queryParams.get('search') || DEFAULT_OPTION.searchTerm;
 
-    return { categoryId, sortOption, pageNum, searchTerm };
+    return { category, sort, pageNum, searchTerm };
   }
 
   @action
   setCategory(categoryId: number) {
     this.resetOption();
-    this.option.categoryId = categoryId;
+    this.option.category = categoryId;
   }
 
   @action
   setSortOption(sortOption: ProductListOrder) {
-    this.option.sortOption = sortOption;
+    this.option.sort = sortOption;
   }
 
   @action

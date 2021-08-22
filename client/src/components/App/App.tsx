@@ -6,6 +6,7 @@ import { Route, Router, Switch } from '../../lib/router';
 import Header from '../Header/Header';
 import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
+import ProductsPage from '../../pages/Products';
 
 const App = (): JSX.Element => {
   return (
@@ -16,6 +17,7 @@ const App = (): JSX.Element => {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/products" component={ProductsPage} />
         </Switch>
       </Router>
     </ThemeProvider>

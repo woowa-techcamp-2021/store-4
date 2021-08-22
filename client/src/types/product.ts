@@ -1,3 +1,11 @@
+import Product from '../models/product';
+
+export type ProductResponse = {
+  products: Product[];
+  totalPages: number;
+  totalProductCount: number;
+};
+
 export type ProductListResponseType = {
   totalProductCount: number;
   totalPage: number;
@@ -14,9 +22,9 @@ export type ProductItemType = {
 };
 
 export enum ProductListOrder {
-  Recommend,
-  Popularity,
-  Recent,
-  PriceLow,
-  PriceHigh,
+  Recommend = 'recommend',
+  Popularity = 'popularity',
+  Recent = 'recent',
+  PriceLow = 'priceLow',
+  PriceHigh = 'priceHigh',
 }
