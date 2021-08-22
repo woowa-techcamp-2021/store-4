@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback } from 'react';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
-import useCartsInProduct from '../hooks/useCarstInProduct';
+import useCartsInProduct from '../hooks/useCartsInProduct';
 import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import CartInProduct from '../models/cart-in-product';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import provideTheme2Test from '../../lib/provideTheme2Test';
+import provideTheme2Test from '../../../lib/provideTheme2Test';
 import ProductCartItem from './ProductCartItem';
-import CartInProduct from '../../models/cart-in-product';
-import uuid from '../../utils/uuid';
-import Product from '../../models/product';
+import CartInProduct from '../../../models/cart-in-product';
+import uuid from '../../../utils/uuid';
+import Product from '../../../models/product';
 import userEvent from '@testing-library/user-event';
 
 describe('ProductCartItem 컴포넌트', () => {

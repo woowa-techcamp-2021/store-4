@@ -1,8 +1,8 @@
 import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import CartInProduct from '../../models/cart-in-product';
-import { CartType } from '../../types/product';
-import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
+import CartInProduct from '../../../models/cart-in-product';
+import { CartType } from '../../../types/product';
+import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import ProductCounter from './ProductCounter';
 
 const Container = styled.div`

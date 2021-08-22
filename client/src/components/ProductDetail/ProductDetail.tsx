@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
 import { CartType, SelectWithSelected } from '../../types/product';
-import ProductDetailImages from './ProductDetailImages';
+import ProductDetailImages from './ProductImage/ProductDetailImages';
 import ProductDetailSkeleton from './ProductDetailSkeleton';
 import ProductInfoBox from './ProductInfoBox';
 
