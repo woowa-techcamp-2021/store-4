@@ -7,7 +7,7 @@ type Props = {
   deliveryAddress: DeliveryAddress;
 };
 
-export type ModifyFormRef = {
+export type DeliveryAddressFormRef = {
   readonly name: string;
   readonly recipientName: string;
   readonly address: string;
@@ -38,7 +38,7 @@ const modeReducer = (state: Modes, action: ModeActions) => {
 
 const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
   const [mode, dispatchMode] = useReducer(modeReducer, Modes.Read);
-  const modifyFormRef = useRef<ModifyFormRef & HTMLFormElement>(null);
+  const modifyFormRef = useRef<DeliveryAddressFormRef & HTMLFormElement>(null);
 
   const handleCancelModifying = () => {
     dispatchMode({
