@@ -1,8 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import ProductNotOrderedException from '../exceptions/product-notordered-exception';
 import Review from '../models/review';
+import ProductRepository from '../repositories/product-repository';
 import ReviewRepository from '../repositories/review-repository';
 import UserRepository from '../repositories/user-repository';
+import { isNone } from '../util/type-guard';
 
 type PostReviewQuery = {
   userId: number;
@@ -17,21 +19,13 @@ const ERROR_MESSAGES = {
 
 class ReviewService {
   async postReview({ userId, point, content, productId }: PostReviewQuery): Promise<Review> {
-    const user = await getCustomRepository(UserRepository).findOneOrFail(userId, {
-      relations: ['orders', 'orders.orderDetails', 'orders.orderDetails.product'],
-    });
+    const user = await getCustomRepository(UserRepository).findWithProduct(userId, productId);
 
-    const product = (function findProductInUserOrders() {
-      for (const order of user.orders) {
-        for (const orderDetail of order.orderDetails) {
-          if (orderDetail.product?.id === productId) {
-            return orderDetail.product;
-          }
-        }
-      }
-
+    if (isNone(user)) {
       throw new ProductNotOrderedException(ERROR_MESSAGES['PRODUCT_NOT_ORDERED']);
-    })();
+    }
+
+    const product = await getCustomRepository(ProductRepository).findOneOrFail(productId);
 
     return getCustomRepository(ReviewRepository).save({
       user,
