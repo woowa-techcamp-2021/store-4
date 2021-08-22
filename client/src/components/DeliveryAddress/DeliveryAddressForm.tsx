@@ -6,7 +6,6 @@ import { isNotNone } from '../../utils/typeGuard';
 
 const Container = styled.div`
   border: none;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
   padding: 5px 8px;
   outline: none;
   color: ${(props) => props.theme.color.grey5};
