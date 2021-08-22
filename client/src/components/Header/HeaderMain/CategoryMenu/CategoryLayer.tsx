@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
 import { useHistory } from '../../../../lib/router';
@@ -44,14 +44,13 @@ const CategoryListItem = styled.li<CategoryListItemProps>`
 `;
 
 export type Props = {
-  categories: Category[];
+  rootCategories: Category[];
   onCategoryClick: CategoryClickHandler;
   option: Option;
 };
 
 const CategoryLayer = (props: Props): JSX.Element => {
-  const { categories, onCategoryClick, option } = props;
-  const rootCategories = categories.filter((category) => category.isRoot);
+  const { rootCategories, onCategoryClick, option } = props;
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
   const history = useHistory();
 
