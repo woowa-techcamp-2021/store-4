@@ -10,7 +10,7 @@ import ProductSelect from '../../models/product-select';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 
 describe('ProductItem 테스트', () => {
-  const productAttrs = {
+  const PRODUCT_ATTRS = {
     id: 1,
     name: 'hi',
     price: 20000,
@@ -24,7 +24,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 0보다 크고, createAt이 한달 이내이면 new, sale 뱃지 표시', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 15,
       createdAt: new Date('2021-08-19'),
     });
@@ -35,7 +35,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 0이고, createAt이 한달 이상이면 아무 표시 없음', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 0,
       createdAt: new Date('2021-05-19'),
     });
@@ -46,7 +46,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 0이고, createAt이 한달 이내이면 new 뱃지만 표시', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 0,
       createdAt: new Date('2021-08-03'),
     });
@@ -57,7 +57,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 0보다 크고, createAt이 한달 이상이면 sale 뱃지만 표시', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 0,
       createdAt: new Date('2021-08-19'),
     });
@@ -68,7 +68,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 존재하면, 정상가, 할인가가 모두 존재', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 15,
       createdAt: new Date('2021-08-19'),
     });
@@ -82,7 +82,7 @@ describe('ProductItem 테스트', () => {
 
   test('discountRate가 없으면 정상가만 존재', () => {
     const product: Product = new Product({
-      ...productAttrs,
+      ...PRODUCT_ATTRS,
       discountRate: 0,
       createdAt: new Date('2021-08-19'),
     });
