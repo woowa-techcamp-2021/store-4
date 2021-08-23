@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react-lite';
+import cartStore from '../../../../stores/cartStore';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -33,9 +35,20 @@ const HeaderDeliveryFee = styled(AlignCenterContainer)`
 `;
 
 const TableHeader = (): JSX.Element => {
+  const cartItemList = cartStore.getCartItemList();
+  const isAllSelected = cartItemList.every((cartItem) => cartItem.isSelected);
+
+  const onClickCheckBox = () => {
+    cartStore.setCartItemSelectionAll(!isAllSelected);
+  };
+
   return (
     <TableHeaderWrapper>
-      <HeaderCheckBox type="checkbox"></HeaderCheckBox>
+      <HeaderCheckBox
+        type="checkbox"
+        checked={isAllSelected}
+        onChange={onClickCheckBox}
+      ></HeaderCheckBox>
       <HeaderTitle>상품/옵션 정보</HeaderTitle>
       <HeaderCount>수량</HeaderCount>
       <HeaderPrice>상품금액</HeaderPrice>
@@ -44,4 +57,4 @@ const TableHeader = (): JSX.Element => {
   );
 };
 
-export default TableHeader;
+export default observer(TableHeader);
