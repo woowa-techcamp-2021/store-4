@@ -42,7 +42,7 @@ const ProductItemImage = (props: Props): JSX.Element => {
   const { thumbnail, isNew, isDiscounting } = props;
   return (
     <ImageWrapper>
-      <Img src={thumbnail || NoImage} />
+      <Img referrerPolicy="no-referrer" src={thumbnail || NoImage} />
       <BadgeWrapper>
         {isNew && <NewBadge>NEW</NewBadge>}
         {isDiscounting && <SalesBadge>SALE</SalesBadge>}
