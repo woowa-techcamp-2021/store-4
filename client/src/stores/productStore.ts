@@ -13,6 +13,18 @@ class ProductStore {
       totalProductCount,
     };
   }
+
+  @action
+  async fetchMainProducts() {
+    const { popularProducts, discountingProducts, newProducts } =
+      await apis.productAPI.fetchMainProducts();
+
+    return {
+      popularProducts,
+      discountingProducts,
+      newProducts,
+    };
+  }
 }
 
 export default new ProductStore();
