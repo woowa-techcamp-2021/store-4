@@ -7,7 +7,9 @@ export type ProductResponse = {
   totalPages: number;
   totalProductCount: number;
 };
-export type ProductDetailResponse = Product;
+export type ProductDetailResponse = {
+  product: Product;
+};
 
 export type ProductListResponseType = {
   totalProductCount: number;
