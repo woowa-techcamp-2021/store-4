@@ -61,6 +61,16 @@ class ProductRepository extends Repository<Product> {
 
     return query.getManyAndCount();
   }
+
+  async findPopularProducts(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .leftJoin('Product.orderDetails', 'orderDetails')
+      .groupBy('Product.id')
+      .orderBy('COUNT(orderDetails.id)', 'DESC')
+      .limit(limit)
+      .getMany();
+  }
 }
 
 export default ProductRepository;
