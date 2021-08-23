@@ -28,9 +28,7 @@ const SalesBadge = styled(Badge)`
   background-color: ${(props) => props.theme.color.red};
 `;
 
-const Img = styled.img.attrs({
-  referrerpolicy: 'no-referrer',
-})`
+const Img = styled.img`
   width: 100%;
 `;
 
@@ -44,7 +42,7 @@ const ProductItemImage = (props: Props): JSX.Element => {
   const { thumbnail, isNew, isDiscounting } = props;
   return (
     <ImageWrapper>
-      <Img src={thumbnail || NoImage} />
+      <Img referrerPolicy="no-referrer" src={thumbnail || NoImage} />
       <BadgeWrapper>
         {isNew && <NewBadge>NEW</NewBadge>}
         {isDiscounting && <SalesBadge>SALE</SalesBadge>}
