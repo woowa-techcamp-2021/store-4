@@ -7,6 +7,7 @@ import { CartType, SelectWithSelected } from '../../types/product';
 import ProductDetailImages from './ProductImage/ProductDetailImages';
 import ProductDetailSkeleton from './ProductDetailSkeleton';
 import ProductInfoBox from './ProductInfoBox';
+import ReviewConatiner from '../../containers/ReviewContainer';
 
 const Container = styled.div`
   margin: 40px auto;
@@ -72,6 +73,7 @@ const ProductDetail = (props: Props): JSX.Element => {
         <ProductContentTitle>상품설명</ProductContentTitle>
         <ProductContent dangerouslySetInnerHTML={{ __html: product.content }} />
       </ProductContentWrapper>
+      <ReviewConatiner reviews={product.reviews} />
     </Container>
   );
 };
