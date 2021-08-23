@@ -57,9 +57,11 @@ const Img = styled.img`
 const PriceTotal = (): JSX.Element => {
   const cartItemList = cartStore.getCartItemList();
 
+  let selectedItemCount = 0;
   let totalPrice = 0;
   for (const item of cartItemList) {
     if (item.isSelected) {
+      selectedItemCount++;
       totalPrice += item.price * item.count;
     }
   }
@@ -70,7 +72,7 @@ const PriceTotal = (): JSX.Element => {
     <PriceTotalWrapper>
       <Wrapper>
         <Text>
-          총 <TextCount>2</TextCount> 개의 상품금액
+          총 <TextCount>{selectedItemCount}</TextCount> 개의 상품금액
         </Text>
         <PriceWrapper>
           <Price isTotal={false}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
