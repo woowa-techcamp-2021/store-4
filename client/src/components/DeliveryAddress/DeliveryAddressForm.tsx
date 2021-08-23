@@ -19,7 +19,7 @@ const DeliveryAddressFormInput = styled.input`
   color: ${(props) => props.theme.color.grey5};
 `;
 
-const RowWrapper = styled.div`
+const Row = styled.div`
   display: flex;
   align-items: center;
   margin: 10px 0;
@@ -97,11 +97,11 @@ const DeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
         defaultValue={deliveryAddress?.name}
         placeholder="이름"
       />
-      <RowWrapper>
+      <Row>
         <Address ref={addressRef} defaultValue={deliveryAddress?.address} placeholder="배송지" />
-      </RowWrapper>
+      </Row>
 
-      <RowWrapper>
+      <Row>
         <RecipientName
           ref={recipientNameRef}
           defaultValue={deliveryAddress?.recipientName}
@@ -112,7 +112,7 @@ const DeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
           defaultValue={deliveryAddress?.recipientPhoneNumber}
           placeholder="수령인 전화번호"
         />
-      </RowWrapper>
+      </Row>
     </Container>
   );
 };

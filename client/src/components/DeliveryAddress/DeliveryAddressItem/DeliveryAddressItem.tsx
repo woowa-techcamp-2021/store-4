@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const DeliveryAddressWrapper = styled.div``;
 
-const RowWrapper = styled.div`
+const Row = styled.div`
   color: ${(props) => props.theme.color.grey5};
   display: flex;
   align-items: center;
@@ -72,14 +72,14 @@ const DeliveryAddressItem = (props: Props): JSX.Element => {
     <Container data-testid="delivery-address-item">
       <DeliveryAddressWrapper>
         <DeliveryAddressNickName>{name}</DeliveryAddressNickName>
-        <RowWrapper>
+        <Row>
           <Address>{address}</Address>
-        </RowWrapper>
+        </Row>
 
-        <RowWrapper>
+        <Row>
           <RecipientName>({recipientName})</RecipientName>
           <RecipientPhoneNumber>{recipientPhoneNumber}</RecipientPhoneNumber>
-        </RowWrapper>
+        </Row>
       </DeliveryAddressWrapper>
       <ButtonWrapper>
         <ChangeToModifyButton onClick={onToModifyClick}>수정</ChangeToModifyButton>
