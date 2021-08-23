@@ -13,8 +13,8 @@ class Review {
     this.content = review.content;
     this.point = review.point;
     this.reviewImages = review.reviewImages.map((reviewImage) => new ReviewImage(reviewImage));
-    this.createdAt = review.createdAt;
-    this.updatedAt = review.updatedAt;
+    this.createdAt = new Date(review.createdAt);
+    this.updatedAt = new Date(review.updatedAt);
   }
 }
 
