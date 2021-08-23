@@ -1,4 +1,3 @@
-
 import ProductOption from '../models/product-option';
 import ProductSelect from '../models/product-select';
 import Product from '../models/product';
@@ -8,6 +7,7 @@ export type ProductResponse = {
   totalPages: number;
   totalProductCount: number;
 };
+export type ProductDetailResponse = Product;
 
 export type ProductListResponseType = {
   totalProductCount: number;
