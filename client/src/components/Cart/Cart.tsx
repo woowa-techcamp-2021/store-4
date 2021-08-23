@@ -9,7 +9,7 @@ import { Link } from '../../lib/router';
 import { useState } from 'react';
 
 import cartStore from '../../stores/cartStore';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 
 const CartContainer = styled.div`
   padding-top: 40px;

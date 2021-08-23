@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import TableHeader from './TableHeader/TableHeader';
 import CartItem from './CartItem/CartItem';
 import cartStore from '../../../stores/cartStore';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 
 const CartTableWrapper = styled.div`

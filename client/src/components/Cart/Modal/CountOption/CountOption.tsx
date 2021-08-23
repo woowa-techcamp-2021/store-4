@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { toKoreanMoneyFormatPure } from '../../../../utils/moneyFormater';
 import cartStore from '../../../../stores/cartStore';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
 
