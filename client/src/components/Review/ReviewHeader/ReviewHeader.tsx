@@ -11,7 +11,9 @@ const Container = styled.header`
 `;
 
 const ReviewTitle = styled.h3`
-  font-size: ${(props) => props.theme.fontSize.medium};
+  display: flex;
+  align-items: center;
+  font-size: ${(props) => props.theme.fontSize.large};
   font-weight: 500;
 `;
 
