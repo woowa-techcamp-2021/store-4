@@ -5,8 +5,6 @@ import cartStore from '../../stores/cartStore';
 import TOWELIMG from '../../assets/images/towel.png';
 
 // addProductToCart 사용 예시입니다.
-const LocalStorageMock = styled.button``;
-
 const mockItemList = [
   {
     id: 0,
@@ -15,6 +13,16 @@ const mockItemList = [
     count: 1,
     price: 16900,
     isSelected: true,
+    selectWithSelected: {
+      id: 1,
+      name: '색상',
+      productOptions: [],
+      selectedOption: {
+        id: 1,
+        name: '화이트',
+        additionalPrice: 2000,
+      },
+    },
   },
   {
     id: 1,
@@ -23,10 +31,22 @@ const mockItemList = [
     count: 2,
     price: 1500,
     isSelected: true,
+    selectWithSelected: {
+      id: 1,
+      name: '색상',
+      productOptions: [],
+      selectedOption: {
+        id: 2,
+        name: '블랙',
+        additionalPrice: 10000,
+      },
+    },
   },
 ];
 
-const CartButtons = (): JSX.Element => {
+const LocalStorageMock = styled.button``;
+
+const AddToCart = (): JSX.Element => {
   return (
     <LocalStorageMock
       onClick={() => {
@@ -36,7 +56,8 @@ const CartButtons = (): JSX.Element => {
             cartItem.title,
             cartItem.imgSrc,
             cartItem.count,
-            cartItem.price
+            cartItem.price,
+            cartItem.selectWithSelected
           );
         }
         console.log('목데이터 추가');
@@ -47,4 +68,4 @@ const CartButtons = (): JSX.Element => {
   );
 };
 
-export default CartButtons;
+export default AddToCart;
