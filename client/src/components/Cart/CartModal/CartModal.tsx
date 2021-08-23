@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 import CLOSE from '../../../assets/icons/close.png';
 import CountOption from './CountOption/CountOption';
-import Option from './OptionWrapper/OptionWrapper';
+import Option from './OptionContainer/OptionContainer';
 
 import cartStore from '../../../stores/cartStore';
 import { useEffect } from 'react';
+import CartItem from '../../../models/cartItem';
 
 const BackgroundWrapper = styled.div`
   display: none;
@@ -82,13 +83,15 @@ type Props = {
   onCloseModalClick: () => void;
 };
 
-const Modal = (props: Props): JSX.Element => {
+const CartModal = (props: Props): JSX.Element => {
   const [productCount, setProductCount] = useState<number>(1);
   const { onCloseModalClick } = props;
 
   useEffect(() => {
     const modalCartItem = cartStore.getModalCartItem();
-    setProductCount(modalCartItem.count);
+    if (CartItem.isCartItem(modalCartItem)) {
+      setProductCount(modalCartItem.count);
+    }
   }, []);
 
   const onConfirmClick = () => {
@@ -116,4 +119,4 @@ const Modal = (props: Props): JSX.Element => {
   );
 };
 
-export default Modal;
+export default CartModal;

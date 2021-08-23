@@ -4,7 +4,7 @@ import CartHeader from './CartHeader/CartHeader';
 import CartTable from './CartTable/CartTable';
 import PriceTotal from './PriceTotalWrapper/PriceTotalWrapper';
 import CartButtons from './CartButtons/CartButtons';
-import Modal from './Modal/Modal';
+import CartModal from './CartModal/CartModal';
 import { Link } from '../../lib/router';
 import { useState } from 'react';
 
@@ -47,7 +47,7 @@ const Cart = (): JSX.Element => {
       </Link>
       <PriceTotal />
       <CartButtons />
-      {modalCartItem && <Modal onCloseModalClick={onCloseModalClick} />}
+      {modalCartItem && <CartModal onCloseModalClick={onCloseModalClick} />}
     </CartContainer>
   );
 };
