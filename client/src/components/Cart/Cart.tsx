@@ -11,7 +11,7 @@ import { useState } from 'react';
 import cartStore from '../../stores/cartStore';
 import { observer } from 'mobx-react';
 
-const CartContainer = styled.div`
+const Container = styled.div`
   padding-top: 40px;
   width: ${(props) => props.theme.device.desktop};
   margin: 0 auto;
@@ -39,7 +39,7 @@ const Cart = (): JSX.Element => {
   };
 
   return (
-    <CartContainer>
+    <Container>
       <CartHeader currentStep={1} />
       <CartTable onOptionClick={onItemOptionClick} />
       <Link to="/">
@@ -48,7 +48,7 @@ const Cart = (): JSX.Element => {
       <PriceTotal />
       <CartButtons />
       {modalCartItem && <CartModal onCloseModalClick={onCloseModalClick} />}
-    </CartContainer>
+    </Container>
   );
 };
 

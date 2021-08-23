@@ -13,14 +13,14 @@ const ResetButton = styled.button`
   outline: inherit;
 `;
 
-const ButtonListWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding-top: 30px;
 `;
 
-const ProductButtonList = styled(ResetButton)``;
+const ProductButtonList = styled.div``;
 const RemoveButton = styled(ResetButton)`
   width: 120px;
   height: 30px;
@@ -54,7 +54,7 @@ const CartButtons = (): JSX.Element => {
   };
 
   return (
-    <ButtonListWrapper>
+    <Container>
       <ProductButtonList>
         <RemoveButton onClick={onClickRemoveSeleted}>선택 상품 삭제</RemoveButton>
       </ProductButtonList>
@@ -62,7 +62,7 @@ const CartButtons = (): JSX.Element => {
         <OrderButton>선택 상품 주문</OrderButton>
         <OrderAllButton>전체 상품 주문</OrderAllButton>
       </OrderButtonList>
-    </ButtonListWrapper>
+    </Container>
   );
 };
 

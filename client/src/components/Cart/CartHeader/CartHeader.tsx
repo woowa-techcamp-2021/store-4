@@ -5,7 +5,7 @@ import NEXT_OFF from '../../../assets/icons/next_off.png';
 
 const LAST_STEP = 3;
 
-const CartHeaderWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   height: 64.2px;
   justify-content: space-between;
@@ -27,24 +27,24 @@ const ProgressList = styled.ol`
   height: 100%;
 `;
 
-type ProgressProps = {
-  isSelected: boolean;
-};
-const Progress = styled.li<ProgressProps>`
+const Progress = styled.li`
   display: flex;
   align-items: center;
   font-size: 14px;
   font-weight: 700;
-  color: ${(props) => props.theme.color.grey3};
+`;
 
+type SpanProps = {
+  isSelected: boolean;
+};
+const Span = styled.span<SpanProps>`
+  padding: 0 1px;
+  color: ${(props) => props.theme.color.grey3};
   ${(props) =>
     props.isSelected &&
     css`
       color: ${props.theme.color.black};
     `};
-`;
-const Span = styled.span`
-  padding: 0 1px;
 `;
 
 const NextImg = styled.img`
@@ -81,22 +81,22 @@ const CartHeader = (props: Props): React.ReactElement => {
   }
 
   return (
-    <CartHeaderWrapper>
+    <Container>
       <Title>장바구니</Title>
       <ProgressList>
         {progressList.map((item, index) => {
           const { isSeleted, step, name } = item;
           const nextImgSrc = isSeleted ? NEXT : NEXT_OFF;
           return (
-            <Progress key={index} isSelected={isSeleted}>
-              <Span>{`0${step}`}</Span>
-              <Span>{name}</Span>
+            <Progress key={index}>
+              <Span isSelected={isSeleted}>{`0${step}`}</Span>
+              <Span isSelected={isSeleted}>{name}</Span>
               {step !== LAST_STEP && <NextImg src={nextImgSrc}></NextImg>}
             </Progress>
           );
         })}
       </ProgressList>
-    </CartHeaderWrapper>
+    </Container>
   );
 };
 
