@@ -1,3 +1,5 @@
+import { isNone } from '../utils/typeGuard';
+
 class CartItem {
   id: number;
   title: string;
@@ -15,14 +17,20 @@ class CartItem {
     this.isSelected = data.isSelected;
   }
 
-  static isCartItemList(value: CartItem[] | unknown): boolean {
-    if (!Array.isArray(value)) {
+  static isCartItem(value: CartItem | unknown): value is CartItem {
+    if (isNone(value)) {
       return false;
     }
 
-    return value.every((item) => {
-      item instanceof CartItem;
-    });
+    return value instanceof CartItem;
+  }
+
+  static isCartItemList(value: CartItem[] | unknown): value is CartItem[] {
+    if (isNone(value) || !Array.isArray(value)) {
+      return false;
+    }
+
+    return value.every((item) => item instanceof CartItem);
   }
 }
 
