@@ -45,6 +45,7 @@ type Props = {
   getIncreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getDecreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getRemoveCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
+  onWishClick: MouseEventHandler;
 };
 
 const ProductDetail = (props: Props): JSX.Element => {
