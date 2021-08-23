@@ -1,7 +1,7 @@
 import React from 'react';
-import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import MOCK_IMG from '../../../../assets/images/towel.png';
+
+import cartStore from '../../../../stores/cartStore';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 
 const AlignCenterContainer = styled.div`
@@ -74,27 +74,43 @@ const PriceWrapper = styled(AlignCenterContainer)`
 const Price = styled(AlignCenterContainer)``;
 
 type Props = {
-  onOptionClick: MouseEventHandler;
+  onOptionClick: (id: number) => void;
+  id: number;
+  title: string;
+  imgSrc: string;
+  count: number;
+  price: number;
+  isSelected: boolean;
 };
 
 const CartItem = (props: Props): JSX.Element => {
-  const { onOptionClick } = props;
+  const { onOptionClick, id, title, imgSrc, count, price, isSelected } = props;
+
+  const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    cartStore.setCartItemSelection(id, e.target.checked);
+  };
 
   return (
     <CartItemWrapper>
       <CheckBoxWrapper>
-        <CheckBox type="checkbox" />
+        <CheckBox type="checkbox" onChange={onChangeCheckBox} checked={isSelected} />
       </CheckBoxWrapper>
       <ItemTitleWrapper>
-        <ItemImg src={MOCK_IMG} />
-        <ItemTitle>업사이클링 스탠드그립 세트. 맥주</ItemTitle>
+        <ItemImg src={imgSrc} />
+        <ItemTitle>{title}</ItemTitle>
       </ItemTitleWrapper>
       <CountWrapper>
-        <Count>1개</Count>
-        <OptionChangeButton onClick={onOptionClick}>옵션/수량</OptionChangeButton>
+        <Count>{count}개</Count>
+        <OptionChangeButton
+          onClick={() => {
+            onOptionClick(id);
+          }}
+        >
+          옵션/수량
+        </OptionChangeButton>
       </CountWrapper>
       <PriceWrapper>
-        <Price>{toKoreanMoneyFormat(18900)}</Price>
+        <Price>{toKoreanMoneyFormat(price)}</Price>
       </PriceWrapper>
     </CartItemWrapper>
   );
