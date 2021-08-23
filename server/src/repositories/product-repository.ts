@@ -71,6 +71,22 @@ class ProductRepository extends Repository<Product> {
       .limit(limit)
       .getMany();
   }
+
+  async findOrderByDiscountRate(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .orderBy('discount_rate', 'DESC')
+      .limit(limit)
+      .getMany();
+  }
+
+  async findOrderByCreatedAt(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .orderBy('created_at', 'DESC')
+      .limit(limit)
+      .getMany();
+  }
 }
 
 export default ProductRepository;

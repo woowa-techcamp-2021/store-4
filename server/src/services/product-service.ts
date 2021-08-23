@@ -52,6 +52,14 @@ class ProductService {
   findPopularProducts(limit: number): Promise<Product[]> {
     return getCustomRepository(ProductRepository).findPopularProducts(limit);
   }
+
+  findDiscountingProducts(limit: number): Promise<Product[]> {
+    return getCustomRepository(ProductRepository).findOrderByDiscountRate(limit);
+  }
+
+  findNewProducts(limit: number): Promise<Product[]> {
+    return getCustomRepository(ProductRepository).findOrderByCreatedAt(limit);
+  }
 }
 
 export default new ProductService();
