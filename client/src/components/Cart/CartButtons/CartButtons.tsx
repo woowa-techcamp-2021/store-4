@@ -1,5 +1,7 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+
+import cartStore from '../../../stores/cartStore';
 
 const ResetButton = styled.button`
   background: none;
@@ -18,8 +20,8 @@ const ButtonListWrapper = styled.div`
   padding-top: 30px;
 `;
 
-const ZzimButtonList = styled(ResetButton)``;
-const ZzimButton = styled(ResetButton)`
+const ProductButtonList = styled(ResetButton)``;
+const RemoveButton = styled(ResetButton)`
   width: 120px;
   height: 30px;
   border: 1px solid ${(props) => props.theme.color.grey3};
@@ -27,12 +29,8 @@ const ZzimButton = styled(ResetButton)`
   font-size: ${(props) => props.theme.fontSize.tiny};
 `;
 
-interface Progress {
-  isOrderAll: boolean;
-}
-
 const OrderButtonList = styled.div``;
-const OrderButton = styled(ResetButton)<Progress>`
+const OrderButton = styled(ResetButton)`
   width: 190px;
   height: 55px;
 
@@ -43,25 +41,26 @@ const OrderButton = styled(ResetButton)<Progress>`
   background-color: ${(props) => props.theme.color.white1};
   font-size: ${(props) => props.theme.fontSize.small};
   font-weight: 700;
+`;
 
-  ${(props) =>
-    props.isOrderAll &&
-    css`
-      color: ${props.theme.color.white1};
-      background-color: ${props.theme.color.black};
-    `};
+const OrderAllButton = styled(OrderButton)`
+  color: ${(props) => props.theme.color.white1};
+  background-color: ${(props) => props.theme.color.black};
 `;
 
 const CartButtons = (): JSX.Element => {
+  const onClickRemoveSeleted = () => {
+    cartStore.removeSelectedItem();
+  };
+
   return (
     <ButtonListWrapper>
-      <ZzimButtonList>
-        <ZzimButton>선택 상품 삭제</ZzimButton>
-        <ZzimButton>선택 상품 찜</ZzimButton>
-      </ZzimButtonList>
+      <ProductButtonList>
+        <RemoveButton onClick={onClickRemoveSeleted}>선택 상품 삭제</RemoveButton>
+      </ProductButtonList>
       <OrderButtonList>
-        <OrderButton isOrderAll={false}>선택 상품 주문</OrderButton>
-        <OrderButton isOrderAll={true}>전체 상품 주문</OrderButton>
+        <OrderButton>선택 상품 주문</OrderButton>
+        <OrderAllButton>전체 상품 주문</OrderAllButton>
       </OrderButtonList>
     </ButtonListWrapper>
   );
