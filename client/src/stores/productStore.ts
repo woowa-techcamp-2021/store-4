@@ -4,7 +4,6 @@ import Product from '../models/product';
 import { Option } from '../types/option';
 
 class ProductStore {
-  @action
   async fetchProducts(option: Option) {
     const { products, totalPages, totalProductCount } = await apis.productAPI.fetchProducts(option);
     return {
@@ -14,7 +13,6 @@ class ProductStore {
     };
   }
 
-  @action
   async fetchMainProducts() {
     const { popularProducts, discountingProducts, newProducts } =
       await apis.productAPI.fetchMainProducts();
