@@ -26,6 +26,8 @@ type MainProductListProps = {
   products: Product[];
 };
 
+const NO_PRODUCT_ITEMS_IN_LIST_TEXT = '상품이 없습니다.';
+
 const MainProductList = (props: MainProductListProps): JSX.Element => {
   const { title, products } = props;
 
@@ -37,7 +39,7 @@ const MainProductList = (props: MainProductListProps): JSX.Element => {
     <ProductList>
       <ProductListTitle>{title}</ProductListTitle>
       {ProductItems.length === 0 ? (
-        <EmptyProductList>상품이 없습니다.</EmptyProductList>
+        <EmptyProductList>{NO_PRODUCT_ITEMS_IN_LIST_TEXT}</EmptyProductList>
       ) : (
         <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
       )}
