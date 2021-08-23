@@ -9,9 +9,10 @@ const AlignCenterContainer = styled.div`
   align-items: center;
 `;
 
-const TableHeaderWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   height: 40px;
   border-top: 1px solid ${(props) => props.theme.color.black};
   border-bottom: 1px solid ${(props) => props.theme.color.grey3};
@@ -22,15 +23,12 @@ const HeaderCheckBox = styled.input`
   width: 38px;
 `;
 const HeaderTitle = styled(AlignCenterContainer)`
-  width: 802px;
+  width: 100%;
 `;
 const HeaderCount = styled(AlignCenterContainer)`
   width: 120px;
 `;
 const HeaderPrice = styled(AlignCenterContainer)`
-  width: 120px;
-`;
-const HeaderDeliveryFee = styled(AlignCenterContainer)`
   width: 120px;
 `;
 
@@ -43,7 +41,7 @@ const TableHeader = (): JSX.Element => {
   };
 
   return (
-    <TableHeaderWrapper>
+    <Container>
       <HeaderCheckBox
         type="checkbox"
         checked={isAllSelected}
@@ -52,8 +50,7 @@ const TableHeader = (): JSX.Element => {
       <HeaderTitle>상품/옵션 정보</HeaderTitle>
       <HeaderCount>수량</HeaderCount>
       <HeaderPrice>상품금액</HeaderPrice>
-      <HeaderDeliveryFee>배송비</HeaderDeliveryFee>
-    </TableHeaderWrapper>
+    </Container>
   );
 };
 
