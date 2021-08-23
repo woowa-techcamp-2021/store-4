@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import Product from '../../models/product';
-import { useProductAdList } from './hooks/useProductAdList';
-import { useProductList } from './hooks/useProductList';
 import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
+import { MainProducts } from '../../types/product';
+import { MockProductAdItemType } from './mock';
 
-const MainProductSectionsContainer = styled.div`
+const Container = styled.div`
   width: 1200px;
   margin: 100px auto;
   display: flex;
@@ -28,46 +27,40 @@ const SECTION_TITLE = {
 
 const AD_TITLE = '선물하기 딱 좋아요!';
 
-const descendingDate = (a: Product, b: Product) => {
-  return b.createdAt.getTime() - a.createdAt.getTime();
+type Props = {
+  mainProducts: MainProducts;
+  mainAdProducts: MockProductAdItemType[];
 };
 
-const descendingDiscountRate = (a: Product, b: Product) => {
-  return b.discountRate - a.discountRate;
-};
-
-const MainProductSections = (): React.ReactElement => {
+const MainProductSections = (props: Props): JSX.Element => {
   const { MostSales, Recent, Discount } = FilterOption;
-
-  const productList = useProductList();
-  const productAdList = useProductAdList();
-
-  const mostSalesProductList = [...productList].sort().slice(0, 4);
-  const recentProductList = [...productList].sort(descendingDate).slice(0, 8);
-  const discountProductList = [...productList].sort(descendingDiscountRate).slice(0, 8);
+  const {
+    mainProducts: { discountingProducts, newProducts, popularProducts },
+    mainAdProducts,
+  } = props;
 
   const filteredDatas = {
     [MostSales]: {
       title: SECTION_TITLE[MostSales],
-      products: mostSalesProductList,
+      products: popularProducts,
     },
     [Recent]: {
       title: SECTION_TITLE[Recent],
-      products: recentProductList,
+      products: newProducts,
     },
     [Discount]: {
       title: SECTION_TITLE[Discount],
-      products: discountProductList,
+      products: discountingProducts,
     },
   };
 
   return (
-    <MainProductSectionsContainer>
+    <Container>
       <MainProductList {...filteredDatas[MostSales]} />
       <MainProductList {...filteredDatas[Recent]} />
-      <MainAdList title={AD_TITLE} products={productAdList} />
+      <MainAdList title={AD_TITLE} products={mainAdProducts} />
       <MainProductList {...filteredDatas[Discount]} />
-    </MainProductSectionsContainer>
+    </Container>
   );
 };
 

@@ -27,6 +27,7 @@ const OAuthIcon = styled.img`
 
 const OAuthButtonContent = styled.span`
   font-size: ${(props) => props.theme.fontSize.normal};
+  color: inherit;
 `;
 
 type Props = {
