@@ -14,6 +14,16 @@ class CartItem {
     this.price = data.price;
     this.isSelected = data.isSelected;
   }
+
+  static isCartItemList(value: CartItem[] | unknown): boolean {
+    if (!Array.isArray(value)) {
+      return false;
+    }
+
+    return value.every((item) => {
+      item instanceof CartItem;
+    });
+  }
 }
 
 export default CartItem;
