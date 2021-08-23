@@ -9,11 +9,13 @@ export type ProductResponse = {
 };
 export type ProductDetailResponse = Product;
 
-export type MainProductsResponse = {
+export type MainProducts = {
   popularProducts: Product[];
   discountingProducts: Product[];
   newProducts: Product[];
 };
+
+export type MainProductsResponse = MainProducts;
 
 export type ProductListResponseType = {
   totalProductCount: number;
