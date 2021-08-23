@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable } from 'mobx';
-import Cart from '../components/Cart/Cart';
+
 import CartItem from '../models/cart-item';
+import { SelectWithSelected } from '../types/product';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
@@ -18,7 +19,14 @@ class CartStore {
   }
 
   @action
-  addProductToCart(productId: number, title: string, imgSrc: string, count: number, price: number) {
+  addProductToCart(
+    productId: number,
+    title: string,
+    imgSrc: string,
+    count: number,
+    price: number,
+    selectWithSelected?: SelectWithSelected
+  ) {
     const prevItem = this.cartItemList.find((cartItem) => cartItem.id === productId);
     if (isNotNone(prevItem)) {
       // 이미 장바구니에 추가된 상품.
@@ -32,6 +40,7 @@ class CartStore {
       count,
       price,
       isSelected: true,
+      selectWithSelected,
     });
     this.cartItemList.push(newCartItem);
     this.setCartItemListToStorage(this.cartItemList);
@@ -46,11 +55,12 @@ class CartStore {
       count = 0;
     }
 
-    const modalCartItem = this.cartItemList.find((item) => item.id === this.modalCartItemId);
-    if (isNone(modalCartItem)) {
+    const index = this.cartItemList.findIndex((cartItem) => cartItem.id === this.modalCartItemId);
+    if (index === -1) {
       return;
     }
-    modalCartItem.count = count;
+
+    this.cartItemList[index] = { ...this.cartItemList[index], count: count };
     this.setCartItemListToStorage(this.cartItemList);
   }
 
