@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import SearchTerm from '../../../../models/searchTerm';
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.grey1};
@@ -18,10 +19,12 @@ const DropdownHeader = styled.div`
 const DropdownTitle = styled.div`
   padding-bottom: 8px;
   border-bottom: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
 `;
 
 const DropdownBody = styled.div`
   padding: 8px 16px;
+  background-color: ${(props) => props.theme.color.white1};
 `;
 
 const DropdownController = styled.div`
@@ -45,11 +48,13 @@ const DropdownCloseButton = styled.div`
 `;
 
 type Props = {
-  onClose: () => void;
+  searchTermList: SearchTerm[];
+  onCloseDropdown: () => void;
+  onDeleteAllSearchTerm: () => void;
 };
 
 const Dropdown = (props: Props): JSX.Element => {
-  const { onClose } = props;
+  const { onCloseDropdown, onDeleteAllSearchTerm } = props;
 
   return (
     <Container>
@@ -58,8 +63,8 @@ const Dropdown = (props: Props): JSX.Element => {
       </DropdownHeader>
       <DropdownBody>검색어 리스트</DropdownBody>
       <DropdownController>
-        <DropdownAllDeleteButton>전체 삭제</DropdownAllDeleteButton>
-        <DropdownCloseButton onClick={onClose}>닫기</DropdownCloseButton>
+        <DropdownAllDeleteButton onClick={onDeleteAllSearchTerm}>전체 삭제</DropdownAllDeleteButton>
+        <DropdownCloseButton onClick={onCloseDropdown}>닫기</DropdownCloseButton>
       </DropdownController>
     </Container>
   );
