@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback } from 'react';
-import ProductInfoBox from '../components/ProductDetail/ProductInfoBox';
-import useCartsInProduct from '../hooks/useCarstInProduct';
+import ProductDetail from '../components/ProductDetail/ProductDetail';
+import useCartsInProduct from '../hooks/useCartsInProduct';
 import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import CartInProduct from '../models/cart-in-product';
@@ -81,7 +81,7 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 
   return (
-    <ProductInfoBox
+    <ProductDetail
       cartType={cartType}
       cartsInProduct={cartsInProduct}
       getCountChangeHandler={handleGetCountChangeHandler}

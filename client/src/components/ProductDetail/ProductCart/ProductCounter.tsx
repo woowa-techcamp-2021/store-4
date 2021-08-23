@@ -19,7 +19,7 @@ const CountInput = styled.input.attrs({
 
 const ControlButton = styled.button`
   width: 30px;
-  height: 18px;
+  height: 16px;
   background-color: ${(props) => props.theme.color.white2};
   border: 1px solid ${(props) => props.theme.color.grey4};
   border-bottom: none;

@@ -4,16 +4,19 @@ import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
 import { CartType, SelectWithSelected } from '../../types/product';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
-import ProductCartItem from './ProductCartItem';
+import ProductCartItem from './ProductCart/ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 550px;
+`;
 
 const ProductTitle = styled.h1`
+  margin: 0;
   margin-bottom: 40px;
 `;
 
-const CostPrice = styled.div`
+const OriginPrice = styled.div`
   text-decoration: line-through;
 `;
 
@@ -37,8 +40,8 @@ const InfoRowWrapper = styled.div`
 `;
 
 const ProductCartListWrapper = styled.div`
-  margin-top: 50px;
-  height: 120px;
+  margin-top: 30px;
+  height: 100px;
   overflow: scroll;
 `;
 
@@ -48,7 +51,7 @@ const TotalPriceWrapper = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid ${(props) => props.theme.color.grey2};
+  border-top: 1px solid ${(props) => props.theme.color.grey1};
   padding: 20px 0px;
 `;
 
@@ -59,10 +62,42 @@ const TotalPrice = styled.div`
   color: ${(props) => props.theme.color.mint2};
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+const CommonButton = styled.button`
+  height: 50px;
+  cursor: pointer;
+`;
+
+const WishButton = styled(CommonButton)`
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
+  width: 50px;
+`;
+
+const ToCartButton = styled(CommonButton)`
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
+  width: 160px;
+`;
+
+const PurchaseButton = styled(CommonButton)`
+  border: none;
+  color: ${(props) => props.theme.color.white1};
+  background-color: ${(props) => props.theme.color.black};
+  width: 180px;
+`;
+
 type Props = {
   cartType: CartType;
   cartsInProduct: CartInProduct[];
-  product: Product | null;
+  product: Product;
   selectsWithSelected: SelectWithSelected[];
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
   getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
@@ -116,30 +151,31 @@ const ProductInfoBox = (props: Props): JSX.Element => {
   );
 
   return (
-    <>
-      {product !== null && (
-        <Container>
-          <ProductTitle>{product.name}</ProductTitle>
-          {product.discountRate !== 0 && (
-            <InfoRowWrapper>
-              <InfoLabel>정가</InfoLabel>
-              <CostPrice>{toKoreanMoneyFormat(product.price)}</CostPrice>
-            </InfoRowWrapper>
-          )}
-          <InfoRowWrapper>
-            <InfoLabel>판매가</InfoLabel>
-            <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
-          </InfoRowWrapper>
-          {ProductSelects}
-
-          <ProductCartListWrapper>{ProductCartItems}</ProductCartListWrapper>
-          <TotalPriceWrapper>
-            <InfoLabel>총 합계 금액</InfoLabel>
-            <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
-          </TotalPriceWrapper>
-        </Container>
+    <Container>
+      <ProductTitle>{product.name}</ProductTitle>
+      {product.discountRate !== 0 && (
+        <InfoRowWrapper>
+          <InfoLabel>정가</InfoLabel>
+          <OriginPrice>{toKoreanMoneyFormat(product.price)}</OriginPrice>
+        </InfoRowWrapper>
       )}
-    </>
+      <InfoRowWrapper>
+        <InfoLabel>판매가</InfoLabel>
+        <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
+      </InfoRowWrapper>
+      {ProductSelects}
+
+      <ProductCartListWrapper>{ProductCartItems}</ProductCartListWrapper>
+      <TotalPriceWrapper>
+        <InfoLabel>총 합계 금액</InfoLabel>
+        <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
+      </TotalPriceWrapper>
+      <ButtonWrapper>
+        <WishButton>찜</WishButton>
+        <ToCartButton>장바구니</ToCartButton>
+        <PurchaseButton>바로구매</PurchaseButton>
+      </ButtonWrapper>
+    </Container>
   );
 };
 

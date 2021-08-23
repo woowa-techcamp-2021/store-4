@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import provideTheme2Test from '../../lib/provideTheme2Test';
+import provideTheme2Test from '../../../lib/provideTheme2Test';
 import MagnifierImage from './MagnifierImage';
 import userEvent from '@testing-library/user-event';
 
