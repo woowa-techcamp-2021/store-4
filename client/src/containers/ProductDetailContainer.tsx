@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import React, { ChangeEvent, useCallback } from 'react';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
 import useCartsInProduct from '../hooks/useCartsInProduct';
@@ -96,4 +97,4 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 };
 
-export default ProductDetailContainer;
+export default observer(ProductDetailContainer);
