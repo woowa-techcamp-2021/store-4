@@ -9,6 +9,12 @@ export type ProductResponse = {
 };
 export type ProductDetailResponse = Product;
 
+export type MainProductsResponse = {
+  popularProducts: Product[];
+  discountingProducts: Product[];
+  newProducts: Product[];
+};
+
 export type ProductListResponseType = {
   totalProductCount: number;
   totalPage: number;
