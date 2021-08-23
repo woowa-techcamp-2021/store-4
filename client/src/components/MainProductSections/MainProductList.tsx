@@ -19,6 +19,8 @@ const ProductItemWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
+const EmptyProductList = styled.div``;
+
 type MainProductListProps = {
   title: string;
   products: Product[];
@@ -35,7 +37,7 @@ const MainProductList = (props: MainProductListProps): JSX.Element => {
     <ProductList>
       <ProductListTitle>{title}</ProductListTitle>
       {ProductItems.length === 0 ? (
-        <div>상품이 없습니다.</div>
+        <EmptyProductList>상품이 없습니다.</EmptyProductList>
       ) : (
         <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
       )}
