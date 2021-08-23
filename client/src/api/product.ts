@@ -16,7 +16,12 @@ class ProductAPI {
   }
 
   fetchProduct(id: number): Promise<ProductDetailResponse> {
-    return request<ProductDetailResponse>({ url: `${this.baseURL}/api/product/${id}` });
+    return request<ProductDetailResponse>({
+      url: `${this.baseURL}/api/product/${id}`,
+      headers: {
+        authorization: localStorage.getItem('token') as string,
+      },
+    });
   }
 
   wish(id: number): Promise<void> {
@@ -24,7 +29,7 @@ class ProductAPI {
       url: `${this.baseURL}/api/product/${id}/wish`,
       method: 'POST',
       headers: {
-        authorization: '',
+        authorization: localStorage.getItem('token') as string,
       },
     });
   }
@@ -34,7 +39,7 @@ class ProductAPI {
       url: `${this.baseURL}/api/product/${id}/wish`,
       method: 'DELETE',
       headers: {
-        authorization: '',
+        authorization: localStorage.getItem('token') as string,
       },
     });
   }

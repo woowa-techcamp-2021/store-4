@@ -7,7 +7,9 @@ import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
 import productDetailStore from '../stores/productDetailStore';
+import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
+import { isNone } from '../utils/typeGuard';
 
 const ProductDetailContainer = (): JSX.Element => {
   const [product, productFetchErrorStatus] = useProduct();
@@ -86,7 +88,11 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 
   const handleWishButtonHandler = useCallback(() => {
-    // 회원 검증
+    if (isNone(userStore.user)) {
+      alert('로그인이 필요합니다');
+      return;
+    }
+
     productDetailStore.toggleWish().catch((error) => {
       switch (error.status) {
         case 401:

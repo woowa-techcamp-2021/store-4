@@ -34,7 +34,10 @@ class ProductDetailStore {
 
     runInAction(() => {
       if (this.product !== null) {
-        this.product.isWished = !isWished;
+        this.product = new Product({
+          ...this.product,
+          isWished: !isWished,
+        });
       }
     });
   }
