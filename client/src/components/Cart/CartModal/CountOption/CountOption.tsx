@@ -7,6 +7,7 @@ import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
+import { isNotNone } from '../../../../utils/typeGuard';
 
 const Container = styled.div`
   display: flex;
@@ -86,7 +87,9 @@ const CountOption = (props: Props): JSX.Element => {
   }
 
   const { title, price, selectWithSelected } = toJSModalCartItem;
-  const optionPrice = selectWithSelected ? selectWithSelected.selectedOption.additionalPrice : 0;
+  const optionPrice = isNotNone(selectWithSelected)
+    ? selectWithSelected.selectedOption.additionalPrice
+    : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
     setProductCount(parseInt(e.target.value));
