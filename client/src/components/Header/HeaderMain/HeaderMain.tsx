@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from '../../../lib/router';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 import LOGO from './logo.png';
 import SearchBar from './SearchBar/SearchBar';
@@ -37,7 +38,9 @@ const HeaderMain = (): JSX.Element => {
     <Container>
       <CategoryMenu />
       <LogoContainer>
-        <LogoImage src={LOGO} />
+        <Link to="/">
+          <LogoImage src={LOGO} />
+        </Link>
       </LogoContainer>
       <SearchBar />
     </Container>
