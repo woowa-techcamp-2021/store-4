@@ -7,10 +7,7 @@ export type ProductResponse = {
   totalPages: number;
   totalProductCount: number;
 };
-
-export type ProductDetailResponse = {
-  isWished: boolean;
-} & Product;
+export type ProductDetailResponse = Product;
 
 export type ProductListResponseType = {
   totalProductCount: number;
