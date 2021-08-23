@@ -1,7 +1,9 @@
-import { makeAutoObservable, observable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
+import Cart from '../components/Cart/Cart';
 import CartItem from '../models/cartItem';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
+const CART_LOCALSTORAGE_KEY = `cart`;
 class CartStore {
   @observable
   cartItemList: CartItem[] = [];
@@ -15,6 +17,7 @@ class CartStore {
     this.modalCartItemId = 0;
   }
 
+  @action
   addProductToCart(productId: number, title: string, imgSrc: string, count: number, price: number) {
     const prevItem = this.cartItemList.find((cartItem) => cartItem.id === productId);
     if (isNotNone(prevItem)) {
@@ -28,51 +31,71 @@ class CartStore {
       imgSrc,
       count,
       price,
-    } as CartItem);
+      isSelected: true,
+    });
     this.cartItemList.push(newCartItem);
-    this.setCartItemList(this.cartItemList);
+    this.setCartItemListToStorage(this.cartItemList);
   }
 
   getModalCartItem() {
-    return this.getCartItemById(this.modalCartItemId);
+    return this.cartItemList.find((item) => item.id === this.modalCartItemId);
   }
 
   setModalCartItemCount(count: number) {
     if (isNone(count) || Number.isNaN(count) || count <= 0) {
       count = 0;
     }
-    const modalCartItem = this.getCartItemById(this.modalCartItemId);
-    modalCartItem.count = isNotNone(count) ? count : modalCartItem.count;
-    this.cartItemList = [...this.cartItemList];
-    this.setCartItemList(this.cartItemList);
+
+    const modalCartItem = this.cartItemList.find((item) => item.id === this.modalCartItemId);
+    if (isNone(modalCartItem)) {
+      return;
+    }
+    modalCartItem.count = count;
+    this.setCartItemListToStorage(this.cartItemList);
   }
 
+  @action
   setCartItemSelection(id: number, isSelected: boolean) {
-    const cartItem = this.getCartItemById(id);
-    cartItem.isSelected = isSelected;
-    this.cartItemList = [...this.cartItemList];
-    this.setCartItemList(this.cartItemList);
+    const index = this.cartItemList.findIndex((cartItem) => cartItem.id === id);
+    if (index === -1) {
+      return;
+    }
+    this.cartItemList[index] = { ...this.cartItemList[index], isSelected: isSelected };
+    this.setCartItemListToStorage(this.cartItemList);
   }
 
   setCartItemSelectionAll(isSelected: boolean) {
-    for (const cartItem of this.cartItemList) {
+    const nextCartItemList = [...this.cartItemList];
+    for (const cartItem of nextCartItemList) {
       cartItem.isSelected = isSelected;
     }
 
-    this.cartItemList = [...this.cartItemList];
-    this.setCartItemList(this.cartItemList);
+    this.cartItemList = nextCartItemList;
+    this.setCartItemListToStorage(this.cartItemList);
   }
 
   setModalCartItemId(id: number) {
     this.modalCartItemId = id;
   }
 
-  getCartItemById(id: number) {
-    return this.cartItemList.filter((item) => item.id === id)[0];
+  setCartItemListToStorage(cartItemList: CartItem[]) {
+    localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(cartItemList));
   }
 
-  setCartItemList(cartItemList: CartItem[]) {
-    localStorage.setItem('cart', JSON.stringify(cartItemList));
+  getCartItemListFromStorage() {
+    const item = localStorage.getItem('cart');
+    if (isNone(item)) {
+      return [];
+    }
+    try {
+      const cartItemList = JSON.parse(item);
+      if (!CartItem.isCartItemList(cartItemList)) {
+        return [];
+      }
+      return cartItemList;
+    } catch {
+      return [];
+    }
   }
 
   getCartItemList() {
@@ -81,7 +104,7 @@ class CartStore {
 
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
-    this.setCartItemList(this.cartItemList);
+    this.setCartItemListToStorage(this.cartItemList);
   }
 }
 
