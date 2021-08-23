@@ -42,7 +42,7 @@ const MainProductSections = (props: Props): JSX.Element => {
   const filteredDatas = {
     [MostSales]: {
       title: SECTION_TITLE[MostSales],
-      products: discountingProducts,
+      products: popularProducts,
     },
     [Recent]: {
       title: SECTION_TITLE[Recent],
@@ -50,7 +50,7 @@ const MainProductSections = (props: Props): JSX.Element => {
     },
     [Discount]: {
       title: SECTION_TITLE[Discount],
-      products: popularProducts,
+      products: discountingProducts,
     },
   };
 
