@@ -60,7 +60,6 @@ type Props = {
 };
 
 const NavBar = (props: Props): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { navItems } = props;
 
   const NavListContent = navItems.map((item, index) => (
