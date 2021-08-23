@@ -8,6 +8,7 @@ import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import ProductPage from '../../pages/Product';
 import ProductsPage from '../../pages/Products';
+import AccountPage from '../../pages/Account';
 
 const App = (): JSX.Element => {
   return (
@@ -20,6 +21,7 @@ const App = (): JSX.Element => {
           <Route exact path="/login" component={LoginPage} />
           <Route path="/product/:id" component={ProductPage} />
           <Route exact path="/products" component={ProductsPage} />
+          <Route exact path="/account" component={AccountPage} />
         </Switch>
       </Router>
     </ThemeProvider>
