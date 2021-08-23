@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import TEST_IMG from '../../../../assets/images/towel.png';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 import cartStore from '../../../../stores/cartStore';
-import CartItem from '../../../../models/cartItem';
+import CartItem from '../../../../models/cart-item';
 
 const OptionContainer = styled.div`
   display: flex;

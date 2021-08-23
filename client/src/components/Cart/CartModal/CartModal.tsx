@@ -7,7 +7,7 @@ import Option from './OptionContainer/OptionContainer';
 
 import cartStore from '../../../stores/cartStore';
 import { useEffect } from 'react';
-import CartItem from '../../../models/cartItem';
+import CartItem from '../../../models/cart-item';
 
 const BackgroundWrapper = styled.div`
   display: none;

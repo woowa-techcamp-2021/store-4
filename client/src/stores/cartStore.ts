@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import Cart from '../components/Cart/Cart';
-import CartItem from '../models/cartItem';
+import CartItem from '../models/cart-item';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
