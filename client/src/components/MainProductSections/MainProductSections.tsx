@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useProductAdList } from '../../hooks/useMainProductAdList';
 import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
 import { MainProducts } from '../../types/product';
+import { MockProductAdItemType } from './mock';
 
 const Container = styled.div`
   width: 1200px;
@@ -29,15 +29,15 @@ const AD_TITLE = '선물하기 딱 좋아요!';
 
 type Props = {
   mainProducts: MainProducts;
+  mainAdProducts: MockProductAdItemType[];
 };
 
 const MainProductSections = (props: Props): JSX.Element => {
   const { MostSales, Recent, Discount } = FilterOption;
   const {
     mainProducts: { discountingProducts, newProducts, popularProducts },
+    mainAdProducts,
   } = props;
-
-  const productAdList = useProductAdList();
 
   const filteredDatas = {
     [MostSales]: {
@@ -58,7 +58,7 @@ const MainProductSections = (props: Props): JSX.Element => {
     <Container>
       <MainProductList {...filteredDatas[MostSales]} />
       <MainProductList {...filteredDatas[Recent]} />
-      <MainAdList title={AD_TITLE} products={productAdList} />
+      <MainAdList title={AD_TITLE} products={mainAdProducts} />
       <MainProductList {...filteredDatas[Discount]} />
     </Container>
   );
