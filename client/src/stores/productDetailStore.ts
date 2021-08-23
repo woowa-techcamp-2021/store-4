@@ -18,6 +18,10 @@ class ProductDetailStore {
       this.product = new Product(product);
     });
   }
+
+  resetProduct() {
+    this.product = null;
+  }
 }
 
 export default new ProductDetailStore();

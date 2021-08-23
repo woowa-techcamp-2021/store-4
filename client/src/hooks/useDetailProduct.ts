@@ -12,8 +12,11 @@ const useDetailProduct = (): Product | null => {
       return;
     }
 
-    console.log(id);
     productDetailStore.fetchProduct(+id);
+
+    return () => {
+      productDetailStore.resetProduct();
+    };
   }, [id]);
 
   return productDetailStore.product;
