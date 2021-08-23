@@ -6,7 +6,7 @@ import ProductFindQuery from '../validations/product-find-query';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
-  async findProduct(id: number): Promise<Product | undefined> {
+  findProduct(id: number): Promise<Product | undefined> {
     return createQueryBuilder(Product)
       .leftJoinAndSelect('Product.productImages', 'productImages')
       .leftJoinAndSelect('Product.reviews', 'reviews')
@@ -18,12 +18,7 @@ class ProductRepository extends Repository<Product> {
       .getOne();
   }
 
-  async findProducts({
-    category,
-    sort,
-    pageNum,
-    limit,
-  }: ProductFindQuery): Promise<[Product[], number]> {
+  findProducts({ category, sort, pageNum, limit }: ProductFindQuery): Promise<[Product[], number]> {
     const query = createQueryBuilder(Product);
 
     if (isNotNone(category)) {
@@ -62,7 +57,7 @@ class ProductRepository extends Repository<Product> {
     return query.getManyAndCount();
   }
 
-  async findPopularProducts(limit: number): Promise<Product[]> {
+  findPopularProducts(limit: number): Promise<Product[]> {
     return createQueryBuilder(Product)
       .leftJoinAndSelect('Product.productImages', 'productImages')
       .leftJoin('Product.orderDetails', 'orderDetails')
@@ -72,7 +67,7 @@ class ProductRepository extends Repository<Product> {
       .getMany();
   }
 
-  async findOrderByDiscountRate(limit: number): Promise<Product[]> {
+  findOrderByDiscountRate(limit: number): Promise<Product[]> {
     return createQueryBuilder(Product)
       .leftJoinAndSelect('Product.productImages', 'productImages')
       .orderBy('discount_rate', 'DESC')
@@ -80,7 +75,7 @@ class ProductRepository extends Repository<Product> {
       .getMany();
   }
 
-  async findOrderByCreatedAt(limit: number): Promise<Product[]> {
+  findOrderByCreatedAt(limit: number): Promise<Product[]> {
     return createQueryBuilder(Product)
       .leftJoinAndSelect('Product.productImages', 'productImages')
       .orderBy('created_at', 'DESC')
