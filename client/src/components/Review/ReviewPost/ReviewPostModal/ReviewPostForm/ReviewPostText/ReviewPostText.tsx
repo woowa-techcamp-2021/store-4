@@ -1,10 +1,16 @@
 import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 
-const ADD_CONTENT_LABEL_TEXT = '이 상품, 어떠셨나요?';
+const TEXT_AFTER_TITLE = '어떠셨나요?';
 
 const Container = styled.div`
   margin: 48px 0 16px;
+`;
+
+const ProductTitleContainer = styled.div``;
+
+const ProductTitle = styled.span`
+  font-weight: bold;
 `;
 
 const InputTextareaLabel = styled.label`
@@ -29,15 +35,18 @@ const InputTextarea = styled.textarea`
 
 type Props = {
   value: string;
+  productName: string;
   onChange: ChangeEventHandler;
 };
 const ReviewPostText = (props: Props): JSX.Element => {
-  const { value, onChange } = props;
+  const { value, productName, onChange } = props;
 
   return (
     <Container>
       <InputTextareaLabel>
-        {ADD_CONTENT_LABEL_TEXT}
+        <ProductTitleContainer>
+          <ProductTitle>{`${productName},`}</ProductTitle> {TEXT_AFTER_TITLE}
+        </ProductTitleContainer>
         <InputTextarea name="content" value={value} required={true} onChange={onChange} />
       </InputTextareaLabel>
     </Container>

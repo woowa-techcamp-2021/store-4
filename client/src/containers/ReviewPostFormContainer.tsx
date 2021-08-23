@@ -1,5 +1,7 @@
 import React, { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
 import ReviewPostForm from '../components/Review/ReviewPost/ReviewPostModal/ReviewPostForm/ReviewPostForm';
+import userStore from '../stores/userStore';
+import productDetailStore from '../stores/productDetailStore';
 
 const validateFileInputs = (files: FileList) => {
   if (Array.from(files).some((file) => !file.type.startsWith('image'))) {
@@ -28,6 +30,7 @@ type Props = {
 const ReviewPostFormContainer = (props: Props): JSX.Element => {
   const { onCancelButtonClick } = props;
   const [thumbnails, setThumbnails] = useState<string[]>([]);
+  const product = productDetailStore.product;
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -51,13 +54,16 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     console.log(point, content, reviewImages);
   };
 
-  return (
+  return userStore.user && product ? (
     <ReviewPostForm
+      product={product}
       onCancelButtonClick={onCancelButtonClick}
       onImageUpload={handleImageUpload}
       onSubmit={handleSubmit}
       thumbnails={thumbnails}
     />
+  ) : (
+    <div>Not a User</div>
   );
 };
 
