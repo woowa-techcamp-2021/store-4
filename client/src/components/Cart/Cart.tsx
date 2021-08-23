@@ -43,11 +43,11 @@ const Cart = (): JSX.Element => {
       <CartHeader />
       <CartTable onOptionClick={onItemOptionClick} />
       <Link to="/">
-        <MoveShopPage>{`<`} 쇼핑 계속하기</MoveShopPage>
+        <MoveShopPage>{`< 쇼핑 계속하기`}</MoveShopPage>
       </Link>
       <PriceTotal />
       <CartButtons />
-      {modalCartItem ? <Modal onCloseModalClick={onCloseModalClick} /> : null}
+      {modalCartItem && <Modal onCloseModalClick={onCloseModalClick} />}
     </CartContainer>
   );
 };
