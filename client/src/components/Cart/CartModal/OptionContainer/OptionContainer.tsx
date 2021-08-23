@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import TEST_IMG from '../../../../assets/images/towel.png';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 import cartStore from '../../../../stores/cartStore';
+import CartItem from '../../../../models/cartItem';
 
-const OptionWrapper = styled.div`
+const OptionContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: 20px 0;
@@ -65,11 +66,15 @@ const DeliveryOption = styled.div`
 
 const Option = (): JSX.Element => {
   const modalCartItem = cartStore.getModalCartItem();
+  if (!CartItem.isCartItem(modalCartItem)) {
+    return <OptionContainer></OptionContainer>;
+  }
+
   const title = modalCartItem.title;
   const price = modalCartItem.price;
 
   return (
-    <OptionWrapper>
+    <OptionContainer>
       <ProductImgWrapper>
         <ProductImg src={TEST_IMG}></ProductImg>
       </ProductImgWrapper>
@@ -84,7 +89,7 @@ const Option = (): JSX.Element => {
           </OptionMain>
         </DeliveryOptionWrapper>
       </ProductInfoWrapper>
-    </OptionWrapper>
+    </OptionContainer>
   );
 };
 
