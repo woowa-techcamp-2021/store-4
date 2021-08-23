@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import SearchTerm from '../../../../models/searchTerm';
 import Dropdown from './Dropdown';
 import searchIcon from './searchIcon.svg';
 
@@ -37,13 +38,24 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar = (): JSX.Element => {
-  const [searchTerm, setSearchTerm] = useState('');
+type Props = {
+  searchTerm: string;
+  searchTermList: SearchTerm[];
+  onChangeSearchTermInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeSearchTermList: () => void;
+  onDeleteAllSearchTerm: () => void;
+};
+
+const SearchBar = (props: Props): JSX.Element => {
+  const {
+    searchTerm,
+    searchTermList,
+    onChangeSearchTermList,
+    onDeleteAllSearchTerm,
+    onChangeSearchTermInput,
+  } = props;
+
   const [isOpenDropBox, setDropboxOpen] = useState(false);
-  const handleSearchInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
-    [setSearchTerm]
-  );
 
   const handleOpenDropdown = () => {
     setDropboxOpen(true);
@@ -74,13 +86,19 @@ const SearchBar = (): JSX.Element => {
         type="text"
         placeholder={INPUT_PLACEHOLDER}
         value={searchTerm}
-        onChange={handleSearchInputChange}
+        onChange={onChangeSearchTermInput}
         onFocus={handleOpenDropdown}
       />
-      <SearchButton type="button">
+      <SearchButton type="button" onClick={onChangeSearchTermList}>
         <img src={searchIcon} />
       </SearchButton>
-      {isOpenDropBox && <Dropdown onClose={handleCloseDropdown} />}
+      {isOpenDropBox && (
+        <Dropdown
+          onCloseDropdown={handleCloseDropdown}
+          onDeleteAllSearchTerm={onDeleteAllSearchTerm}
+          searchTermList={searchTermList}
+        />
+      )}
     </Container>
   );
 };
