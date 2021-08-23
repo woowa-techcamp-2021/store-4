@@ -5,6 +5,7 @@ import PageOverflowException from '../exceptions/page-overflow-exception';
 import WishRepository from '../repositories/wish-repository';
 import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import ProductFindQuery from '../validations/product-find-query';
+import Product from '../models/product';
 
 const ERROR_MESSAGES = {
   PAGE_OVERFLOW: '요청한 페이지가 전체 페이지 수를 초과했습니다',
@@ -46,6 +47,18 @@ class ProductService {
       ...product,
       isWished,
     };
+  }
+
+  findPopularProducts(limit: number): Promise<Product[]> {
+    return getCustomRepository(ProductRepository).findPopularProducts(limit);
+  }
+
+  findDiscountingProducts(limit: number): Promise<Product[]> {
+    return getCustomRepository(ProductRepository).findOrderByDiscountRate(limit);
+  }
+
+  findNewProducts(limit: number): Promise<Product[]> {
+    return getCustomRepository(ProductRepository).findOrderByCreatedAt(limit);
   }
 }
 
