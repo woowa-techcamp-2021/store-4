@@ -19,6 +19,26 @@ class ProductDetailStore {
     });
   }
 
+  @action
+  async toggleWish(): Promise<void> {
+    if (this.product === null) {
+      return;
+    }
+
+    const { id, isWished } = this.product;
+    if (isWished) {
+      await apis.productAPI.cancelWish(id);
+    } else {
+      await apis.productAPI.wish(id);
+    }
+
+    runInAction(() => {
+      if (this.product !== null) {
+        this.product.isWished = !isWished;
+      }
+    });
+  }
+
   resetProduct() {
     this.product = null;
   }

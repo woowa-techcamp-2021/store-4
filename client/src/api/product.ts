@@ -18,6 +18,26 @@ class ProductAPI {
   fetchProduct(id: number): Promise<ProductDetailResponse> {
     return request<ProductDetailResponse>({ url: `${this.baseURL}/api/product/${id}` });
   }
+
+  wish(id: number): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/product/${id}/wish`,
+      method: 'POST',
+      headers: {
+        authorization: '',
+      },
+    });
+  }
+
+  cancelWish(id: number): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/product/${id}/wish`,
+      method: 'DELETE',
+      headers: {
+        authorization: '',
+      },
+    });
+  }
 }
 
 export default ProductAPI;

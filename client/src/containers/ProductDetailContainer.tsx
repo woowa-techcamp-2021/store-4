@@ -6,6 +6,7 @@ import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
+import productDetailStore from '../stores/productDetailStore';
 import { SelectWithSelected } from '../types/product';
 
 const ProductDetailContainer = (): JSX.Element => {
@@ -84,6 +85,27 @@ const ProductDetailContainer = (): JSX.Element => {
     [handleRemove]
   );
 
+  const handleWishButtonHandler = useCallback(() => {
+    // 회원 검증
+    productDetailStore.toggleWish().catch((error) => {
+      switch (error.status) {
+        case 401:
+        case 410:
+          alert('세션이 만료되었습니다');
+          history.push('/logout');
+          return;
+
+        case 404:
+          history.push('/notfound');
+          return;
+
+        case 500:
+          history.push('/error');
+          return;
+      }
+    });
+  }, [history]);
+
   useEffect(() => {
     if (productFetchErrorStatus === null) {
       return;
@@ -112,6 +134,7 @@ const ProductDetailContainer = (): JSX.Element => {
       product={product}
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}
+      onWishClick={handleWishButtonHandler}
     />
   );
 };
