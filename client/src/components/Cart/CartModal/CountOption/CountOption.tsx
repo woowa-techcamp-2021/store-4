@@ -5,9 +5,10 @@ import cartStore from '../../../../stores/cartStore';
 import { observer } from 'mobx-react';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
-import { isNone } from '../../../../utils/typeGuard';
+import CartItem from '../../../../models/cart-item';
+import { toJS } from 'mobx';
 
-const CountOptionWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
@@ -79,11 +80,13 @@ const CountOption = (props: Props): JSX.Element => {
   const { productCount, setProductCount } = props;
 
   const modalCartItem = cartStore.getModalCartItem();
-  if (isNone(modalCartItem)) {
-    return <CountOptionWrapper></CountOptionWrapper>;
+  const toJSModalCartItem = toJS(modalCartItem);
+  if (!CartItem.isCartItem(toJSModalCartItem)) {
+    return <Container></Container>;
   }
 
-  const { title, price } = modalCartItem;
+  const { title, price, selectWithSelected } = toJSModalCartItem;
+  const optionPrice = selectWithSelected ? selectWithSelected.selectedOption.additionalPrice : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
     setProductCount(parseInt(e.target.value));
@@ -99,7 +102,7 @@ const CountOption = (props: Props): JSX.Element => {
   };
 
   return (
-    <CountOptionWrapper>
+    <Container>
       <CountWrapperProductTitle>{title}</CountWrapperProductTitle>
       <CounterWrapper>
         <CountInput
@@ -113,9 +116,9 @@ const CountOption = (props: Props): JSX.Element => {
         </CountButtons>
       </CounterWrapper>
       <ProductTotalPrice>
-        <PriceNumber>{toKoreanMoneyFormatPure(price * productCount)}</PriceNumber>원
+        <PriceNumber>{toKoreanMoneyFormatPure(price * productCount + optionPrice)}</PriceNumber>원
       </ProductTotalPrice>
-    </CountOptionWrapper>
+    </Container>
   );
 };
 

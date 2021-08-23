@@ -9,7 +9,9 @@ import cartStore from '../../../stores/cartStore';
 import { useEffect } from 'react';
 import CartItem from '../../../models/cart-item';
 
-const BackgroundWrapper = styled.div`
+import { toJS } from 'mobx';
+
+const Container = styled.div`
   display: none;
   position: fixed;
   top: 0;
@@ -89,8 +91,10 @@ const CartModal = (props: Props): JSX.Element => {
 
   useEffect(() => {
     const modalCartItem = cartStore.getModalCartItem();
-    if (CartItem.isCartItem(modalCartItem)) {
-      setProductCount(modalCartItem.count);
+    const toJSModalCartItem = toJS(modalCartItem);
+
+    if (CartItem.isCartItem(toJSModalCartItem)) {
+      setProductCount(toJSModalCartItem.count);
     }
   }, []);
 
@@ -100,14 +104,14 @@ const CartModal = (props: Props): JSX.Element => {
   };
 
   return (
-    <BackgroundWrapper>
+    <Container>
       <OptionModalWrapper>
         <ModalHeader>
           <ModalTitle>수량선택</ModalTitle>
           <ModalCloseButton src={CLOSE} onClick={onCloseModalClick}></ModalCloseButton>
         </ModalHeader>
         <ModalMain>
-          <Option></Option>
+          <Option />
           <CountOption productCount={productCount} setProductCount={setProductCount}></CountOption>
         </ModalMain>
         <ModalButtons>
@@ -115,7 +119,7 @@ const CartModal = (props: Props): JSX.Element => {
           <ConfirmButton onClick={onConfirmClick}>확인</ConfirmButton>
         </ModalButtons>
       </OptionModalWrapper>
-    </BackgroundWrapper>
+    </Container>
   );
 };
 
