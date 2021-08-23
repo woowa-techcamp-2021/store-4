@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import TEST_IMG from '../../../../assets/images/towel.png';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
+import cartStore from '../../../../stores/cartStore';
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -63,17 +64,21 @@ const DeliveryOption = styled.div`
 `;
 
 const Option = (): JSX.Element => {
+  const modalCartItem = cartStore.getModalCartItem();
+  const title = modalCartItem.title;
+  const price = modalCartItem.price;
+
   return (
     <OptionWrapper>
       <ProductImgWrapper>
         <ProductImg src={TEST_IMG}></ProductImg>
       </ProductImgWrapper>
       <ProductInfoWrapper>
-        <ProductTitle>업사이클링 명함케이스. 맥주짠</ProductTitle>
+        <ProductTitle>{title}</ProductTitle>
         <DeliveryOptionWrapper>
           <DeliveryText>배송비</DeliveryText>
           <OptionMain>
-            <DeliveryFee>{toKoreanMoneyFormat(2500)}</DeliveryFee>
+            <DeliveryFee>{toKoreanMoneyFormat(price)}</DeliveryFee>
             <DeliveryOptionButton>조건별배송</DeliveryOptionButton>
             <DeliveryOption>택배</DeliveryOption>
           </OptionMain>

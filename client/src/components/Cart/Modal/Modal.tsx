@@ -1,9 +1,12 @@
-import React, { MouseEventHandler } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import CLOSE from '../../../assets/icons/close.png';
-import InputCount from './CountOptionWrapper/CountOptionWrapper';
+import CountOption from './CountOption/CountOption';
 import Option from './OptionWrapper/OptionWrapper';
+
+import cartStore from '../../../stores/cartStore';
+import { useEffect } from 'react';
 
 const BackgroundWrapper = styled.div`
   display: none;
@@ -76,11 +79,22 @@ const ConfirmButton = styled(ModalButton)`
 `;
 
 type Props = {
-  onCloseModalClick: MouseEventHandler;
+  onCloseModalClick: () => void;
 };
 
-const OptionModal = (props: Props): JSX.Element => {
+const Modal = (props: Props): JSX.Element => {
+  const [productCount, setProductCount] = useState<number>(1);
   const { onCloseModalClick } = props;
+
+  useEffect(() => {
+    const modalCartItem = cartStore.getModalCartItem();
+    setProductCount(modalCartItem.count);
+  }, []);
+
+  const onConfirmClick = () => {
+    cartStore.setModalCartItemCount(productCount);
+    onCloseModalClick();
+  };
 
   return (
     <BackgroundWrapper>
@@ -91,15 +105,15 @@ const OptionModal = (props: Props): JSX.Element => {
         </ModalHeader>
         <ModalMain>
           <Option></Option>
-          <InputCount></InputCount>
+          <CountOption productCount={productCount} setProductCount={setProductCount}></CountOption>
         </ModalMain>
         <ModalButtons>
           <CancelButton onClick={onCloseModalClick}>취소</CancelButton>
-          <ConfirmButton onClick={onCloseModalClick}>확인</ConfirmButton>
+          <ConfirmButton onClick={onConfirmClick}>확인</ConfirmButton>
         </ModalButtons>
       </OptionModalWrapper>
     </BackgroundWrapper>
   );
 };
 
-export default OptionModal;
+export default Modal;

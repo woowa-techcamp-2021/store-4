@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { toKoreanMoneyFormatPure } from '../../../../utils/moneyFormater';
+import cartStore from '../../../../stores/cartStore';
+import { observer } from 'mobx-react-lite';
+import { Dispatch } from 'react';
+import { SetStateAction } from 'react';
 
 const CountOptionWrapper = styled.div`
   display: flex;
@@ -79,22 +83,48 @@ const PriceNumber = styled.span`
   font-weight: 600;
 `;
 
-const InputCount = (): JSX.Element => {
+type Props = {
+  productCount: number;
+  setProductCount: Dispatch<SetStateAction<number>>;
+};
+
+const CountOption = (props: Props): JSX.Element => {
+  const modalCartItem = cartStore.getModalCartItem();
+  const title = modalCartItem.title;
+  const price = modalCartItem.price;
+
+  const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
+    props.setProductCount(parseInt(e.target.value));
+  };
+
+  const onClickPlus = () => {
+    props.setProductCount(props.productCount + 1);
+  };
+
+  const onClickMinus = () => {
+    if (props.productCount <= 0) return;
+    props.setProductCount(props.productCount - 1);
+  };
+
   return (
     <CountOptionWrapper>
-      <CountWrapperProductTitle>업사이클링 명함케이스. 맥주짠</CountWrapperProductTitle>
+      <CountWrapperProductTitle>{title}</CountWrapperProductTitle>
       <CounterWrapper>
-        <CountInput type="number" />
+        <CountInput
+          type="number"
+          value={props.productCount !== 0 ? props.productCount : ''}
+          onChange={onChangeCountInput}
+        />
         <CountButtons>
-          <CountUpButton>ᐱ</CountUpButton>
-          <CountDownButton>ᐯ</CountDownButton>
+          <CountUpButton onClick={onClickPlus}>ᐱ</CountUpButton>
+          <CountDownButton onClick={onClickMinus}>ᐯ</CountDownButton>
         </CountButtons>
       </CounterWrapper>
       <ProductTotalPrice>
-        <PriceNumber>{toKoreanMoneyFormatPure(16900)}</PriceNumber>원
+        <PriceNumber>{toKoreanMoneyFormatPure(price * props.productCount)}</PriceNumber>원
       </ProductTotalPrice>
     </CountOptionWrapper>
   );
 };
 
-export default InputCount;
+export default observer(CountOption);
