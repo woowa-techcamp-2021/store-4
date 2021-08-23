@@ -1,4 +1,3 @@
-import { action } from 'mobx';
 import apis from '../api';
 import Product from '../models/product';
 import { Option } from '../types/option';
