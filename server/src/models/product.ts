@@ -10,7 +10,7 @@ import Wish from './wish';
 @Entity('products')
 class Product extends Timestamp {
   @PrimaryGeneratedColumn()
-  id!: string;
+  id!: number;
 
   @Column()
   name!: string;

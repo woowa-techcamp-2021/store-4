@@ -16,12 +16,16 @@ class AuthController {
       const idToken = await googleAuth.getUserToken(code as string);
       const { email, name } = jwtService.decode(idToken);
 
-      const isUser = await userService.checkUserByEmail(email);
-      if (!isUser) {
-        await userService.registerUser({ username: name, email });
+      let user = await userService.checkUserByEmail(email);
+      if (user === undefined) {
+        user = await userService.registerUser({ username: name, email });
       }
 
-      const token = jwtService.generateToken({ email, name });
+      const token = jwtService.generateToken({
+        id: user.id,
+        name: user.username,
+        email: user.email,
+      });
 
       res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {
@@ -40,12 +44,16 @@ class AuthController {
       const { code } = req.query;
       const { email, name } = await facebookAuth.getUserData(code as string);
 
-      const isUser = await userService.checkUserByEmail(email);
-      if (!isUser) {
-        await userService.registerUser({ username: name, email });
+      let user = await userService.checkUserByEmail(email);
+      if (user === undefined) {
+        user = await userService.registerUser({ username: name, email });
       }
 
-      const token = jwtService.generateToken({ email, name });
+      const token = jwtService.generateToken({
+        id: user.id,
+        name: user.username,
+        email: user.email,
+      });
 
       res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
     } catch (err) {

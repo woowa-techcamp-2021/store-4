@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { categories } from './dummy';
+import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
+import { useHistory } from '../../../../lib/router';
+import Category from '../../../../models/category';
+import { Option } from '../../../../types/option';
+import buildQueryString from '../../../../utils/build-query-string';
 
-const HOVER_COLOR = '#f9f9f9';
-
-const Wrapper = styled.div`
+const Container = styled.div`
   position: absolute;
   top: calc(100% + 5px);
   left: 0;
@@ -12,50 +14,86 @@ const Wrapper = styled.div`
   min-height: 300px;
   display: flex;
   flex-direction: row;
-  border: 1px solid #333;
+  border: 1px solid ${(props) => props.theme.color.grey2};
   cursor: pointer;
+  z-index: 999;
 `;
 
-const CategoryList = styled.ul`
+type CategoryListProps = {
+  isRoot: boolean;
+};
+
+const CategoryList = styled.ul<CategoryListProps>`
   flex: 1;
-  list-style: none;
   margin: 0;
   padding: 0;
 
-  background-color: ${(props) => (props.className === 'child' ? HOVER_COLOR : '#fff')};
+  background-color: ${(props) =>
+    props.isRoot ? props.theme.color.white1 : props.theme.color.white2};
 `;
 
-const CategoryListItem = styled.li`
+type CategoryListItemProps = {
+  isCurrent: boolean;
+};
+
+const CategoryListItem = styled.li<CategoryListItemProps>`
   padding: 12px 20px;
 
-  &.current {
-    background-color: ${HOVER_COLOR};
-  }
+  background-color: ${(props) =>
+    props.isCurrent ? props.theme.color.white2 : props.theme.color.white1};
 `;
 
-const CategoryLayer = (): JSX.Element => {
-  const rootCategories = categories.filter(({ parentCategory }) => parentCategory === null);
+export type Props = {
+  rootCategories: Category[];
+  onCategoryClick: CategoryClickHandler;
+  option: Option;
+};
+
+const CategoryLayer = (props: Props): JSX.Element => {
+  const { rootCategories, onCategoryClick, option } = props;
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
+  const history = useHistory();
+
+  const handleGetCategoryClickHandler = useCallback(
+    (category: Category) => () => {
+      const query = buildQueryString({
+        ...option,
+        category: category.id,
+      });
+      history.push(`/products${query}`);
+      onCategoryClick(category);
+    },
+    [onCategoryClick, option, history]
+  );
 
   const rootItems = rootCategories.map((category) => (
     <CategoryListItem
       key={category.id}
-      className={category.id === currentCategory.id ? 'current' : ''}
+      isCurrent={category.id === currentCategory.id}
       onMouseEnter={() => setCurrentCategory(category)}
+      onClick={handleGetCategoryClickHandler(category)}
     >
       {category.name}
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem key={category.id}>{category.name}</CategoryListItem>
+    <CategoryListItem
+      isCurrent={true}
+      key={category.id}
+      onClick={handleGetCategoryClickHandler(category)}
+    >
+      {category.name}
+    </CategoryListItem>
   ));
 
   return (
-    <Wrapper>
-      <CategoryList>{rootItems}</CategoryList>
-      <CategoryList className="child">{childItems}</CategoryList>
-    </Wrapper>
+    <Container>
+      <CategoryList isRoot={true}>{rootItems}</CategoryList>
+      <CategoryList isRoot={false} data-testid="child-list">
+        {childItems}
+      </CategoryList>
+    </Container>
   );
 };
 

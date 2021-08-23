@@ -1,9 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 
 import BusinessException from '../exceptions/business-exception';
-import InvalidTokenException from '../exceptions/invaild-token-exception';
+import InvalidTokenException from '../exceptions/invalid-token-exception';
+import InvalidInputException from '../exceptions/invalid-input-exception';
+import InvalidPathParameterException from '../exceptions/invalid-path-parameter-exception';
 import PageOverflowException from '../exceptions/page-overflow-exception';
+import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import TokenExpiredException from '../exceptions/token-expired-exception';
+import UnauthenticatedException from '../exceptions/unauthenticated-exception';
+import UserNotfoundException from '../exceptions/user-notfound-exception';
 
 type HTTPErrors = {
   status: number;
@@ -11,8 +16,13 @@ type HTTPErrors = {
 
 const errors: { [key: string]: HTTPErrors } = {
   [InvalidTokenException.name]: { status: 401 },
+  [InvalidInputException.name]: { status: 400 },
   [TokenExpiredException.name]: { status: 410 },
   [PageOverflowException.name]: { status: 400 },
+  [InvalidPathParameterException.name]: { status: 400 },
+  [UnauthenticatedException.name]: { status: 401 },
+  [UserNotfoundException.name]: { status: 404 },
+  [ProductNotfoundException.name]: { status: 404 },
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {

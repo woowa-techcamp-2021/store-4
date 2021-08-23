@@ -32,5 +32,7 @@ const sortProductList = (productList: Array<ProductItemType>, order: ProductList
         (a: ProductItemType, b: ProductItemType) =>
           new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
       );
+    default:
+      return [...productList];
   }
 };

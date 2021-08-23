@@ -1,56 +1,86 @@
-import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
+import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
+import { SortOption } from '../enum/product';
 import Product from '../models/product';
-import { ProductData } from '../dummy-data/product';
-import CategoryRepository from './category-repository';
-import { SortOption } from '../controllers/product-controller';
+import { isNotNone } from '../util/type-guard';
+import ProductFindQuery from '../validations/product-find-query';
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> {
-  async createProducts(productData: Array<ProductData>): Promise<Product[]> {
-    const categories = await Promise.all(
-      productData.map(({ categoryId }) =>
-        getCustomRepository(CategoryRepository).findOne(categoryId)
-      )
-    );
-
-    const products = this.create(
-      productData.map(({ name, price, content }, index) => ({
-        name,
-        price,
-        content,
-        category: categories[index],
-      }))
-    );
-
-    return this.save(products);
+  findProduct(id: number): Promise<Product | undefined> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .leftJoinAndSelect('Product.reviews', 'reviews')
+      .leftJoinAndSelect('reviews.user', 'user')
+      .leftJoinAndSelect('reviews.reviewImages', 'reviewImages')
+      .leftJoinAndSelect('Product.productSelects', 'productSelects')
+      .leftJoinAndSelect('productSelects.productOptions', 'productOptions')
+      .where({ id })
+      .getOne();
   }
 
-  findProducts(
-    categoryId: number,
-    sortOption: SortOption,
-    pageNum: number,
-    limit: number
-  ): Promise<[Product[], number]> {
-    const where = categoryId === -1 ? {} : { category: categoryId };
-    const skip = (pageNum - 1) * limit;
-    const take = limit;
+  findProducts({ category, sort, pageNum, limit }: ProductFindQuery): Promise<[Product[], number]> {
+    const query = createQueryBuilder(Product);
 
-    let order: { [key: string]: 'ASC' | 'DESC' };
-    switch (sortOption) {
-      case SortOption.Recent:
-        order = { updatedAt: 'DESC' };
-        break;
-      case SortOption.PriceHigh:
-        order = { price: 'DESC' };
-        break;
-      case SortOption.PriceLow:
-        order = { price: 'ASC' };
-        break;
-      default:
-        order = { updatedAt: 'DESC' };
+    if (isNotNone(category)) {
+      query.where({ category });
     }
 
-    return this.findAndCount({ where, skip, take, order });
+    query.leftJoinAndSelect('Product.productImages', 'images');
+
+    switch (sort) {
+      case SortOption.Recommend:
+        query
+          .leftJoin('Product.reviews', 'reviews')
+          .groupBy('Product.id')
+          .orderBy('AVG(reviews.point)', 'DESC');
+        break;
+      case SortOption.Popularity:
+        query
+          .leftJoin('Product.orderDetails', 'orderDetails')
+          .groupBy('Product.id')
+          .orderBy('COUNT(orderDetails.id)', 'DESC');
+        break;
+      case SortOption.Recent:
+        query.orderBy('updated_at', 'DESC');
+        break;
+      case SortOption.PriceHigh:
+        query.orderBy('price', 'DESC');
+        break;
+      case SortOption.PriceLow:
+        query.orderBy('price', 'ASC');
+        break;
+    }
+
+    query.offset((pageNum - 1) * limit);
+    query.limit(limit);
+
+    return query.getManyAndCount();
+  }
+
+  findPopularProducts(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .leftJoin('Product.orderDetails', 'orderDetails')
+      .groupBy('Product.id')
+      .orderBy('COUNT(orderDetails.id)', 'DESC')
+      .limit(limit)
+      .getMany();
+  }
+
+  findOrderByDiscountRate(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .orderBy('discount_rate', 'DESC')
+      .limit(limit)
+      .getMany();
+  }
+
+  findOrderByCreatedAt(limit: number): Promise<Product[]> {
+    return createQueryBuilder(Product)
+      .leftJoinAndSelect('Product.productImages', 'productImages')
+      .orderBy('created_at', 'DESC')
+      .limit(limit)
+      .getMany();
   }
 }
 

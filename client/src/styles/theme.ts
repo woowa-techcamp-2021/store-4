@@ -34,6 +34,10 @@ const theme: DefaultTheme = {
     small: '0.875rem',
     tiny: '0.75rem',
   },
+
+  fontFamily: {
+    number: '"Montserrat", sans-serif',
+  },
 };
 
 export default theme;

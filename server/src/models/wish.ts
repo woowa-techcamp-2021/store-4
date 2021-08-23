@@ -5,7 +5,7 @@ import User from './user';
 @Entity('wishes')
 class Wish {
   @PrimaryGeneratedColumn()
-  id!: string;
+  id!: number;
 
   @ManyToOne(() => Product, (product) => product.wishes, {
     onDelete: 'CASCADE',
