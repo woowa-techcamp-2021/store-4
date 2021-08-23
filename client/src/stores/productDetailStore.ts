@@ -1,10 +1,14 @@
-import { action, observable, runInAction } from 'mobx';
+import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import Product from '../models/product';
 
 class ProductDetailStore {
   @observable
   product!: Product | null;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 
   @action
   async fetchProduct(id: number): Promise<void> {
