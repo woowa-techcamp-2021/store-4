@@ -151,33 +151,31 @@ const ProductInfoBox = (props: Props): JSX.Element => {
   );
 
   return (
-    <>
-      <Container>
-        <ProductTitle>{product.name}</ProductTitle>
-        {product.discountRate !== 0 && (
-          <InfoRowWrapper>
-            <InfoLabel>정가</InfoLabel>
-            <OriginPrice>{toKoreanMoneyFormat(product.price)}</OriginPrice>
-          </InfoRowWrapper>
-        )}
+    <Container>
+      <ProductTitle>{product.name}</ProductTitle>
+      {product.discountRate !== 0 && (
         <InfoRowWrapper>
-          <InfoLabel>판매가</InfoLabel>
-          <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
+          <InfoLabel>정가</InfoLabel>
+          <OriginPrice>{toKoreanMoneyFormat(product.price)}</OriginPrice>
         </InfoRowWrapper>
-        {ProductSelects}
+      )}
+      <InfoRowWrapper>
+        <InfoLabel>판매가</InfoLabel>
+        <DiscountedPrice>{toKoreanMoneyFormat(product.discountedPrice)}</DiscountedPrice>
+      </InfoRowWrapper>
+      {ProductSelects}
 
-        <ProductCartListWrapper>{ProductCartItems}</ProductCartListWrapper>
-        <TotalPriceWrapper>
-          <InfoLabel>총 합계 금액</InfoLabel>
-          <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
-        </TotalPriceWrapper>
-        <ButtonWrapper>
-          <WishButton>찜</WishButton>
-          <ToCartButton>장바구니</ToCartButton>
-          <PurchaseButton>바로구매</PurchaseButton>
-        </ButtonWrapper>
-      </Container>
-    </>
+      <ProductCartListWrapper>{ProductCartItems}</ProductCartListWrapper>
+      <TotalPriceWrapper>
+        <InfoLabel>총 합계 금액</InfoLabel>
+        <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
+      </TotalPriceWrapper>
+      <ButtonWrapper>
+        <WishButton>찜</WishButton>
+        <ToCartButton>장바구니</ToCartButton>
+        <PurchaseButton>바로구매</PurchaseButton>
+      </ButtonWrapper>
+    </Container>
   );
 };
 
