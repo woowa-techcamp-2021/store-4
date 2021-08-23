@@ -47,7 +47,7 @@ const CreateDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef
   const { onCancelCreateClick } = props;
 
   return (
-    <Container>
+    <Container data-testid="create-delivery-address-form">
       <CreateFormWrapper>
         <DeliveryAddressForm ref={ref} />
       </CreateFormWrapper>

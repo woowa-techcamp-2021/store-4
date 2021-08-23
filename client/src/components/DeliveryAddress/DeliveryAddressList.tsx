@@ -37,7 +37,12 @@ const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
       {isCreating ? (
         <CreateDeliveryAddressForm ref={ref} onCancelCreateClick={onCancelCreatingClick} />
       ) : (
-        <CreateDeliveryAddress onClick={onCreatingClick}>+</CreateDeliveryAddress>
+        <CreateDeliveryAddress
+          onClick={onCreatingClick}
+          data-testid="enable-create-delivery-address-button"
+        >
+          +
+        </CreateDeliveryAddress>
       )}
     </Container>
   );

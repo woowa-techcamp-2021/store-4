@@ -55,7 +55,7 @@ const DeliveryAddressItem = (props: Props): JSX.Element => {
   const { name, recipientName, address, recipientPhoneNumber } = deliveryAddress;
 
   return (
-    <Container>
+    <Container data-testid="delivery-address-item">
       <DeliveryAddressWrapper>
         <DeliveryAddressNickName>{name}</DeliveryAddressNickName>
         <RowWrapper>
