@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAdProductList, MockProductAdItemType } from '../mock';
+import { getAdProductList, MockProductAdItemType } from '../components/MainProductSections/mock';
 
 export const useProductAdList = (): MockProductAdItemType[] => {
   const [productList, setProductList] = useState([] as MockProductAdItemType[]);
