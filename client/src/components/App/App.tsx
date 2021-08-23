@@ -10,6 +10,7 @@ import ProductPage from '../../pages/Product';
 import ProductsPage from '../../pages/Products';
 import AccountPage from '../../pages/Account';
 import NotfoundPage from '../../pages/Notfound';
+import ErrorPage from '../../pages/Error';
 
 const App = (): JSX.Element => {
   return (
@@ -23,6 +24,7 @@ const App = (): JSX.Element => {
           <Route exact path="/product/:id" component={ProductPage} />
           <Route exact path="/products" component={ProductsPage} />
           <Route exact path="/account" component={AccountPage} />
+          <Route exact path="/error" component={ErrorPage} />
           <Route path="/" component={NotfoundPage} />
         </Switch>
       </Router>
