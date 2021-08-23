@@ -40,7 +40,7 @@ const Cart = (): JSX.Element => {
 
   return (
     <CartContainer>
-      <CartHeader />
+      <CartHeader currentStep={1} />
       <CartTable onOptionClick={onItemOptionClick} />
       <Link to="/">
         <MoveShopPage>{`< 쇼핑 계속하기`}</MoveShopPage>

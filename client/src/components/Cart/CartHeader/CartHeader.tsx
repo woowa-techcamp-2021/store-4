@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import NEXT from '../../../assets/icons/next.png';
 import NEXT_OFF from '../../../assets/icons/next_off.png';
 
+const LAST_STEP = 3;
+
 const CartHeaderWrapper = styled.div`
   display: flex;
   height: 64.2px;
@@ -49,26 +51,50 @@ const NextImg = styled.img`
   padding: 0 14px;
 `;
 
-const CartHeader = (): React.ReactElement => {
+type Props = {
+  currentStep: number;
+};
+
+const CartHeader = (props: Props): React.ReactElement => {
+  const { currentStep } = props;
+  const progressList = [
+    {
+      isSeleted: false,
+      step: 1,
+      name: '장바구니',
+    },
+    {
+      isSeleted: false,
+      step: 2,
+      name: '주문서작성/결제',
+    },
+    {
+      isSeleted: false,
+      step: 3,
+      name: '주문완료',
+    },
+  ];
+  for (const progress of progressList) {
+    if (progress.step === currentStep) {
+      progress.isSeleted = true;
+    }
+  }
+
   return (
     <CartHeaderWrapper>
       <Title>장바구니</Title>
       <ProgressList>
-        <Progress isSelected={true}>
-          <Span>01</Span>
-          <Span>장바구니</Span>
-          <NextImg src={NEXT}></NextImg>
-        </Progress>
-        <Progress isSelected={false}>
-          <Span>02</Span>
-          <Span>주문서작성/결제</Span>
-          <NextImg src={NEXT_OFF}></NextImg>
-        </Progress>
-        <Progress isSelected={false}>
-          <Span>03</Span>
-          <Span>주문완료</Span>
-          <NextImg src={NEXT_OFF}></NextImg>
-        </Progress>
+        {progressList.map((item, index) => {
+          const { isSeleted, step, name } = item;
+          const nextImgSrc = isSeleted ? NEXT : NEXT_OFF;
+          return (
+            <Progress key={index} isSelected={isSeleted}>
+              <Span>{`0${step}`}</Span>
+              <Span>{name}</Span>
+              {step !== LAST_STEP && <NextImg src={nextImgSrc}></NextImg>}
+            </Progress>
+          );
+        })}
       </ProgressList>
     </CartHeaderWrapper>
   );
