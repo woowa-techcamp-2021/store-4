@@ -16,7 +16,6 @@ const Container = styled.div`
   width: ${(props) => props.theme.device.desktop};
   height: ${HEADER_HEIGHT}px;
   margin: 0 auto;
-  padding: 0 50px;
 `;
 
 const LogoContainer = styled.div`

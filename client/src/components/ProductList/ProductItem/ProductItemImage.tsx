@@ -28,7 +28,9 @@ const SalesBadge = styled(Badge)`
   background-color: ${(props) => props.theme.color.red};
 `;
 
-const Img = styled.img`
+const Img = styled.img.attrs({
+  referrerpolicy: 'no-referrer',
+})`
   width: 100%;
 `;
 
