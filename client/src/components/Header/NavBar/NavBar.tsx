@@ -5,7 +5,6 @@ import { Link } from '../../../lib/router';
 const CART_PATH = 'cart';
 const NAV_ITEMS = [
   { text: '로그인', path: 'login' },
-  { text: '회원가입', path: 'signup' },
   { text: '마이페이지', path: 'my' },
   { text: '장바구니', path: CART_PATH },
 ];
