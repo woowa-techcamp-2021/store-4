@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { toKoreanMoneyFormatPure } from '../../../utils/moneyFormater';
 import { observer } from 'mobx-react';
 import cartStore from '../../../stores/cartStore';
+import { getSelectedOptionPrice } from '../helper';
 
 const Container = styled.div`
   display: flex;
@@ -54,7 +55,7 @@ const PriceTotal = (): JSX.Element => {
     if (item.isSelected) {
       selectedItemCount++;
       const optionPrice = item.selectWithSelected
-        ? item.selectWithSelected.selectedOption.additionalPrice
+        ? getSelectedOptionPrice(item.selectWithSelected)
         : 0;
       totalPrice += item.price * item.count + optionPrice;
     }

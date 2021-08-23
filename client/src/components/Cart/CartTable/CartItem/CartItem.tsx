@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import cartStore from '../../../../stores/cartStore';
 import { SelectWithSelected } from '../../../../types/product';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
+import { getSelectedOptionPrice } from '../../helper';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -93,14 +94,14 @@ type Props = {
   count: number;
   price: number;
   isSelected: boolean;
-  selectWithSelected: SelectWithSelected;
+  selectWithSelected: SelectWithSelected | undefined;
 };
 
 const CartItem = (props: Props): JSX.Element => {
   const { onOptionClick, id, title, imgSrc, count, price, isSelected, selectWithSelected } = props;
-  const optionPrice = selectWithSelected ? selectWithSelected.selectedOption.additionalPrice : 0;
+  const optionPrice = selectWithSelected ? getSelectedOptionPrice(selectWithSelected) : 0;
   const optionTypeName = selectWithSelected ? selectWithSelected.name : '';
-  const optionName = selectWithSelected ? selectWithSelected.selectedOption.name : '';
+  const optionName = selectWithSelected ? getSelectedOptionPrice(selectWithSelected) : '';
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     cartStore.setCartItemSelection(id, e.target.checked);

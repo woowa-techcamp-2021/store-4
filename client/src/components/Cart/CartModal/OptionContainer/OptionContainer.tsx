@@ -5,6 +5,7 @@ import TEST_IMG from '../../../../assets/images/towel.png';
 import cartStore from '../../../../stores/cartStore';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
+import { getSelectedOptionName } from '../../helper';
 
 const Container = styled.div`
   display: flex;
@@ -59,7 +60,7 @@ const Option = (): JSX.Element => {
 
   const { title, selectWithSelected } = toJSModalCartItem;
   const optionTypeName = selectWithSelected ? selectWithSelected.name : '';
-  const optionName = selectWithSelected ? selectWithSelected.selectedOption.name : '';
+  const optionName = selectWithSelected ? getSelectedOptionName(selectWithSelected) : '';
 
   return (
     <Container>
