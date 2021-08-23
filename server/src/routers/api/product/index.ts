@@ -8,7 +8,7 @@ const productRouter = Router();
 
 productRouter.get('/', wrapAsync(productController.getAll));
 productRouter.get('/main', wrapAsync(productController.findMainProducts));
-productRouter.get('/:id', wrapAsync(productController.findOne));
+productRouter.get('/:id', authMiddleware('guest'), wrapAsync(productController.findOne));
 productRouter.post('/:id/wish', authMiddleware('user'), wrapAsync(wishController.insertWish));
 productRouter.delete('/:id/wish', authMiddleware('user'), wrapAsync(wishController.deleteWish));
 
