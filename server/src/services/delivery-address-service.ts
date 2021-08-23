@@ -67,6 +67,27 @@ class DeliveryAddressService {
       user,
     });
   }
+
+  async delete(userId: number, deliveryAddressId: number): Promise<DeliveryAddress> {
+    const user = await getCustomRepository(UserRepository).findOne(userId);
+    if (isNone(user)) {
+      throw new UserNotfoundException(ERROR_MESSAGES.USER_NOTFOUND);
+    }
+
+    const deliveryAddress = await getCustomRepository(DeliveryAddressRepository).findOneWithUser(
+      deliveryAddressId
+    );
+
+    if (isNone(deliveryAddress)) {
+      throw new DeliveryAddressNotfoundException(ERROR_MESSAGES.DELIVERY_ADDRESS_NOTFOUND);
+    }
+
+    if (deliveryAddress.user.id !== user.id) {
+      throw new NotMyDeliveryAddressException(ERROR_MESSAGES.NOT_MY_DELIVERY_ADDRESS);
+    }
+
+    return getCustomRepository(DeliveryAddressRepository).remove(deliveryAddress);
+  }
 }
 
 export default new DeliveryAddressService();
