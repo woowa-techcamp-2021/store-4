@@ -26,13 +26,19 @@ type MainProductListProps = {
 
 const MainProductList = (props: MainProductListProps): JSX.Element => {
   const { title, products } = props;
+
   const ProductItems = products.map((product) => (
     <ProductItem key={product.id} product={product} />
   ));
+
   return (
     <ProductList>
       <ProductListTitle>{title}</ProductListTitle>
-      <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
+      {ProductItems.length === 0 ? (
+        <div>상품이 없습니다.</div>
+      ) : (
+        <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
+      )}
     </ProductList>
   );
 };
