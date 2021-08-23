@@ -8,7 +8,7 @@ const DEFAULT_PRODUCT_LIST: MainProducts = {
   newProducts: [],
 };
 
-export const useMainProductList = (): [MainProducts] => {
+export const useMainProductList = (): MainProducts => {
   const [mainProducts, setMainProducts] = useState(DEFAULT_PRODUCT_LIST);
 
   const fetchMainProducts = async () => {
@@ -26,5 +26,5 @@ export const useMainProductList = (): [MainProducts] => {
     fetchMainProducts();
   }, []);
 
-  return [mainProducts];
+  return mainProducts;
 };
