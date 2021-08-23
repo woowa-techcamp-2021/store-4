@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAdProductList, MockProductAdItemType } from '../components/MainProductSections/mock';
 
 export const useMainAdProductList = (): MockProductAdItemType[] => {
-  const [mainAdproducts, setmainAdProducts] = useState([] as MockProductAdItemType[]);
+  const [mainAdproducts, setmainAdProducts] = useState<MockProductAdItemType[]>([]);
 
   useEffect(() => {
     getAdProductList().then((data) => setmainAdProducts(data));
