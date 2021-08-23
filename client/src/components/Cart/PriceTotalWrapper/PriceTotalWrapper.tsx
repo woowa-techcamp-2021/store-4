@@ -4,7 +4,7 @@ import { toKoreanMoneyFormatPure } from '../../../utils/moneyFormater';
 import { observer } from 'mobx-react';
 import cartStore from '../../../stores/cartStore';
 
-const PriceTotalWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -53,12 +53,15 @@ const PriceTotal = (): JSX.Element => {
   for (const item of cartItemList) {
     if (item.isSelected) {
       selectedItemCount++;
-      totalPrice += item.price * item.count;
+      const optionPrice = item.selectWithSelected
+        ? item.selectWithSelected.selectedOption.additionalPrice
+        : 0;
+      totalPrice += item.price * item.count + optionPrice;
     }
   }
 
   return (
-    <PriceTotalWrapper>
+    <Container>
       <Wrapper>
         <Text>
           총 <TextCount>{selectedItemCount}</TextCount> 개의 상품금액
@@ -67,7 +70,7 @@ const PriceTotal = (): JSX.Element => {
           <Price isTotal={false}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
         </PriceWrapper>
       </Wrapper>
-    </PriceTotalWrapper>
+    </Container>
   );
 };
 
