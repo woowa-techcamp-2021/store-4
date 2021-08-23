@@ -6,7 +6,7 @@ class ProductOption {
   constructor(productOption: ProductOption) {
     this.id = productOption.id;
     this.name = productOption.name;
-    this.additionalPrice = productOption.additionalPrice;
+    this.additionalPrice = Number(productOption.additionalPrice);
   }
 }
 

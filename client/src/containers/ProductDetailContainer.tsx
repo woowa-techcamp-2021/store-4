@@ -1,13 +1,15 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import { observer } from 'mobx-react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
 import useCartsInProduct from '../hooks/useCartsInProduct';
 import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
+import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
 import { SelectWithSelected } from '../types/product';
 
 const ProductDetailContainer = (): JSX.Element => {
-  const product = useProduct();
+  const [product, productFetchErrorStatus] = useProduct();
   const [selectsWithSelected, selectOption, resetOption] = useSelectsWithSelected(product);
   const [
     cartType,
@@ -19,6 +21,8 @@ const ProductDetailContainer = (): JSX.Element => {
     handleChangeCount,
     handleChangeInvalidCount,
   ] = useCartsInProduct(product);
+
+  const history = useHistory();
 
   const handleGetSelectChangeHandler = useCallback(
     (selectWithSelected: SelectWithSelected) =>
@@ -80,6 +84,22 @@ const ProductDetailContainer = (): JSX.Element => {
     [handleRemove]
   );
 
+  useEffect(() => {
+    if (productFetchErrorStatus === null) {
+      return;
+    }
+
+    switch (productFetchErrorStatus) {
+      case 404:
+        history.push('/notfound');
+        return;
+
+      default:
+        history.push('/error');
+        return;
+    }
+  }, [history, productFetchErrorStatus]);
+
   return (
     <ProductDetail
       cartType={cartType}
@@ -96,4 +116,4 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 };
 
-export default ProductDetailContainer;
+export default observer(ProductDetailContainer);

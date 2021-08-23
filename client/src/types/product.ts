@@ -7,7 +7,17 @@ export type ProductResponse = {
   totalPages: number;
   totalProductCount: number;
 };
-export type ProductDetailResponse = Product;
+export type ProductDetailResponse = {
+  product: Product;
+};
+
+export type MainProducts = {
+  popularProducts: Product[];
+  discountingProducts: Product[];
+  newProducts: Product[];
+};
+
+export type MainProductsResponse = MainProducts;
 
 export type ProductListResponseType = {
   totalProductCount: number;

@@ -21,8 +21,8 @@ class ProductAttributes {
   constructor(product: ProductAttributes) {
     this.id = product.id;
     this.name = product.name;
-    this.price = product.price;
-    this.discountRate = product.discountRate;
+    this.price = Number(product.price);
+    this.discountRate = Number(product.discountRate);
     this.content = product.content;
     this.productImages = product.productImages
       ? product.productImages.map((productImage) => new ProductImage(productImage))

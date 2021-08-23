@@ -1,6 +1,6 @@
 import request from '../lib/request';
 import { Option } from '../types/option';
-import { ProductDetailResponse, ProductResponse } from '../types/product';
+import { MainProductsResponse, ProductDetailResponse, ProductResponse } from '../types/product';
 import buildQueryString from '../utils/build-query-string';
 
 class ProductAPI {
@@ -17,6 +17,10 @@ class ProductAPI {
 
   fetchProduct(id: number): Promise<ProductDetailResponse> {
     return request<ProductDetailResponse>({ url: `${this.baseURL}/api/product/${id}` });
+  }
+
+  fetchMainProducts(): Promise<MainProductsResponse> {
+    return request<MainProductsResponse>({ url: `${this.baseURL}/api/product/main` });
   }
 }
 

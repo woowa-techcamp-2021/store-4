@@ -19,20 +19,30 @@ const ProductItemWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
+const EmptyProductList = styled.div``;
+
 type MainProductListProps = {
   title: string;
   products: Product[];
 };
 
+const NO_PRODUCT_ITEMS_IN_LIST_TEXT = '상품이 없습니다.';
+
 const MainProductList = (props: MainProductListProps): JSX.Element => {
   const { title, products } = props;
+
   const ProductItems = products.map((product) => (
     <ProductItem key={product.id} product={product} />
   ));
+
   return (
     <ProductList>
       <ProductListTitle>{title}</ProductListTitle>
-      <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
+      {ProductItems.length === 0 ? (
+        <EmptyProductList>{NO_PRODUCT_ITEMS_IN_LIST_TEXT}</EmptyProductList>
+      ) : (
+        <ProductItemWrapper>{ProductItems}</ProductItemWrapper>
+      )}
     </ProductList>
   );
 };

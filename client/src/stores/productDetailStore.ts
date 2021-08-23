@@ -4,7 +4,7 @@ import Product from '../models/product';
 
 class ProductDetailStore {
   @observable
-  product!: Product | null;
+  product: Product | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -12,11 +12,15 @@ class ProductDetailStore {
 
   @action
   async fetchProduct(id: number): Promise<void> {
-    const fetchedProduct = await apis.productAPI.fetchProduct(id);
+    const { product } = await apis.productAPI.fetchProduct(id);
 
     runInAction(() => {
-      this.product = new Product(fetchedProduct);
+      this.product = new Product(product);
     });
+  }
+
+  resetProduct() {
+    this.product = null;
   }
 }
 
