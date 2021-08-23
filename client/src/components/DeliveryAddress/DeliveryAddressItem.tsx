@@ -34,15 +34,29 @@ const RecipientName = styled.div``;
 
 const RecipientPhoneNumber = styled.div``;
 
-const ChangeToModifyButton = styled.button`
-  border: 1px solid ${(props) => props.theme.color.grey3};
-  background-color: ${(props) => props.theme.color.grey1};
-  color: ${(props) => props.theme.color.grey5};
-  font-size: ${(props) => props.theme.fontSize.small};
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const DeliveryAddressButton = styled.button`
   width: 80px;
   height: 30px;
   outline: none;
+  font-size: ${(props) => props.theme.fontSize.small};
   cursor: pointer;
+`;
+
+const ChangeToModifyButton = styled(DeliveryAddressButton)`
+  border: 1px solid ${(props) => props.theme.color.grey3};
+  background-color: ${(props) => props.theme.color.white1};
+  color: ${(props) => props.theme.color.grey5};
+`;
+
+const RemoveButton = styled(DeliveryAddressButton)`
+  border: none;
+  background-color: ${(props) => props.theme.color.black};
+  color: ${(props) => props.theme.color.white1};
 `;
 
 type Props = {
@@ -67,7 +81,10 @@ const DeliveryAddressItem = (props: Props): JSX.Element => {
           <RecipientPhoneNumber>{recipientPhoneNumber}</RecipientPhoneNumber>
         </RowWrapper>
       </DeliveryAddressWrapper>
-      <ChangeToModifyButton onClick={onToModifyClick}>수정</ChangeToModifyButton>
+      <ButtonWrapper>
+        <ChangeToModifyButton onClick={onToModifyClick}>수정</ChangeToModifyButton>
+        <RemoveButton>삭제</RemoveButton>
+      </ButtonWrapper>
     </Container>
   );
 };
