@@ -20,4 +20,4 @@ class ProductDetailStore {
   }
 }
 
-export default ProductDetailStore;
+export default new ProductDetailStore();
