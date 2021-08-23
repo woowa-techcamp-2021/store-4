@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import DeliveryAddress from '../../models/delivery-address';
+import DeliveryAddress from '../../../models/delivery-address';
 
 const Container = styled.div`
   width: 100%;

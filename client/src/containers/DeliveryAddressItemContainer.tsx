@@ -1,6 +1,6 @@
 import React, { useReducer, useRef } from 'react';
-import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem';
-import ModifyDeliveryAddressForm from '../components/DeliveryAddress/ModifyDeliveryAddresForm';
+import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
+import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddresForm';
 import DeliveryAddress from '../models/delivery-address';
 import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
 

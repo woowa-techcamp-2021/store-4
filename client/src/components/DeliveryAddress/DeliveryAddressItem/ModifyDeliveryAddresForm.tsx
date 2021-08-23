@@ -1,8 +1,8 @@
 import React, { forwardRef, MouseEventHandler, Ref } from 'react';
 import styled from 'styled-components';
-import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
-import DeliveryAddress from '../../models/delivery-address';
-import DeliveryAddressForm from './DeliveryAddressForm';
+import { DeliveryAddressFormRef } from '../../../containers/ManageDeliveryAddressContainer';
+import DeliveryAddress from '../../../models/delivery-address';
+import DeliveryAddressForm from '../DeliveryAddressForm';
 
 const Container = styled.div`
   width: 100%;
