@@ -4,9 +4,12 @@ import CartHeader from './CartHeader/CartHeader';
 import CartTable from './CartTable/CartTable';
 import PriceTotal from './PriceTotalWrapper/PriceTotalWrapper';
 import CartButtons from './CartButtons/CartButtons';
-import OptionModal from './OptionModal/OptionModal';
+import Modal from './Modal/Modal';
 import { Link } from '../../lib/router';
 import { useState } from 'react';
+
+import cartStore from '../../stores/cartStore';
+import { observer } from 'mobx-react-lite';
 
 const CartContainer = styled.div`
   padding-top: 40px;
@@ -24,14 +27,15 @@ const MoveShopPage = styled.div`
 `;
 
 const Cart = (): JSX.Element => {
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [modalCartItem, setModalCartItem] = useState<boolean>(false);
 
-  const onItemOptionClick = () => {
-    setIsShowModal(true);
+  const onItemOptionClick = (id: number) => {
+    cartStore.setModalCartItemId(id);
+    setModalCartItem(true);
   };
 
   const onCloseModalClick = () => {
-    setIsShowModal(false);
+    setModalCartItem(false);
   };
 
   return (
@@ -43,9 +47,9 @@ const Cart = (): JSX.Element => {
       </Link>
       <PriceTotal />
       <CartButtons />
-      {isShowModal ? <OptionModal onCloseModalClick={onCloseModalClick} /> : null}
+      {modalCartItem ? <Modal onCloseModalClick={onCloseModalClick} /> : null}
     </CartContainer>
   );
 };
 
-export default Cart;
+export default observer(Cart);
