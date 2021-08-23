@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../../lib/router';
 
-const CART_PATH = 'cart';
-const NAV_ITEMS = [
-  { text: '로그인', path: 'login' },
-  { text: '마이페이지', path: 'account' },
-  { text: '장바구니', path: CART_PATH },
-];
 const NAV_BAR_HEIGHT = 40;
 
 const Container = styled.div`
@@ -55,18 +49,27 @@ const Seperator = styled.span<SeperatorProps>`
   background-color: ${(props) => props.theme.color.grey2};
 `;
 
-const NavBar = (): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cartItemCount, setCartItemCount] = useState(0);
+type NavItem = {
+  text: string;
+  path: string;
+  badge: number | null;
+};
 
-  const NavListContent = NAV_ITEMS.map((item, index) => (
-    <React.Fragment key={index}>
+type Props = {
+  navItems: NavItem[];
+};
+
+const NavBar = (props: Props): JSX.Element => {
+  const { navItems } = props;
+
+  const NavListContent = navItems.map((item, index) => (
+    <React.Fragment key={item.path}>
       <NavListItem>
         <Link to={item.path}>
-          {item.text} {item.path === CART_PATH && <Badge>{cartItemCount}</Badge>}
+          {item.text} {item.badge !== null && <Badge>{item.badge}</Badge>}
         </Link>
       </NavListItem>
-      <Seperator isLastItem={index === NAV_ITEMS.length - 1} />
+      <Seperator isLastItem={index === navItems.length - 1} />
     </React.Fragment>
   ));
 

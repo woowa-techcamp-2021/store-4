@@ -4,8 +4,19 @@ import facebookAuth from '../third-party-auth/facebook';
 import jwtService from '../services/jwt-service';
 import userService from '../services/user-service';
 import dotenv from '../config/dotenv';
+import { isNone } from '../util/type-guard';
+import UserNotfoundException from '../exceptions/user-notfound-exception';
 
 class AuthController {
+  async getUser(req: Request, res: Response) {
+    const user = req.decoded;
+    if (isNone(user)) {
+      throw new UserNotfoundException('유저를 찾지 못했습니다');
+    }
+
+    res.status(200).json({ user });
+  }
+
   googleLogin(req: Request, res: Response) {
     res.redirect(googleAuth.URL);
   }
