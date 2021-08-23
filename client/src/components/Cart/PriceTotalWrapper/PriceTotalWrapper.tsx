@@ -4,9 +4,6 @@ import { toKoreanMoneyFormatPure } from '../../../utils/moneyFormater';
 import { observer } from 'mobx-react-lite';
 import cartStore from '../../../stores/cartStore';
 
-import EQUAL from '../../../assets/images/equal.png';
-import PLUS from '../../../assets/images/plus.png';
-
 const PriceTotalWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -48,12 +45,6 @@ const Price = styled.span<PriceProps>`
     `};
 `;
 
-const Img = styled.img`
-  width: 22px;
-  height: 22px;
-  margin: 0 25px;
-`;
-
 const PriceTotal = (): JSX.Element => {
   const cartItemList = cartStore.getCartItemList();
 
@@ -66,8 +57,6 @@ const PriceTotal = (): JSX.Element => {
     }
   }
 
-  const deliveryFee = totalPrice < 30000 && totalPrice > 0 ? 2500 : 0;
-
   return (
     <PriceTotalWrapper>
       <Wrapper>
@@ -76,20 +65,6 @@ const PriceTotal = (): JSX.Element => {
         </Text>
         <PriceWrapper>
           <Price isTotal={false}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
-        </PriceWrapper>
-      </Wrapper>
-      <Img src={PLUS} />
-      <Wrapper>
-        <Text>배송비</Text>
-        <PriceWrapper>
-          <Price isTotal={false}>{toKoreanMoneyFormatPure(deliveryFee)}</Price>원
-        </PriceWrapper>
-      </Wrapper>
-      <Img src={EQUAL} />
-      <Wrapper>
-        <Text>합계</Text>
-        <PriceWrapper>
-          <Price isTotal={true}>{toKoreanMoneyFormatPure(totalPrice + deliveryFee)}</Price>원
         </PriceWrapper>
       </Wrapper>
     </PriceTotalWrapper>

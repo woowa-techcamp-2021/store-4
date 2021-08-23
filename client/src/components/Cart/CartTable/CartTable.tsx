@@ -25,15 +25,6 @@ const CartItemList = styled.div`
   border-right: 1px solid ${(props) => props.theme.color.grey3};
 `;
 
-const DeliveryFee = styled.div`
-  padding: 15px 10px;
-  height: 100%;
-  text-align: center;
-  word-break: keep-all;
-  color: ${(props) => props.theme.color.grey4};
-  font-weight: 400;
-`;
-
 type Props = {
   onOptionClick: (id: number) => void;
 };
@@ -59,7 +50,6 @@ const CartTable = (props: Props): JSX.Element => {
             />
           ))}
         </CartItemList>
-        <DeliveryFee>기본 배송비 {toKoreanMoneyFormat(2500)} (택배-선결제)</DeliveryFee>
       </TableMain>
     </CartTableWrapper>
   );
