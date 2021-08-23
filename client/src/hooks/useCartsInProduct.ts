@@ -152,6 +152,8 @@ const useCartsInProduct = (product: Product | null): UseCartsInProduct => {
           product,
         }),
       ]);
+    } else {
+      setCartsInProduct([]);
     }
   }, [product]);
 
