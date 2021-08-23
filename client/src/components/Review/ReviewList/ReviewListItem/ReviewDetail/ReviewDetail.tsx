@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Mock } from '../../../../../containers/ReviewContainer';
+import ReviewModel from '../../../../../models/review';
 import ReviewDetailImage from './ReviewDetailImage/ReviewDetailImage';
 
 type Props = {
-  review: Mock;
+  review: ReviewModel;
 };
 
 const REVIEW_DETAIL_WIDTH = 950;
@@ -33,10 +33,10 @@ const ReviewContent = styled.p`
 
 const ReviewDetail = (props: Props): JSX.Element => {
   const { review } = props;
-  const ReviewImages = review.reviewImages.map((imageUrl, i) => (
+  const ReviewImages = review.reviewImages.map((reviewImage) => (
     <ReviewDetailImage
-      key={i}
-      imageUrl={imageUrl}
+      key={reviewImage.id}
+      imageUrl={reviewImage.url}
       height={REVIEW_DETAIL_WIDTH / IMAGE_GRID_COLUMNS}
     />
   ));

@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Mock } from '../../../../containers/ReviewContainer';
+import ReviewModel from '../../../../models/review';
 import formatDate from '../../../../utils/formatDate';
 import ReviewDetail from './ReviewDetail/ReviewDetail';
 import ReviewSummary from './ReviewSummary/ReviewSummary';
@@ -38,7 +38,7 @@ const ReviewDate = styled.div`
 `;
 
 type Props = {
-  review: Mock;
+  review: ReviewModel;
 };
 
 const ReviewListItem = (props: Props): JSX.Element => {

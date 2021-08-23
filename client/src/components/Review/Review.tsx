@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Mock } from '../../containers/ReviewContainer';
+import ReviewModel from '../../models/review';
 import getPaginatedArray from '../../utils/getPaginatedArray';
 import ReviewHeader from './ReviewHeader/ReviewHeader';
 import ReviewList from './ReviewList/ReviewList';
@@ -23,7 +23,7 @@ const ReviewEmpty = styled.div`
 `;
 
 type Props = {
-  reviews: Mock[];
+  reviews: ReviewModel[];
 };
 const Review = (props: Props): JSX.Element => {
   const { reviews } = props;
