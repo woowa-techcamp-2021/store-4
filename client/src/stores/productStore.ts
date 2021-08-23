@@ -19,10 +19,12 @@ class ProductStore {
     const { popularProducts, discountingProducts, newProducts } =
       await apis.productAPI.fetchMainProducts();
 
+    const modelingProduct = (product: Product) => new Product(product);
+
     return {
-      popularProducts,
-      discountingProducts,
-      newProducts,
+      popularProducts: popularProducts.map(modelingProduct),
+      discountingProducts: discountingProducts.map(modelingProduct),
+      newProducts: newProducts.map(modelingProduct),
     };
   }
 }
