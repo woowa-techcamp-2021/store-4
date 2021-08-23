@@ -10,6 +10,10 @@ export type ProductResponse = {
   totalProductCount: number;
 };
 
+const POPULAR_PRODUCTS_LIMIT = 4;
+const DISCOUNTING_PRODUCTS_LIMIT = 4;
+const NEW_PRODUCTS_LIMIT = 8;
+
 class ProductController {
   async getAll(req: Request, res: Response) {
     const query = req.query as unknown as ProductFindQuery;
@@ -29,6 +33,20 @@ class ProductController {
 
     res.status(200).json({
       product,
+    });
+  }
+
+  async findMainProducts(req: Request, res: Response) {
+    const popularProducts = await productService.findPopularProducts(POPULAR_PRODUCTS_LIMIT);
+    const discountingProducts = await productService.findDiscountingProducts(
+      DISCOUNTING_PRODUCTS_LIMIT
+    );
+    const newProducts = await productService.findNewProducts(NEW_PRODUCTS_LIMIT);
+
+    res.status(200).json({
+      popularProducts,
+      discountingProducts,
+      newProducts,
     });
   }
 }
