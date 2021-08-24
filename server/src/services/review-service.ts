@@ -4,16 +4,11 @@ import ReviewNotfoundException from '../exceptions/review-notfound-exception';
 import ReviewNotWrittenByUserException from '../exceptions/review-notwrittenbyuser-exception';
 import Review from '../models/review';
 import ProductRepository from '../repositories/product-repository';
+import ReviewImageRepository from '../repositories/review-image-repository';
 import ReviewRepository from '../repositories/review-repository';
 import UserRepository from '../repositories/user-repository';
 import { isNone } from '../util/type-guard';
-
-type PostReviewQuery = {
-  userId: number;
-  point: number;
-  content: string;
-  productId: number;
-};
+import ReviewPost from '../validations/review-post';
 
 type DeleteReviewQuery = {
   userId: number;
@@ -27,7 +22,13 @@ const ERROR_MESSAGES = {
 };
 
 class ReviewService {
-  async postReview({ userId, point, content, productId }: PostReviewQuery): Promise<Review> {
+  async postReview({
+    userId,
+    productId,
+    point,
+    content,
+    imageLocations,
+  }: ReviewPost): Promise<Review> {
     const user = await getCustomRepository(UserRepository).findWithProduct(userId, productId);
 
     if (isNone(user)) {
@@ -36,13 +37,18 @@ class ReviewService {
 
     const product = await getCustomRepository(ProductRepository).findOneOrFail(productId);
 
-    return getCustomRepository(ReviewRepository).save({
+    const review = await getCustomRepository(ReviewRepository).save({
       user,
       point,
       content,
       product,
-      reviewImages: [],
     });
+
+    await Promise.all(
+      imageLocations.map((url) => getCustomRepository(ReviewImageRepository).save({ review, url }))
+    );
+
+    return review;
   }
 
   async deleteReview({ userId, reviewId }: DeleteReviewQuery): Promise<void> {
