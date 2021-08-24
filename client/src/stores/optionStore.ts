@@ -26,8 +26,6 @@ class OptionStore {
     this.option = this.parseQueryToOption();
   }
 
-  private resetOption = () => (this.option = DEFAULT_OPTION);
-
   private parseQueryToOption() {
     const queryParams = new URLSearchParams(window.location.search);
 
@@ -41,7 +39,7 @@ class OptionStore {
 
   @action
   setCategory(categoryId: number) {
-    this.resetOption();
+    this.option.searchTerm = null;
     this.option.category = categoryId;
   }
 
@@ -57,7 +55,7 @@ class OptionStore {
 
   @action
   setSearchTerm(searchTerm: string) {
-    this.resetOption();
+    this.option.category = null;
     this.option.searchTerm = searchTerm;
   }
 }
