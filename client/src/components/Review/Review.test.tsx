@@ -6,6 +6,8 @@ import Review, { REVIEW_PER_PAGE } from './Review';
 import userEvent from '@testing-library/user-event';
 import ReviewModel from '../../models/review';
 
+jest.spyOn(window, 'alert').mockImplementation(console.log);
+
 describe('Review 컴포넌트 테스트: 상품후기 없을 때', () => {
   const mockReviewData: ReviewModel[] = [];
 
