@@ -24,14 +24,6 @@ const DEFAULT_PROPS = {
 };
 
 describe('DeliveryAddressList 컴포넌트', () => {
-  test('생성이 비활성화 시 item이 deliveryAddresses만큼 렌더링', () => {
-    render(provideTheme2Test(<DeliveryAddressList isCreating={false} {...DEFAULT_PROPS} />));
-
-    const deliveryAddressList = screen.getAllByTestId('delivery-address-item');
-
-    expect(deliveryAddressList.length).toBe(DEFAULT_PROPS.deliveryAddresses.length);
-  });
-
   test('생성버튼 클릭 시 생성 UI 핸들러 호출', () => {
     render(provideTheme2Test(<DeliveryAddressList isCreating={false} {...DEFAULT_PROPS} />));
 
