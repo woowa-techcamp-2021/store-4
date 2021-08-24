@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import userStore from '../../../stores/userStore';
+import { isNone } from '../../../utils/typeGuard';
 import ReviewPostModal from './ReviewPostModal/ReviewPostModal';
 
 const BUTTON_TEXT = '상품후기 글쓰기';
@@ -22,7 +24,13 @@ const PostReviewButton = styled.button`
 
 const ReviewPost = (): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false);
-  const handleWriteButtonClick = useCallback(() => setModalOpen(true), []);
+  const handleWriteButtonClick = useCallback(() => {
+    if (isNone(userStore.user)) {
+      alert('로그인이 필요합니다');
+      return;
+    }
+    setModalOpen(true);
+  }, []);
   const handleModalClose = useCallback(() => setModalOpen(false), []);
 
   return (
