@@ -102,10 +102,17 @@ const Dropdown = (props: Props): JSX.Element => {
 
   const SearchTermItems = searchTermList.map((searchTerm, index) => (
     <SearchTermItem key={index}>
-      <SearchTermItemLeft>{searchTerm.content}</SearchTermItemLeft>
+      <SearchTermItemLeft data-testid={`search-term-item-content-${index}`}>
+        {searchTerm.content}
+      </SearchTermItemLeft>
       <SearchTermItemRight>
-        <Date>{searchTerm.date}</Date>
-        <DeleteButton onClick={onDeleteSearchTerm(searchTerm.content)}>X</DeleteButton>
+        <Date data-testid={`search-term-item-date-${index}`}>{searchTerm.date}</Date>
+        <DeleteButton
+          onClick={onDeleteSearchTerm(searchTerm.content)}
+          data-testid={`search-term-item-delete-btn-${index}`}
+        >
+          X
+        </DeleteButton>
       </SearchTermItemRight>
     </SearchTermItem>
   ));
@@ -123,8 +130,15 @@ const Dropdown = (props: Props): JSX.Element => {
         )}
       </DropdownBody>
       <DropdownController>
-        <DropdownAllDeleteButton onClick={onDeleteAllSearchTerm}>전체 삭제</DropdownAllDeleteButton>
-        <DropdownCloseButton onClick={onCloseDropdown}>닫기</DropdownCloseButton>
+        <DropdownAllDeleteButton
+          onClick={onDeleteAllSearchTerm}
+          data-testid="search-term-all-delete-btn"
+        >
+          전체 삭제
+        </DropdownAllDeleteButton>
+        <DropdownCloseButton onClick={onCloseDropdown} data-testid="dropdown-close-btn">
+          닫기
+        </DropdownCloseButton>
       </DropdownController>
     </Container>
   );
