@@ -6,6 +6,7 @@ import WishRepository from '../repositories/wish-repository';
 import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import ProductFindQuery from '../validations/product-find-query';
 import Product from '../models/product';
+import UserRepository from '../repositories/user-repository';
 
 const ERROR_MESSAGES = {
   PAGE_OVERFLOW: '요청한 페이지가 전체 페이지 수를 초과했습니다',
@@ -31,6 +32,7 @@ class ProductService {
   async findOne(userId: number | null, productId: number) {
     const productRepository = getCustomRepository(ProductRepository);
     const wishRepository = getCustomRepository(WishRepository);
+    const userRepository = getCustomRepository(UserRepository);
 
     const product = await productRepository.findProduct(productId);
     if (product === undefined) {
@@ -43,9 +45,16 @@ class ProductService {
       isWished = myWish === undefined ? false : true;
     }
 
+    let isOrdered = false;
+    if (userId !== null) {
+      const user = await userRepository.findWithProduct(userId, productId);
+      isOrdered = user === undefined ? false : true;
+    }
+
     return {
       ...product,
       isWished,
+      isOrdered,
     };
   }
 
