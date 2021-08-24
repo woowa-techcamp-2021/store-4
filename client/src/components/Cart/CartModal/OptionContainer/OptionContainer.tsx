@@ -89,6 +89,13 @@ const Option = (): JSX.Element => {
 
   const { title, selectWithSelecteds, price } = toJSModalCartItem;
   const optionList = getOptionList(selectWithSelecteds);
+  const OptionItemList = optionList.map((option) => (
+    <OptionItem key={option.name}>
+      <OptionType>{option.type}</OptionType>
+      <OptionName>{option.name}</OptionName>
+      <OptionPrice>(+{toKoreanMoneyFormat(option.price)})</OptionPrice>
+    </OptionItem>
+  ));
 
   return (
     <Container>
@@ -101,15 +108,7 @@ const Option = (): JSX.Element => {
           <DefaultPriceText>기본가격</DefaultPriceText>
           <DefaultPrice>{toKoreanMoneyFormat(price)}</DefaultPrice>
         </DefaultWrapper>
-        <OptionList>
-          {optionList.map((option) => (
-            <OptionItem key={option.name}>
-              <OptionType>{option.type}</OptionType>
-              <OptionName>{option.name}</OptionName>
-              <OptionPrice>(+{toKoreanMoneyFormat(option.price)})</OptionPrice>
-            </OptionItem>
-          ))}
-        </OptionList>
+        <OptionList>{OptionItemList}</OptionList>
       </ProductInfoWrapper>
     </Container>
   );
