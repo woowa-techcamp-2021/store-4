@@ -45,7 +45,7 @@ type Props = {
   onChangeSearchTermInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeSearchTermList: () => void;
   onDeleteAllSearchTerm: () => void;
-  GetOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
+  getOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
 
 const SearchBar = (props: Props): JSX.Element => {
@@ -55,7 +55,7 @@ const SearchBar = (props: Props): JSX.Element => {
     onChangeSearchTermList,
     onDeleteAllSearchTerm,
     onChangeSearchTermInput,
-    GetOnDeleteSearchTerm,
+    getOnDeleteSearchTerm,
   } = props;
 
   const [isOpenDropBox, setDropboxOpen] = useState(false);
@@ -108,7 +108,7 @@ const SearchBar = (props: Props): JSX.Element => {
         <Dropdown
           onCloseDropdown={handleCloseDropdown}
           onDeleteAllSearchTerm={onDeleteAllSearchTerm}
-          GetOnDeleteSearchTerm={GetOnDeleteSearchTerm}
+          getOnDeleteSearchTerm={getOnDeleteSearchTerm}
           searchTermList={searchTermList}
         />
       )}

@@ -90,7 +90,7 @@ const SearchBarContainer = (): JSX.Element => {
     setSearchTermList([]);
   };
 
-  const GetOnDeleteSearchTerm = (content: string) => () => {
+  const getOnDeleteSearchTerm = (content: string) => () => {
     const nextSearchTermList = searchTermList.filter((searchTerm) => {
       return searchTerm.content !== content;
     });
@@ -105,7 +105,7 @@ const SearchBarContainer = (): JSX.Element => {
       onChangeSearchTermInput={handleChangeSearchTermInput}
       onChangeSearchTermList={handleChangeSearchTermList}
       onDeleteAllSearchTerm={handleDeleteAllSearchTerm}
-      GetOnDeleteSearchTerm={GetOnDeleteSearchTerm}
+      getOnDeleteSearchTerm={getOnDeleteSearchTerm}
     />
   );
 };

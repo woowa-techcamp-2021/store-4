@@ -51,11 +51,11 @@ type Props = {
   searchTermList: SearchTerm[];
   onCloseDropdown: () => void;
   onDeleteAllSearchTerm: () => void;
-  GetOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
+  getOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
 
 const Dropdown = (props: Props): JSX.Element => {
-  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, GetOnDeleteSearchTerm } = props;
+  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, getOnDeleteSearchTerm } = props;
 
   return (
     <Container>
@@ -65,7 +65,7 @@ const Dropdown = (props: Props): JSX.Element => {
       <DropdownBody>
         <SearchTermList
           searchTermList={searchTermList}
-          GetOnDeleteSearchTerm={GetOnDeleteSearchTerm}
+          getOnDeleteSearchTerm={getOnDeleteSearchTerm}
         />
       </DropdownBody>
       <DropdownController>
