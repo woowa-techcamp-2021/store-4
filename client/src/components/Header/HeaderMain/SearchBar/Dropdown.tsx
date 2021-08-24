@@ -51,11 +51,11 @@ type Props = {
   searchTermList: SearchTerm[];
   onCloseDropdown: () => void;
   onDeleteAllSearchTerm: () => void;
-  onDeleteSearchTerm: (content: string) => React.MouseEventHandler;
+  GetOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
 
 const Dropdown = (props: Props): JSX.Element => {
-  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, onDeleteSearchTerm } = props;
+  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, GetOnDeleteSearchTerm } = props;
 
   return (
     <Container>
@@ -63,7 +63,10 @@ const Dropdown = (props: Props): JSX.Element => {
         <DropdownTitle>최근 검색어</DropdownTitle>
       </DropdownHeader>
       <DropdownBody>
-        <SearchTermList searchTermList={searchTermList} onDeleteSearchTerm={onDeleteSearchTerm} />
+        <SearchTermList
+          searchTermList={searchTermList}
+          GetOnDeleteSearchTerm={GetOnDeleteSearchTerm}
+        />
       </DropdownBody>
       <DropdownController>
         {searchTermList.length === 0 ? (

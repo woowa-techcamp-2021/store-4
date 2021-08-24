@@ -14,20 +14,20 @@ const EmptyList = styled.div`
 
 type Props = {
   searchTermList: SearchTerm[];
-  onDeleteSearchTerm: (content: string) => React.MouseEventHandler;
+  GetOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
 
 const NO_SEARCHTERM_LIST_TITLE = '최근 검색어가 없습니다.';
 
 const SearchTermList = (props: Props): JSX.Element => {
-  const { searchTermList, onDeleteSearchTerm } = props;
+  const { searchTermList, GetOnDeleteSearchTerm } = props;
 
   const SearchTermItems = searchTermList.map((searchTerm, index) => (
     <SearchTermItem
       key={index}
       index={index}
       searchTerm={searchTerm}
-      onDeleteSearchTerm={onDeleteSearchTerm(searchTerm.content)}
+      onDeleteSearchTerm={GetOnDeleteSearchTerm(searchTerm.content)}
     />
   ));
 
