@@ -15,31 +15,31 @@ class ProductAPI {
     return request<ProductResponse>({ url: `${this.baseURL}/api/product${query}` });
   }
 
-  fetchProduct(id: number): Promise<ProductDetailResponse> {
+  fetchProduct(token: string | null, id: number): Promise<ProductDetailResponse> {
     return request<ProductDetailResponse>({
       url: `${this.baseURL}/api/product/${id}`,
       headers: {
-        authorization: localStorage.getItem('token') as string,
+        authorization: token ?? '',
       },
     });
   }
 
-  wish(id: number): Promise<void> {
+  wish(token: string, id: number): Promise<void> {
     return request<void>({
       url: `${this.baseURL}/api/product/${id}/wish`,
       method: 'POST',
       headers: {
-        authorization: localStorage.getItem('token') as string,
+        authorization: token,
       },
     });
   }
 
-  cancelWish(id: number): Promise<void> {
+  cancelWish(token: string, id: number): Promise<void> {
     return request<void>({
       url: `${this.baseURL}/api/product/${id}/wish`,
       method: 'DELETE',
       headers: {
-        authorization: localStorage.getItem('token') as string,
+        authorization: token,
       },
     });
   }

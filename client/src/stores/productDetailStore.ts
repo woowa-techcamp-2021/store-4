@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import Product from '../models/product';
+import { isNone } from '../utils/typeGuard';
 
 class ProductDetailStore {
   @observable
@@ -12,7 +13,8 @@ class ProductDetailStore {
 
   @action
   async fetchProduct(id: number): Promise<void> {
-    const { product } = await apis.productAPI.fetchProduct(id);
+    const token = localStorage.getItem('token');
+    const { product } = await apis.productAPI.fetchProduct(token, id);
 
     runInAction(() => {
       this.product = new Product(product);
@@ -25,11 +27,16 @@ class ProductDetailStore {
       return;
     }
 
+    const token = localStorage.getItem('token');
+    if (isNone(token)) {
+      return;
+    }
+
     const { id, isWished } = this.product;
     if (isWished) {
-      await apis.productAPI.cancelWish(id);
+      await apis.productAPI.cancelWish(token, id);
     } else {
-      await apis.productAPI.wish(id);
+      await apis.productAPI.wish(token, id);
     }
 
     runInAction(() => {
