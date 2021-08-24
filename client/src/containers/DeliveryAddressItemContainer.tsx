@@ -4,6 +4,7 @@ import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAdd
 import { useHistory } from '../lib/router';
 import DeliveryAddress from '../models/delivery-address';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
+import { isNotNone } from '../utils/typeGuard';
 import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
 
 type Props = {
@@ -55,11 +56,40 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
     });
   }, [history, props.deliveryAddress.id]);
 
+  const handleModifyClick = useCallback(() => {
+    if (isNotNone(modifyFormRef.current)) {
+      const { address, name, recipientName, recipientPhoneNumber } = modifyFormRef.current;
+
+      deliveryAddressStore
+        .modifyDeliveryAddress(props.deliveryAddress.id, {
+          address,
+          name,
+          recipientName,
+          recipientPhoneNumber,
+        })
+        .then(() => {
+          dispatchMode({ type: 'READ_MODE' });
+        })
+        .catch((error) => {
+          switch (error.status) {
+            case 400:
+              alert('양식을 확인해주세요');
+              return;
+
+            default:
+              history.push('/error');
+              return;
+          }
+        });
+    }
+  }, [history, props.deliveryAddress.id]);
+
   if (mode === Modes.Modify) {
     return (
       <ModifyDeliveryAddressForm
         ref={modifyFormRef}
         deliveryAddress={props.deliveryAddress}
+        onModifyClick={handleModifyClick}
         onCancelModifyClick={handleCancelModifying}
       />
     );

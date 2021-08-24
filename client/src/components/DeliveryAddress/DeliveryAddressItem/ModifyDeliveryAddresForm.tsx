@@ -42,11 +42,12 @@ const SaveButton = styled(ModifyFormButton)`
 
 type Props = {
   deliveryAddress: DeliveryAddress;
+  onModifyClick: MouseEventHandler;
   onCancelModifyClick: MouseEventHandler;
 };
 
 const ModifyDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
-  const { deliveryAddress, onCancelModifyClick } = props;
+  const { deliveryAddress, onCancelModifyClick, onModifyClick } = props;
 
   return (
     <Container>
@@ -56,7 +57,7 @@ const ModifyDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef
 
       <ButtonWrapper>
         <CancelButton onClick={onCancelModifyClick}>취소</CancelButton>
-        <SaveButton>완료</SaveButton>
+        <SaveButton onClick={onModifyClick}>완료</SaveButton>
       </ButtonWrapper>
     </Container>
   );
