@@ -1,5 +1,5 @@
 import request from '../lib/request';
-import { DeliveryAddressResponse } from '../types/deliveryAddress';
+import { CreateDeliveryAddressRequest, DeliveryAddressResponse } from '../types/deliveryAddress';
 
 class DeliveryAddressAPI {
   private baseURL: string;
@@ -11,6 +11,20 @@ class DeliveryAddressAPI {
   fetchDeliveryAddresses(token: string): Promise<DeliveryAddressResponse> {
     return request<DeliveryAddressResponse>({
       url: `${this.baseURL}/api/delivery-address`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
+
+  createDeliveryAddress(
+    token: string,
+    data: CreateDeliveryAddressRequest
+  ): Promise<DeliveryAddressResponse> {
+    return request<DeliveryAddressResponse>({
+      url: `${this.baseURL}/api/delivery-address`,
+      method: 'POST',
+      body: data,
       headers: {
         Authorization: token,
       },

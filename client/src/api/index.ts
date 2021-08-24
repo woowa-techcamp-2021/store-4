@@ -1,5 +1,5 @@
 import CategoryAPI from './category';
-import DeliveryAddressAPI from './delivery-address';
+import DeliveryAddressAPI from './deliveryAddress';
 import ProductAPI from './product';
 import UserAPI from './user';
 
