@@ -39,6 +39,8 @@ const getSearchTermList = (): SearchTerm[] => {
   }
 };
 
+const descDate = (a: SearchTerm, b: SearchTerm) => b.createdAt.getTime() - a.createdAt.getTime();
+
 const SearchBarContainer = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermList, setSearchTermList] = useState(getSearchTermList);
@@ -66,6 +68,7 @@ const SearchBarContainer = (): JSX.Element => {
       setSearchTermList((prev) => {
         const newSearchTermList = [...prev];
         newSearchTermList[foundSearchTermIndex] = changedSearchTerm;
+        newSearchTermList.sort(descDate);
 
         return newSearchTermList;
       });
