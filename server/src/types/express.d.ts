@@ -5,5 +5,7 @@ declare namespace Express {
       email: string;
       name: string;
     };
+
+    images?: string[];
   }
 }
