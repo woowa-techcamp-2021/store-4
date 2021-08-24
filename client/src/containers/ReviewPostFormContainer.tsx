@@ -58,8 +58,13 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
 
     reviewStore
       .postReview(formData, userStore.token)
-      .then(() => console.log('success'))
-      .catch((err) => console.error(err))
+      .then(() => {
+        // reload
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('죄송합니다. 리뷰 작성에 실패했습니다. 이미지 파일 용량을 줄여보세요.');
+      })
       .finally(() => onClose());
   };
 
