@@ -20,6 +20,7 @@ describe('ProductCartItem 컴포넌트', () => {
     reviews: [],
     productSelects: [],
     isWished: false,
+    isOrdered: false,
     createdAt: new Date(2021, 0, 1),
     updatedAt: new Date(2021, 0, 1),
   });

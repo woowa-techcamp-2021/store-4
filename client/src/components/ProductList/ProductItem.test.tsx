@@ -19,6 +19,7 @@ describe('ProductItem 테스트', () => {
     reviews: [] as Review[],
     productSelects: [] as ProductSelect[],
     isWished: false,
+    isOrdered: false,
     updatedAt: new Date(),
   };
 
