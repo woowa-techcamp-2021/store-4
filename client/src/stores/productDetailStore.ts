@@ -32,13 +32,6 @@ class ProductDetailStore {
       return;
     }
 
-    const { id, isWished } = this.product;
-    if (isWished) {
-      await apis.productAPI.cancelWish(token, id);
-    } else {
-      await apis.productAPI.wish(token, id);
-    }
-
     runInAction(() => {
       if (this.product !== null) {
         this.product = new Product({
@@ -47,6 +40,25 @@ class ProductDetailStore {
         });
       }
     });
+
+    const { id, isWished } = this.product;
+    try {
+      if (isWished) {
+        await apis.productAPI.cancelWish(token, id);
+      } else {
+        await apis.productAPI.wish(token, id);
+      }
+    } catch (error) {
+      runInAction(() => {
+        if (this.product !== null) {
+          this.product = new Product({
+            ...this.product,
+            isWished: !isWished,
+          });
+        }
+      });
+      throw error;
+    }
   }
 
   resetProduct() {
