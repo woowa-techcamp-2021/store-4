@@ -7,6 +7,8 @@ import optionStore from '../stores/optionStore';
 import buildQueryString from '../utils/build-query-string';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
+const SEARCH_TERM_LIST_KEY = 'search-term-list';
+
 export const isSearchTermArr = (value: SearchTerm[] | unknown): value is SearchTerm[] => {
   if (Array.isArray(value)) {
     return value.every((value) => isNotNone(value.content) && isNotNone(value.createdAt));
@@ -16,21 +18,25 @@ export const isSearchTermArr = (value: SearchTerm[] | unknown): value is SearchT
 };
 
 const getSearchTermList = (): SearchTerm[] => {
-  const searchTermList = localStorage.getItem('search-term-list');
+  const searchTermList = localStorage.getItem(SEARCH_TERM_LIST_KEY);
 
   if (isNone(searchTermList)) {
     return [];
   }
+  try {
+    const parsedSearchTermList = JSON.parse(searchTermList);
 
-  const parsedSearchTermList = JSON.parse(searchTermList);
-
-  if (parsedSearchTermList instanceof Array) {
-    if (isSearchTermArr(parsedSearchTermList)) {
-      return parsedSearchTermList.map((searchTermObj) => new SearchTerm(searchTermObj));
+    if (parsedSearchTermList instanceof Array) {
+      if (isSearchTermArr(parsedSearchTermList)) {
+        return parsedSearchTermList.map((searchTermObj) => new SearchTerm(searchTermObj));
+      }
     }
-  }
 
-  return [];
+    return [];
+  } catch (error) {
+    localStorage.removeItem(SEARCH_TERM_LIST_KEY);
+    return [];
+  }
 };
 
 const SearchBarContainer = (): JSX.Element => {
@@ -45,7 +51,7 @@ const SearchBarContainer = (): JSX.Element => {
   );
 
   useEffect(() => {
-    localStorage.setItem('search-term-list', JSON.stringify(searchTermList));
+    localStorage.setItem(SEARCH_TERM_LIST_KEY, JSON.stringify(searchTermList));
   }, [searchTermList]);
 
   const handleChangeSearchTermList = () => {
