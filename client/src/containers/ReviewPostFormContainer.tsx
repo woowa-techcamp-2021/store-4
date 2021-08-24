@@ -1,7 +1,10 @@
-import React, { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import ReviewPostForm from '../components/Review/ReviewPost/ReviewPostModal/ReviewPostForm/ReviewPostForm';
 import userStore from '../stores/userStore';
 import productDetailStore from '../stores/productDetailStore';
+import { isNone } from '../utils/typeGuard';
+import reviewStore from '../stores/reviewStore';
+
 const DEFAULT_PRODUCT_NAME = '이 상품';
 
 const validateFileInputs = (files: FileList) => {
@@ -26,12 +29,12 @@ const getThumbnails = (files: FileList): Promise<string[]> => {
 };
 
 type Props = {
-  onCancelButtonClick: MouseEventHandler;
+  onClose: () => void;
 };
 const ReviewPostFormContainer = (props: Props): JSX.Element => {
-  const { onCancelButtonClick } = props;
+  const { onClose } = props;
   const [thumbnails, setThumbnails] = useState<string[]>([]);
-  const product = productDetailStore.product;
+  const currentProduct = productDetailStore.product;
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -39,26 +42,31 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
 
     validateFileInputs(files);
 
-    getThumbnails(files).then((data) => {
-      setThumbnails(data);
-    });
+    getThumbnails(files).then((data) => setThumbnails(data));
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formElement = event.currentTarget;
+    const formData = new FormData(event.currentTarget);
 
-    const point = +formElement['point'].value;
-    const content = formElement['content'].value;
-    const reviewImages = formElement['images'].files;
+    if (isNone(userStore.user) || isNone(currentProduct)) {
+      return;
+    }
 
-    console.log(point, content, reviewImages);
+    formData.append('userId', userStore.user.id + '');
+    formData.append('productId', currentProduct.id + '');
+
+    reviewStore
+      .postReview(formData, userStore.token)
+      .then(() => console.log('success'))
+      .catch((err) => console.error(err))
+      .finally(() => onClose());
   };
 
   return (
     <ReviewPostForm
-      productName={product?.name || DEFAULT_PRODUCT_NAME}
-      onCancelButtonClick={onCancelButtonClick}
+      productName={currentProduct?.name || DEFAULT_PRODUCT_NAME}
+      onCancelButtonClick={onClose}
       onImageUpload={handleImageUpload}
       onSubmit={handleSubmit}
       thumbnails={thumbnails}
