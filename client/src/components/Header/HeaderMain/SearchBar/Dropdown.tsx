@@ -35,14 +35,12 @@ const FlexCenterWrapper = styled.div`
 `;
 
 const SearchTermItem = styled(FlexCenterWrapper)`
-  margin-bottom: 4px;
-  :last-child {
-    margin: 0;
-  }
+  margin: 8px 0px;
 `;
 
 const SearchTermItemLeft = styled(FlexCenterWrapper)`
   justify-content: flex-start;
+
   :hover {
     cursor: pointer;
   }
@@ -61,6 +59,7 @@ const Date = styled.div`
 
 const DeleteButton = styled.div`
   color: ${(propss) => propss.theme.color.grey5};
+
   :hover {
     cursor: pointer;
   }
@@ -76,6 +75,7 @@ const DropdownController = styled.div`
 
 const DropdownButton = styled.div`
   color: ${(props) => props.theme.color.grey5};
+
   :hover {
     cursor: pointer;
   }
