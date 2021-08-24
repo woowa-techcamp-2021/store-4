@@ -3,6 +3,8 @@ import {
   CreateDeliveryAddressRequest,
   CreateDeliveryAddressResponse,
   DeliveryAddressResponse,
+  ModifyDeliveryAddressRequest,
+  ModifyDeliveryAddressResponse,
 } from '../types/deliveryAddress';
 
 class DeliveryAddressAPI {
@@ -28,6 +30,22 @@ class DeliveryAddressAPI {
     return request<CreateDeliveryAddressResponse>({
       url: `${this.baseURL}/api/delivery-address`,
       method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: token,
+      },
+    });
+  }
+
+  modifyDeliveryAddress(
+    token: string,
+    id: number,
+    data: ModifyDeliveryAddressRequest
+  ): Promise<ModifyDeliveryAddressResponse> {
+    return request<ModifyDeliveryAddressResponse>({
+      url: `${this.baseURL}/api/delivery-address/${id}`,
+      method: 'PUT',
       body: data,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',

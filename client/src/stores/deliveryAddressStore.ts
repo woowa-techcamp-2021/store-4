@@ -43,6 +43,35 @@ class DeliveryAddressStore {
   }
 
   @action
+  async modifyDeliveryAddress(id: number, data: CreateDeliveryAddressRequest): Promise<void> {
+    const token = localStorage.getItem('token');
+
+    if (isNone(token)) {
+      return;
+    }
+
+    const { deliveryAddress } = await apis.deliveryAddressAPI.modifyDeliveryAddress(
+      token,
+      id,
+      data
+    );
+
+    runInAction(() => {
+      const deliveryAddressIndex = this.deliveryAddresses.findIndex(
+        (deliveryAddress) => deliveryAddress.id === id
+      );
+
+      if (deliveryAddressIndex === -1) {
+        return;
+      }
+
+      this.deliveryAddresses[deliveryAddressIndex] = {
+        ...deliveryAddress,
+      };
+    });
+  }
+
+  @action
   async deleteDeliveryAddress(id: number): Promise<void> {
     const token = localStorage.getItem('token');
 

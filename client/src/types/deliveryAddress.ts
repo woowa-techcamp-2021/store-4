@@ -11,6 +11,17 @@ export type CreateDeliveryAddressRequest = {
   address: string;
 };
 
+export type ModifyDeliveryAddressRequest = {
+  name: string;
+  recipientName: string;
+  recipientPhoneNumber: string;
+  address: string;
+};
+
 export type CreateDeliveryAddressResponse = {
+  deliveryAddress: DeliveryAddress;
+};
+
+export type ModifyDeliveryAddressResponse = {
   deliveryAddress: DeliveryAddress;
 };
