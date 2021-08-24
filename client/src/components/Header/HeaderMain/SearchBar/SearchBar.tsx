@@ -83,6 +83,7 @@ const SearchBar = (props: Props): JSX.Element => {
       return;
     }
     onChangeSearchTermList();
+    setDropboxOpen(false);
   };
 
   useEffect(() => {
