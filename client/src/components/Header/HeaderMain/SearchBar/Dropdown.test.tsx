@@ -16,10 +16,12 @@ describe('Dropdown 컴포넌트 테스트', () => {
 
   const SEARCHTERM_LIST = MOCK_OBJECT_LIST.map((obj) => new SearchTerm(obj));
 
+  const onDeleteSearchTerm = jest.fn();
+
   const DEFAULT_PROPS = {
     onCloseDropdown: jest.fn(),
     onDeleteAllSearchTerm: jest.fn(),
-    onDeleteSearchTerm: jest.fn(),
+    GetOnDeleteSearchTerm: jest.fn(() => onDeleteSearchTerm),
   };
 
   const SEARCH_TERM_ITEM_TEST_PREFIX = 'search-term-item';
@@ -56,7 +58,7 @@ describe('Dropdown 컴포넌트 테스트', () => {
       userEvent.click(deleteButton);
     });
 
-    expect(DEFAULT_PROPS.onDeleteSearchTerm).toBeCalled();
+    expect(onDeleteSearchTerm).toBeCalled();
   });
 
   test('Dropdown 전체 삭제 버튼을 누르는 경우 onDeleteAllSearchTerm이 실행된다.', () => {
