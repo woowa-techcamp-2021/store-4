@@ -1,7 +1,14 @@
+import { CartOptions } from '../../types/cart';
 import { SelectWithSelected } from '../../types/product';
 import { isNone } from '../../utils/typeGuard';
 
-export const getOptionList = (selectWithSelecteds: SelectWithSelected[]) => {
+export const getOptionList = (
+  selectWithSelecteds: SelectWithSelected[] | undefined
+): CartOptions[] => {
+  if (isNone(selectWithSelecteds)) {
+    return [];
+  }
+
   const optionPriceList = selectWithSelecteds
     ? getSelectedOptionPriceList(selectWithSelecteds)
     : [];
@@ -21,7 +28,9 @@ export const getOptionList = (selectWithSelecteds: SelectWithSelected[]) => {
   return optionList;
 };
 
-export const getSelectedOptionTypeList = (selectWithSelecteds: SelectWithSelected[]): string[] => {
+export const getSelectedOptionTypeList = (
+  selectWithSelecteds: SelectWithSelected[] | undefined
+): string[] => {
   if (isNone(selectWithSelecteds)) {
     return [];
   }
@@ -29,7 +38,9 @@ export const getSelectedOptionTypeList = (selectWithSelecteds: SelectWithSelecte
   return selectWithSelecteds.map((selected: SelectWithSelected) => selected.name);
 };
 
-export const getSelectedOptionNameList = (selectWithSelecteds: SelectWithSelected[]): string[] => {
+export const getSelectedOptionNameList = (
+  selectWithSelecteds: SelectWithSelected[] | undefined
+): string[] => {
   if (isNone(selectWithSelecteds)) {
     return [];
   }
@@ -37,7 +48,9 @@ export const getSelectedOptionNameList = (selectWithSelecteds: SelectWithSelecte
   return selectWithSelecteds.map((selected: SelectWithSelected) => getSelectedOptionName(selected));
 };
 
-export const getSelectedOptionName = (selectWithSelected: SelectWithSelected): string => {
+export const getSelectedOptionName = (
+  selectWithSelected: SelectWithSelected | undefined
+): string => {
   if (isNone(selectWithSelected)) {
     return '';
   }
@@ -49,7 +62,9 @@ export const getSelectedOptionName = (selectWithSelected: SelectWithSelected): s
   return selectWithSelected.selectedOption.name;
 };
 
-export const getSelectedOptionPriceList = (selectWithSelecteds: SelectWithSelected[]): number[] => {
+export const getSelectedOptionPriceList = (
+  selectWithSelecteds: SelectWithSelected[] | undefined
+): number[] => {
   if (isNone(selectWithSelecteds) || !Array.isArray(selectWithSelecteds)) {
     return [];
   }
@@ -59,7 +74,9 @@ export const getSelectedOptionPriceList = (selectWithSelecteds: SelectWithSelect
   );
 };
 
-export const getSelectedOptionPrice = (selectWithSelected: SelectWithSelected): number => {
+export const getSelectedOptionPrice = (
+  selectWithSelected: SelectWithSelected | undefined
+): number => {
   if (isNone(selectWithSelected)) {
     return 0;
   }

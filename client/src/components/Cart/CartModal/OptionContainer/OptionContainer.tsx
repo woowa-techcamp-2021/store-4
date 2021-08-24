@@ -88,7 +88,7 @@ const Option = (): JSX.Element => {
   }
 
   const { title, selectWithSelecteds, price } = toJSModalCartItem;
-  const optionList = selectWithSelecteds ? getOptionList(selectWithSelecteds) : [];
+  const optionList = getOptionList(selectWithSelecteds);
 
   return (
     <Container>

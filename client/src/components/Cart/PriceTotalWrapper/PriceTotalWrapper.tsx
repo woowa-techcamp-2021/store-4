@@ -54,12 +54,10 @@ const PriceTotal = (): JSX.Element => {
   for (const item of cartItemList) {
     if (item.isSelected) {
       selectedItemCount++;
-      const optionPrice = item.selectWithSelecteds
-        ? getSelectedOptionPriceList(item.selectWithSelecteds).reduce(
-            (total, current) => total + current,
-            0
-          )
-        : 0;
+      const optionPrice = getSelectedOptionPriceList(item.selectWithSelecteds).reduce(
+        (total, current) => total + current,
+        0
+      );
       totalPrice += (item.price + optionPrice) * item.count;
     }
   }

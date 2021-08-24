@@ -88,9 +88,7 @@ const CountOption = (props: Props): JSX.Element => {
   }
 
   const { title, price, selectWithSelecteds } = toJSModalCartItem;
-  const optionPriceList = selectWithSelecteds
-    ? getSelectedOptionPriceList(selectWithSelecteds)
-    : [];
+  const optionPriceList = getSelectedOptionPriceList(selectWithSelecteds);
 
   const totalPrice = Number.isInteger(productCount)
     ? (price + optionPriceList.reduce((total, current) => total + current, 0)) * productCount

@@ -104,10 +104,8 @@ type Props = {
 const CartItem = (props: Props): JSX.Element => {
   const { onOptionClick, id, title, imgSrc, count, productPrice, isSelected, selectWithSelecteds } =
     props;
-  const optionList = selectWithSelecteds ? getOptionList(selectWithSelecteds) : [];
-  const optionPriceList = selectWithSelecteds
-    ? getSelectedOptionPriceList(selectWithSelecteds)
-    : [];
+  const optionList = getOptionList(selectWithSelecteds);
+  const optionPriceList = getSelectedOptionPriceList(selectWithSelecteds);
 
   const productTotalPrice =
     (productPrice + optionPriceList.reduce((total, current) => total + current, 0)) * count;
