@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CartHeader from './CartHeader/CartHeader';
 import CartTable from './CartTable/CartTable';
