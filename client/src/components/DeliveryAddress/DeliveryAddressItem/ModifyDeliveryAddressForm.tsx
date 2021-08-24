@@ -56,8 +56,12 @@ const ModifyDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef
       </ModifyFormWrapper>
 
       <ButtonWrapper>
-        <CancelButton onClick={onCancelModifyClick}>취소</CancelButton>
-        <SaveButton onClick={onModifyClick}>완료</SaveButton>
+        <CancelButton onClick={onCancelModifyClick} data-testid="delivery-address-cancel-modify">
+          취소
+        </CancelButton>
+        <SaveButton onClick={onModifyClick} data-testid="delivery-address-modify">
+          완료
+        </SaveButton>
       </ButtonWrapper>
     </Container>
   );

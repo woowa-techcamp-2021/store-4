@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer, useRef } from 'react';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
-import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddresForm';
+import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
 import { useHistory } from '../lib/router';
 import DeliveryAddress from '../models/delivery-address';
 import deliveryAddressStore from '../stores/deliveryAddressStore';

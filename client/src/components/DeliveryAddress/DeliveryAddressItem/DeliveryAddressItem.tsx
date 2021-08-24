@@ -83,8 +83,12 @@ const DeliveryAddressItem = (props: Props): JSX.Element => {
         </Row>
       </DeliveryAddressWrapper>
       <ButtonWrapper>
-        <ChangeToModifyButton onClick={onToModifyClick}>수정</ChangeToModifyButton>
-        <RemoveButton onClick={onDeleteClick}>삭제</RemoveButton>
+        <ChangeToModifyButton data-testid="delivery-address-to-modify" onClick={onToModifyClick}>
+          수정
+        </ChangeToModifyButton>
+        <RemoveButton data-testid="delivery-address-delete" onClick={onDeleteClick}>
+          삭제
+        </RemoveButton>
       </ButtonWrapper>
     </Container>
   );
