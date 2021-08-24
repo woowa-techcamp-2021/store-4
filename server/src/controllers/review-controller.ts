@@ -1,22 +1,17 @@
 import { Request, Response } from 'express';
 import reviewService from '../services/review-service';
 import { isNone } from '../util/type-guard';
-import ReviewPost from '../validations/review-post';
 import numberParamValidator from '../validations/number-params';
+import ReviewPost from '../validations/review-post';
 
 class ReviewController {
   async post(req: Request, res: Response) {
-    const { userId, productId, point, content } = req.body;
-    const imageLocations = req.images || [];
+    const { body, images } = req;
 
     const reviewPost = new ReviewPost({
-      userId: numberParamValidator(userId),
-      productId: numberParamValidator(productId),
-      point: numberParamValidator(point),
-      content: content || '',
-      imageLocations,
-    } as ReviewPost);
-
+      ...body,
+      imageLocations: images || [],
+    });
     await reviewPost.validate();
 
     const review = await reviewService.postReview(reviewPost);
@@ -31,10 +26,9 @@ class ReviewController {
       return;
     }
 
-    const { reviewId } = req.params;
-    // validator 추가 필요
+    const reviewId = numberParamValidator(req.params.reviewId);
 
-    await reviewService.deleteReview({ userId, reviewId: +reviewId });
+    await reviewService.deleteReview({ userId, reviewId });
 
     res.status(200).send('deleted');
   }

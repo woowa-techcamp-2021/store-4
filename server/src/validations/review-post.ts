@@ -39,9 +39,9 @@ class ReviewPost extends BaseValidator {
 
   constructor(data: ReviewPost) {
     super();
-    this.productId = data.productId;
-    this.userId = data.userId;
-    this.point = data.point;
+    this.productId = +data.productId;
+    this.userId = +data.userId;
+    this.point = +data.point;
     this.content = data.content;
     this.imageLocations = data.imageLocations;
   }
