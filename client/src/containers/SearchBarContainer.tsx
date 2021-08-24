@@ -1,6 +1,10 @@
+import { observer } from 'mobx-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import SearchBar from '../components/Header/HeaderMain/SearchBar/SearchBar';
+import { useHistory } from '../lib/router';
 import SearchTerm from '../models/searchTerm';
+import optionStore from '../stores/optionStore';
+import buildQueryString from '../utils/build-query-string';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
 export const isSearchTermArr = (value: SearchTerm[] | unknown): value is SearchTerm[] => {
@@ -32,6 +36,8 @@ const getSearchTermList = (): SearchTerm[] => {
 const SearchBarContainer = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermList, setSearchTermList] = useState(getSearchTermList);
+  const option = optionStore.option;
+  const history = useHistory();
 
   const handleChangeSearchTermInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
@@ -57,20 +63,27 @@ const SearchBarContainer = (): JSX.Element => {
 
         return newSearchTermList;
       });
+    } else {
+      setSearchTermList((prev) => {
+        const newSearchTerm = new SearchTerm({
+          content: searchTerm,
+          createdAt: new Date(),
+        });
 
-      return;
+        return [newSearchTerm, ...prev];
+      });
     }
 
-    setSearchTermList((prev) => {
-      const newSearchTerm = new SearchTerm({
-        content: searchTerm,
-        createdAt: new Date(),
-      });
+    setSearchTerm('');
 
-      return [newSearchTerm, ...prev];
+    const query = buildQueryString({
+      ...option,
+      searchTerm,
+      category: '',
     });
 
-    setSearchTerm('');
+    history.push(`/products${query}`);
+    optionStore.setSearchTerm(searchTerm);
   };
 
   const handleDeleteAllSearchTerm = () => {
@@ -97,4 +110,4 @@ const SearchBarContainer = (): JSX.Element => {
   );
 };
 
-export default SearchBarContainer;
+export default observer(SearchBarContainer);
