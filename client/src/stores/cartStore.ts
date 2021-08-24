@@ -13,7 +13,7 @@ class CartStore {
   constructor() {
     makeAutoObservable(this);
 
-    const cartItemList = JSON.parse(localStorage.getItem('cart') as string);
+    const cartItemList = this.getCartItemListFromStorage();
     this.cartItemList = cartItemList.map((cart: CartItem) => new CartItem(cart));
     this.modalCartItemId = 0;
   }
