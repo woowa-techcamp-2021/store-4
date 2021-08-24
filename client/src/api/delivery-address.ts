@@ -11,7 +11,6 @@ class DeliveryAddressAPI {
   fetchDeliveryAddresses(token: string): Promise<DeliveryAddressResponse> {
     return request<DeliveryAddressResponse>({
       url: `${this.baseURL}/api/delivery-address`,
-      method: 'POST',
       headers: {
         Authorization: token,
       },
