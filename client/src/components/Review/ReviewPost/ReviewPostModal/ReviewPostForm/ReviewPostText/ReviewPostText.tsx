@@ -2,6 +2,7 @@ import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 
 const TEXT_AFTER_TITLE = '어떠셨나요?';
+const MAX_TEXT_LENGTH = 250;
 
 const Container = styled.div`
   margin: 48px 0 16px;
@@ -47,7 +48,13 @@ const ReviewPostText = (props: Props): JSX.Element => {
         <ProductTitleContainer>
           <ProductTitle>{`${productName},`}</ProductTitle> {TEXT_AFTER_TITLE}
         </ProductTitleContainer>
-        <InputTextarea name="content" value={value} required={true} onChange={onChange} />
+        <InputTextarea
+          name="content"
+          value={value}
+          maxLength={MAX_TEXT_LENGTH}
+          required={true}
+          onChange={onChange}
+        />
       </InputTextareaLabel>
     </Container>
   );
