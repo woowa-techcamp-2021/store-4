@@ -51,10 +51,6 @@ class CartStore {
   }
 
   setModalCartItemCount(count: number) {
-    if (isNone(count) || Number.isNaN(count) || count <= 0) {
-      count = 0;
-    }
-
     const index = this.cartItemList.findIndex((cartItem) => cartItem.id === this.modalCartItemId);
     if (index === -1) {
       return;
