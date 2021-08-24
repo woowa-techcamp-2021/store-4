@@ -84,12 +84,18 @@ const DropdownButton = styled.div`
 const DropdownAllDeleteButton = styled(DropdownButton)``;
 const DropdownCloseButton = styled(DropdownButton)``;
 
+const EmptyList = styled.div`
+  margin: 8px 0px;
+`;
+
 type Props = {
   searchTermList: SearchTerm[];
   onCloseDropdown: () => void;
   onDeleteAllSearchTerm: () => void;
   onDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
+
+const NO_SEARCHTERM_LIST_TITLE = '최근 검색어가 없습니다.';
 
 const Dropdown = (props: Props): JSX.Element => {
   const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, onDeleteSearchTerm } = props;
@@ -109,7 +115,13 @@ const Dropdown = (props: Props): JSX.Element => {
       <DropdownHeader>
         <DropdownTitle>최근 검색어</DropdownTitle>
       </DropdownHeader>
-      <DropdownBody>{SearchTermItems}</DropdownBody>
+      <DropdownBody>
+        {SearchTermItems.length === 0 ? (
+          <EmptyList>{NO_SEARCHTERM_LIST_TITLE}</EmptyList>
+        ) : (
+          SearchTermItems
+        )}
+      </DropdownBody>
       <DropdownController>
         <DropdownAllDeleteButton onClick={onDeleteAllSearchTerm}>전체 삭제</DropdownAllDeleteButton>
         <DropdownCloseButton onClick={onCloseDropdown}>닫기</DropdownCloseButton>
