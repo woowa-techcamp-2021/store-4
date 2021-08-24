@@ -46,14 +46,15 @@ const SearchBarContainer = (): JSX.Element => {
     const foundSearchTermIndex = searchTermList.findIndex((term) => term.content === searchTerm);
 
     if (foundSearchTermIndex >= 0) {
-      const cloneSearchTerm = new SearchTerm({
+      const changedSearchTerm = new SearchTerm({
         ...searchTermList[foundSearchTermIndex],
         createdAt: new Date(),
       });
 
       setSearchTermList((prev) => {
         const newSearchTermList = [...prev];
-        newSearchTermList[foundSearchTermIndex] = cloneSearchTerm;
+        newSearchTermList[foundSearchTermIndex] = changedSearchTerm;
+        console.log(newSearchTermList);
         return newSearchTermList;
       });
 
@@ -68,10 +69,20 @@ const SearchBarContainer = (): JSX.Element => {
 
       return [newSearchTerm, ...prev];
     });
+
+    setSearchTerm('');
   };
 
   const handleDeleteAllSearchTerm = () => {
     setSearchTermList([]);
+  };
+
+  const handleDeleteSearchTerm = (content: string) => () => {
+    const nextSearchTermList = searchTermList.filter((searchTerm) => {
+      return searchTerm.content !== content;
+    });
+
+    setSearchTermList(nextSearchTermList);
   };
 
   return (
@@ -81,6 +92,7 @@ const SearchBarContainer = (): JSX.Element => {
       onChangeSearchTermInput={handleChangeSearchTermInput}
       onChangeSearchTermList={handleChangeSearchTermList}
       onDeleteAllSearchTerm={handleDeleteAllSearchTerm}
+      onDeleteSearchTerm={handleDeleteSearchTerm}
     />
   );
 };

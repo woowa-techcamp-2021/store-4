@@ -88,17 +88,18 @@ type Props = {
   searchTermList: SearchTerm[];
   onCloseDropdown: () => void;
   onDeleteAllSearchTerm: () => void;
+  onDeleteSearchTerm: (content: string) => React.MouseEventHandler;
 };
 
 const Dropdown = (props: Props): JSX.Element => {
-  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm } = props;
+  const { searchTermList, onCloseDropdown, onDeleteAllSearchTerm, onDeleteSearchTerm } = props;
 
   const SearchTermItems = searchTermList.map((searchTerm, index) => (
     <SearchTermItem key={index}>
       <SearchTermItemLeft>{searchTerm.content}</SearchTermItemLeft>
       <SearchTermItemRight>
         <Date>{searchTerm.date}</Date>
-        <DeleteButton>X</DeleteButton>
+        <DeleteButton onClick={onDeleteSearchTerm(searchTerm.content)}>X</DeleteButton>
       </SearchTermItemRight>
     </SearchTermItem>
   ));
