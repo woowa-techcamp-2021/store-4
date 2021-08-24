@@ -78,6 +78,13 @@ const SearchBar = (props: Props): JSX.Element => {
     setDropboxOpen(false);
   }, []);
 
+  const handlePressEnterChangeSearchTermList = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+    onChangeSearchTermList();
+  };
+
   useEffect(() => {
     document.addEventListener('click', handleCloseDropdownToDocument);
     return () => document.removeEventListener('click', handleCloseDropdownToDocument);
@@ -90,6 +97,7 @@ const SearchBar = (props: Props): JSX.Element => {
         placeholder={INPUT_PLACEHOLDER}
         value={searchTerm}
         onChange={onChangeSearchTermInput}
+        onKeyPress={handlePressEnterChangeSearchTermList}
         onFocus={handleOpenDropdown}
       />
       <SearchButton type="button" onClick={onChangeSearchTermList}>

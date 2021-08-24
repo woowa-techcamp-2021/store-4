@@ -54,7 +54,7 @@ const SearchBarContainer = (): JSX.Element => {
       setSearchTermList((prev) => {
         const newSearchTermList = [...prev];
         newSearchTermList[foundSearchTermIndex] = changedSearchTerm;
-        console.log(newSearchTermList);
+
         return newSearchTermList;
       });
 
