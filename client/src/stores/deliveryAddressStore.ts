@@ -41,6 +41,29 @@ class DeliveryAddressStore {
       this.deliveryAddresses = [...this.deliveryAddresses, deliveryAddress];
     });
   }
+
+  @action
+  async removeDeliveryAddress(id: number): Promise<void> {
+    const token = localStorage.getItem('token');
+
+    if (isNone(token)) {
+      return;
+    }
+
+    await apis.deliveryAddressAPI.deleteDeliveryAddress(token, id);
+
+    runInAction(() => {
+      const deliveryAddressIndex = this.deliveryAddresses.findIndex(
+        (deliveryAddress) => deliveryAddress.id === id
+      );
+
+      if (deliveryAddressIndex === -1) {
+        return;
+      }
+
+      this.deliveryAddresses.splice(deliveryAddressIndex, 1);
+    });
+  }
 }
 
 export default new DeliveryAddressStore();

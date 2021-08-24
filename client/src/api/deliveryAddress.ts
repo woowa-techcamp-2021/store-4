@@ -35,6 +35,16 @@ class DeliveryAddressAPI {
       },
     });
   }
+
+  deleteDeliveryAddress(token: string, id: number): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/delivery-address/${id}`,
+      method: 'DELETE',
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
 }
 
 export default DeliveryAddressAPI;
