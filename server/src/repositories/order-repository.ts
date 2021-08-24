@@ -5,10 +5,10 @@ import Order from '../models/order';
 class OrderRepository extends Repository<Order> {
   findWithOrderDetails(userId: number): Promise<Order[]> {
     return createQueryBuilder(Order)
-      .leftJoinAndSelect('Order.OrderDetails', 'orderDetails')
-      .leftJoinAndSelect('OrderDetails.product', 'orderDetails.product')
-      .where('user_id = :userId', { userId })
-      .orderBy('created_at', 'DESC')
+      .leftJoinAndSelect('Order.orderDetails', 'orderDetails')
+      .leftJoinAndSelect('orderDetails.product', 'orderDetails.product')
+      .where('Order.user_id = :userId', { userId })
+      .orderBy('Order.created_at', 'DESC')
       .getMany();
   }
 }

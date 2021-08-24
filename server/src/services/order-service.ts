@@ -4,7 +4,7 @@ import OrderRepository from '../repositories/order-repository';
 
 class OrderService {
   async findByUser(userId: number): Promise<Order[]> {
-    const orders = getCustomRepository(OrderRepository).findWithOrderDetails(userId);
+    const orders = await getCustomRepository(OrderRepository).findWithOrderDetails(userId);
 
     return orders;
   }
