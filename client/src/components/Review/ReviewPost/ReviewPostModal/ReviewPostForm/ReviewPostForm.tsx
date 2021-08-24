@@ -11,7 +11,6 @@ import ReviewPostStars from './ReviewPostStars/ReviewPostStars';
 import ReviewPostText from './ReviewPostText/ReviewPostText';
 import ReviewPostImages from './ReviewPostImages/ReviewPostImages';
 import ReviewPostButtonGroup from './ReviewPostButtonGroup/ReviewPostButtonGroup';
-import Product from '../../../../../models/product';
 
 const STARS_WIDTH = 300;
 const DEFAULT_TEXT_FOR_POINT: { [key: number]: string } = {
@@ -39,14 +38,14 @@ const PointsInput = styled.input`
 `;
 
 type Props = {
-  product: Product;
+  productName: string;
   onCancelButtonClick: MouseEventHandler;
   onImageUpload: ChangeEventHandler;
   onSubmit: FormEventHandler;
   thumbnails: string[];
 };
 const ReviewPostForm = (props: Props): JSX.Element => {
-  const { product, onCancelButtonClick, onImageUpload, onSubmit, thumbnails } = props;
+  const { productName, onCancelButtonClick, onImageUpload, onSubmit, thumbnails } = props;
   const [point, setPoint] = useState(0);
   const [inputText, setInputText] = useState('');
   const handleStarClick = useCallback((point: number) => {
@@ -64,7 +63,7 @@ const ReviewPostForm = (props: Props): JSX.Element => {
         <ReviewPostStars width={STARS_WIDTH} onStarClick={handleStarClick} />
         <PointsInput name="point" value={point} readOnly />
       </ReviewPostStarsContainer>
-      <ReviewPostText productName={product.name} value={inputText} onChange={handleTextChange} />
+      <ReviewPostText productName={productName} value={inputText} onChange={handleTextChange} />
       <ReviewPostImages
         addImageButtonText={ADD_IMAGE_BUTTON_TEXT}
         imageThumbnailSize={IMAGE_THUMBNAIL_SIZE}

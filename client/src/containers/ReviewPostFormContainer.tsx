@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'reac
 import ReviewPostForm from '../components/Review/ReviewPost/ReviewPostModal/ReviewPostForm/ReviewPostForm';
 import userStore from '../stores/userStore';
 import productDetailStore from '../stores/productDetailStore';
+const DEFAULT_PRODUCT_NAME = '이 상품';
 
 const validateFileInputs = (files: FileList) => {
   if (Array.from(files).some((file) => !file.type.startsWith('image'))) {
@@ -54,16 +55,14 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     console.log(point, content, reviewImages);
   };
 
-  return userStore.user && product ? (
+  return (
     <ReviewPostForm
-      product={product}
+      productName={product?.name || DEFAULT_PRODUCT_NAME}
       onCancelButtonClick={onCancelButtonClick}
       onImageUpload={handleImageUpload}
       onSubmit={handleSubmit}
       thumbnails={thumbnails}
     />
-  ) : (
-    <div>Not a User</div>
   );
 };
 
