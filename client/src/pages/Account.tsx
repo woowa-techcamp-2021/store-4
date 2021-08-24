@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Route, Switch } from '../lib/router';
-import AccountNavList from '../components/AccountNavList/AccountNavList';
+import AccountNavList from '../components/Account/AccountNavList/AccountNavList';
+import AccountLanding from '../components/Account/AccountLanding/AccountLanding';
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
 import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
@@ -27,10 +28,6 @@ const RouteContainer = styled.div`
   display: flex;
 `;
 
-const AccountWelcome = styled.div`
-  font-size: ${(props) => props.theme.fontSize.medium};
-`;
-
 const NotUser = styled.div``;
 
 const AccountPage = (): JSX.Element => {
@@ -45,7 +42,7 @@ const AccountPage = (): JSX.Element => {
       <RouteContainer>
         <Switch>
           <Route exact path={'/account'}>
-            <AccountWelcome>환영합니다, {userStore.user.name} 님</AccountWelcome>
+            <AccountLanding user={userStore.user} />
           </Route>
           {Routes}
         </Switch>
