@@ -1,7 +1,9 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useCallback, useReducer, useRef } from 'react';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddresForm';
+import { useHistory } from '../lib/router';
 import DeliveryAddress from '../models/delivery-address';
+import deliveryAddressStore from '../stores/deliveryAddressStore';
 import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
 
 type Props = {
@@ -33,6 +35,7 @@ const modeReducer = (state: Modes, action: ModeActions) => {
 const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
   const [mode, dispatchMode] = useReducer(modeReducer, Modes.Read);
   const modifyFormRef = useRef<DeliveryAddressFormRef & HTMLFormElement>(null);
+  const history = useHistory();
 
   const handleCancelModifying = () => {
     dispatchMode({
@@ -46,6 +49,12 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
     });
   };
 
+  const handleDeleteClick = useCallback(() => {
+    deliveryAddressStore.deleteDeliveryAddress(props.deliveryAddress.id).catch(() => {
+      history.push('/error');
+    });
+  }, [history, props.deliveryAddress.id]);
+
   if (mode === Modes.Modify) {
     return (
       <ModifyDeliveryAddressForm
@@ -58,6 +67,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
 
   return (
     <DeliveryAddressItem
+      onDeleteClick={handleDeleteClick}
       onToModifyClick={handleToModifyButtonClick}
       deliveryAddress={props.deliveryAddress}
     />

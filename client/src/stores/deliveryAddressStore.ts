@@ -43,7 +43,7 @@ class DeliveryAddressStore {
   }
 
   @action
-  async removeDeliveryAddress(id: number): Promise<void> {
+  async deleteDeliveryAddress(id: number): Promise<void> {
     const token = localStorage.getItem('token');
 
     if (isNone(token)) {

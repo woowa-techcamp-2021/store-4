@@ -5,6 +5,7 @@ import CreateDeliveryAddressForm from './CreateDeliveryAddressForm';
 import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
 import deliveryAddressStore from '../../stores/deliveryAddressStore';
 import { observer } from 'mobx-react';
+import DeliveryAddress from '../../models/delivery-address';
 
 const Container = styled.div``;
 
