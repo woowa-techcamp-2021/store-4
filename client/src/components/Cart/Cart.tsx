@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import CartHeader from './CartHeader/CartHeader';
 import CartTable from './CartTable/CartTable';
@@ -6,10 +7,8 @@ import PriceTotal from './PriceTotalWrapper/PriceTotalWrapper';
 import CartButtons from './CartButtons/CartButtons';
 import CartModal from './CartModal/CartModal';
 import { Link } from '../../lib/router';
-import { useState } from 'react';
-
-import cartStore from '../../stores/cartStore';
 import { observer } from 'mobx-react';
+import cartStore from '../../stores/cartStore';
 
 const Container = styled.div`
   padding-top: 40px;
