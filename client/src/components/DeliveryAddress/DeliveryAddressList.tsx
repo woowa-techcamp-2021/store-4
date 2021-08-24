@@ -1,9 +1,10 @@
 import React, { forwardRef, MouseEventHandler, Ref } from 'react';
 import styled from 'styled-components';
-import DeliveryAddress from '../../models/delivery-address';
 import DeliveryAddressItemContainer from '../../containers/DeliveryAddressItemContainer';
 import CreateDeliveryAddressForm from './CreateDeliveryAddressForm';
 import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
+import deliveryAddressStore from '../../stores/deliveryAddressStore';
+import { observer } from 'mobx-react';
 
 const Container = styled.div``;
 
@@ -19,13 +20,13 @@ const CreateDeliveryAddress = styled.div`
 
 type Props = {
   isCreating: boolean;
-  deliveryAddresses: DeliveryAddress[];
   onCreatingClick: MouseEventHandler;
   onCancelCreatingClick: MouseEventHandler;
 };
 
 const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
-  const { deliveryAddresses, isCreating, onCreatingClick, onCancelCreatingClick } = props;
+  const { isCreating, onCreatingClick, onCancelCreatingClick } = props;
+  const { deliveryAddresses } = deliveryAddressStore;
 
   const DeliveryAddressItems = deliveryAddresses.map((deliveryAddress) => (
     <DeliveryAddressItemContainer key={deliveryAddress.id} deliveryAddress={deliveryAddress} />
@@ -48,4 +49,4 @@ const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
   );
 };
 
-export default forwardRef<DeliveryAddressFormRef, Props>(DeliveryAddressList);
+export default observer(forwardRef<DeliveryAddressFormRef, Props>(DeliveryAddressList));
