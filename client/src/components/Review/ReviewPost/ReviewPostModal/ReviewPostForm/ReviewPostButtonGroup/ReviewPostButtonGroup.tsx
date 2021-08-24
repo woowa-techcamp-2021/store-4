@@ -49,7 +49,9 @@ const ReviewPostButtonGroup = (props: Props): JSX.Element => {
   const { cancelButtonText, submitButtonText, isSubmitDisabled, onCancelButtonClick } = props;
   return (
     <Container>
-      <CancelButton onClick={onCancelButtonClick}>{cancelButtonText}</CancelButton>
+      <CancelButton data-testid="post-cancel-button" onClick={onCancelButtonClick}>
+        {cancelButtonText}
+      </CancelButton>
       <SubmitButton type="submit" disabled={isSubmitDisabled}>
         {submitButtonText}
       </SubmitButton>
