@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import DeliveryAddress from '../models/delivery-address';
+import { CreateDeliveryAddressRequest } from '../types/deliveryAddress';
 import { isNone } from '../utils/typeGuard';
 
 class DeliveryAddressStore {
@@ -23,6 +24,21 @@ class DeliveryAddressStore {
 
     runInAction(() => {
       this.deliveryAddresses = deliveryAddresses;
+    });
+  }
+
+  @action
+  async createDeliveryAddress(data: CreateDeliveryAddressRequest): Promise<void> {
+    const token = localStorage.getItem('token');
+
+    if (isNone(token)) {
+      return;
+    }
+
+    const { deliveryAddress } = await apis.deliveryAddressAPI.createDeliveryAddress(token, data);
+
+    runInAction(() => {
+      this.deliveryAddresses = [...this.deliveryAddresses, deliveryAddress];
     });
   }
 }

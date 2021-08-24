@@ -21,11 +21,12 @@ const CreateDeliveryAddress = styled.div`
 type Props = {
   isCreating: boolean;
   onCreatingClick: MouseEventHandler;
+  onCreateClick: MouseEventHandler;
   onCancelCreatingClick: MouseEventHandler;
 };
 
 const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
-  const { isCreating, onCreatingClick, onCancelCreatingClick } = props;
+  const { isCreating, onCreatingClick, onCreateClick, onCancelCreatingClick } = props;
   const { deliveryAddresses } = deliveryAddressStore;
 
   const DeliveryAddressItems = deliveryAddresses.map((deliveryAddress) => (
@@ -36,7 +37,11 @@ const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
     <Container>
       {DeliveryAddressItems}
       {isCreating ? (
-        <CreateDeliveryAddressForm ref={ref} onCancelCreateClick={onCancelCreatingClick} />
+        <CreateDeliveryAddressForm
+          ref={ref}
+          onCreateClick={onCreateClick}
+          onCancelCreateClick={onCancelCreatingClick}
+        />
       ) : (
         <CreateDeliveryAddress
           onClick={onCreatingClick}

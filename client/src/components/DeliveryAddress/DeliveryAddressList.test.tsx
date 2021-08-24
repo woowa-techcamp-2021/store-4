@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 
 const onCreatingClick = jest.fn();
 const onCancelCreatingClick = jest.fn();
+const onCreateClick = jest.fn();
 
 const DEFAULT_PROPS = {
   deliveryAddresses: [
@@ -19,6 +20,7 @@ const DEFAULT_PROPS = {
   ],
   onCreatingClick,
   onCancelCreatingClick,
+  onCreateClick,
 };
 
 describe('DeliveryAddressList 컴포넌트', () => {
