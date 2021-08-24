@@ -44,9 +44,9 @@ const CartTable = (props: Props): JSX.Element => {
               title={item.title}
               imgSrc={item.imgSrc}
               count={item.count}
-              price={item.price * item.count}
+              productPrice={item.price}
               isSelected={item.isSelected}
-              selectWithSelected={item.selectWithSelected}
+              selectWithSelecteds={item.selectWithSelecteds}
               onOptionClick={onOptionClick}
             />
           ))}

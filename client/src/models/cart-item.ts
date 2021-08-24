@@ -9,7 +9,7 @@ class CartItem {
   count: number;
   price: number;
   isSelected: boolean;
-  selectWithSelected?: SelectWithSelected;
+  selectWithSelecteds?: SelectWithSelected[];
 
   constructor(data: CartItem) {
     this.id = data.id;
@@ -18,7 +18,7 @@ class CartItem {
     this.count = data.count;
     this.price = data.price;
     this.isSelected = data.isSelected;
-    this.selectWithSelected = data.selectWithSelected;
+    this.selectWithSelecteds = data.selectWithSelecteds;
   }
 
   static isCartItem(value: CartItem | unknown): value is CartItem {
@@ -30,7 +30,7 @@ class CartItem {
       if (
         hasProperty(value, 'id') &&
         hasProperty(value, 'isSelected') &&
-        hasProperty(value, 'selectWithSelected')
+        hasProperty(value, 'selectWithSelecteds')
       ) {
         return true;
       } else {

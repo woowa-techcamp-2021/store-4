@@ -13,16 +13,18 @@ const mockItemList = [
     count: 1,
     price: 16900,
     isSelected: true,
-    selectWithSelected: {
-      id: 1,
-      name: '색상',
-      productOptions: [],
-      selectedOption: {
+    selectWithSelecteds: [
+      {
         id: 1,
-        name: '화이트',
-        additionalPrice: 2000,
+        name: '색상',
+        productOptions: [],
+        selectedOption: {
+          id: 1,
+          name: '화이트',
+          additionalPrice: 2000,
+        },
       },
-    },
+    ],
   },
   {
     id: 1,
@@ -31,16 +33,28 @@ const mockItemList = [
     count: 2,
     price: 1500,
     isSelected: true,
-    selectWithSelected: {
-      id: 1,
-      name: '색상',
-      productOptions: [],
-      selectedOption: {
-        id: 2,
-        name: '블랙',
-        additionalPrice: 10000,
+    selectWithSelecteds: [
+      {
+        id: 1,
+        name: '색상',
+        productOptions: [],
+        selectedOption: {
+          id: 2,
+          name: '블랙',
+          additionalPrice: 10000,
+        },
       },
-    },
+      {
+        id: 2,
+        name: '사이즈',
+        productOptions: [],
+        selectedOption: {
+          id: 1,
+          name: '라지',
+          additionalPrice: 5000,
+        },
+      },
+    ],
   },
 ];
 
@@ -57,7 +71,7 @@ const AddToCart = (): JSX.Element => {
             cartItem.imgSrc,
             cartItem.count,
             cartItem.price,
-            cartItem.selectWithSelected
+            cartItem.selectWithSelecteds
           );
         }
         console.log('목데이터 추가');

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import cartStore from '../../../../stores/cartStore';
 import { SelectWithSelected } from '../../../../types/product';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
-import { getSelectedOptionPrice } from '../../helper';
+import { getOptionList, getSelectedOptionPriceList } from '../../helper';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -55,12 +55,16 @@ const ItemWrapper = styled.div``;
 
 const ItemTitle = styled.div``;
 
-const Option = styled.div`
+const OptionList = styled.div`
   padding-top: 4px;
+`;
 
+const Option = styled.span`
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: 400;
   color: ${(props) => props.theme.color.grey3};
+
+  padding-right: 8px;
 `;
 
 const CountWrapper = styled(AlignCenterContainer)`
@@ -92,16 +96,21 @@ type Props = {
   title: string;
   imgSrc: string;
   count: number;
-  price: number;
+  productPrice: number;
   isSelected: boolean;
-  selectWithSelected: SelectWithSelected | undefined;
+  selectWithSelecteds: SelectWithSelected[] | undefined;
 };
 
 const CartItem = (props: Props): JSX.Element => {
-  const { onOptionClick, id, title, imgSrc, count, price, isSelected, selectWithSelected } = props;
-  const optionPrice = selectWithSelected ? getSelectedOptionPrice(selectWithSelected) : 0;
-  const optionTypeName = selectWithSelected ? selectWithSelected.name : '';
-  const optionName = selectWithSelected ? getSelectedOptionPrice(selectWithSelected) : '';
+  const { onOptionClick, id, title, imgSrc, count, productPrice, isSelected, selectWithSelecteds } =
+    props;
+  const optionList = selectWithSelecteds ? getOptionList(selectWithSelecteds) : [];
+  const optionPriceList = selectWithSelecteds
+    ? getSelectedOptionPriceList(selectWithSelecteds)
+    : [];
+
+  const productTotalPrice =
+    (productPrice + optionPriceList.reduce((total, current) => total + current, 0)) * count;
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     cartStore.setCartItemSelection(id, e.target.checked);
@@ -116,7 +125,14 @@ const CartItem = (props: Props): JSX.Element => {
         <ItemImg src={imgSrc} />
         <ItemWrapper>
           <ItemTitle>{title}</ItemTitle>
-          <Option>{selectWithSelected ? `${optionTypeName} : ${optionName}` : ''}</Option>
+          <OptionList>
+            {selectWithSelecteds &&
+              optionList.map((option) => (
+                <Option key={option.name}>
+                  {option.type} : {option.name} {`(+${toKoreanMoneyFormat(option.price)})`}
+                </Option>
+              ))}
+          </OptionList>
         </ItemWrapper>
       </ItemTitleWrapper>
       <CountWrapper>
@@ -130,7 +146,7 @@ const CartItem = (props: Props): JSX.Element => {
         </OptionChangeButton>
       </CountWrapper>
       <PriceWrapper>
-        <Price>{toKoreanMoneyFormat(price + optionPrice)}</Price>
+        <Price>{toKoreanMoneyFormat(productTotalPrice)}</Price>
       </PriceWrapper>
     </Container>
   );

@@ -7,8 +7,7 @@ import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
-import { isNotNone } from '../../../../utils/typeGuard';
-import { getSelectedOptionPrice } from '../../helper';
+import { getSelectedOptionPriceList } from '../../helper';
 
 const Container = styled.div`
   display: flex;
@@ -67,6 +66,7 @@ const CountDownButton = styled(CountButton)``;
 const ProductTotalPrice = styled.div`
   flex-grow: 1;
   font-size: ${(props) => props.theme.fontSize.small};
+  min-width: 100px;
 `;
 
 const PriceNumber = styled.span`
@@ -87,11 +87,23 @@ const CountOption = (props: Props): JSX.Element => {
     return <Container></Container>;
   }
 
-  const { title, price, selectWithSelected } = toJSModalCartItem;
-  const optionPrice = selectWithSelected ? getSelectedOptionPrice(selectWithSelected) : 0;
+  const { title, price, selectWithSelecteds } = toJSModalCartItem;
+  const optionPriceList = selectWithSelecteds
+    ? getSelectedOptionPriceList(selectWithSelecteds)
+    : [];
+
+  const totalPrice = Number.isInteger(productCount)
+    ? (price + optionPriceList.reduce((total, current) => total + current, 0)) * productCount
+    : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
     setProductCount(parseInt(e.target.value));
+  };
+
+  const onBlurCountInput = () => {
+    if (!Number.isInteger(productCount) || productCount <= 0) {
+      setProductCount(1);
+    }
   };
 
   const onClickPlus = () => {
@@ -111,6 +123,7 @@ const CountOption = (props: Props): JSX.Element => {
           type="number"
           value={productCount !== 0 ? productCount : ''}
           onChange={onChangeCountInput}
+          onBlur={onBlurCountInput}
         />
         <CountButtons>
           <CountUpButton onClick={onClickPlus}>ᐱ</CountUpButton>
@@ -118,7 +131,7 @@ const CountOption = (props: Props): JSX.Element => {
         </CountButtons>
       </CounterWrapper>
       <ProductTotalPrice>
-        <PriceNumber>{toKoreanMoneyFormatPure(price * productCount + optionPrice)}</PriceNumber>원
+        <PriceNumber>{toKoreanMoneyFormatPure(totalPrice)}</PriceNumber>원
       </ProductTotalPrice>
     </Container>
   );

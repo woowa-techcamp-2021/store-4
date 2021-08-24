@@ -25,7 +25,7 @@ class CartStore {
     imgSrc: string,
     count: number,
     price: number,
-    selectWithSelected?: SelectWithSelected
+    selectWithSelecteds?: SelectWithSelected[]
   ) {
     const prevItem = this.cartItemList.find((cartItem) => cartItem.id === productId);
     if (isNotNone(prevItem)) {
@@ -40,7 +40,7 @@ class CartStore {
       count,
       price,
       isSelected: true,
-      selectWithSelected,
+      selectWithSelecteds,
     });
     this.cartItemList.push(newCartItem);
     this.setCartItemListToStorage(this.cartItemList);

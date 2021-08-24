@@ -5,7 +5,8 @@ import TEST_IMG from '../../../../assets/images/towel.png';
 import cartStore from '../../../../stores/cartStore';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
-import { getSelectedOptionName } from '../../helper';
+import { getOptionList } from '../../helper';
+import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 
 const Container = styled.div`
   display: flex;
@@ -29,38 +30,65 @@ const ProductTitle = styled.strong`
   font-size: ${(props) => props.theme.fontSize.small};
 `;
 
-const OptionWrapper = styled.div`
+const DefaultWrapper = styled.div`
   display: flex;
-
   width: 100%;
-
-  margin-top: 20px;
+  margin-top: 10px;
   padding-top: 20px;
   border-top: 1px solid ${(props) => props.theme.color.grey2};
 `;
 
-const OptionType = styled.div`
+const TextBlackBold = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: 700;
   color: ${(props) => props.theme.color.black};
 `;
 
-const OptionName = styled.div`
+const TextGreyNormal = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   color: ${(props) => props.theme.color.grey5};
+`;
+
+const DefaultPriceText = styled(TextBlackBold)`
+  min-width: 70px;
+`;
+
+const DefaultPrice = styled(TextGreyNormal)`
   padding-left: 70px;
+`;
+
+const OptionList = styled.div`
+  margin-top: 20px;
+`;
+
+const OptionItem = styled.div`
+  display: flex;
+  width: 100%;
+  padding-top: 10px;
+`;
+
+const OptionType = styled(TextBlackBold)`
+  min-width: 70px;
+`;
+
+const OptionName = styled(TextGreyNormal)`
+  padding-left: 70px;
+`;
+
+const OptionPrice = styled(TextGreyNormal)`
+  padding-left: 7px;
 `;
 
 const Option = (): JSX.Element => {
   const modalCartItem = cartStore.getModalCartItem();
   const toJSModalCartItem = toJS(modalCartItem);
+
   if (!CartItem.isCartItem(toJSModalCartItem)) {
     return <Container></Container>;
   }
 
-  const { title, selectWithSelected } = toJSModalCartItem;
-  const optionTypeName = selectWithSelected ? selectWithSelected.name : '';
-  const optionName = selectWithSelected ? getSelectedOptionName(selectWithSelected) : '';
+  const { title, selectWithSelecteds, price } = toJSModalCartItem;
+  const optionList = selectWithSelecteds ? getOptionList(selectWithSelecteds) : [];
 
   return (
     <Container>
@@ -69,10 +97,19 @@ const Option = (): JSX.Element => {
       </ProductImgWrapper>
       <ProductInfoWrapper>
         <ProductTitle>{title}</ProductTitle>
-        <OptionWrapper>
-          <OptionType>{optionTypeName}</OptionType>
-          <OptionName>{optionName}</OptionName>
-        </OptionWrapper>
+        <DefaultWrapper>
+          <DefaultPriceText>기본가격</DefaultPriceText>
+          <DefaultPrice>{toKoreanMoneyFormat(price)}</DefaultPrice>
+        </DefaultWrapper>
+        <OptionList>
+          {optionList.map((option) => (
+            <OptionItem key={option.name}>
+              <OptionType>{option.type}</OptionType>
+              <OptionName>{option.name}</OptionName>
+              <OptionPrice>(+{toKoreanMoneyFormat(option.price)})</OptionPrice>
+            </OptionItem>
+          ))}
+        </OptionList>
       </ProductInfoWrapper>
     </Container>
   );
