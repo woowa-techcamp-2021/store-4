@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import SearchBar from '../components/Header/HeaderMain/SearchBar/SearchBar';
 import SearchTerm from '../models/searchTerm';
-import { isNotNone, isNone } from '../utils/typeGuard';
+import { isNone, isNotNone } from '../utils/typeGuard';
 
 export const isSearchTermArr = (value: SearchTerm[] | unknown): value is SearchTerm[] => {
   if (Array.isArray(value)) {
@@ -43,17 +43,17 @@ const SearchBarContainer = (): JSX.Element => {
   }, [searchTermList]);
 
   const handleChangeSearchTermList = () => {
-    const findedSearchTermIndex = searchTermList.findIndex((term) => term.content === searchTerm);
+    const foundSearchTermIndex = searchTermList.findIndex((term) => term.content === searchTerm);
 
-    if (findedSearchTermIndex >= 0) {
-      const cloneSearchTerm = {
-        ...searchTermList[findedSearchTermIndex],
+    if (foundSearchTermIndex >= 0) {
+      const cloneSearchTerm = new SearchTerm({
+        ...searchTermList[foundSearchTermIndex],
         createdAt: new Date(),
-      };
+      });
 
       setSearchTermList((prev) => {
         const newSearchTermList = [...prev];
-        newSearchTermList[findedSearchTermIndex] = cloneSearchTerm;
+        newSearchTermList[foundSearchTermIndex] = cloneSearchTerm;
         return newSearchTermList;
       });
 
@@ -61,10 +61,10 @@ const SearchBarContainer = (): JSX.Element => {
     }
 
     setSearchTermList((prev) => {
-      const newSearchTerm = {
+      const newSearchTerm = new SearchTerm({
         content: searchTerm,
         createdAt: new Date(),
-      };
+      });
 
       return [newSearchTerm, ...prev];
     });

@@ -1,9 +1,20 @@
 import formatDate from '../utils/formatDate';
 
+class SearchTermAttributes {
+  content: string;
+  createdAt: Date;
+
+  constructor(searchTerm: SearchTermAttributes) {
+    this.content = searchTerm.content;
+    this.createdAt = new Date(searchTerm.createdAt);
+  }
+}
+
 class SearchTerm {
   content: string;
   createdAt: Date;
-  constructor(searchTerm: SearchTerm) {
+
+  constructor(searchTerm: SearchTermAttributes) {
     this.content = searchTerm.content;
     this.createdAt = new Date(searchTerm.createdAt);
   }
