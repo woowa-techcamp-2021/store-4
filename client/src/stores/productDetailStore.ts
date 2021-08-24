@@ -32,18 +32,19 @@ class ProductDetailStore {
       return;
     }
 
+    const originWish = this.product.isWished;
     runInAction(() => {
       if (this.product !== null) {
         this.product = new Product({
           ...this.product,
-          isWished: !isWished,
+          isWished: !originWish,
         });
       }
     });
 
-    const { id, isWished } = this.product;
+    const { id } = this.product;
     try {
-      if (isWished) {
+      if (originWish) {
         await apis.productAPI.cancelWish(token, id);
       } else {
         await apis.productAPI.wish(token, id);
@@ -53,7 +54,7 @@ class ProductDetailStore {
         if (this.product !== null) {
           this.product = new Product({
             ...this.product,
-            isWished: !isWished,
+            isWished: originWish,
           });
         }
       });
