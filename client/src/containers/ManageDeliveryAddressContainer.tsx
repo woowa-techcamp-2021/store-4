@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { createRef, useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import DeliveryAddressList from '../components/DeliveryAddress/DeliveryAddressList';
 import { useHistory } from '../lib/router';
@@ -29,15 +29,29 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
   const handleCreateClick = useCallback(() => {
     if (isNotNone(createFormRef.current)) {
       const { address, name, recipientName, recipientPhoneNumber } = createFormRef.current;
-      deliveryAddressStore.createDeliveryAddress({
-        address,
-        name,
-        recipientName,
-        recipientPhoneNumber,
-      });
-      setIsCreating(false);
+      deliveryAddressStore
+        .createDeliveryAddress({
+          address,
+          name,
+          recipientName,
+          recipientPhoneNumber,
+        })
+        .then(() => {
+          setIsCreating(false);
+        })
+        .catch((error) => {
+          switch (error.status) {
+            case 400:
+              alert('양식을 확인해주세요');
+              return;
+
+            default:
+              history.push('/error');
+              return;
+          }
+        });
     }
-  }, []);
+  }, [history]);
 
   useEffect(() => {
     deliveryAddressStore.fetchDeliveryAddresses().catch(() => {
