@@ -7,6 +7,6 @@ import formMiddleware from '../../../middlewares/form-middleware';
 const reviewRouter = Router();
 
 reviewRouter.post('/', authMiddleware('user'), formMiddleware, wrapAsync(reviewController.post));
-reviewRouter.delete('/:reviewId', authMiddleware('guest'), wrapAsync(reviewController.delete));
+reviewRouter.delete('/:reviewId', authMiddleware('user'), wrapAsync(reviewController.delete));
 
 export default reviewRouter;
