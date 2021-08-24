@@ -6,8 +6,6 @@ import Review, { REVIEW_PER_PAGE } from './Review';
 import userEvent from '@testing-library/user-event';
 import ReviewModel from '../../models/review';
 
-jest.spyOn(window, 'alert').mockImplementation(console.log);
-
 describe('Review 컴포넌트 테스트: 상품후기 없을 때', () => {
   const mockReviewData: ReviewModel[] = [];
 
@@ -123,11 +121,5 @@ describe('Review 컴포넌트 테스트', () => {
     userEvent.click(pageButton2);
 
     expect(screen.getAllByTestId('review-list-item').length).toBe(2);
-  });
-
-  test('모달창 랜더링, 회원 아닌 경우 열리지 않음', () => {
-    const writeReviewButton = screen.getByText('상품후기 글쓰기');
-    userEvent.click(writeReviewButton);
-    expect(() => screen.getByTestId('review-post-modal')).toThrowError();
   });
 });
