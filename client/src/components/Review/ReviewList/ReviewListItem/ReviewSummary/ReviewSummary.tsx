@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, RefObject } from 'react';
+import React, { ForwardedRef, forwardRef, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import CHEVRON_DOWN from './chevronDown.png';
 
@@ -45,14 +45,13 @@ type Props = {
   maxTitleWidth: number;
   onClick: MouseEventHandler;
   isClickable: boolean;
-  reviewTitleRef: RefObject<HTMLSpanElement>;
   reviewDetailOpen: boolean;
 };
-const ReviewSummary = (props: Props): JSX.Element => {
-  const { onClick, isClickable, content, maxTitleWidth, reviewTitleRef, reviewDetailOpen } = props;
+const ReviewSummary = (props: Props, ref: ForwardedRef<HTMLSpanElement>): JSX.Element => {
+  const { onClick, isClickable, content, maxTitleWidth, reviewDetailOpen } = props;
   return (
     <Container onClick={onClick} isClickable={isClickable}>
-      <ReviewTitle maxWidth={maxTitleWidth} ref={reviewTitleRef}>
+      <ReviewTitle maxWidth={maxTitleWidth} ref={ref}>
         {content}
       </ReviewTitle>
       {isClickable && <SeeMore isCloseIcon={reviewDetailOpen} />}
@@ -60,4 +59,4 @@ const ReviewSummary = (props: Props): JSX.Element => {
   );
 };
 
-export default ReviewSummary;
+export default forwardRef(ReviewSummary);

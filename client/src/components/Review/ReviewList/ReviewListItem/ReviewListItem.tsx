@@ -69,7 +69,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
           maxTitleWidth={MAX_TITLE_WIDTH}
           onClick={handleReviewSummaryClick}
           isClickable={hasMoreContent}
-          reviewTitleRef={titleRef}
+          ref={titleRef}
           reviewDetailOpen={reviewDetailOpen}
         />
         <ReviewDate>{formatDate(review.updatedAt)}</ReviewDate>
