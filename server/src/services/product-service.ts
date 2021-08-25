@@ -13,6 +13,10 @@ const ERROR_MESSAGES = {
   PRODUCT_NOTFOUND: '요청한 상품이 존재하지 않습니다',
 };
 
+type ProductWithIsWished = Product & {
+  isWished: boolean;
+};
+
 class ProductService {
   async findAll(productFindQuery: ProductFindQuery): Promise<ProductResponse> {
     const { pageNum, limit } = productFindQuery;
@@ -58,16 +62,44 @@ class ProductService {
     };
   }
 
-  findPopularProducts(limit: number): Promise<Product[]> {
-    return getCustomRepository(ProductRepository).findPopularProducts(limit);
+  async findPopularProducts(
+    userId: number | undefined,
+    limit: number
+  ): Promise<ProductWithIsWished[]> {
+    const products = await getCustomRepository(ProductRepository).findPopularProducts(limit);
+
+    return this.withIsWished(userId, products);
   }
 
-  findDiscountingProducts(limit: number): Promise<Product[]> {
-    return getCustomRepository(ProductRepository).findOrderByDiscountRate(limit);
+  async findDiscountingProducts(
+    userId: number | undefined,
+    limit: number
+  ): Promise<ProductWithIsWished[]> {
+    const products = await getCustomRepository(ProductRepository).findOrderByDiscountRate(limit);
+
+    return this.withIsWished(userId, products);
   }
 
-  findNewProducts(limit: number): Promise<Product[]> {
-    return getCustomRepository(ProductRepository).findOrderByCreatedAt(limit);
+  async findNewProducts(userId: number | undefined, limit: number): Promise<ProductWithIsWished[]> {
+    const products = await getCustomRepository(ProductRepository).findOrderByCreatedAt(limit);
+
+    return this.withIsWished(userId, products);
+  }
+
+  private async withIsWished(
+    userId: number | undefined,
+    products: Product[]
+  ): Promise<(Product & { isWished: boolean })[]> {
+    const wishes = await (userId !== undefined
+      ? getCustomRepository(WishRepository).findByUser(userId)
+      : Promise.resolve([]));
+
+    console.log(wishes);
+
+    return products.map((product) => ({
+      ...product,
+      isWished: wishes.find((wish) => wish.product.id === product.id) !== undefined,
+    }));
   }
 }
 
