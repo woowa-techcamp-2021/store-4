@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SearchTerm from '../../../../models/searchTerm';
 import Dropdown from './Dropdown';
-import searchIcon from './searchIcon.svg';
+import { RiSearchLine } from 'react-icons/ri';
 
 const INPUT_PLACEHOLDER = '검색어를 입력해주세요';
 
@@ -32,11 +32,6 @@ const SearchButton = styled.button`
   border: none;
   background-color: #fff;
   cursor: pointer;
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
 `;
 
 type Props = {
@@ -102,7 +97,7 @@ const SearchBar = (props: Props): JSX.Element => {
         onFocus={handleOpenDropdown}
       />
       <SearchButton type="button" onClick={onChangeSearchTermList}>
-        <img src={searchIcon} />
+        <RiSearchLine />
       </SearchButton>
       {isOpenDropBox && (
         <Dropdown

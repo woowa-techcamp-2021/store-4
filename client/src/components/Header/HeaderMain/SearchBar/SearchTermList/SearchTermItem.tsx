@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchTerm from '../../../../../models/searchTerm';
+import { RiCloseFill } from 'react-icons/ri';
 
 const FlexCenterWrapper = styled.div`
   display: flex;
@@ -33,6 +34,8 @@ const Date = styled.div`
 
 const DeleteButton = styled.div`
   color: ${(propss) => propss.theme.color.grey5};
+  display: flex;
+  align-items: center;
 
   :hover {
     cursor: pointer;
@@ -58,7 +61,7 @@ const SearchTermItem = (props: Props): JSX.Element => {
           onClick={onDeleteSearchTerm}
           data-testid={`search-term-item-delete-btn-${index}`}
         >
-          X
+          <RiCloseFill />
         </DeleteButton>
       </SearchTermItemRight>
     </Container>
