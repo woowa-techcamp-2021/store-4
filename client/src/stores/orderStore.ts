@@ -12,8 +12,8 @@ class OrderStore {
   }
 
   @action
-  replaceList(cartInProducts: CartInProduct[]) {
-    this.orderDetailProductList = cartInProducts.map((cartInProduct) => {
+  replaceList(cartsInProduct: CartInProduct[]) {
+    this.orderDetailProductList = cartsInProduct.map((cartInProduct) => {
       const { product, options, count } = cartInProduct;
 
       return new OrderDetailProduct({
