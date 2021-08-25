@@ -73,8 +73,9 @@ const ContentTitleSkeleton = styled(Skeleton)`
 
 const ContentSkeleton = styled(Skeleton)`
   width: 100%;
-  height: 200px;
+  height: 80px;
   margin: 40px auto;
+  margin-bottom: 0px;
 `;
 
 const ProductDetailSkeleton = (): JSX.Element => {
