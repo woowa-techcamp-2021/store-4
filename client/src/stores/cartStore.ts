@@ -4,6 +4,7 @@ import CartItem from '../models/cart-item';
 import { isNone, isNotNone } from '../utils/typeGuard';
 import NOIMAGE from '../assets/images/no-image.png';
 import { SelectWithSelected } from '../types/product';
+import OrderDetailProduct from '../models/orderDetailProduct';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
 
@@ -111,6 +112,7 @@ class CartStore {
     this.setCartItemListToStorage(this.cartItemList);
   }
 
+  @action
   setCartItemSelectionAll(isSelected: boolean) {
     const nextCartItemList = [...this.cartItemList];
     for (const cartItem of nextCartItemList) {
@@ -121,6 +123,7 @@ class CartStore {
     this.setCartItemListToStorage(this.cartItemList);
   }
 
+  @action
   setModalCartItemId(uuid: string) {
     this.modalCartItemUuid = uuid;
   }
@@ -145,9 +148,19 @@ class CartStore {
     }
   }
 
+  @action
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
     this.setCartItemListToStorage(this.cartItemList);
+  }
+
+  @action
+  removeOrderCompleteItems(orderDetailProductList: OrderDetailProduct[]) {
+    this.cartItemList = this.cartItemList.filter((cartItem) => {
+      return orderDetailProductList.some((orderDetailProduct) => {
+        return orderDetailProduct.uuid !== cartItem.uuid;
+      });
+    });
   }
 
   get isNothingSelectedCartItems() {
