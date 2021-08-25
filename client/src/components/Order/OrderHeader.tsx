@@ -59,24 +59,24 @@ const CartHeader = (props: Props): React.ReactElement => {
   const { currentStep } = props;
   const progressList = [
     {
-      isSeleted: false,
+      isSelected: false,
       step: 1,
       name: '장바구니',
     },
     {
-      isSeleted: false,
+      isSelected: false,
       step: 2,
       name: '주문서작성/결제',
     },
     {
-      isSeleted: false,
+      isSelected: false,
       step: 3,
       name: '주문완료',
     },
   ];
   for (const progress of progressList) {
     if (progress.step === currentStep) {
-      progress.isSeleted = true;
+      progress.isSelected = true;
     }
   }
 
@@ -85,12 +85,12 @@ const CartHeader = (props: Props): React.ReactElement => {
       <Title>장바구니</Title>
       <ProgressList>
         {progressList.map((item, index) => {
-          const { isSeleted, step, name } = item;
-          const nextImgSrc = isSeleted ? NEXT : NEXT_OFF;
+          const { isSelected, step, name } = item;
+          const nextImgSrc = isSelected ? NEXT : NEXT_OFF;
           return (
             <Progress key={index}>
-              <Span isSelected={isSeleted}>{`0${step}`}</Span>
-              <Span isSelected={isSeleted}>{name}</Span>
+              <Span isSelected={isSelected}>{`0${step}`}</Span>
+              <Span isSelected={isSelected}>{name}</Span>
               {step !== LAST_STEP && <NextImg src={nextImgSrc}></NextImg>}
             </Progress>
           );
