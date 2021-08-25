@@ -1,6 +1,6 @@
 import React from 'react';
 import ReviewModel from '../models/review';
-import ReviewList from '../components/Review/ReviewList/ReviewList';
+import AccountReview from '../components/Account/AccountReview/AccountReview';
 
 const mockReviewData: ReviewModel[] = [
   {
@@ -78,7 +78,7 @@ const mockReviewData: ReviewModel[] = [
 ];
 
 const AccountReviewContainer = (): JSX.Element => {
-  return <ReviewList reviews={mockReviewData} />;
+  return <AccountReview reviews={mockReviewData} />;
 };
 
 export default AccountReviewContainer;
