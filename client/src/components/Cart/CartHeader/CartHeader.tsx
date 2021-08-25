@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import NEXT from '../../../assets/icons/next.png';
-import NEXT_OFF from '../../../assets/icons/next_off.png';
+import { RiArrowDropRightLine } from 'react-icons/ri';
+import theme from '../../../styles/theme';
 
 const LAST_STEP = 3;
 
@@ -14,8 +14,6 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  font-family: NotoSans, nanumgothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕', AppleGothic, Dotum,
-    돋움, sans-serif;
   font-size: 28px;
   font-weight: 600;
 `;
@@ -47,10 +45,6 @@ const Span = styled.span<SpanProps>`
     `};
 `;
 
-const NextImg = styled.img`
-  padding: 0 14px;
-`;
-
 type Props = {
   currentStep: number;
 };
@@ -59,24 +53,24 @@ const CartHeader = (props: Props): React.ReactElement => {
   const { currentStep } = props;
   const progressList = [
     {
-      isSeleted: false,
+      isSelected: false,
       step: 1,
       name: '장바구니',
     },
     {
-      isSeleted: false,
+      isSelected: false,
       step: 2,
       name: '주문서작성/결제',
     },
     {
-      isSeleted: false,
+      isSelected: false,
       step: 3,
       name: '주문완료',
     },
   ];
   for (const progress of progressList) {
     if (progress.step === currentStep) {
-      progress.isSeleted = true;
+      progress.isSelected = true;
     }
   }
 
@@ -85,13 +79,18 @@ const CartHeader = (props: Props): React.ReactElement => {
       <Title>장바구니</Title>
       <ProgressList>
         {progressList.map((item, index) => {
-          const { isSeleted, step, name } = item;
-          const nextImgSrc = isSeleted ? NEXT : NEXT_OFF;
+          const { isSelected, step, name } = item;
+
           return (
             <Progress key={index}>
-              <Span isSelected={isSeleted}>{`0${step}`}</Span>
-              <Span isSelected={isSeleted}>{name}</Span>
-              {step !== LAST_STEP && <NextImg src={nextImgSrc}></NextImg>}
+              <Span isSelected={isSelected}>{`0${step}`}</Span>
+              <Span isSelected={isSelected}>{name}</Span>
+              {step !== LAST_STEP && (
+                <RiArrowDropRightLine
+                  color={isSelected ? theme.color.black : theme.color.grey3}
+                  fontSize={theme.fontSize.large}
+                />
+              )}
             </Progress>
           );
         })}
