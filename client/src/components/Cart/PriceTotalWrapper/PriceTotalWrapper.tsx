@@ -47,7 +47,7 @@ const Price = styled.span<PriceProps>`
 `;
 
 const PriceTotal = (): JSX.Element => {
-  const cartItemList = cartStore.getCartItemList();
+  const cartItemList = cartStore.cartItemList;
 
   let selectedItemCount = 0;
   let totalPrice = 0;

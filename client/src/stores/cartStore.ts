@@ -145,10 +145,6 @@ class CartStore {
     }
   }
 
-  getCartItemList() {
-    return this.cartItemList;
-  }
-
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
     this.setCartItemListToStorage(this.cartItemList);
