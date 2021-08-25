@@ -149,6 +149,14 @@ class CartStore {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
     this.setCartItemListToStorage(this.cartItemList);
   }
+
+  get isNothingSelectedCartItems() {
+    return this.cartItemList.every((cartItem) => !cartItem.isSelected);
+  }
+
+  get selectedCartItemList() {
+    return this.cartItemList.filter((cartItem) => cartItem.isSelected);
+  }
 }
 
 export default new CartStore();
