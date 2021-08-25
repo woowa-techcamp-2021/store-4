@@ -8,10 +8,10 @@ import provideTheme2Test from '../../lib/provideTheme2Test';
 describe('OAuthButton 컴포넌트', () => {
   const onClick = jest.fn();
   const CONTENT = 'oauthButton';
-  const props = { icon: '', fontColor: '', backgroundColor: '', content: CONTENT };
+  const props = { content: CONTENT };
 
   beforeEach(() => {
-    render(provideTheme2Test(<OAuthButton {...props} onClick={onClick} />));
+    render(provideTheme2Test(<OAuthButton index={0} {...props} onClick={onClick} />));
   });
 
   test('OAuthButton 버튼 UI', () => {
