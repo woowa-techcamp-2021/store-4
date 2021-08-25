@@ -22,7 +22,27 @@ const AccountReviewContainer = (): JSX.Element => {
     }
   }, [userId]);
 
-  return <AccountReview reviews={reviews} />;
+  const handleDeleteReviewClick = (deleteReviews: ReviewWithProduct[]) => {
+    if (deleteReviews.length === 0) {
+      alert('삭제할 후기를 선택하세요');
+      return;
+    }
+
+    if (window.confirm(`${deleteReviews.length}개의 상품 후기를 삭제하시겠습니까?`)) {
+      reviewStore
+        .deleteReview(deleteReviews.map((review) => review.id))
+        .then(() => {
+          const nextReviews = reviews.filter((review) => !deleteReviews.includes(review));
+
+          setReviews(nextReviews);
+        })
+        .catch(() => {
+          alert('죄송합니다. 삭제에 실패했습니다');
+        });
+    }
+  };
+
+  return <AccountReview reviews={reviews} onDeleteButtonClick={handleDeleteReviewClick} />;
 };
 
 export default AccountReviewContainer;

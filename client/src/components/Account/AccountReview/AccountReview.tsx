@@ -46,9 +46,10 @@ const DeleteButton = styled(Button)`
 
 type Props = {
   reviews: ReviewWithProduct[];
+  onDeleteButtonClick: (reviews: ReviewWithProduct[]) => void;
 };
 const Review = (props: Props): JSX.Element => {
-  const { reviews } = props;
+  const { reviews, onDeleteButtonClick } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(reviews.length / REVIEW_PER_PAGE);
@@ -77,6 +78,11 @@ const Review = (props: Props): JSX.Element => {
     () => setIsSelectedList(new Array(displayedReviews.length).fill(!isAllSelected)),
     [displayedReviews.length, isAllSelected]
   );
+  const handleDeleteButtonClick = useCallback(() => {
+    const deleteReviews = displayedReviews.filter((review, index) => isSelectedList[index]);
+
+    onDeleteButtonClick(deleteReviews);
+  }, [displayedReviews, isSelectedList, onDeleteButtonClick]);
 
   useEffect(() => {
     setIsSelectedList(new Array(displayedReviews.length).fill(false));
@@ -92,7 +98,7 @@ const Review = (props: Props): JSX.Element => {
             <SelectAllButton onClick={handleCheckAllButtonClick}>
               {isAllSelected ? '선택 해제' : '전체 선택'}
             </SelectAllButton>
-            <DeleteButton>삭제</DeleteButton>
+            <DeleteButton onClick={handleDeleteButtonClick}>삭제</DeleteButton>
           </ReviewButtonGroup>
           <ReviewList
             reviews={displayedReviews}
