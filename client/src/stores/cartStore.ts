@@ -16,7 +16,6 @@ class CartStore {
     const cartItemList = this.getCartItemListFromStorage();
     this.cartItemList = cartItemList.map((cart: CartItem) => new CartItem(cart));
     this.modalCartItemId = 0;
-    this.addProductToCart(1, 'asdf', 'asdf', 1, 100, []);
   }
 
   @action
