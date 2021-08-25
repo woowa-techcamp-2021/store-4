@@ -123,7 +123,7 @@ const ProductDetailContainer = (): JSX.Element => {
       return;
     }
 
-    orderStore.replaceList(cartsInProduct);
+    orderStore.replaceListTocartsInProduct = cartsInProduct;
     history.push('/order');
   };
 
