@@ -74,6 +74,7 @@ const CartHeader = (props: Props): React.ReactElement => {
       name: '주문완료',
     },
   ];
+
   for (const progress of progressList) {
     if (progress.step === currentStep) {
       progress.isSelected = true;
@@ -82,7 +83,7 @@ const CartHeader = (props: Props): React.ReactElement => {
 
   return (
     <Container>
-      <Title>장바구니</Title>
+      <Title>{progressList[currentStep - 1].name}</Title>
       <ProgressList>
         {progressList.map((item, index) => {
           const { isSelected, step, name } = item;
