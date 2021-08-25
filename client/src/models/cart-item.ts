@@ -4,6 +4,7 @@ import { isNone } from '../utils/typeGuard';
 
 class CartItem {
   id: number;
+  productId: number;
   title: string;
   imgSrc: string;
   count: number;
@@ -13,6 +14,7 @@ class CartItem {
 
   constructor(data: CartItem) {
     this.id = data.id;
+    this.productId = data.productId;
     this.title = data.title;
     this.imgSrc = data.imgSrc;
     this.count = data.count;
