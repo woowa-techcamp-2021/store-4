@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
+import cartStore from '../stores/cartStore';
+import orderStore from '../stores/orderStore';
 import userStore from '../stores/userStore';
 import { isNone } from '../utils/typeGuard';
 
@@ -15,7 +17,7 @@ const OrderContainer = (): JSX.Element => {
   const history = useHistory();
   const user = userStore.user;
 
-  const handleSumbitOrder = () => {
+  const handleSumbitOrder = async () => {
     if (isNone(orderFormRef.current)) {
       return;
     }
@@ -36,6 +38,18 @@ const OrderContainer = (): JSX.Element => {
     if (!approve) {
       alert('구매진행에 동의 해주세요!');
       return;
+    }
+
+    try {
+      await orderStore.createOrder(address, recipientName);
+      const orderDetailProductList = [...orderStore.orderDetailProductList];
+
+      cartStore.removeOrderCompleteItems(orderDetailProductList);
+      orderStore.orderDetailProductList = [];
+
+      alert('주문완료');
+    } catch (err) {
+      alert('주문 실패 다시 시도해주세요');
     }
   };
 
