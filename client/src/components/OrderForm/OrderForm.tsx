@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from '../../lib/router';
 import OrderHeader from './OrderHeader';
@@ -19,10 +19,15 @@ const MoveShopPage = styled.div`
   cursor: pointer;
 `;
 
-const Order = (): JSX.Element => {
+type Props = {
+  currentStep: number;
+};
+
+const OrderForm = (props: Props): JSX.Element => {
+  const { currentStep } = props;
   return (
     <Container>
-      <OrderHeader currentStep={2} />
+      <OrderHeader currentStep={currentStep} />
       <OrderTable />
       <Link to="/cart">
         <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
@@ -32,4 +37,4 @@ const Order = (): JSX.Element => {
   );
 };
 
-export default Order;
+export default OrderForm;
