@@ -10,7 +10,7 @@ class OrderAPI {
 
   createOrder(token: string, data: CreateOrderRequest): Promise<void> {
     return request<void>({
-      url: `${this.baseURL}/order`,
+      url: `${this.baseURL}/api/order`,
       method: 'POST',
       body: data,
       headers: {
