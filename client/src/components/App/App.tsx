@@ -27,7 +27,7 @@ const App = (): JSX.Element => {
           <Route exact path="/logout" component={LogoutPage} />
           <Route exact path="/product/:id" component={ProductPage} />
           <Route exact path="/products" component={ProductsPage} />
-          <Route exact path="/account" component={AccountPage} />
+          <Route path="/account" component={AccountPage} />
           <Route exact path="/error" component={ErrorPage} />
           <Route path="/" component={NotfoundPage} />
         </Switch>
