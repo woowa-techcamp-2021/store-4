@@ -94,8 +94,6 @@ class ProductService {
       ? getCustomRepository(WishRepository).findByUser(userId)
       : Promise.resolve([]));
 
-    console.log(wishes);
-
     return products.map((product) => ({
       ...product,
       isWished: wishes.find((wish) => wish.product.id === product.id) !== undefined,
