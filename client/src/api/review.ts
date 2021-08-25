@@ -24,6 +24,17 @@ class ReviewAPI {
       body: formData,
     });
   }
+
+  deleteReviews(reviewIds: number[], token: string): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/review`,
+      method: 'DELETE',
+      headers: {
+        Authorization: token,
+      },
+      body: reviewIds,
+    });
+  }
 }
 
 export default ReviewAPI;

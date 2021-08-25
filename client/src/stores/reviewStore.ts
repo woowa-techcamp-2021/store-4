@@ -9,6 +9,10 @@ class ReviewStore {
   postReview(formData: FormData, token: string): Promise<void> {
     return apis.reviewAPI.postReview(formData, token);
   }
+
+  deleteReview(reviewIds: number[], token: string): Promise<void> {
+    return apis.reviewAPI.deleteReviews(reviewIds, token);
+  }
 }
 
 export default new ReviewStore();
