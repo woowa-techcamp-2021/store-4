@@ -20,11 +20,21 @@ class ProductRepository extends Repository<Product> {
       .getOne();
   }
 
-  findProducts({ category, sort, pageNum, limit }: ProductFindQuery): Promise<[Product[], number]> {
+  findProducts({
+    category,
+    sort,
+    pageNum,
+    limit,
+    searchTerm,
+  }: ProductFindQuery): Promise<[Product[], number]> {
     const query = createQueryBuilder(Product);
 
     if (isNotNone(category)) {
       query.where({ category });
+    }
+
+    if (isNotNone(searchTerm)) {
+      query.where('name like :searchTerm', { searchTerm: `%${searchTerm}%` });
     }
 
     query.leftJoinAndSelect('Product.productImages', 'images');

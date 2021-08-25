@@ -59,6 +59,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
       const query = buildQueryString({
         ...option,
         category: category.id,
+        searchTerm: '',
       });
       history.push(`/products${query}`);
       onCategoryClick(category);

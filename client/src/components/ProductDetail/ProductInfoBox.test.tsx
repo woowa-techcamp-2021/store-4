@@ -61,6 +61,7 @@ describe('ProductCartItem 컴포넌트', () => {
     getIncreaseCartHandler: jest.fn().mockReturnValue(jest.fn()),
     getDecreaseCartHandler: jest.fn().mockReturnValue(jest.fn()),
     getRemoveCartHandler: jest.fn().mockReturnValue(jest.fn()),
+    onWishClick: jest.fn(),
   };
 
   test('multi의 경우 옵션의 개수 만큼 Select 렌더링', () => {
