@@ -9,13 +9,20 @@ const Container = styled.ul`
 
 type Props = {
   reviews: ReviewWithProduct[];
+  isSelectedList: boolean[];
+  getCheckboxClickHandler: (index: number) => () => void;
 };
 
 const ReviewList = (props: Props): JSX.Element => {
-  const { reviews } = props;
+  const { reviews, isSelectedList, getCheckboxClickHandler } = props;
 
-  const ReviewListItems = reviews.map((review) => (
-    <ReviewListItem key={review.id} review={review} />
+  const ReviewListItems = reviews.map((review, i) => (
+    <ReviewListItem
+      key={review.id}
+      review={review}
+      isSelected={isSelectedList[i]}
+      onCheckboxClick={getCheckboxClickHandler(i)}
+    />
   ));
 
   return <Container>{ReviewListItems}</Container>;

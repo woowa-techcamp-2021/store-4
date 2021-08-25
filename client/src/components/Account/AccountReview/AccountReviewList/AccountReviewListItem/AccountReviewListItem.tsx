@@ -43,10 +43,12 @@ const ReviewCheckbox = styled.input`
 
 type Props = {
   review: ReviewWithProduct;
+  isSelected: boolean;
+  onCheckboxClick: () => void;
 };
 
 const ReviewListItem = (props: Props): JSX.Element => {
-  const { review } = props;
+  const { review, isSelected, onCheckboxClick } = props;
   const [reviewDetailOpen, setReviewDetailOpen] = useState(false);
   const titleText = `[${review.productName}]  ${review.content}`;
   const titleRef = useRef<HTMLSpanElement>(null);
@@ -78,7 +80,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
           reviewDetailOpen={reviewDetailOpen}
         />
         <ReviewDate>{formatDate(review.updatedAt)}</ReviewDate>
-        <ReviewCheckbox type="checkbox" />
+        <ReviewCheckbox type="checkbox" checked={isSelected ?? false} onChange={onCheckboxClick} />
       </ReviewDisplayContainer>
       {reviewDetailOpen && hasMoreContent && <ReviewDetail review={review} />}
     </Container>
