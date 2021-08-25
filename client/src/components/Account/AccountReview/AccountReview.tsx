@@ -56,7 +56,7 @@ const Review = (props: Props): JSX.Element => {
   const displayedReviews = getPaginatedArray(reviews, REVIEW_PER_PAGE, currentPage);
 
   const [isSelectedList, setIsSelectedList] = useState<boolean[]>([]);
-  const isAllChecked = isSelectedList.length && isSelectedList.every(Boolean);
+  const isAllSelected = isSelectedList.length && isSelectedList.every(Boolean);
 
   const getCheckboxClickHandler = (index: number) => () =>
     setIsSelectedList((prevList) => [
@@ -74,8 +74,8 @@ const Review = (props: Props): JSX.Element => {
     []
   );
   const handleCheckAllButtonClick = useCallback(
-    () => setIsSelectedList(new Array(displayedReviews.length).fill(!isAllChecked)),
-    [displayedReviews.length, isAllChecked]
+    () => setIsSelectedList(new Array(displayedReviews.length).fill(!isAllSelected)),
+    [displayedReviews.length, isAllSelected]
   );
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const Review = (props: Props): JSX.Element => {
         <>
           <ReviewButtonGroup>
             <SelectAllButton onClick={handleCheckAllButtonClick}>
-              {isAllChecked ? '선택 해제' : '전체 선택'}
+              {isAllSelected ? '선택 해제' : '전체 선택'}
             </SelectAllButton>
             <DeleteButton>삭제</DeleteButton>
           </ReviewButtonGroup>
