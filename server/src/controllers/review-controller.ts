@@ -5,6 +5,14 @@ import numberParamValidator from '../validations/number-params';
 import ReviewPost from '../validations/review-post';
 
 class ReviewController {
+  async getByUser(req: Request, res: Response) {
+    const userId = numberParamValidator(req.params.userId);
+
+    const userReviews = await reviewService.getReviewByUser(userId);
+
+    res.status(200).json({ reviews: userReviews });
+  }
+
   async post(req: Request, res: Response) {
     const { body, images } = req;
 
