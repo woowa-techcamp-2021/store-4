@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import NEXT from '../../assets/icons/next.png';
-import NEXT_OFF from '../../assets/icons/next_off.png';
+import { RiArrowDropRightLine } from 'react-icons/ri';
+import theme from '../../styles/theme';
 
 const LAST_STEP = 3;
 
@@ -47,10 +47,6 @@ const Span = styled.span<SpanProps>`
     `};
 `;
 
-const NextImg = styled.img`
-  padding: 0 14px;
-`;
-
 type Props = {
   currentStep: number;
 };
@@ -87,12 +83,16 @@ const CartHeader = (props: Props): React.ReactElement => {
       <ProgressList>
         {progressList.map((item, index) => {
           const { isSelected, step, name } = item;
-          const nextImgSrc = isSelected ? NEXT : NEXT_OFF;
           return (
             <Progress key={index}>
               <Span isSelected={isSelected}>{`0${step}`}</Span>
               <Span isSelected={isSelected}>{name}</Span>
-              {step !== LAST_STEP && <NextImg src={nextImgSrc}></NextImg>}
+              {step !== LAST_STEP && (
+                <RiArrowDropRightLine
+                  color={isSelected ? theme.color.black : theme.color.grey3}
+                  fontSize={theme.fontSize.large}
+                />
+              )}
             </Progress>
           );
         })}
