@@ -45,16 +45,20 @@ class OrderService {
     let totalPrice = 0;
     for (const orderDetail of orderCreate.orderDetails) {
       const { optionIds, productId, quantity } = orderDetail;
-      const options = await Promise.all(
+      const optionsPromises = Promise.all(
         optionIds.map((id) => getCustomRepository(ProductOptionRepository).findOne(id))
       );
-      if (options.includes(undefined)) {
-        throw new OptionNotfoundException(ERROR_MESSAGES.OPTION_NOTFOUND);
-      }
 
-      const product = await getCustomRepository(ProductRepository).findOne(productId);
+      const productPromise = getCustomRepository(ProductRepository).findOne(productId);
+
+      const [options, product] = await Promise.all([optionsPromises, productPromise]);
+
       if (product === undefined) {
         throw new ProductNotfoundException(ERROR_MESSAGES.PRODUCT_NOTFOUND);
+      }
+
+      if (options.includes(undefined)) {
+        throw new OptionNotfoundException(ERROR_MESSAGES.OPTION_NOTFOUND);
       }
 
       const productPrice = product.price * (1 - product.discountRate);
