@@ -23,10 +23,11 @@ const MoveShopPage = styled.div`
 
 type Props = {
   currentStep: number;
+  onOrderSubmit: React.MouseEventHandler;
 };
 
 const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
-  const { currentStep } = props;
+  const { currentStep, onOrderSubmit } = props;
   return (
     <Container>
       <OrderHeader currentStep={currentStep} />
@@ -35,7 +36,7 @@ const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>)
         <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
       </Link>
       <TotalPrice />
-      <OrderForm ref={ref} />
+      <OrderForm ref={ref} onOrderSubmit={onOrderSubmit} />
     </Container>
   );
 };
