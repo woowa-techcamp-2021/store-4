@@ -1,5 +1,6 @@
 import apis from '../api';
 import { ReviewsByUserResponse } from '../types/review';
+import userStore from './userStore';
 
 class ReviewStore {
   getReviewsByUser(userId: number): Promise<ReviewsByUserResponse> {
@@ -10,7 +11,9 @@ class ReviewStore {
     return apis.reviewAPI.postReview(formData, token);
   }
 
-  deleteReview(reviewIds: number[], token: string): Promise<void> {
+  deleteReview(reviewIds: number[]): Promise<void> {
+    const token = userStore.token;
+
     return apis.reviewAPI.deleteReviews(reviewIds, token);
   }
 }
