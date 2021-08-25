@@ -1,6 +1,6 @@
 import { SelectWithSelected } from '../types/product';
 
-class OrderDetailProduct {
+class OrderDetailProductAttributes {
   uuid: string;
   productId: number;
   name: string;
@@ -9,7 +9,7 @@ class OrderDetailProduct {
   thumbnail: string;
   selectWithSelecteds?: SelectWithSelected[];
 
-  constructor(orderDetailProduct: OrderDetailProduct) {
+  constructor(orderDetailProduct: OrderDetailProductAttributes) {
     this.uuid = orderDetailProduct.uuid;
     this.productId = orderDetailProduct.productId;
     this.name = orderDetailProduct.name;
@@ -17,6 +17,12 @@ class OrderDetailProduct {
     this.thumbnail = orderDetailProduct.thumbnail;
     this.count = orderDetailProduct.count;
     this.selectWithSelecteds = orderDetailProduct.selectWithSelecteds;
+  }
+}
+
+class OrderDetailProduct extends OrderDetailProductAttributes {
+  get totalPrice(): number {
+    return this.price * this.count;
   }
 }
 

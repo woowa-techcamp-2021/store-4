@@ -47,7 +47,7 @@ class OrderStore {
 
   get totalPrice() {
     return this.orderDetailProductList.reduce(
-      (total, orderDetailProduct) => total + orderDetailProduct.price,
+      (total, orderDetailProduct) => total + orderDetailProduct.totalPrice,
       0
     );
   }
