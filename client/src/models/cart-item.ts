@@ -10,7 +10,7 @@ class CartItem {
   count: number;
   price: number;
   isSelected: boolean;
-  selectWithSelecteds?: SelectWithSelected[];
+  selectWithSelecteds: SelectWithSelected[];
 
   constructor(data: CartItem) {
     this.uuid = data.uuid;
@@ -30,7 +30,7 @@ class CartItem {
 
     if (value instanceof Object) {
       if (
-        hasProperty(value, 'id') &&
+        hasProperty(value, 'uuid') &&
         hasProperty(value, 'isSelected') &&
         hasProperty(value, 'selectWithSelecteds')
       ) {

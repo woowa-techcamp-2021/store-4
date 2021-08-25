@@ -6,6 +6,7 @@ import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
+import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import productDetailStore from '../stores/productDetailStore';
 import userStore from '../stores/userStore';
@@ -131,6 +132,7 @@ const ProductDetailContainer = (): JSX.Element => {
       alert('상품의 옵션을 골라주세요.');
       return;
     }
+    cartStore.addProductsToCart(cartsInProduct);
   };
 
   useEffect(() => {
