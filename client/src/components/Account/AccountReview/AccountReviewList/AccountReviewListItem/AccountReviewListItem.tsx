@@ -26,7 +26,7 @@ const ReviewDisplayContainer = styled.div`
 const ReviewStarsContainer = styled.div`
   flex-shrink: 0;
   width: 80px;
-  margin-right: 40px;
+  margin-right: 30px;
   display: flex;
 `;
 
@@ -35,6 +35,10 @@ const ReviewDate = styled.div`
   width: 100px;
   font-size: ${(props) => props.theme.fontSize.tiny};
   text-align: right;
+`;
+
+const ReviewCheckbox = styled.input`
+  margin-left: 20px;
 `;
 
 type Props = {
@@ -73,6 +77,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
           reviewDetailOpen={reviewDetailOpen}
         />
         <ReviewDate>{formatDate(review.updatedAt)}</ReviewDate>
+        <ReviewCheckbox type="checkbox" />
       </ReviewDisplayContainer>
       {reviewDetailOpen && hasMoreContent && <ReviewDetail review={review} />}
     </Container>

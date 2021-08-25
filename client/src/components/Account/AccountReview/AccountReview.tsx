@@ -11,7 +11,7 @@ const REVIEW_PER_PAGE = 10;
 const Container = styled.section`
   width: 100%;
   margin: 0 auto;
-  margin-left: -50px;
+  margin-left: -80px;
 `;
 
 const ReviewEmpty = styled.div`
