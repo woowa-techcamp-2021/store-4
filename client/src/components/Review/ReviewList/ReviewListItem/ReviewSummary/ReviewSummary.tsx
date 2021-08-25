@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, RefObject } from 'react';
 import styled from 'styled-components';
-import CHEVRON_DOWN from './chevronDown.png';
+import { RiArrowDownSLine } from 'react-icons/ri';
 
 type ContainerProps = {
   isClickable: boolean;
@@ -27,15 +27,10 @@ const ReviewTitle = styled.span<ReviewTitleProps>`
 type SeeMoreProps = {
   isCloseIcon: boolean;
 };
-const SeeMore = styled.button<SeeMoreProps>`
-  width: 10px;
-  height: 10px;
+
+const SeeMore = styled.div<SeeMoreProps>`
   margin-right: 16px;
   cursor: pointer;
-  border: none;
-  background-color: transparent;
-  background-image: url(${CHEVRON_DOWN});
-  background-size: contain;
   transform: rotate(${(props) => (props.isCloseIcon ? '-180' : '0')}deg);
   transition: transform 0.3s ease-in-out;
 `;
@@ -55,7 +50,11 @@ const ReviewSummary = (props: Props): JSX.Element => {
       <ReviewTitle maxWidth={maxTitleWidth} ref={reviewTitleRef}>
         {content}
       </ReviewTitle>
-      {isClickable && <SeeMore isCloseIcon={reviewDetailOpen} />}
+      {isClickable && (
+        <SeeMore isCloseIcon={reviewDetailOpen}>
+          <RiArrowDownSLine />
+        </SeeMore>
+      )}
     </Container>
   );
 };
