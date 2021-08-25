@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../lib/router';
-import orderStore from '../../stores/orderStore';
 import OrderHeader from './OrderHeader';
 import OrderTable from './OrderTable/OrderTable';
 import TotalPrice from './TotalPrice';

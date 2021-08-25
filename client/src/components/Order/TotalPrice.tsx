@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { observer } from 'mobx-react';
 import { toKoreanMoneyFormatPure } from '../../utils/moneyFormater';
+import orderStore from '../../stores/orderStore';
 
 const Container = styled.div`
   display: flex;
@@ -45,14 +46,21 @@ const Price = styled.span<PriceProps>`
 `;
 
 const PriceTotal = (): JSX.Element => {
+  const orderDetailProductList = orderStore.orderDetailProductList;
+
+  const totalPrice = orderDetailProductList.reduce(
+    (total, orderDetailProduct) => total + orderDetailProduct.price,
+    0
+  );
+
   return (
     <Container>
       <Wrapper>
         <Text>
-          총 <TextCount>{20}</TextCount> 개의 상품금액
+          총 <TextCount>{orderDetailProductList.length}</TextCount> 개의 상품금액
         </Text>
         <PriceWrapper>
-          <Price isTotal={false}>{toKoreanMoneyFormatPure(30000)}</Price>원
+          <Price isTotal={true}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
         </PriceWrapper>
       </Wrapper>
     </Container>
