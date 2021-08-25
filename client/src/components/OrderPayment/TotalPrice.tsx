@@ -47,11 +47,7 @@ const Price = styled.span<PriceProps>`
 
 const PriceTotal = (): JSX.Element => {
   const orderDetailProductList = orderStore.orderDetailProductList;
-
-  const totalPrice = orderDetailProductList.reduce(
-    (total, orderDetailProduct) => total + orderDetailProduct.price,
-    0
-  );
+  const totalPrice = orderStore.totalPrice;
 
   return (
     <Container>

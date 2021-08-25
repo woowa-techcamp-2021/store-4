@@ -26,6 +26,13 @@ class OrderStore {
       });
     });
   }
+
+  get totalPrice() {
+    return this.orderDetailProductList.reduce(
+      (total, orderDetailProduct) => total + orderDetailProduct.price,
+      0
+    );
+  }
 }
 
 export default new OrderStore();

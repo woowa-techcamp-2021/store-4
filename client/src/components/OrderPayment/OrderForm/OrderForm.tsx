@@ -1,6 +1,10 @@
+import { observer } from 'mobx-react';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import { OrderDeliveryAddressFormRef } from '../../../containers/OrderPaymentContainer';
+import orderStore from '../../../stores/orderStore';
+import userStore from '../../../stores/userStore';
+import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { isNotNone } from '../../../utils/typeGuard';
 
 const Container = styled.div`
@@ -126,9 +130,11 @@ const PaymentButton = styled.button`
   }
 `;
 
-const OrderForm = (props: any, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
+const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
   const recipientNameRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLInputElement>(null);
+  const user = userStore.user;
+  const finalPaymentAmount = orderStore.totalPrice;
 
   useImperativeHandle(
     ref,
@@ -160,13 +166,13 @@ const OrderForm = (props: any, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
         <Column>
           <Label>주문하시는 분</Label>
           <InputWrapper>
-            <Username>주문자</Username>
+            <Username>{user?.name}</Username>
           </InputWrapper>
         </Column>
         <Column>
           <Label>이메일</Label>
           <InputWrapper>
-            <Email>이메일</Email>
+            <Email>{user?.email}</Email>
           </InputWrapper>
         </Column>
       </Row>
@@ -176,7 +182,7 @@ const OrderForm = (props: any, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
         <Column>
           <Label>받으실 분</Label>
           <InputWrapper>
-            <RecipientName ref={recipientNameRef} defaultValue={''} placeholder="받으실분" />
+            <RecipientName ref={recipientNameRef} defaultValue={''} placeholder="받으실 분" />
           </InputWrapper>
         </Column>
         <Column>
@@ -195,7 +201,7 @@ const OrderForm = (props: any, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
       <Row>
         <FinalPaymentAmount>
           <AmountDesc>최종 결제 금액</AmountDesc>
-          <Amount>37,900원</Amount>
+          <Amount>{toKoreanMoneyFormat(finalPaymentAmount)}</Amount>
         </FinalPaymentAmount>
       </Row>
 
@@ -219,4 +225,4 @@ const OrderForm = (props: any, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
   );
 };
 
-export default forwardRef(OrderForm);
+export default observer(forwardRef(OrderForm));
