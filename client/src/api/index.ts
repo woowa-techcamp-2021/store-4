@@ -1,4 +1,5 @@
 import CategoryAPI from './category';
+import DeliveryAddressAPI from './deliveryAddress';
 import ProductAPI from './product';
 import UserAPI from './user';
 
@@ -8,6 +9,7 @@ const apis = {
   categoryAPI: new CategoryAPI(baseURL),
   productAPI: new ProductAPI(baseURL),
   userAPI: new UserAPI(baseURL),
+  deliveryAddressAPI: new DeliveryAddressAPI(baseURL),
 };
 
 export default apis;
