@@ -1,8 +1,8 @@
 import React from 'react';
-import Order from '../components/Order/Order';
+import OrderPaymentContainer from '../containers/OrderPaymentContainer';
 
 const OrderPage = (): JSX.Element => {
-  return <Order />;
+  return <OrderPaymentContainer />;
 };
 
 export default OrderPage;

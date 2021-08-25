@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import { OrderDeliveryAddressFormRef } from '../../containers/OrderPaymentContainer';
 import { Link } from '../../lib/router';
+import OrderForm from './OrderForm/OrderForm';
 import OrderHeader from './OrderHeader';
 import OrderTable from './OrderTable/OrderTable';
 import TotalPrice from './TotalPrice';
@@ -23,7 +25,7 @@ type Props = {
   currentStep: number;
 };
 
-const OrderForm = (props: Props): JSX.Element => {
+const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
   const { currentStep } = props;
   return (
     <Container>
@@ -33,8 +35,9 @@ const OrderForm = (props: Props): JSX.Element => {
         <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
       </Link>
       <TotalPrice />
+      <OrderForm ref={ref} />
     </Container>
   );
 };
 
-export default OrderForm;
+export default forwardRef(OrderPayment);
