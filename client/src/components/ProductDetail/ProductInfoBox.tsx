@@ -6,6 +6,7 @@ import { CartType, SelectWithSelected } from '../../types/product';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import ProductCartItem from './ProductCart/ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
+import { FaHeart } from 'react-icons/fa';
 
 const Container = styled.div`
   width: 550px;
@@ -81,16 +82,16 @@ type WishButtonProps = {
 
 const WishButton = styled(CommonButton)<WishButtonProps>`
   border: 1px solid ${(props) => props.theme.color.grey1};
+  background-color: ${(props) => props.theme.color.white1};
   width: 50px;
+  font-size: ${(props) => props.theme.fontSize.large};
   ${(props) =>
     props.isWished
       ? css`
-          background-color: ${(props) => props.theme.color.red};
-          border: none;
-          color: ${(props) => props.theme.color.white1};
+          color: ${(props) => props.theme.color.red};
         `
       : css`
-          background-color: ${(props) => props.theme.color.white1};
+          color: ${(props) => props.theme.color.grey3};
         `};
 `;
 
@@ -187,7 +188,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
       </TotalPriceWrapper>
       <ButtonWrapper>
         <WishButton onClick={onWishClick} isWished={product.isWished}>
-          찜
+          <FaHeart />
         </WishButton>
         <ToCartButton>장바구니</ToCartButton>
         <PurchaseButton>바로구매</PurchaseButton>
