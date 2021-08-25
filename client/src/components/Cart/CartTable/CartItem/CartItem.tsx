@@ -91,8 +91,8 @@ const PriceWrapper = styled(AlignCenterContainer)`
 const Price = styled(AlignCenterContainer)``;
 
 type Props = {
-  onOptionClick: (id: number) => void;
-  id: number;
+  onOptionClick: (uuid: string) => void;
+  uuid: string;
   title: string;
   imgSrc: string;
   count: number;
@@ -102,8 +102,16 @@ type Props = {
 };
 
 const CartItem = (props: Props): JSX.Element => {
-  const { onOptionClick, id, title, imgSrc, count, productPrice, isSelected, selectWithSelecteds } =
-    props;
+  const {
+    onOptionClick,
+    uuid,
+    title,
+    imgSrc,
+    count,
+    productPrice,
+    isSelected,
+    selectWithSelecteds,
+  } = props;
   const optionList = getOptionList(selectWithSelecteds);
   const optionPriceList = getSelectedOptionPriceList(selectWithSelecteds);
 
@@ -111,7 +119,7 @@ const CartItem = (props: Props): JSX.Element => {
     (productPrice + optionPriceList.reduce((total, current) => total + current, 0)) * count;
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    cartStore.setCartItemSelection(id, e.target.checked);
+    cartStore.setCartItemSelection(uuid, e.target.checked);
   };
 
   return (
@@ -137,7 +145,7 @@ const CartItem = (props: Props): JSX.Element => {
         <Count>{count}개</Count>
         <OptionChangeButton
           onClick={() => {
-            onOptionClick(id);
+            onOptionClick(uuid);
           }}
         >
           옵션/수량

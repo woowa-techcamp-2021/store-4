@@ -36,8 +36,8 @@ type Props = {
 const Cart = (props: Props): JSX.Element => {
   const [modalCartItem, setModalCartItem] = useState<boolean>(false);
 
-  const onItemOptionClick = (id: number) => {
-    cartStore.setModalCartItemId(id);
+  const onItemOptionClick = (uuid: string) => {
+    cartStore.setModalCartItemId(uuid);
     setModalCartItem(true);
   };
 
