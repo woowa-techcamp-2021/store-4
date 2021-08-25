@@ -6,7 +6,6 @@ import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressCo
 import deliveryAddressStore from '../../stores/deliveryAddressStore';
 import { observer } from 'mobx-react';
 import { RiAddBoxFill } from 'react-icons/ri';
-import theme from '../../styles/theme';
 
 const Container = styled.div``;
 
