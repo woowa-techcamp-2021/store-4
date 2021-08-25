@@ -117,6 +117,11 @@ const ProductDetailContainer = (): JSX.Element => {
   }, [history]);
 
   const handleClickOrderButton = () => {
+    if (cartsInProduct.length === 0) {
+      alert('상품의 옵션을 골라주세요.');
+      return;
+    }
+
     orderStore.replaceList(cartsInProduct);
     history.push('/order');
   };
