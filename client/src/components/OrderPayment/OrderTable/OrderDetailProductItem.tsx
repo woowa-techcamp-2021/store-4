@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import OrderDetailProduct from '../../../models/orderDetailProduct';
-import { SelectWithSelected } from '../../../types/product';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { getOptionList } from '../../Cart/helper';
 
