@@ -48,6 +48,7 @@ type Props = {
 const ReviewListItem = (props: Props): JSX.Element => {
   const { review } = props;
   const [reviewDetailOpen, setReviewDetailOpen] = useState(false);
+  const titleText = `[${review.productName}]  ${review.content}`;
   const titleRef = useRef<HTMLSpanElement>(null);
   const [hasMoreContent, setHasMoreContent] = useState(review.reviewImages.length > 0);
   const Stars = Array.from({ length: MAX_REVIEW_POINT }).map((_, i) => (
@@ -69,7 +70,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
       <ReviewDisplayContainer>
         <ReviewStarsContainer>{Stars}</ReviewStarsContainer>
         <ReviewSummary
-          content={review.content}
+          content={titleText}
           maxTitleWidth={MAX_TITLE_WIDTH}
           onClick={handleReviewSummaryClick}
           isClickable={hasMoreContent}
