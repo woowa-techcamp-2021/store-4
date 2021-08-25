@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../lib/router';
+import orderStore from '../../stores/orderStore';
 import OrderHeader from './OrderHeader';
 import OrderTable from './OrderTable/OrderTable';
 import TotalPrice from './TotalPrice';
@@ -20,13 +21,10 @@ const MoveShopPage = styled.div`
 `;
 
 const Order = (): JSX.Element => {
-  const handleClickOption = () => {
-    return;
-  };
   return (
     <Container>
       <OrderHeader currentStep={2} />
-      <OrderTable onOptionClick={handleClickOption} />
+      <OrderTable />
       <Link to="/cart">
         <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
       </Link>

@@ -5,7 +5,7 @@ import NOIMAGE from '../assets/images/no-image.png';
 
 class OrderStore {
   @observable
-  orderDetailProductLists: OrderDetailProduct[] = [];
+  orderDetailProductList: OrderDetailProduct[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -13,7 +13,7 @@ class OrderStore {
 
   @action
   replaceList(cartInProducts: CartInProduct[]) {
-    this.orderDetailProductLists = cartInProducts.map((cartInProduct) => {
+    this.orderDetailProductList = cartInProducts.map((cartInProduct) => {
       const { product, options, count } = cartInProduct;
 
       return new OrderDetailProduct({
@@ -25,7 +25,6 @@ class OrderStore {
         selectWithSelecteds: options,
       });
     });
-    console.log(this.orderDetailProductLists);
   }
 }
 

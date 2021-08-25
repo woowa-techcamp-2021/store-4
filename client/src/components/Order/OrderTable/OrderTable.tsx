@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import TableHeader from './TableHeader';
-import OrderItem from './OrderItem';
+import OrderDetailProductItem from './OrderDetailProductItem';
 import { observer } from 'mobx-react';
+import orderStore from '../../../stores/orderStore';
 
 const Container = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
@@ -17,39 +17,25 @@ const TableMain = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.color.grey3};
 `;
 
-const CartItemList = styled.div`
+const OrderDetailProductList = styled.div`
   display: flex;
   flex-direction: column;
 
   width: 100%;
 `;
 
-type Props = {
-  onOptionClick: (id: number) => void;
-};
+const OrderTable = (): JSX.Element => {
+  const orderDetailProducts = orderStore.orderDetailProductList;
 
-const OrderTable = (props: Props): JSX.Element => {
-  const { onOptionClick } = props;
+  const OrderDetailProductItems = orderDetailProducts.map((orderDetailProduct) => (
+    <OrderDetailProductItem key={orderDetailProduct.id} orderDetailProduct={orderDetailProduct} />
+  ));
 
   return (
     <Container>
       <TableHeader />
       <TableMain>
-        <CartItemList>
-          <OrderItem
-            key={1}
-            id={1}
-            title={'하하하'}
-            imgSrc={''}
-            count={3}
-            productPrice={20000}
-            isSelected={true}
-            selectWithSelecteds={undefined}
-            onOptionClick={() => {
-              return;
-            }}
-          />
-        </CartItemList>
+        <OrderDetailProductList>{OrderDetailProductItems}</OrderDetailProductList>
       </TableMain>
     </Container>
   );

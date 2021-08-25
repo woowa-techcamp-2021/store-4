@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import OrderDetailProduct from '../../../models/orderDetailProduct';
 import { SelectWithSelected } from '../../../types/product';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
+import { getOptionList } from '../../Cart/helper';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -25,12 +27,6 @@ const ItemTitleWrapper = styled.div`
   width: 100%;
   padding: 0 10px;
 `;
-
-const CheckBoxWrapper = styled(AlignCenterContainer)`
-  width: 38px;
-`;
-
-const CheckBox = styled.input``;
 
 const ItemImg = styled.img`
   width: 52px;
@@ -70,37 +66,37 @@ const PriceWrapper = styled(AlignCenterContainer)`
 const Price = styled(AlignCenterContainer)``;
 
 type Props = {
-  onOptionClick: (id: number) => void;
-  id: number;
-  title: string;
-  imgSrc: string;
-  count: number;
-  productPrice: number;
-  isSelected: boolean;
-  selectWithSelecteds: SelectWithSelected[] | undefined;
+  orderDetailProduct: OrderDetailProduct;
 };
 
-const CartItem = (props: Props): JSX.Element => {
-  const { onOptionClick, id, title, imgSrc, count, productPrice, isSelected, selectWithSelecteds } =
-    props;
+const OrderDetailProductItem = (props: Props): JSX.Element => {
+  const { orderDetailProduct } = props;
+  const { name, price, count, thumbnail, selectWithSelecteds } = orderDetailProduct;
+  const optionList = getOptionList(selectWithSelecteds);
 
   return (
     <Container>
       <ItemTitleWrapper>
-        <ItemImg src={imgSrc} />
+        <ItemImg src={thumbnail} />
         <ItemWrapper>
-          <ItemTitle>{title}</ItemTitle>
-          <OptionList></OptionList>
+          <ItemTitle>{name}</ItemTitle>
+          <OptionList>
+            {optionList.map((option) => (
+              <Option key={option.name}>
+                {option.type} : {option.name} {`(+${toKoreanMoneyFormat(option.price)})`}
+              </Option>
+            ))}
+          </OptionList>
         </ItemWrapper>
       </ItemTitleWrapper>
       <CountWrapper>
         <Count>{count}개</Count>
       </CountWrapper>
       <PriceWrapper>
-        <Price>{toKoreanMoneyFormat(20000)}</Price>
+        <Price>{toKoreanMoneyFormat(price)}</Price>
       </PriceWrapper>
     </Container>
   );
 };
 
-export default CartItem;
+export default OrderDetailProductItem;
