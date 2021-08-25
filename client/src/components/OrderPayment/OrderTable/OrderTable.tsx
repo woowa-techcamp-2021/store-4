@@ -28,7 +28,7 @@ const OrderTable = (): JSX.Element => {
   const orderDetailProducts = orderStore.orderDetailProductList;
 
   const OrderDetailProductItems = orderDetailProducts.map((orderDetailProduct) => (
-    <OrderDetailProductItem key={orderDetailProduct.id} orderDetailProduct={orderDetailProduct} />
+    <OrderDetailProductItem key={orderDetailProduct.uuid} orderDetailProduct={orderDetailProduct} />
   ));
 
   return (

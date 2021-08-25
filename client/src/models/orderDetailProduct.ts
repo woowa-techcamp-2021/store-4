@@ -1,7 +1,8 @@
 import { SelectWithSelected } from '../types/product';
 
 class OrderDetailProduct {
-  id: number;
+  uuid: string;
+  productId: number;
   name: string;
   price: number;
   count: number;
@@ -9,7 +10,8 @@ class OrderDetailProduct {
   selectWithSelecteds?: SelectWithSelected[];
 
   constructor(orderDetailProduct: OrderDetailProduct) {
-    this.id = orderDetailProduct.id;
+    this.uuid = orderDetailProduct.uuid;
+    this.productId = orderDetailProduct.productId;
     this.name = orderDetailProduct.name;
     this.price = orderDetailProduct.price;
     this.thumbnail = orderDetailProduct.thumbnail;
