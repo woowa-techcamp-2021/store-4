@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import NoImage from '../../../assets/images/no-image.png';
 import { FaHeart } from 'react-icons/fa';
@@ -73,12 +73,14 @@ type Props = {
   isNew: boolean;
   isDiscounting: boolean;
   isWished: boolean;
+  onWishClick: MouseEventHandler;
 };
 
 const ProductItemImage = (props: Props): JSX.Element => {
-  const { thumbnail, isNew, isDiscounting, isWished } = props;
+  const { thumbnail, isNew, isDiscounting, isWished, onWishClick } = props;
+
   return (
-    <ImageWrapper onClick={() => alert('parent')}>
+    <ImageWrapper>
       <Img referrerPolicy="no-referrer" src={thumbnail || NoImage} />
       <BadgeWrapper>
         {isNew && <NewBadge>NEW</NewBadge>}
@@ -86,7 +88,7 @@ const ProductItemImage = (props: Props): JSX.Element => {
       </BadgeWrapper>
       <ProductWishWrapper className="product-wish-wrapper">
         <WishIcon isWished={isWished}>
-          <FaHeart />
+          <FaHeart onClick={onWishClick} />
         </WishIcon>
       </ProductWishWrapper>
     </ImageWrapper>

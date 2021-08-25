@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Link } from '../../../lib/router';
 import Product from '../../../models/product';
@@ -15,10 +15,11 @@ const ProductItemContainer = styled.li`
 
 type Props = {
   product: Product;
+  onWishClick: MouseEventHandler;
 };
 
-const ProductItem = (props: Props): React.ReactElement => {
-  const { product } = props;
+const ProductItem = (props: Props): JSX.Element => {
+  const { product, onWishClick } = props;
   const {
     id,
     name,
@@ -35,6 +36,7 @@ const ProductItem = (props: Props): React.ReactElement => {
     <Link to={`/product/${id}`}>
       <ProductItemContainer>
         <ProductItemImage
+          onWishClick={onWishClick}
           thumbnail={thumbnail}
           isNew={isNew}
           isWished={isWished}
