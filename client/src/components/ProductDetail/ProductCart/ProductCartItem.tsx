@@ -4,6 +4,7 @@ import CartInProduct from '../../../models/cart-in-product';
 import { CartType } from '../../../types/product';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import ProductCounter from './ProductCounter';
+import { RiCloseFill } from 'react-icons/ri';
 
 const Container = styled.div`
   width: 100%;
@@ -36,8 +37,9 @@ const RemoveButton = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
-  background-color: ${(props) => props.theme.color.grey3};
-  font-size: ${(props) => props.theme.fontSize.tiny};
+  font-size: ${(props) => props.theme.fontSize.normal};
+  color: ${(props) => props.theme.color.grey5};
+  background-color: transparent;
 `;
 
 type Props = {
@@ -77,7 +79,7 @@ const ProductCartItem = (props: Props): JSX.Element => {
       <ProductPrice>{toKoreanMoneyFormat(totalPrice)}</ProductPrice>
       {cartType === 'multi' && (
         <RemoveButton onClick={onRemoveClick} data-testid="product-cart-remove">
-          X
+          <RiCloseFill />
         </RemoveButton>
       )}
     </Container>
