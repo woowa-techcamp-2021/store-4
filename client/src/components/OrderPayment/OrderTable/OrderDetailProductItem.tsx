@@ -70,7 +70,7 @@ type Props = {
 
 const OrderDetailProductItem = (props: Props): JSX.Element => {
   const { orderDetailProduct } = props;
-  const { name, price, count, thumbnail, selectWithSelecteds } = orderDetailProduct;
+  const { name, count, thumbnail, selectWithSelecteds } = orderDetailProduct;
   const optionList = getOptionList(selectWithSelecteds);
 
   return (
@@ -92,7 +92,7 @@ const OrderDetailProductItem = (props: Props): JSX.Element => {
         <Count>{count}개</Count>
       </CountWrapper>
       <PriceWrapper>
-        <Price>{toKoreanMoneyFormat(price)}</Price>
+        <Price>{toKoreanMoneyFormat(orderDetailProduct.totalPrice)}</Price>
       </PriceWrapper>
     </Container>
   );

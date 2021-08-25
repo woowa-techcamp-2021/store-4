@@ -1,3 +1,4 @@
+import { getSelectedOptionPriceList } from '../components/Cart/helper';
 import { SelectWithSelected } from '../types/product';
 
 class OrderDetailProductAttributes {
@@ -22,7 +23,12 @@ class OrderDetailProductAttributes {
 
 class OrderDetailProduct extends OrderDetailProductAttributes {
   get totalPrice(): number {
-    return this.price * this.count;
+    const optionsPrice = getSelectedOptionPriceList(this.selectWithSelecteds).reduce(
+      (total, option) => total + option,
+      0
+    );
+
+    return (this.price + optionsPrice) * this.count;
   }
 }
 
