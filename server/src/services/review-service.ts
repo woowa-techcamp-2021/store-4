@@ -14,7 +14,7 @@ import ReviewPost from '../validations/review-post';
 
 type DeleteReviewQuery = {
   userId: number;
-  reviewId: number;
+  reviewIds: number[];
 };
 
 const ERROR_MESSAGES = {
@@ -69,20 +69,20 @@ class ReviewService {
     return review;
   }
 
-  async deleteReview({ userId, reviewId }: DeleteReviewQuery): Promise<void> {
-    const review = await getCustomRepository(ReviewRepository).findOne(reviewId, {
+  async deleteReview({ userId, reviewIds }: DeleteReviewQuery): Promise<void> {
+    const reviews = await getCustomRepository(ReviewRepository).findByIds(reviewIds, {
       relations: ['user'],
     });
 
-    if (isNone(review)) {
+    if (reviews.some((review) => isNone(review))) {
       throw new ReviewNotfoundException(ERROR_MESSAGES['REVIEW_NOT_FOUND']);
     }
 
-    if (review.user?.id !== userId) {
+    if (reviews.some((review) => review.user?.id !== userId)) {
       throw new ReviewNotWrittenByUserException(ERROR_MESSAGES['REVIEW_NOT_WRITTEN_BY_USER']);
     }
 
-    getCustomRepository(ReviewRepository).delete(reviewId);
+    getCustomRepository(ReviewRepository).delete(reviewIds);
   }
 }
 
