@@ -3,6 +3,9 @@ import CartInProduct from '../models/cart-in-product';
 import OrderDetailProduct from '../models/orderDetailProduct';
 import NOIMAGE from '../assets/images/no-image.png';
 import CartItem from '../models/cart-item';
+import { CreateOrderRequest } from '../types/order';
+import { isNone } from '../utils/typeGuard';
+import apis from '../api';
 
 class OrderStore {
   @observable
@@ -43,6 +46,25 @@ class OrderStore {
         price,
       });
     });
+  }
+
+  @action
+  async createOrder(address: string, recipientName: string): Promise<void> {
+    const token = localStorage.getItem('token');
+
+    if (isNone(token)) {
+      return;
+    }
+
+    const data: CreateOrderRequest = {
+      address,
+      recipientName,
+      orderDetails: this.orderDetailProductList.map(
+        (orderDetailProduct) => orderDetailProduct.orderDetail
+      ),
+    };
+
+    await apis.orderAPI.createOrder(token, data);
   }
 
   get totalPrice() {
