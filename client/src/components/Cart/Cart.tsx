@@ -8,6 +8,8 @@ import CartModal from './CartModal/CartModal';
 import { Link } from '../../lib/router';
 import { observer } from 'mobx-react';
 import cartStore from '../../stores/cartStore';
+import { RiArrowLeftSLine } from 'react-icons/ri';
+import theme from '../../styles/theme';
 
 const Container = styled.div`
   padding-top: 40px;
@@ -16,7 +18,10 @@ const Container = styled.div`
 `;
 
 const MoveShopPage = styled.div`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
   margin-top: 12px;
   padding-bottom: 3px;
   border-bottom: 1px solid ${(props) => props.theme.color.grey5};
@@ -41,7 +46,10 @@ const Cart = (): JSX.Element => {
       <CartHeader currentStep={1} />
       <CartTable onOptionClick={onItemOptionClick} />
       <Link to="/">
-        <MoveShopPage>{`< 쇼핑 계속하기`}</MoveShopPage>
+        <MoveShopPage>
+          <RiArrowLeftSLine />
+          쇼핑 계속하기
+        </MoveShopPage>
       </Link>
       <PriceTotal />
       <CartButtons />
