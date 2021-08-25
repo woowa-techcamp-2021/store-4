@@ -6,7 +6,10 @@ import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
+import productDetailStore from '../stores/productDetailStore';
+import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
+import { isNone } from '../utils/typeGuard';
 
 const ProductDetailContainer = (): JSX.Element => {
   const [product, productFetchErrorStatus] = useProduct();
@@ -84,6 +87,31 @@ const ProductDetailContainer = (): JSX.Element => {
     [handleRemove]
   );
 
+  const handleWishButtonHandler = useCallback(() => {
+    if (isNone(userStore.user)) {
+      alert('로그인이 필요합니다');
+      return;
+    }
+
+    productDetailStore.toggleWish().catch((error) => {
+      switch (error.status) {
+        case 401:
+        case 410:
+          alert('세션이 만료되었습니다');
+          history.push('/logout');
+          return;
+
+        case 404:
+          history.push('/notfound');
+          return;
+
+        case 500:
+          history.push('/error');
+          return;
+      }
+    });
+  }, [history]);
+
   useEffect(() => {
     if (productFetchErrorStatus === null) {
       return;
@@ -112,6 +140,7 @@ const ProductDetailContainer = (): JSX.Element => {
       product={product}
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}
+      onWishClick={handleWishButtonHandler}
     />
   );
 };

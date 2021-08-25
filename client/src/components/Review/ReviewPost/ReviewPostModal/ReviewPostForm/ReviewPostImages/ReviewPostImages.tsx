@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -27,16 +27,43 @@ const InputFile = styled.input`
   display: none;
 `;
 
-const ImageList = styled.ul`
+const ImageListPlaceholder = styled.div`
+  width: 100%;
+  text-align: center;
+  color: ${(props) => props.theme.color.grey3};
+  font-size: ${(props) => props.theme.fontSize.tiny};
+`;
+
+type ImageListProps = {
+  thumbnailSize: number;
+};
+const ImageList = styled.ul<ImageListProps>`
   flex: 1;
   margin-left: 24px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: ${(props) => props.theme.color.grey3};
-  font-size: ${(props) => props.theme.fontSize.tiny};
+  padding: 2px;
   border: 1px solid ${(props) => props.theme.color.grey2};
   border-radius: 5px;
+  box-sizing: border-box;
+  overflow-x: auto;
+
+  > li {
+    min-width: ${(props) => props.thumbnailSize}px;
+    width: ${(props) => props.thumbnailSize}px;
+    height: 100%;
+  }
+`;
+
+const ImageListItem = styled.li`
+  margin-right: 5px;
+`;
+
+const ThumbnailImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
 `;
 
 type Props = {
@@ -44,17 +71,42 @@ type Props = {
   imageThumbnailSize: number;
   imageListPlaceholderText: string;
   images: string[];
+  onImageUpload: ChangeEventHandler;
 };
 const ReviewPostImages = (props: Props): JSX.Element => {
-  const { addImageButtonText, imageThumbnailSize, imageListPlaceholderText, images } = props;
+  const {
+    addImageButtonText,
+    imageThumbnailSize,
+    imageListPlaceholderText,
+    images,
+    onImageUpload,
+  } = props;
+
+  const ImageListItems = images.map((src, i) => (
+    <ImageListItem key={i}>
+      <ThumbnailImage src={src}></ThumbnailImage>
+    </ImageListItem>
+  ));
 
   return (
     <Container>
       <InputFileLabel size={imageThumbnailSize}>
         {addImageButtonText}
-        <InputFile type="file" multiple={true} />
+        <InputFile
+          name="images"
+          type="file"
+          multiple={true}
+          onChange={onImageUpload}
+          accept="image/*"
+        />
       </InputFileLabel>
-      <ImageList>{images.length === 0 ? imageListPlaceholderText : null}</ImageList>
+      <ImageList thumbnailSize={imageThumbnailSize}>
+        {images.length === 0 ? (
+          <ImageListPlaceholder>{imageListPlaceholderText}</ImageListPlaceholder>
+        ) : (
+          ImageListItems
+        )}
+      </ImageList>
     </Container>
   );
 };

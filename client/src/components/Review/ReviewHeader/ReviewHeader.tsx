@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReviewPost from '../ReviewPost/ReviewPost';
+import ReviewPostContainer from '../../../containers/ReviewPostContainer';
 
 const Container = styled.header`
   display: flex;
@@ -41,7 +41,7 @@ const ReviewHeader = (props: Props): JSX.Element => {
           {reviewCount}
         </ReviewTitleBadge>
       </ReviewTitle>
-      <ReviewPost />
+      <ReviewPostContainer />
     </Container>
   );
 };

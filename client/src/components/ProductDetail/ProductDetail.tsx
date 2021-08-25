@@ -7,7 +7,7 @@ import { CartType, SelectWithSelected } from '../../types/product';
 import ProductDetailImages from './ProductImage/ProductDetailImages';
 import ProductDetailSkeleton from './ProductDetailSkeleton';
 import ProductInfoBox from './ProductInfoBox';
-import ReviewConatiner from '../../containers/ReviewContainer';
+import Review from '../Review/Review';
 
 const Container = styled.div`
   margin: 40px auto;
@@ -46,6 +46,7 @@ type Props = {
   getIncreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getDecreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getRemoveCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
+  onWishClick: MouseEventHandler;
 };
 
 const ProductDetail = (props: Props): JSX.Element => {
@@ -73,7 +74,7 @@ const ProductDetail = (props: Props): JSX.Element => {
         <ProductContentTitle>상품설명</ProductContentTitle>
         <ProductContent dangerouslySetInnerHTML={{ __html: product.content }} />
       </ProductContentWrapper>
-      <ReviewConatiner reviews={product.reviews} />
+      <Review reviews={product.reviews} />
     </Container>
   );
 };

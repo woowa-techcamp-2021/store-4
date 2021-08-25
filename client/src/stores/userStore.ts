@@ -50,6 +50,15 @@ class UserStore {
     localStorage.removeItem('token');
     this.user = null;
   }
+
+  get token() {
+    const token = localStorage.getItem('token');
+    if (isNone(token)) {
+      throw new Error('invalid token');
+    }
+
+    return token;
+  }
 }
 
 export default new UserStore();

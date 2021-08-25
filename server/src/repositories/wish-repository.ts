@@ -5,10 +5,8 @@ import Wish from '../models/wish';
 class WishRepository extends Repository<Wish> {
   findByUserAndProduct(userId: number, productId: number): Promise<Wish | undefined> {
     return createQueryBuilder(Wish)
-      .where({
-        userId,
-        productId,
-      })
+      .where('user_id = :userId', { userId })
+      .andWhere('product_id = :productId', { productId })
       .getOne();
   }
 }
