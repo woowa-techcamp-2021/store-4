@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import OptionNotfoundException from '../exceptions/option-notfound-excepiton';
 import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import UserNotfoundException from '../exceptions/user-notfound-exception';
 import Order from '../models/order';
@@ -14,6 +15,7 @@ import OrderCreate from '../validations/order-create';
 const ERROR_MESSAGES = {
   USER_NOTFOUND: '회원이 존재하지 않습니다.',
   PRODUCT_NOTFOUND: '해당 상품이 없습니다',
+  OPTION_NOTFOUND: '옵션이 없습니다',
 };
 
 type OrderDetailLike = {
@@ -46,6 +48,10 @@ class OrderService {
       const options = await Promise.all(
         optionIds.map((id) => getCustomRepository(ProductOptionRepository).findOne(id))
       );
+      if (options.includes(undefined)) {
+        throw new OptionNotfoundException(ERROR_MESSAGES.OPTION_NOTFOUND);
+      }
+
       const product = await getCustomRepository(ProductRepository).findOne(productId);
       if (product === undefined) {
         throw new ProductNotfoundException(ERROR_MESSAGES.PRODUCT_NOTFOUND);
