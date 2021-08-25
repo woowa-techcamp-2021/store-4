@@ -31,8 +31,9 @@ class ReviewAPI {
       method: 'DELETE',
       headers: {
         Authorization: token,
+        'Content-Type': 'application/json',
       },
-      body: reviewIds,
+      body: { reviewIds },
     });
   }
 }
