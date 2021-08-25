@@ -46,6 +46,7 @@ type Props = {
   getIncreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getDecreaseCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
   getRemoveCartHandler: (cartInProduct: CartInProduct) => MouseEventHandler;
+  onOrderClick: MouseEventHandler;
   onWishClick: MouseEventHandler;
 };
 

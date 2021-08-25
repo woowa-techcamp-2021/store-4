@@ -6,6 +6,7 @@ import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
+import orderStore from '../stores/orderStore';
 import productDetailStore from '../stores/productDetailStore';
 import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
@@ -115,6 +116,11 @@ const ProductDetailContainer = (): JSX.Element => {
     });
   }, [history]);
 
+  const handleClickOrderButton = () => {
+    orderStore.replaceList(cartsInProduct);
+    history.push('/order');
+  };
+
   useEffect(() => {
     if (productFetchErrorStatus === null) {
       return;
@@ -140,6 +146,7 @@ const ProductDetailContainer = (): JSX.Element => {
       getDecreaseCartHandler={handleGetDecreaseHandler}
       getRemoveCartHandler={handleGetRemoveHandler}
       getCountBlurHandler={handleGetCountBlurHandler}
+      onOrderClick={handleClickOrderButton}
       product={product}
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}

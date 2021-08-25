@@ -61,6 +61,7 @@ describe('ProductCartItem 컴포넌트', () => {
     getIncreaseCartHandler: jest.fn().mockReturnValue(jest.fn()),
     getDecreaseCartHandler: jest.fn().mockReturnValue(jest.fn()),
     getRemoveCartHandler: jest.fn().mockReturnValue(jest.fn()),
+    onOrderClick: jest.fn(),
     onWishClick: jest.fn(),
   };
 
