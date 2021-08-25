@@ -32,7 +32,7 @@ const NotUser = styled.div``;
 
 const AccountPage = (): JSX.Element => {
   const Routes = PATH_ITEM_LIST.map(({ path, Component }, i) => (
-    <Route key={i} path={`/account/${path}`} component={Component} />
+    <Route exact key={i} path={`/account/${path}`} component={Component} />
   ));
   const pathTextList = PATH_ITEM_LIST.map(({ path, text }) => ({ path: `/account/${path}`, text }));
 
