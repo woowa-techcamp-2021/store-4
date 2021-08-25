@@ -126,6 +126,13 @@ const ProductDetailContainer = (): JSX.Element => {
     history.push('/order');
   };
 
+  const handleClickCartButton = () => {
+    if (cartsInProduct.length === 0) {
+      alert('상품의 옵션을 골라주세요.');
+      return;
+    }
+  };
+
   useEffect(() => {
     if (productFetchErrorStatus === null) {
       return;
@@ -156,6 +163,7 @@ const ProductDetailContainer = (): JSX.Element => {
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}
       onWishClick={handleWishButtonHandler}
+      onCartClick={handleClickCartButton}
     />
   );
 };
