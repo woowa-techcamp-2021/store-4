@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../../models/review';
+import { ReviewWithProduct } from '../../../../models/review';
 import ReviewListItem from './AccountReviewListItem/AccountReviewListItem';
 
 const Container = styled.ul`
@@ -8,7 +8,7 @@ const Container = styled.ul`
 `;
 
 type Props = {
-  reviews: ReviewModel[];
+  reviews: ReviewWithProduct[];
 };
 
 const ReviewList = (props: Props): JSX.Element => {

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../models/review';
+import { ReviewWithProduct } from '../../../models/review';
 import getPaginatedArray from '../../../utils/getPaginatedArray';
 import ReviewList from './AccountReviewList/AccountReviewList';
 import ReviewPagination from '../../Review/ReviewPagination/ReviewPagination';
@@ -45,7 +45,7 @@ const DeleteButton = styled(Button)`
 `;
 
 type Props = {
-  reviews: ReviewModel[];
+  reviews: ReviewWithProduct[];
 };
 const Review = (props: Props): JSX.Element => {
   const { reviews } = props;

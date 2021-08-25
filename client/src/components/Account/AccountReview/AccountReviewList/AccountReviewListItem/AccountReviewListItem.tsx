@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../../../models/review';
+import { ReviewWithProduct } from '../../../../../models/review';
 import formatDate from '../../../../../utils/formatDate';
 import ReviewDetail from '../../../../Review/ReviewList/ReviewListItem/ReviewDetail/ReviewDetail';
 import ReviewSummary from '../../../../Review/ReviewList/ReviewListItem/ReviewSummary/ReviewSummary';
@@ -42,7 +42,7 @@ const ReviewCheckbox = styled.input`
 `;
 
 type Props = {
-  review: ReviewModel;
+  review: ReviewWithProduct;
 };
 
 const ReviewListItem = (props: Props): JSX.Element => {
