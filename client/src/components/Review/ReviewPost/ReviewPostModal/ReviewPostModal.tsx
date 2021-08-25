@@ -45,7 +45,7 @@ const ReviewPostModal = (props: Props): JSX.Element => {
   return (
     <Overlay data-testid="review-post-overlay" onClick={handleOverlayClick}>
       <Modal data-testid="review-post-modal" className="modal">
-        <ReviewPostFormContainer onCancelButtonClick={onClose} />
+        <ReviewPostFormContainer onClose={onClose} />
       </Modal>
     </Overlay>
   );

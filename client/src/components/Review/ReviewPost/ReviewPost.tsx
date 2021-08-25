@@ -20,9 +20,21 @@ const PostReviewButton = styled.button`
   }
 `;
 
-const ReviewPost = (): JSX.Element => {
+type Props = {
+  getAuthorization: () => boolean;
+};
+
+const ReviewPost = (props: Props): JSX.Element => {
+  const { getAuthorization } = props;
   const [modalOpen, setModalOpen] = useState(false);
-  const handleWriteButtonClick = useCallback(() => setModalOpen(true), []);
+
+  const handleWriteButtonClick = useCallback(() => {
+    const isAuthorized = getAuthorization();
+    if (isAuthorized) {
+      setModalOpen(true);
+    }
+  }, [getAuthorization]);
+
   const handleModalClose = useCallback(() => setModalOpen(false), []);
 
   return (

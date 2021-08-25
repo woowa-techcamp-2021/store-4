@@ -15,6 +15,8 @@ class ProductRepository extends Repository<Product> {
       .leftJoinAndSelect('Product.productSelects', 'productSelects')
       .leftJoinAndSelect('productSelects.productOptions', 'productOptions')
       .where({ id })
+      .orderBy('productSelects.id', 'ASC')
+      .addOrderBy('reviews.createdAt', 'DESC')
       .getOne();
   }
 

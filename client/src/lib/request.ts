@@ -3,7 +3,7 @@ import { isNotNone } from '../utils/typeGuard';
 
 type Headers = { [key: string]: string };
 type Querystring = { [key: string]: string };
-type Body = unknown;
+type Body = unknown | FormData;
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RequestOption = {
@@ -36,7 +36,7 @@ const request = async <T>({
   const res = await fetch(requestURL, {
     method,
     headers,
-    body: JSON.stringify(body),
+    body: body instanceof FormData ? body : JSON.stringify(body),
   });
 
   const responseBody = await res.json();

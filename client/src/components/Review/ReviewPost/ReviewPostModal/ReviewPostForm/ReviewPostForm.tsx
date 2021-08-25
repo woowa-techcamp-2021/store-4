@@ -1,4 +1,11 @@
-import React, { ChangeEvent, MouseEventHandler, useCallback, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ReviewPostStars from './ReviewPostStars/ReviewPostStars';
 import ReviewPostText from './ReviewPostText/ReviewPostText';
@@ -26,14 +33,21 @@ const Container = styled.form`
 
 const ReviewPostStarsContainer = styled.div``;
 
+const PointsInput = styled.input`
+  display: none;
+`;
+
 type Props = {
+  productName: string;
   onCancelButtonClick: MouseEventHandler;
+  onImageUpload: ChangeEventHandler;
+  onSubmit: FormEventHandler;
+  thumbnails: string[];
 };
 const ReviewPostForm = (props: Props): JSX.Element => {
+  const { productName, onCancelButtonClick, onImageUpload, onSubmit, thumbnails } = props;
   const [point, setPoint] = useState(0);
   const [inputText, setInputText] = useState('');
-  const imageList: string[] = [];
-  const { onCancelButtonClick } = props;
   const handleStarClick = useCallback((point: number) => {
     setPoint(point);
     setInputText(DEFAULT_TEXT_FOR_POINT[point]);
@@ -44,16 +58,18 @@ const ReviewPostForm = (props: Props): JSX.Element => {
   );
 
   return (
-    <Container>
+    <Container onSubmit={onSubmit}>
       <ReviewPostStarsContainer>
         <ReviewPostStars width={STARS_WIDTH} onStarClick={handleStarClick} />
+        <PointsInput name="point" value={point} readOnly />
       </ReviewPostStarsContainer>
-      <ReviewPostText value={inputText} onChange={handleTextChange} />
+      <ReviewPostText productName={productName} value={inputText} onChange={handleTextChange} />
       <ReviewPostImages
         addImageButtonText={ADD_IMAGE_BUTTON_TEXT}
         imageThumbnailSize={IMAGE_THUMBNAIL_SIZE}
         imageListPlaceholderText={IMAGE_LIST_PLACEHOLDER_TEXT}
-        images={imageList}
+        onImageUpload={onImageUpload}
+        images={thumbnails}
       />
       <ReviewPostButtonGroup
         cancelButtonText={CANCEL_BUTTON_TEXT}
