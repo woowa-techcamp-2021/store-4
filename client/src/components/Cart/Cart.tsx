@@ -9,7 +9,6 @@ import { Link } from '../../lib/router';
 import { observer } from 'mobx-react';
 import cartStore from '../../stores/cartStore';
 import { RiArrowLeftSLine } from 'react-icons/ri';
-import theme from '../../styles/theme';
 
 const Container = styled.div`
   padding-top: 40px;

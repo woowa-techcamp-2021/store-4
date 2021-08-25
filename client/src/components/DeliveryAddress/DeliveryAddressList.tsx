@@ -5,6 +5,8 @@ import CreateDeliveryAddressForm from './CreateDeliveryAddressForm';
 import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
 import deliveryAddressStore from '../../stores/deliveryAddressStore';
 import { observer } from 'mobx-react';
+import { RiAddBoxFill } from 'react-icons/ri';
+import theme from '../../styles/theme';
 
 const Container = styled.div``;
 
@@ -16,6 +18,13 @@ const CreateDeliveryAddress = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: ${(props) => props.theme.color.grey3};
+  font-size: ${(props) => props.theme.fontSize.large};
+`;
+
+const CreateDeliveryAddressText = styled.span`
+  font-size: ${(props) => props.theme.fontSize.normal};
+  margin-left: 5px;
 `;
 
 type Props = {
@@ -47,7 +56,8 @@ const DeliveryAddressList = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
           onClick={onCreatingClick}
           data-testid="enable-create-delivery-address-button"
         >
-          +
+          <RiAddBoxFill />
+          <CreateDeliveryAddressText>배송지 추가하기</CreateDeliveryAddressText>
         </CreateDeliveryAddress>
       )}
     </Container>
