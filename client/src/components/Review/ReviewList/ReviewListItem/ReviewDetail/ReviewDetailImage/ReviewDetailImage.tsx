@@ -1,13 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type ContainerProps = {
-  height: number;
-};
-
-const Container = styled.li<ContainerProps>`
+const Container = styled.li`
   width: 100%;
-  height: ${(props) => props.height}px;
   border: 1px solid transparent;
   border-radius: 5px;
 `;
@@ -21,14 +16,13 @@ const ReviewDetailImg = styled.img`
 
 type Props = {
   imageUrl: string;
-  height: number;
 };
 
 const ReviewDetailImage = (props: Props): JSX.Element => {
-  const { imageUrl, height } = props;
+  const { imageUrl } = props;
 
   return (
-    <Container height={height}>
+    <Container>
       <ReviewDetailImg src={imageUrl} />
     </Container>
   );

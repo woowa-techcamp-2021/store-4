@@ -1,12 +1,12 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../../models/review';
-import formatDate from '../../../../utils/formatDate';
-import ReviewDetail from './ReviewDetail/ReviewDetail';
-import ReviewSummary from './ReviewSummary/ReviewSummary';
-import Star from './Star/Star';
+import ReviewModel from '../../../../../models/review';
+import formatDate from '../../../../../utils/formatDate';
+import ReviewDetail from '../../../../Review/ReviewList/ReviewListItem/ReviewDetail/ReviewDetail';
+import ReviewSummary from '../../../../Review/ReviewList/ReviewListItem/ReviewSummary/ReviewSummary';
+import Star from '../../../../Review/ReviewList/ReviewListItem/Star/Star';
 
-const MAX_TITLE_WIDTH = 700;
+const MAX_TITLE_WIDTH = 550;
 const MAX_REVIEW_POINT = 5;
 
 const Container = styled.li`
@@ -26,7 +26,7 @@ const ReviewDisplayContainer = styled.div`
 const ReviewStarsContainer = styled.div`
   flex-shrink: 0;
   width: 80px;
-  margin-right: 40px;
+  margin-right: 30px;
   display: flex;
 `;
 
@@ -35,6 +35,10 @@ const ReviewDate = styled.div`
   width: 100px;
   font-size: ${(props) => props.theme.fontSize.tiny};
   text-align: right;
+`;
+
+const ReviewCheckbox = styled.input`
+  margin-left: 20px;
 `;
 
 type Props = {
@@ -73,6 +77,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
           reviewDetailOpen={reviewDetailOpen}
         />
         <ReviewDate>{formatDate(review.updatedAt)}</ReviewDate>
+        <ReviewCheckbox type="checkbox" />
       </ReviewDisplayContainer>
       {reviewDetailOpen && hasMoreContent && <ReviewDetail review={review} />}
     </Container>

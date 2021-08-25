@@ -5,6 +5,7 @@ import { Link } from '../../../lib/router';
 const PAGE_TITLE_TEXT = '마이페이지';
 
 const Container = styled.nav`
+  flex-shrink: 0;
   width: 200px;
   margin-right: 120px;
 `;
