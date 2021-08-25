@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import { OrderDeliveryAddressFormRef } from '../../../containers/OrderPaymentContainer';
 import orderStore from '../../../stores/orderStore';
 import userStore from '../../../stores/userStore';
-import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { isNotNone } from '../../../utils/typeGuard';
+import { Row, RowTitle, Column, Label, InputWrapper, Input } from './OrderFormStyledComponent';
+import OrderFormSender from './OrderFormSender';
+import FinalPaymentAmount from './FinalPaymentAmount';
 
 const Container = styled.div`
   border: none;
@@ -14,82 +16,8 @@ const Container = styled.div`
   color: ${(props) => props.theme.color.grey5};
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const RowTitle = styled.div`
-  font-size: ${(props) => props.theme.fontSize.normal};
-  margin: 16px 0px;
-  font-weight: 600;
-`;
-
-const Column = styled.div`
-  display: flex;
-  height: 55px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  font-weight: 600;
-  border-top: 1px solid ${(props) => props.theme.color.grey2};
-  :last-child {
-    border-bottom: 1px solid ${(props) => props.theme.color.grey2};
-  }
-`;
-
-const Label = styled.label`
-  width: 120px;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0px 24px;
-  background-color: ${(props) => props.theme.color.grey1};
-`;
-
-const InputWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  padding: 0px 16px;
-`;
-
-type InputProps = {
-  width?: string;
-};
-
-const Input = styled.input<InputProps>`
-  width: ${(props) => props.width || '220px'};
-  height: 35px;
-  padding: 0px 10px;
-  border: 1px solid ${(props) => props.theme.color.grey2};
-  text-decoration: none;
-  outline: none;
-`;
-
-const Username = styled.div``;
-const Email = styled.div``;
-
 const RecipientName = styled(Input)``;
 const RecipientAddress = styled(Input)``;
-
-const FinalPaymentAmount = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 30px 40px;
-  margin: 40px 0px;
-  border: 2px solid ${(props) => props.theme.color.grey2};
-`;
-
-const AmountDesc = styled.span`
-  font-weight: 600;
-  font-size: ${(props) => props.theme.fontSize.small};
-`;
-const Amount = styled.div`
-  font-weight: 600;
-  font-family: ${(props) => props.theme.fontFamily.number};
-  font-size: ${(props) => props.theme.fontSize.large};
-  margin-left: 16px;
-`;
 
 const FinalCheckWrapper = styled.div`
   display: flex;
@@ -161,21 +89,7 @@ const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
 
   return (
     <Container>
-      <Row>
-        <RowTitle>주문자 정보</RowTitle>
-        <Column>
-          <Label>주문하시는 분</Label>
-          <InputWrapper>
-            <Username>{user?.name}</Username>
-          </InputWrapper>
-        </Column>
-        <Column>
-          <Label>이메일</Label>
-          <InputWrapper>
-            <Email>{user?.email}</Email>
-          </InputWrapper>
-        </Column>
-      </Row>
+      <OrderFormSender username={user?.name} email={user?.email} />
 
       <Row>
         <RowTitle>배송정보</RowTitle>
@@ -198,12 +112,7 @@ const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
         </Column>
       </Row>
 
-      <Row>
-        <FinalPaymentAmount>
-          <AmountDesc>최종 결제 금액</AmountDesc>
-          <Amount>{toKoreanMoneyFormat(finalPaymentAmount)}</Amount>
-        </FinalPaymentAmount>
-      </Row>
+      <FinalPaymentAmount finalPaymentAmount={finalPaymentAmount} />
 
       <FinalCheckWrapper>
         <FinalCheckDesc>
