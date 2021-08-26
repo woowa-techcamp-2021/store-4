@@ -35,7 +35,7 @@ const AuthenticationProvider = ({ children }: Props): JSX.Element => {
 
   useEffect(() => {
     if (isErrorOccurred) {
-      toast.error('로그인이 필요합니다');
+      toast.error('세션이 만료되었습니다');
       userStore.logoutUser();
       routerHistory.push('/login');
     }
