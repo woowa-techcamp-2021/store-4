@@ -14,7 +14,7 @@ const CartContainer = (): JSX.Element => {
       return;
     }
 
-    orderStore.replaceListTocartItemList = cartStore.selectedCartItemList;
+    orderStore.replaceListToCartItemList = cartStore.selectedCartItemList;
     history.push('/order');
 
     return;
@@ -26,7 +26,7 @@ const CartContainer = (): JSX.Element => {
       return;
     }
 
-    orderStore.replaceListTocartItemList = cartStore.selectedCartItemList;
+    orderStore.replaceListToCartItemList = cartStore.selectedCartItemList;
     history.push('/order');
 
     return;

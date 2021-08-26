@@ -13,7 +13,7 @@ class OrderStore {
   }
 
   @action
-  set replaceListTocartsInProduct(cartsInProduct: CartInProduct[]) {
+  set replaceListToCartsInProduct(cartsInProduct: CartInProduct[]) {
     this.orderDetailProductList = cartsInProduct.map((cartInProduct) => {
       const { product, options, count, uuid } = cartInProduct;
 
@@ -30,7 +30,7 @@ class OrderStore {
   }
 
   @action
-  set replaceListTocartItemList(cartItemList: CartItem[]) {
+  set replaceListToCartItemList(cartItemList: CartItem[]) {
     this.orderDetailProductList = cartItemList.map((cartItem) => {
       const { uuid, productId, title, selectWithSelecteds, imgSrc, count, price } = cartItem;
       return new OrderDetailProduct({
