@@ -66,6 +66,14 @@ const WishIcon = styled.div<WishIconProps>`
   justify-content: center;
   font-size: ${(props) => props.theme.fontSize.large};
   color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.white1)};
+
+  .product-wish-icon {
+    transition: all 0.125s;
+
+    :active {
+      transform: scale(0.8);
+    }
+  }
 `;
 
 type Props = {
@@ -88,7 +96,7 @@ const ProductItemImage = (props: Props): JSX.Element => {
       </BadgeWrapper>
       <ProductWishWrapper className="product-wish-wrapper">
         <WishIcon isWished={isWished}>
-          <FaHeart onClick={onWishClick} />
+          <FaHeart className="product-wish-icon" onClick={onWishClick} />
         </WishIcon>
       </ProductWishWrapper>
     </ImageWrapper>

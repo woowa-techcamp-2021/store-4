@@ -93,6 +93,16 @@ const WishButton = styled(CommonButton)<WishButtonProps>`
       : css`
           color: ${(props) => props.theme.color.grey3};
         `};
+
+  .product-wish-icon {
+    transition: all 0.125s;
+  }
+
+  :active {
+    .product-wish-icon {
+      transform: scale(0.8);
+    }
+  }
 `;
 
 const ToCartButton = styled(CommonButton)`
@@ -188,7 +198,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
       </TotalPriceWrapper>
       <ButtonWrapper>
         <WishButton onClick={onWishClick} isWished={product.isWished}>
-          <FaHeart />
+          <FaHeart className="product-wish-icon" />
         </WishButton>
         <ToCartButton>장바구니</ToCartButton>
         <PurchaseButton>바로구매</PurchaseButton>
