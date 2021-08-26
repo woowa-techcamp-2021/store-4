@@ -120,8 +120,8 @@ const ConfirmModal = (): JSX.Element => {
       <Overlay className="confirm-modal hide">
         <Modal className="modal">
           <ContentWrapper>
-            <Title className="confirm-modal-title">삭제하시겠습니까?</Title>
-            <Content className="confirm-modal-content">배송지가 영구적으로 삭제됩니다</Content>
+            <Title className="confirm-modal-title"></Title>
+            <Content className="confirm-modal-content"></Content>
           </ContentWrapper>
           <ButtonWrapper>
             <Button className="confirm-modal-confirm-button">확인</Button>
