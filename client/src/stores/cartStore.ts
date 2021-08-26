@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import CartInProduct from '../models/cart-in-product';
 import CartItem from '../models/cart-item';
-import { isNone } from '../utils/typeGuard';
+import { isNone, isNotNone } from '../utils/typeGuard';
 import NOIMAGE from '../assets/images/no-image.png';
 import { SelectWithSelected } from '../types/product';
 
@@ -39,20 +39,20 @@ class CartStore {
 
   @action
   addProductsToCart(cartsInProduct: CartInProduct[]) {
-    const existedCartItemIndexes: { [key: number]: boolean } = {};
+    const existedCartItems: { [key: number]: CartInProduct } = {};
     const notExistedCartInProducts: CartInProduct[] = [];
 
     cartsInProduct.forEach((cartInProduct, index) => {
       if (this.cartItemList.some(isDuplicatedCartItem(cartInProduct))) {
-        existedCartItemIndexes[index] = true;
+        existedCartItems[index] = cartInProduct;
         return;
       }
       notExistedCartInProducts.push(cartInProduct);
     });
 
     this.cartItemList = this.cartItemList.map((cartItem, index) => {
-      if (existedCartItemIndexes[index]) {
-        const count = cartItem.count + 1;
+      if (isNotNone(existedCartItems[index])) {
+        const count = cartItem.count + existedCartItems[index].count;
         const updatedCartItem = new CartItem({
           ...cartItem,
           count,
