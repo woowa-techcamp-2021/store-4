@@ -6,6 +6,7 @@ import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
 import { Option } from '../../../../types/option';
 import buildQueryString from '../../../../utils/build-query-string';
+import { debounce, clearDebounce } from '../../../../lib/debounce';
 
 const Container = styled.div`
   position: absolute;
@@ -73,7 +74,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
     <CategoryListItem
       key={category.id}
       isCurrent={category.id === currentCategory.id}
-      onMouseEnter={() => setCurrentCategory(category)}
+      onMouseEnter={() => debounce(100, () => setCurrentCategory(category))}
       onClick={handleGetCategoryClickHandler(category)}
     >
       <CategoryListItemText isCurrent={category.id === currentCategory.id}>
@@ -83,7 +84,11 @@ const CategoryLayer = (props: Props): JSX.Element => {
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem key={category.id} onClick={handleGetCategoryClickHandler(category)}>
+    <CategoryListItem
+      key={category.id}
+      onMouseEnter={clearDebounce}
+      onClick={handleGetCategoryClickHandler(category)}
+    >
       <CategoryListItemText>{category.name}</CategoryListItemText>
     </CategoryListItem>
   ));
