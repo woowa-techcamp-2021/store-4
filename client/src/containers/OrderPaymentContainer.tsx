@@ -25,12 +25,6 @@ const OrderContainer = (): JSX.Element => {
 
     const { recipientName, address, approve } = orderFormRef.current;
 
-    if (!user) {
-      alert('로그인이 필요합니다!');
-      history.push('/login');
-      return;
-    }
-
     if (!(recipientName && address)) {
       alert('배송정보는 빠짐없이 입력해주세요!');
       return;
@@ -53,7 +47,7 @@ const OrderContainer = (): JSX.Element => {
     } catch (err) {
       alert('주문 실패 다시 시도해주세요');
     }
-  }, [history, user]);
+  }, []);
 
   if (isNone(user)) {
     alert('로그인이 필요합니다.');
