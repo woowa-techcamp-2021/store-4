@@ -93,7 +93,6 @@ const Button = styled.button`
   flex: 1;
   padding: 20px;
   cursor: pointer;
-  font-weight: bold;
 
   :hover {
     background-color: ${(props) => props.theme.color.grey1};
