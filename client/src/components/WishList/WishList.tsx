@@ -30,10 +30,13 @@ const WishList = (): JSX.Element => {
 
   useEffect(() => {
     const wishedProductList = getWishList(); // 찜목록 api 요청
-    const nextWishList = [];
-    for (const item of wishedProductList) {
-      nextWishList.push({ ...item });
-    }
+    const nextWishList = wishedProductList.map((item) => {
+      return {
+        id: item.id,
+        title: item.title,
+        imgSrc: item.imgSrc,
+      };
+    });
     setWishItems(nextWishList);
   }, []);
 
