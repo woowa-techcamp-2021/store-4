@@ -23,10 +23,6 @@ const Text = styled.div`
   font-size: ${(props) => props.theme.fontSize.normal};
 `;
 
-const TextCount = styled.span`
-  font-weight: 600;
-`;
-
 const PriceWrapper = styled.div`
   margin-top: 7px;
 `;
