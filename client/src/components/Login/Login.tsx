@@ -4,7 +4,13 @@ import { OAuthType } from '../../containers/LoginContainer';
 import OAuthButton from './OAuthButton';
 
 const Header = styled.h1`
+  color: ${(props) => props.theme.color.grey5};
   font-size: ${(props) => props.theme.fontSize.large};
+`;
+
+const SocialLoginText = styled.div`
+  color: ${(props) => props.theme.color.grey3};
+  font-size: ${(props) => props.theme.fontSize.small};
 `;
 
 const Container = styled.div`
@@ -12,6 +18,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 40px;
 `;
 
 const OAuthButtonWrapper = styled.div`
@@ -27,9 +34,6 @@ type Props = {
   onOAuthButtonClick: (redirectURL: string) => React.MouseEventHandler;
   buttons: {
     [key: string]: {
-      backgroundColor: string;
-      fontColor: string;
-      icon: string;
       content: string;
       redirectURL: string;
     };
@@ -42,12 +46,15 @@ const Login = (props: Props): JSX.Element => {
   return (
     <Container>
       <Header>회원 로그인</Header>
+      <SocialLoginText>소셜계정으로 간편하게 가입하세요</SocialLoginText>
       <OAuthButtonWrapper>
         <OAuthButton
+          index={0}
           onClick={onOAuthButtonClick(buttons[OAuthType.Facebook].redirectURL)}
           {...buttons[OAuthType.Facebook]}
         />
         <OAuthButton
+          index={1}
           onClick={onOAuthButtonClick(buttons[OAuthType.Google].redirectURL)}
           {...buttons[OAuthType.Google]}
         />

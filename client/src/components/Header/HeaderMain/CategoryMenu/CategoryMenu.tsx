@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MENU_ICON from './menuIcon.png';
 import CategoryLayerContainer from '../../../../containers/CategoryLayerContainer';
+import { RiMenuFill } from 'react-icons/ri';
 
 const CATEGORY_BUTTON_TEXT = '전체 카테고리';
 
@@ -11,14 +11,16 @@ const Container = styled.div`
 
 const CategoryMenuButton = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
 `;
 
-const CategoryMenuButtonIcon = styled.img`
-  width: 20px;
-  height: auto;
+const CategoryMenuButtonIcon = styled.div`
+  display: flex;
+  align-items: center;
   margin-right: 8px;
+  font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
 const CategoryMenuButtonText = styled.span`
@@ -44,7 +46,9 @@ const CategoryMenu = (): JSX.Element => {
   return (
     <Container>
       <CategoryMenuButton onClick={handleLayerButtonClick}>
-        <CategoryMenuButtonIcon src={MENU_ICON} />
+        <CategoryMenuButtonIcon>
+          <RiMenuFill />
+        </CategoryMenuButtonIcon>
         <CategoryMenuButtonText>{CATEGORY_BUTTON_TEXT}</CategoryMenuButtonText>
       </CategoryMenuButton>
       {showLayer && <CategoryLayerContainer />}

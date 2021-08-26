@@ -6,6 +6,7 @@ import AccountLanding from '../components/Account/AccountLanding/AccountLanding'
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
 import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
+import AccountReviewContainer from '../containers/AccountReviewContainer';
 
 type PathItem = {
   path: string;
@@ -14,6 +15,7 @@ type PathItem = {
 };
 const PATH_ITEM_LIST: PathItem[] = [
   { path: 'delivery-address', text: '배송지 관리', Component: ManageDeliveryAddressContainer },
+  { path: 'reviews', text: '내 상품후기', Component: AccountReviewContainer },
 ];
 
 const Container = styled.section`

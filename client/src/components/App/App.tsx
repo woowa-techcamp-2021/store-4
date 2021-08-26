@@ -13,6 +13,7 @@ import ProductsPage from '../../pages/Products';
 import AccountPage from '../../pages/Account';
 import NotfoundPage from '../../pages/Notfound';
 import ErrorPage from '../../pages/Error';
+import ToastPortal from '../Portal/ToastPortal';
 
 const App = (): JSX.Element => {
   return (
@@ -32,6 +33,7 @@ const App = (): JSX.Element => {
           <Route path="/" component={NotfoundPage} />
         </Switch>
       </Router>
+      <ToastPortal />
     </ThemeProvider>
   );
 };
