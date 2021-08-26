@@ -4,9 +4,8 @@ import { Route, Switch } from '../lib/router';
 import AccountNavList from '../components/Account/AccountNavList/AccountNavList';
 import AccountLanding from '../components/Account/AccountLanding/AccountLanding';
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
-import userStore from '../stores/userStore';
-import { observer } from 'mobx-react';
 import AccountReviewContainer from '../containers/AccountReviewContainer';
+import AuthenticationProvider from '../components/Authentication/Authentication';
 import WishListContainer from '../containers/AccountWishListContainer';
 
 type PathItem = {
@@ -32,29 +31,31 @@ const RouteContainer = styled.div`
   display: flex;
 `;
 
-const NotUser = styled.div``;
-
 const AccountPage = (): JSX.Element => {
   const Routes = PATH_ITEM_LIST.map(({ path, Component }, i) => (
     <Route exact key={i} path={`/account/${path}`} component={Component} />
   ));
   const pathTextList = PATH_ITEM_LIST.map(({ path, text }) => ({ path: `/account/${path}`, text }));
 
-  return userStore.user ? (
+  return (
     <Container>
       <AccountNavList pathTextList={pathTextList} />
       <RouteContainer>
         <Switch>
           <Route exact path={'/account'}>
-            <AccountLanding user={userStore.user} />
+            <AccountLanding />
           </Route>
           {Routes}
         </Switch>
       </RouteContainer>
     </Container>
-  ) : (
-    <NotUser>로그인이 필요한 페이지입니다</NotUser>
   );
 };
 
-export default observer(AccountPage);
+const WithAuthentication = (): JSX.Element => (
+  <AuthenticationProvider>
+    <AccountPage />
+  </AuthenticationProvider>
+);
+
+export default WithAuthentication;
