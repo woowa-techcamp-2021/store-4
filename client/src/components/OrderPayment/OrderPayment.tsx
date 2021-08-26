@@ -46,7 +46,7 @@ const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>)
           <OrderForm ref={ref} onOrderSubmit={onOrderSubmit} />
         </>
       ) : (
-        <PaymentFinish user={user} recipientName={recipientName || ''} address={address || ''} />
+        <PaymentFinish user={user} recipientName={recipientName ?? ''} address={address ?? ''} />
       )}
     </Container>
   );
