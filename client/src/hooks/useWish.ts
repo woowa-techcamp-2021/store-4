@@ -37,7 +37,7 @@ const useWish = (
           ...products.slice(productIndex + 1),
         ]);
 
-        wishStore.toggle(product.id, !product.isWished).catch((error) => {
+        wishStore.changeWishedTo(product.id, !product.isWished).catch((error) => {
           switch (error.status) {
             case 401:
             case 410:

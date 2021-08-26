@@ -39,7 +39,7 @@ class ProductDetailStore {
 
     const { id } = this.product;
     try {
-      await wishStore.toggle(id, !this.product.isWished);
+      await wishStore.changeWishedTo(id, !originWish);
     } catch (error) {
       runInAction(() => {
         if (this.product !== null) {
