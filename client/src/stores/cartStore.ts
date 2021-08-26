@@ -79,7 +79,7 @@ class CartStore {
     });
 
     this.cartItemList.push(...noxExistedCartItemList);
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   getModalCartItem() {
@@ -99,7 +99,7 @@ class CartStore {
     }
 
     this.cartItemList[index] = { ...this.cartItemList[index], count: count };
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   @action
@@ -109,7 +109,7 @@ class CartStore {
       return;
     }
     this.cartItemList[index] = { ...this.cartItemList[index], isSelected: isSelected };
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   @action
@@ -120,7 +120,7 @@ class CartStore {
     }
 
     this.cartItemList = nextCartItemList;
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   @action
@@ -128,8 +128,8 @@ class CartStore {
     this.modalCartItemUuid = uuid;
   }
 
-  setCartItemListToStorage(cartItemList: CartItem[]) {
-    localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(cartItemList));
+  setCartItemListToStorage() {
+    localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(this.cartItemList));
   }
 
   getCartItemListFromStorage() {
@@ -151,7 +151,7 @@ class CartStore {
   @action
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   @action
@@ -161,6 +161,7 @@ class CartStore {
         return orderDetailProduct.uuid !== cartItem.uuid;
       });
     });
+    this.setCartItemListToStorage();
   }
 
   get isNothingSelectedCartItems() {
