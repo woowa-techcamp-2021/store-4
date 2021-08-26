@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../../../models/review';
+import { ReviewWithProduct } from '../../../../../models/review';
 import formatDate from '../../../../../utils/formatDate';
 import ReviewDetail from '../../../../Review/ReviewList/ReviewListItem/ReviewDetail/ReviewDetail';
 import ReviewSummary from '../../../../Review/ReviewList/ReviewListItem/ReviewSummary/ReviewSummary';
@@ -42,12 +42,15 @@ const ReviewCheckbox = styled.input`
 `;
 
 type Props = {
-  review: ReviewModel;
+  review: ReviewWithProduct;
+  isSelected: boolean;
+  onCheckboxClick: () => void;
 };
 
 const ReviewListItem = (props: Props): JSX.Element => {
-  const { review } = props;
+  const { review, isSelected, onCheckboxClick } = props;
   const [reviewDetailOpen, setReviewDetailOpen] = useState(false);
+  const titleText = `[${review.productName}]  ${review.content}`;
   const titleRef = useRef<HTMLSpanElement>(null);
   const [hasMoreContent, setHasMoreContent] = useState(review.reviewImages.length > 0);
   const Stars = Array.from({ length: MAX_REVIEW_POINT }).map((_, i) => (
@@ -69,7 +72,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
       <ReviewDisplayContainer>
         <ReviewStarsContainer>{Stars}</ReviewStarsContainer>
         <ReviewSummary
-          content={review.content}
+          content={titleText}
           maxTitleWidth={MAX_TITLE_WIDTH}
           onClick={handleReviewSummaryClick}
           isClickable={hasMoreContent}
@@ -77,7 +80,7 @@ const ReviewListItem = (props: Props): JSX.Element => {
           reviewDetailOpen={reviewDetailOpen}
         />
         <ReviewDate>{formatDate(review.updatedAt)}</ReviewDate>
-        <ReviewCheckbox type="checkbox" />
+        <ReviewCheckbox type="checkbox" checked={isSelected ?? false} onChange={onCheckboxClick} />
       </ReviewDisplayContainer>
       {reviewDetailOpen && hasMoreContent && <ReviewDetail review={review} />}
     </Container>
