@@ -4,6 +4,11 @@ import dotenv from '../config/dotenv';
 import formidable from 'formidable';
 import sharp from 'sharp';
 import uuid from '../util/uuid';
+import AWSS3Exception from '../exceptions/aws-s3-exception';
+
+const ERROR_MESSAGES = {
+  DISCONNECTION: '연결이 끊겼습니다',
+};
 
 const DEFAULT_FILE_TYPE = 'image/webp';
 const ACCESS_CONTROL = 'public-read';
@@ -31,8 +36,15 @@ class S3Service {
     const sharpImage = await sharp(imageFile.path).resize(500).webp().toBuffer();
     S3Params.Body = sharpImage;
 
-    const data = await S3.upload(S3Params).promise();
-    return data.Location;
+    return S3.upload(S3Params)
+      .promise()
+      .then((data) => {
+        return data.Location;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new AWSS3Exception(ERROR_MESSAGES['DISCONNECTION']);
+      });
   }
 }
 
