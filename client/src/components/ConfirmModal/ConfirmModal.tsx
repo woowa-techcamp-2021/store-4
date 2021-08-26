@@ -1,6 +1,40 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
+const modalShowAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.5)
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+`;
+
+const modalHideAnimation = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.5)
+  }
+`;
+
+const Container = styled.div`
+  .hide {
+    visibility: hidden;
+
+    .modal {
+      animation: ${modalHideAnimation} 0.125s forwards;
+    }
+  }
+`;
+
 const Overlay = styled.div`
   width: 100%;
   height: 100vh;
@@ -13,16 +47,6 @@ const Overlay = styled.div`
   justify-content: center;
 `;
 
-const modalAnimation = keyframes`
-  from {
-    transform: scale(0.5)
-  }
-
-  to {
-    transform: scale(1)
-  }
-`;
-
 const Modal = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,7 +56,8 @@ const Modal = styled.div`
   border-radius: 8px;
   background-color: ${(props) => props.theme.color.white1};
   box-shadow: ${(props) => props.theme.color.grey5}05 0px 2px 12px;
-  animation: ${modalAnimation} 0.25s;
+  animation: ${modalShowAnimation} 0.125s;
+  transition: all 0.125s;
 `;
 
 const ContentWrapper = styled.div`
@@ -84,19 +109,26 @@ const Button = styled.button`
 `;
 
 const ConfirmModal = (): JSX.Element => {
+  const handleCloseClick = () => {
+    const modal = document.querySelector('.confirm-modal');
+    modal?.classList.add('hide');
+  };
+
   return (
-    <Overlay>
-      <Modal>
-        <ContentWrapper>
-          <Title>삭제하시겠습니까?</Title>
-          <Content>배송지가 영구적으로 삭제됩니다</Content>
-        </ContentWrapper>
-        <ButtonWrapper>
-          <Button>확인</Button>
-          <Button>취소</Button>
-        </ButtonWrapper>
-      </Modal>
-    </Overlay>
+    <Container>
+      <Overlay className="confirm-modal hide">
+        <Modal className="modal">
+          <ContentWrapper>
+            <Title className="confirm-modal-title">삭제하시겠습니까?</Title>
+            <Content className="confirm-modal-content">배송지가 영구적으로 삭제됩니다</Content>
+          </ContentWrapper>
+          <ButtonWrapper>
+            <Button className="confirm-modal-confirm-button">확인</Button>
+            <Button onClick={handleCloseClick}>취소</Button>
+          </ButtonWrapper>
+        </Modal>
+      </Overlay>
+    </Container>
   );
 };
 
