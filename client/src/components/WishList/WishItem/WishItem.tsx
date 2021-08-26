@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { CartOptions } from '../../../types/cart';
 import { Wish } from '../../../types/Wish';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { isNotNone } from '../../../utils/typeGuard';
@@ -78,11 +79,7 @@ const WishItem = (props: Props): JSX.Element => {
   const { wishItem, setCheckBox } = props;
   const { id, title, imgSrc, defaultPrice, count, checked, options } = wishItem;
 
-  let totalPrice = defaultPrice;
-  if (isNotNone(options)) {
-    totalPrice += options.reduce((total, current) => total + current.price, 0);
-  }
-  totalPrice *= count;
+  const totalPrice = getTotalPrice(defaultPrice, options, count);
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckBox(id, e.target.checked);
@@ -112,6 +109,20 @@ const WishItem = (props: Props): JSX.Element => {
       </PriceCount>
     </Container>
   );
+};
+
+const getTotalPrice = (
+  defaultPrice: number,
+  options: CartOptions[] | undefined,
+  count: number
+): number => {
+  let totalPrice = defaultPrice;
+  if (isNotNone(options)) {
+    totalPrice += options.reduce((total, current) => total + current.price, 0);
+  }
+  totalPrice *= count;
+
+  return totalPrice;
 };
 
 export default WishItem;
