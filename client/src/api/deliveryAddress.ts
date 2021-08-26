@@ -32,7 +32,7 @@ class DeliveryAddressAPI {
       method: 'POST',
       body: data,
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Type': 'application/json',
         Authorization: token,
       },
     });
