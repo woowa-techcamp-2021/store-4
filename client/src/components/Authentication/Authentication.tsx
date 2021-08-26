@@ -38,12 +38,12 @@ const AuthenticationProvider = ({ children }: Props): JSX.Element => {
     }
   }, [isErrorOccurred, routerHistory]);
 
-  if (isNone(localStorage.getItem('token'))) {
-    toast.error('로그인이 필요합니다');
-    routerHistory.push('/login');
-
-    return <></>;
-  }
+  useEffect(() => {
+    if (isNone(localStorage.getItem('token'))) {
+      toast.error('로그인이 필요합니다');
+      routerHistory.push('/login');
+    }
+  }, [routerHistory]);
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 };
