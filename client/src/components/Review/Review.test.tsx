@@ -122,21 +122,4 @@ describe('Review 컴포넌트 테스트', () => {
 
     expect(screen.getAllByTestId('review-list-item').length).toBe(2);
   });
-
-  test('모달창 랜더링, 닫기 기능', () => {
-    const writeReviewButton = screen.getByText('상품후기 글쓰기');
-    userEvent.click(writeReviewButton);
-    expect(screen.getByTestId('review-post-modal')).toBeInTheDocument();
-
-    const modal = screen.getByTestId('review-post-modal');
-    const overlay = screen.getByTestId('review-post-overlay');
-
-    // modal 창은 클릭해도 닫히지 않음
-    userEvent.click(modal);
-    expect(modal).toBeInTheDocument();
-
-    // overlay 클릭시 닫힘
-    userEvent.click(overlay);
-    expect(modal).not.toBeInTheDocument();
-  });
 });

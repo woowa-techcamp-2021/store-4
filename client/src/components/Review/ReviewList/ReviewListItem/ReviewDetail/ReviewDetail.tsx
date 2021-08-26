@@ -7,13 +7,12 @@ type Props = {
   review: ReviewModel;
 };
 
-const REVIEW_DETAIL_WIDTH = 950;
 const IMAGE_GRID_COLUMNS = 5;
 
 const Container = styled.div`
-  width: ${REVIEW_DETAIL_WIDTH}px;
-  margin: 20px auto 0;
-  padding: 20px;
+  width: 80%;
+  margin: 2% auto 0;
+  padding: 1.5% 2%;
   border: 1px solid ${(props) => props.theme.color.grey1};
   border-radius: 5px;
 `;
@@ -34,11 +33,7 @@ const ReviewContent = styled.p`
 const ReviewDetail = (props: Props): JSX.Element => {
   const { review } = props;
   const ReviewImages = review.reviewImages.map((reviewImage) => (
-    <ReviewDetailImage
-      key={reviewImage.id}
-      imageUrl={reviewImage.url}
-      height={REVIEW_DETAIL_WIDTH / IMAGE_GRID_COLUMNS}
-    />
+    <ReviewDetailImage key={reviewImage.id} imageUrl={reviewImage.url} />
   ));
   const shouldRenderReviewImageList = review.reviewImages.length > 0;
 

@@ -1,5 +1,17 @@
 import { keyframes, css } from 'styled-components';
 
+export const slidedown = keyframes`
+  from {
+    opacity:0;
+    transform: translateY(-20px)
+  }
+
+  to {
+    opacity:1;
+    transform: translateY(0px)
+  }
+`;
+
 const fadein = keyframes`
   from{
     opacity:0;
@@ -10,7 +22,7 @@ const fadein = keyframes`
   }
 `;
 
-const fadeout = keyframes`
+export const fadeout = keyframes`
   from{
     opacity:1;
   }

@@ -6,7 +6,11 @@ import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
 import CartInProduct from '../models/cart-in-product';
+import productDetailStore from '../stores/productDetailStore';
+import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
+import { isNone } from '../utils/typeGuard';
+import toastHelper from '../lib/toast';
 
 const ProductDetailContainer = (): JSX.Element => {
   const [product, productFetchErrorStatus] = useProduct();
@@ -84,6 +88,33 @@ const ProductDetailContainer = (): JSX.Element => {
     [handleRemove]
   );
 
+  const handleWishButtonHandler = useCallback(() => {
+    if (isNone(userStore.user)) {
+      toastHelper.info('로그인이 필요합니다');
+      return;
+    }
+
+    productDetailStore.toggleWish().catch((error) => {
+      console.log(error);
+      switch (error.status) {
+        case 401:
+        case 410:
+          toastHelper.error('세션이 만료되었습니다');
+          history.push('/logout');
+          return;
+
+        case 404:
+          toastHelper.error('삭제된 상품입니다');
+          history.push('/notfound');
+          return;
+
+        default:
+          toastHelper.error('오류가 발생했습니다');
+          return;
+      }
+    });
+  }, [history]);
+
   useEffect(() => {
     if (productFetchErrorStatus === null) {
       return;
@@ -112,6 +143,7 @@ const ProductDetailContainer = (): JSX.Element => {
       product={product}
       selectsWithSelected={selectsWithSelected}
       getSelectChangeHandler={handleGetSelectChangeHandler}
+      onWishClick={handleWishButtonHandler}
     />
   );
 };

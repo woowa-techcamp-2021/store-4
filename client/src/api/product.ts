@@ -15,8 +15,33 @@ class ProductAPI {
     return request<ProductResponse>({ url: `${this.baseURL}/api/product${query}` });
   }
 
-  fetchProduct(id: number): Promise<ProductDetailResponse> {
-    return request<ProductDetailResponse>({ url: `${this.baseURL}/api/product/${id}` });
+  fetchProduct(token: string | null, id: number): Promise<ProductDetailResponse> {
+    return request<ProductDetailResponse>({
+      url: `${this.baseURL}/api/product/${id}`,
+      headers: {
+        authorization: token ?? '',
+      },
+    });
+  }
+
+  wish(token: string, id: number): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/product/${id}/wish`,
+      method: 'POST',
+      headers: {
+        authorization: token,
+      },
+    });
+  }
+
+  cancelWish(token: string, id: number): Promise<void> {
+    return request<void>({
+      url: `${this.baseURL}/api/product/${id}/wish`,
+      method: 'DELETE',
+      headers: {
+        authorization: token,
+      },
+    });
   }
 
   fetchMainProducts(): Promise<MainProductsResponse> {

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import CLOSE from '../../../assets/icons/close.png';
 import CountOption from './CountOption/CountOption';
 import Option from './OptionContainer/OptionContainer';
-
 import cartStore from '../../../stores/cartStore';
 import { useEffect } from 'react';
 import CartItem from '../../../models/cart-item';
-
 import { toJS } from 'mobx';
+import { RiCloseFill } from 'react-icons/ri';
 
 const Container = styled.div`
   display: none;
@@ -34,8 +32,9 @@ const ModalHeader = styled.div`
   padding-bottom: 15px;
 `;
 const ModalTitle = styled.h4``;
-const ModalCloseButton = styled.img`
+const ModalCloseButton = styled.div`
   cursor: pointer;
+  font-size: ${(props) => props.theme.fontSize.large};
 `;
 
 const ModalMain = styled.div`
@@ -108,7 +107,9 @@ const CartModal = (props: Props): JSX.Element => {
       <OptionModalWrapper>
         <ModalHeader>
           <ModalTitle>수량선택</ModalTitle>
-          <ModalCloseButton src={CLOSE} onClick={onCloseModalClick}></ModalCloseButton>
+          <ModalCloseButton onClick={onCloseModalClick}>
+            <RiCloseFill />
+          </ModalCloseButton>
         </ModalHeader>
         <ModalMain>
           <Option />

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../../lib/router';
+import SearchBarContainer from '../../../containers/SearchBarContainer';
 import CategoryMenu from './CategoryMenu/CategoryMenu';
 import LOGO from './logo.png';
-import SearchBar from './SearchBar/SearchBar';
 
 const LOGO_SIZE = 160;
 const HEADER_HEIGHT = 100;
@@ -41,7 +41,7 @@ const HeaderMain = (): JSX.Element => {
           <LogoImage src={LOGO} />
         </Link>
       </LogoContainer>
-      <SearchBar />
+      <SearchBarContainer />
     </Container>
   );
 };

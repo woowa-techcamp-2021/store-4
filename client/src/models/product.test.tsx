@@ -13,6 +13,7 @@ describe('Product 모델', () => {
     reviews: [],
     productSelects: [],
     isWished: false,
+    isOrdered: false,
     createdAt: new Date(2021, 0, 1),
     updatedAt: new Date(2021, 0, 1),
   });

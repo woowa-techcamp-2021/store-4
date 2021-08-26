@@ -7,12 +7,6 @@ import UserRepository from '../repositories/user-repository';
 import WishRepository from '../repositories/wish-repository';
 import { isNone } from '../util/type-guard';
 
-type DeleteWishArgs = {
-  wishId: number;
-  userId: number;
-  productId: number;
-};
-
 class WishService {
   async insertWish(userId: number, productId: number): Promise<Wish> {
     const user = await getCustomRepository(UserRepository).findOne(userId);
@@ -27,7 +21,7 @@ class WishService {
     return getCustomRepository(WishRepository).save({ user, product });
   }
 
-  async deleteWish({ wishId, userId, productId }: DeleteWishArgs): Promise<Wish> {
+  async deleteWish(userId: number, productId: number): Promise<void> {
     const user = await getCustomRepository(UserRepository).findOne(userId);
     if (isNone(user)) {
       throw new UserNotfoundException('유저가 없습니다.');
@@ -37,7 +31,10 @@ class WishService {
       throw new ProductNotfoundException('상품이 존재하지 않습니다.');
     }
 
-    return getCustomRepository(WishRepository).remove({ id: wishId, user, product });
+    const wish = await getCustomRepository(WishRepository).findByUserAndProduct(userId, productId);
+    if (wish !== undefined) {
+      await getCustomRepository(WishRepository).remove(wish);
+    }
   }
 }
 

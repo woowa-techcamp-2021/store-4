@@ -1,11 +1,12 @@
 import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler, useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CartInProduct from '../../models/cart-in-product';
 import Product from '../../models/product';
 import { CartType, SelectWithSelected } from '../../types/product';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 import ProductCartItem from './ProductCart/ProductCartItem';
 import ProductSelectBox from './ProductSelectBox';
+import { FaHeart } from 'react-icons/fa';
 
 const Container = styled.div`
   width: 550px;
@@ -75,10 +76,23 @@ const CommonButton = styled.button`
   cursor: pointer;
 `;
 
-const WishButton = styled(CommonButton)`
+type WishButtonProps = {
+  isWished: boolean;
+};
+
+const WishButton = styled(CommonButton)<WishButtonProps>`
   border: 1px solid ${(props) => props.theme.color.grey1};
   background-color: ${(props) => props.theme.color.white1};
   width: 50px;
+  font-size: ${(props) => props.theme.fontSize.large};
+  ${(props) =>
+    props.isWished
+      ? css`
+          color: ${(props) => props.theme.color.red};
+        `
+      : css`
+          color: ${(props) => props.theme.color.grey3};
+        `};
 `;
 
 const ToCartButton = styled(CommonButton)`
@@ -99,6 +113,7 @@ type Props = {
   cartsInProduct: CartInProduct[];
   product: Product;
   selectsWithSelected: SelectWithSelected[];
+  onWishClick: MouseEventHandler;
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
   getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
   getCountBlurHandler: (cartInProduct: CartInProduct) => FocusEventHandler;
@@ -119,6 +134,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     getRemoveCartHandler,
     getCountChangeHandler,
     getCountBlurHandler,
+    onWishClick,
   } = props;
 
   const ProductSelects = selectsWithSelected.map((selectWithSelected) => (
@@ -171,7 +187,9 @@ const ProductInfoBox = (props: Props): JSX.Element => {
         <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
       </TotalPriceWrapper>
       <ButtonWrapper>
-        <WishButton>찜</WishButton>
+        <WishButton onClick={onWishClick} isWished={product.isWished}>
+          <FaHeart />
+        </WishButton>
         <ToCartButton>장바구니</ToCartButton>
         <PurchaseButton>바로구매</PurchaseButton>
       </ButtonWrapper>

@@ -15,6 +15,7 @@ class ProductAttributes {
   reviews: Review[];
   productSelects: ProductSelect[];
   isWished: boolean;
+  isOrdered: boolean;
   createdAt: Date;
   updatedAt: Date;
 
@@ -32,6 +33,7 @@ class ProductAttributes {
       ? product.productSelects.map((productSelect) => new ProductSelect(productSelect))
       : [];
     this.isWished = product.isWished;
+    this.isOrdered = product.isOrdered;
     this.createdAt = new Date(product.createdAt);
     this.updatedAt = new Date(product.updatedAt);
   }

@@ -41,10 +41,11 @@ const SaveButton = styled(CreateFormButton)`
 
 type Props = {
   onCancelCreateClick: MouseEventHandler;
+  onCreateClick: MouseEventHandler;
 };
 
 const CreateDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JSX.Element => {
-  const { onCancelCreateClick } = props;
+  const { onCancelCreateClick, onCreateClick } = props;
 
   return (
     <Container data-testid="create-delivery-address-form">
@@ -54,7 +55,7 @@ const CreateDeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef
 
       <ButtonWrapper>
         <CancelButton onClick={onCancelCreateClick}>취소</CancelButton>
-        <SaveButton>완료</SaveButton>
+        <SaveButton onClick={onCreateClick}>완료</SaveButton>
       </ButtonWrapper>
     </Container>
   );

@@ -1,7 +1,10 @@
-import React, { useCallback } from 'react';
+import { observer } from 'mobx-react';
+import React, { useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import DeliveryAddressList from '../components/DeliveryAddress/DeliveryAddressList';
-import DeliveryAddress from '../models/delivery-address';
+import { useHistory } from '../lib/router';
+import deliveryAddressStore from '../stores/deliveryAddressStore';
+import { isNotNone } from '../utils/typeGuard';
 
 export type DeliveryAddressFormRef = {
   readonly name: string;
@@ -10,34 +13,10 @@ export type DeliveryAddressFormRef = {
   readonly recipientPhoneNumber: string;
 };
 
-const useDeliveryAddresses = (): DeliveryAddress[] => {
-  const [deliveryAddresses, setDeliveryAddresses] = useState<DeliveryAddress[]>([]);
-
-  useEffect(() => {
-    setDeliveryAddresses([
-      {
-        id: 1,
-        name: '본가',
-        recipientName: '최진우',
-        address: '대구 수성구',
-        recipientPhoneNumber: '010-1234-1234',
-      },
-      {
-        id: 2,
-        name: '자취방',
-        recipientName: '최진우',
-        address: '서울시 마포구',
-        recipientPhoneNumber: '010-1234-1234',
-      },
-    ]);
-  }, []);
-
-  return deliveryAddresses;
-};
-
 const ManageDeliveryAddressContainer = (): JSX.Element => {
-  const deliveryAddresses = useDeliveryAddresses();
   const [isCreating, setIsCreating] = useState(false);
+  const history = useHistory();
+  const createFormRef = useRef<DeliveryAddressFormRef>(null);
 
   const handleCreatingClick = useCallback(() => {
     setIsCreating(true);
@@ -47,14 +26,48 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
     setIsCreating(false);
   }, []);
 
+  const handleCreateClick = useCallback(() => {
+    if (isNotNone(createFormRef.current)) {
+      const { address, name, recipientName, recipientPhoneNumber } = createFormRef.current;
+      deliveryAddressStore
+        .createDeliveryAddress({
+          address,
+          name,
+          recipientName,
+          recipientPhoneNumber,
+        })
+        .then(() => {
+          setIsCreating(false);
+        })
+        .catch((error) => {
+          switch (error.status) {
+            case 400:
+              alert('양식을 확인해주세요');
+              return;
+
+            default:
+              history.push('/error');
+              return;
+          }
+        });
+    }
+  }, [history]);
+
+  useEffect(() => {
+    deliveryAddressStore.fetchDeliveryAddresses().catch(() => {
+      history.push('/error');
+    });
+  }, [history]);
+
   return (
     <DeliveryAddressList
+      ref={createFormRef}
+      onCreateClick={handleCreateClick}
       isCreating={isCreating}
       onCreatingClick={handleCreatingClick}
       onCancelCreatingClick={handleCancelCreatingClick}
-      deliveryAddresses={deliveryAddresses}
     />
   );
 };
 
-export default ManageDeliveryAddressContainer;
+export default observer(ManageDeliveryAddressContainer);
