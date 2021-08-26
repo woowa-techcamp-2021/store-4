@@ -12,24 +12,26 @@ const Container = styled.div`
 `;
 
 const DeliveryAddressFormInput = styled.input`
-  border: none;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
-  padding: 5px 8px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  border-radius: 3px;
+  padding: 8px;
   outline: none;
   color: ${(props) => props.theme.color.grey5};
+
+  &:focus {
+    border-color: ${(props) => props.theme.color.mint2};
+  }
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin: 8px 0;
   gap: 8px;
 `;
 
-const DeliveryAddressNickName = styled(DeliveryAddressFormInput)`
-  font-size: ${(props) => props.theme.fontSize.medium};
-  font-weight: bold;
-`;
+const DeliveryAddressNickName = styled(DeliveryAddressFormInput)``;
 
 const Address = styled(DeliveryAddressFormInput)`
   width: 500px;
