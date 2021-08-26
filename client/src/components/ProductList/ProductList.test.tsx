@@ -18,6 +18,7 @@ describe('ProductList 테스트', () => {
     { key: ProductListOrder.PriceHigh, body: '높은가격순' },
   ];
   const mock = {
+    getWishClickHandler: jest.fn().mockResolvedValue(jest.fn()),
     products: [] as Product[],
     buttons: SORT_BUTTONS,
     currentPage: 1,

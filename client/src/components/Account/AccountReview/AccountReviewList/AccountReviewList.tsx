@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../../models/review';
+import { ReviewWithProduct } from '../../../../models/review';
 import ReviewListItem from './AccountReviewListItem/AccountReviewListItem';
 
 const Container = styled.ul`
@@ -8,14 +8,21 @@ const Container = styled.ul`
 `;
 
 type Props = {
-  reviews: ReviewModel[];
+  reviews: ReviewWithProduct[];
+  isSelectedList: boolean[];
+  getCheckboxClickHandler: (index: number) => () => void;
 };
 
 const ReviewList = (props: Props): JSX.Element => {
-  const { reviews } = props;
+  const { reviews, isSelectedList, getCheckboxClickHandler } = props;
 
-  const ReviewListItems = reviews.map((review) => (
-    <ReviewListItem key={review.id} review={review} />
+  const ReviewListItems = reviews.map((review, i) => (
+    <ReviewListItem
+      key={review.id}
+      review={review}
+      isSelected={isSelectedList[i]}
+      onCheckboxClick={getCheckboxClickHandler(i)}
+    />
   ));
 
   return <Container>{ReviewListItems}</Container>;

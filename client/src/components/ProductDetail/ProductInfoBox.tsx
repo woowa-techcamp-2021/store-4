@@ -93,6 +93,16 @@ const WishButton = styled(CommonButton)<WishButtonProps>`
       : css`
           color: ${(props) => props.theme.color.grey3};
         `};
+
+  .product-wish-icon {
+    transition: all 0.125s;
+  }
+
+  :active {
+    .product-wish-icon {
+      transform: scale(0.8);
+    }
+  }
 `;
 
 const ToCartButton = styled(CommonButton)`
@@ -114,6 +124,8 @@ type Props = {
   product: Product;
   selectsWithSelected: SelectWithSelected[];
   onWishClick: MouseEventHandler;
+  onOrderClick: MouseEventHandler;
+  onCartClick: MouseEventHandler;
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
   getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
   getCountBlurHandler: (cartInProduct: CartInProduct) => FocusEventHandler;
@@ -135,6 +147,8 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     getCountChangeHandler,
     getCountBlurHandler,
     onWishClick,
+    onOrderClick,
+    onCartClick,
   } = props;
 
   const ProductSelects = selectsWithSelected.map((selectWithSelected) => (
@@ -188,10 +202,10 @@ const ProductInfoBox = (props: Props): JSX.Element => {
       </TotalPriceWrapper>
       <ButtonWrapper>
         <WishButton onClick={onWishClick} isWished={product.isWished}>
-          <FaHeart />
+          <FaHeart className="product-wish-icon" />
         </WishButton>
-        <ToCartButton>장바구니</ToCartButton>
-        <PurchaseButton>바로구매</PurchaseButton>
+        <ToCartButton onClick={onCartClick}>장바구니</ToCartButton>
+        <PurchaseButton onClick={onOrderClick}>바로구매</PurchaseButton>
       </ButtonWrapper>
     </Container>
   );

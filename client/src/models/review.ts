@@ -1,3 +1,4 @@
+import Product from './product';
 import ReviewImage from './review-image';
 
 class Review {
@@ -15,6 +16,19 @@ class Review {
     this.reviewImages = review.reviewImages.map((reviewImage) => new ReviewImage(reviewImage));
     this.createdAt = new Date(review.createdAt);
     this.updatedAt = new Date(review.updatedAt);
+  }
+}
+
+export class ReviewWithProduct extends Review {
+  product: Product;
+
+  constructor(review: ReviewWithProduct) {
+    super(review);
+    this.product = new Product(review.product);
+  }
+
+  get productName(): string {
+    return this.product.name;
   }
 }
 

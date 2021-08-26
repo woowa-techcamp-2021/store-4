@@ -10,9 +10,14 @@ class ProductAPI {
     this.baseURL = baseURL;
   }
 
-  fetchProducts(option: Option): Promise<ProductResponse> {
+  fetchProducts(token: string | null, option: Option): Promise<ProductResponse> {
     const query = buildQueryString(option);
-    return request<ProductResponse>({ url: `${this.baseURL}/api/product${query}` });
+    return request<ProductResponse>({
+      url: `${this.baseURL}/api/product${query}`,
+      headers: {
+        authorization: token ?? '',
+      },
+    });
   }
 
   fetchProduct(token: string | null, id: number): Promise<ProductDetailResponse> {
@@ -44,8 +49,13 @@ class ProductAPI {
     });
   }
 
-  fetchMainProducts(): Promise<MainProductsResponse> {
-    return request<MainProductsResponse>({ url: `${this.baseURL}/api/product/main` });
+  fetchMainProducts(token: string | null): Promise<MainProductsResponse> {
+    return request<MainProductsResponse>({
+      url: `${this.baseURL}/api/product/main`,
+      headers: {
+        authorization: token ?? '',
+      },
+    });
   }
 }
 

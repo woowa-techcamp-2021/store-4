@@ -4,7 +4,12 @@ import { Option } from '../types/option';
 
 class ProductStore {
   async fetchProducts(option: Option) {
-    const { products, totalPages, totalProductCount } = await apis.productAPI.fetchProducts(option);
+    const token = localStorage.getItem('token');
+
+    const { products, totalPages, totalProductCount } = await apis.productAPI.fetchProducts(
+      token,
+      option
+    );
     return {
       products: products.map((product: Product) => new Product(product)),
       totalPages,
@@ -13,8 +18,10 @@ class ProductStore {
   }
 
   async fetchMainProducts() {
+    const token = localStorage.getItem('token');
+
     const { popularProducts, discountingProducts, newProducts } =
-      await apis.productAPI.fetchMainProducts();
+      await apis.productAPI.fetchMainProducts(token);
 
     const modelingProduct = (product: Product) => new Product(product);
 

@@ -3,6 +3,7 @@ import ProductNotfoundException from '../exceptions/product-notfound-exception';
 import ProductNotOrderedException from '../exceptions/product-notordered-exception';
 import ReviewNotfoundException from '../exceptions/review-notfound-exception';
 import ReviewNotWrittenByUserException from '../exceptions/review-notwrittenbyuser-exception';
+import UserNotfoundException from '../exceptions/user-notfound-exception';
 import Review from '../models/review';
 import ProductRepository from '../repositories/product-repository';
 import ReviewImageRepository from '../repositories/review-image-repository';
@@ -13,7 +14,7 @@ import ReviewPost from '../validations/review-post';
 
 type DeleteReviewQuery = {
   userId: number;
-  reviewId: number;
+  reviewIds: number[];
 };
 
 const ERROR_MESSAGES = {
@@ -21,9 +22,20 @@ const ERROR_MESSAGES = {
   PRODUCT_NOT_FOUND: '해당 상품이 존재하지 않습니다',
   REVIEW_NOT_FOUND: '리뷰가 존재하지 않습니다',
   REVIEW_NOT_WRITTEN_BY_USER: '해당 리뷰에 대한 권한이 없습니다',
+  USER_NOT_FOUND: '유저가 존재하지 않습니다',
 };
 
 class ReviewService {
+  async getReviewByUser(userId: number): Promise<Review[]> {
+    const user = await getCustomRepository(UserRepository).findOne(userId);
+
+    if (isNone(user)) {
+      throw new UserNotfoundException(ERROR_MESSAGES['USER_NOT_FOUND']);
+    }
+
+    return getCustomRepository(ReviewRepository).findByUser(userId);
+  }
+
   async postReview({
     userId,
     productId,
@@ -57,20 +69,20 @@ class ReviewService {
     return review;
   }
 
-  async deleteReview({ userId, reviewId }: DeleteReviewQuery): Promise<void> {
-    const review = await getCustomRepository(ReviewRepository).findOne(reviewId, {
+  async deleteReview({ userId, reviewIds }: DeleteReviewQuery): Promise<void> {
+    const reviews = await getCustomRepository(ReviewRepository).findByIds(reviewIds, {
       relations: ['user'],
     });
 
-    if (isNone(review)) {
+    if (reviews.some((review) => isNone(review))) {
       throw new ReviewNotfoundException(ERROR_MESSAGES['REVIEW_NOT_FOUND']);
     }
 
-    if (review.user?.id !== userId) {
+    if (reviews.some((review) => review.user?.id !== userId)) {
       throw new ReviewNotWrittenByUserException(ERROR_MESSAGES['REVIEW_NOT_WRITTEN_BY_USER']);
     }
 
-    getCustomRepository(ReviewRepository).delete(reviewId);
+    getCustomRepository(ReviewRepository).delete(reviewIds);
   }
 }
 

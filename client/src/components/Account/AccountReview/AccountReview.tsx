@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ReviewModel from '../../../models/review';
+import { ReviewWithProduct } from '../../../models/review';
 import getPaginatedArray from '../../../utils/getPaginatedArray';
 import ReviewList from './AccountReviewList/AccountReviewList';
 import ReviewPagination from '../../Review/ReviewPagination/ReviewPagination';
@@ -45,23 +45,48 @@ const DeleteButton = styled(Button)`
 `;
 
 type Props = {
-  reviews: ReviewModel[];
+  reviews: ReviewWithProduct[];
+  onDeleteButtonClick: (reviews: ReviewWithProduct[]) => void;
 };
 const Review = (props: Props): JSX.Element => {
-  const { reviews } = props;
+  const { reviews, onDeleteButtonClick } = props;
+
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(reviews.length / REVIEW_PER_PAGE);
   const showPagination = totalPages > 1;
   const displayedReviews = getPaginatedArray(reviews, REVIEW_PER_PAGE, currentPage);
 
-  const handlePageNumClick = useCallback((pageNum) => setCurrentPage(pageNum), []);
+  const [isSelectedList, setIsSelectedList] = useState<boolean[]>([]);
+  const isAllSelected = isSelectedList.length && isSelectedList.every(Boolean);
+
+  const getCheckboxClickHandler = (index: number) => () =>
+    setIsSelectedList((prevList) => [
+      ...prevList.slice(0, index),
+      !prevList[index],
+      ...prevList.slice(index + 1),
+    ]);
+
+  const handlePageNumClick = useCallback((pageNum: number) => setCurrentPage(pageNum), []);
   const handlePageNavButtonClick = useCallback(
-    (type) =>
+    (type: 'prev' | 'next') =>
       setCurrentPage((prevCurrentPage) =>
         type === 'prev' ? prevCurrentPage - 1 : prevCurrentPage + 1
       ),
     []
   );
+  const handleCheckAllButtonClick = useCallback(
+    () => setIsSelectedList(new Array(displayedReviews.length).fill(!isAllSelected)),
+    [displayedReviews.length, isAllSelected]
+  );
+  const handleDeleteButtonClick = useCallback(() => {
+    const deleteReviews = displayedReviews.filter((review, index) => isSelectedList[index]);
+
+    onDeleteButtonClick(deleteReviews);
+  }, [displayedReviews, isSelectedList, onDeleteButtonClick]);
+
+  useEffect(() => {
+    setIsSelectedList(new Array(displayedReviews.length).fill(false));
+  }, [displayedReviews.length]);
 
   return (
     <Container>
@@ -70,10 +95,16 @@ const Review = (props: Props): JSX.Element => {
       ) : (
         <>
           <ReviewButtonGroup>
-            <SelectAllButton>전체 선택</SelectAllButton>
-            <DeleteButton>삭제</DeleteButton>
+            <SelectAllButton onClick={handleCheckAllButtonClick}>
+              {isAllSelected ? '선택 해제' : '전체 선택'}
+            </SelectAllButton>
+            <DeleteButton onClick={handleDeleteButtonClick}>삭제</DeleteButton>
           </ReviewButtonGroup>
-          <ReviewList reviews={displayedReviews} />
+          <ReviewList
+            reviews={displayedReviews}
+            getCheckboxClickHandler={getCheckboxClickHandler}
+            isSelectedList={isSelectedList}
+          />
           {showPagination && (
             <ReviewPagination
               currentPage={currentPage}

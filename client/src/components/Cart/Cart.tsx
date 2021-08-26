@@ -28,11 +28,16 @@ const MoveShopPage = styled.div`
   cursor: pointer;
 `;
 
-const Cart = (): JSX.Element => {
+type Props = {
+  onClickAllProductOrderButton: React.MouseEventHandler;
+  onClickSelectedProductOrderButton: React.MouseEventHandler;
+};
+
+const Cart = (props: Props): JSX.Element => {
   const [modalCartItem, setModalCartItem] = useState<boolean>(false);
 
-  const onItemOptionClick = (id: number) => {
-    cartStore.setModalCartItemId(id);
+  const onItemOptionClick = (uuid: string) => {
+    cartStore.setModalCartItemId(uuid);
     setModalCartItem(true);
   };
 
@@ -51,7 +56,7 @@ const Cart = (): JSX.Element => {
         </MoveShopPage>
       </Link>
       <PriceTotal />
-      <CartButtons />
+      <CartButtons {...props} />
       {modalCartItem && <CartModal onCloseModalClick={onCloseModalClick} />}
     </Container>
   );

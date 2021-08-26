@@ -1,53 +1,88 @@
 import { action, makeAutoObservable, observable } from 'mobx';
-
+import CartInProduct from '../models/cart-in-product';
 import CartItem from '../models/cart-item';
-import { SelectWithSelected } from '../types/product';
 import { isNone, isNotNone } from '../utils/typeGuard';
+import NOIMAGE from '../assets/images/no-image.png';
+import { SelectWithSelected } from '../types/product';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
+
+const isDuplicated = (
+  selectsWithSelectedA: SelectWithSelected[],
+  selectsWithSelectedB: SelectWithSelected[]
+) => {
+  const selectedOptionsA = selectsWithSelectedA.map((selects) => selects.selectedOption);
+  const selectedOptionsB = selectsWithSelectedB.map((selects) => selects.selectedOption);
+
+  return selectedOptionsA.every((value, index) => value?.id === selectedOptionsB[index]?.id);
+};
+
+const isDuplicatedCartItem = (cartInProduct: CartInProduct) => (cartItem: CartItem) => {
+  return (
+    isDuplicated(cartItem.selectWithSelecteds, cartInProduct.options) &&
+    cartItem.title === cartInProduct.product.name
+  );
+};
+
 class CartStore {
   @observable
   cartItemList: CartItem[] = [];
-  modalCartItemId: number;
+  modalCartItemUuid: string;
 
   constructor() {
     makeAutoObservable(this);
 
     const cartItemList = this.getCartItemListFromStorage();
     this.cartItemList = cartItemList.map((cart: CartItem) => new CartItem(cart));
-    this.modalCartItemId = 0;
+    this.modalCartItemUuid = '';
   }
 
   @action
-  addProductToCart(
-    productId: number,
-    title: string,
-    imgSrc: string,
-    count: number,
-    price: number,
-    selectWithSelecteds?: SelectWithSelected[]
-  ) {
-    const prevItem = this.cartItemList.find((cartItem) => cartItem.id === productId);
-    if (isNotNone(prevItem)) {
-      // 이미 장바구니에 추가된 상품.
-      return;
-    }
+  addProductsToCart(cartsInProduct: CartInProduct[]) {
+    const existedCartItems: { [key: number]: CartInProduct } = {};
+    const notExistedCartInProducts: CartInProduct[] = [];
 
-    const newCartItem = new CartItem({
-      id: productId,
-      title,
-      imgSrc,
-      count,
-      price,
-      isSelected: true,
-      selectWithSelecteds,
+    cartsInProduct.forEach((cartInProduct, index) => {
+      if (this.cartItemList.some(isDuplicatedCartItem(cartInProduct))) {
+        existedCartItems[index] = cartInProduct;
+        return;
+      }
+      notExistedCartInProducts.push(cartInProduct);
     });
-    this.cartItemList.push(newCartItem);
+
+    this.cartItemList = this.cartItemList.map((cartItem, index) => {
+      if (isNotNone(existedCartItems[index])) {
+        const count = cartItem.count + existedCartItems[index].count;
+        const updatedCartItem = new CartItem({
+          ...cartItem,
+          count,
+        });
+
+        return updatedCartItem;
+      }
+      return cartItem;
+    });
+
+    const noxExistedCartItemList = notExistedCartInProducts.map((cartInProduct) => {
+      const { uuid, product, count, options } = cartInProduct;
+      return new CartItem({
+        uuid,
+        productId: product.id,
+        title: product.name,
+        imgSrc: product.thumbnail || NOIMAGE,
+        count,
+        price: product.price,
+        isSelected: true,
+        selectWithSelecteds: options,
+      });
+    });
+
+    this.cartItemList.push(...noxExistedCartItemList);
     this.setCartItemListToStorage(this.cartItemList);
   }
 
   getModalCartItem() {
-    return this.cartItemList.find((item) => item.id === this.modalCartItemId);
+    return this.cartItemList.find((item) => item.uuid === this.modalCartItemUuid);
   }
 
   setModalCartItemCount(count: number) {
@@ -55,7 +90,9 @@ class CartStore {
       count = 1;
     }
 
-    const index = this.cartItemList.findIndex((cartItem) => cartItem.id === this.modalCartItemId);
+    const index = this.cartItemList.findIndex(
+      (cartItem) => cartItem.uuid === this.modalCartItemUuid
+    );
     if (index === -1) {
       return;
     }
@@ -65,8 +102,8 @@ class CartStore {
   }
 
   @action
-  setCartItemSelection(id: number, isSelected: boolean) {
-    const index = this.cartItemList.findIndex((cartItem) => cartItem.id === id);
+  setCartItemSelection(uuid: string, isSelected: boolean) {
+    const index = this.cartItemList.findIndex((cartItem) => cartItem.uuid === uuid);
     if (index === -1) {
       return;
     }
@@ -84,8 +121,8 @@ class CartStore {
     this.setCartItemListToStorage(this.cartItemList);
   }
 
-  setModalCartItemId(id: number) {
-    this.modalCartItemId = id;
+  setModalCartItemId(uuid: string) {
+    this.modalCartItemUuid = uuid;
   }
 
   setCartItemListToStorage(cartItemList: CartItem[]) {
@@ -108,13 +145,17 @@ class CartStore {
     }
   }
 
-  getCartItemList() {
-    return this.cartItemList;
-  }
-
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
     this.setCartItemListToStorage(this.cartItemList);
+  }
+
+  get isNothingSelectedCartItems() {
+    return this.cartItemList.every((cartItem) => !cartItem.isSelected);
+  }
+
+  get selectedCartItemList() {
+    return this.cartItemList.filter((cartItem) => cartItem.isSelected);
   }
 }
 

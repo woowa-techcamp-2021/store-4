@@ -64,16 +64,16 @@ const AddToCart = (): JSX.Element => {
   return (
     <LocalStorageMock
       onClick={() => {
-        for (const cartItem of mockItemList) {
-          cartStore.addProductToCart(
-            cartItem.id,
-            cartItem.title,
-            cartItem.imgSrc,
-            cartItem.count,
-            cartItem.price,
-            cartItem.selectWithSelecteds
-          );
-        }
+        // for (const cartItem of mockItemList) {
+        //   cartStore.addProductToCart(
+        //     cartItem.id,
+        //     cartItem.title,
+        //     cartItem.imgSrc,
+        //     cartItem.count,
+        //     cartItem.price,
+        //     cartItem.selectWithSelecteds
+        //   );
+        // }
         console.log('목데이터 추가');
       }}
     >

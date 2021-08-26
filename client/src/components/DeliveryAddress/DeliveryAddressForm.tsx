@@ -72,18 +72,18 @@ const DeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
         }
       },
       set recipientName(value: string) {
-        if (isNotNone(nameRef.current)) {
-          nameRef.current.value = value;
+        if (isNotNone(recipientNameRef.current)) {
+          recipientNameRef.current.value = value;
         }
       },
       set address(value: string) {
-        if (isNotNone(nameRef.current)) {
-          nameRef.current.value = value;
+        if (isNotNone(addressRef.current)) {
+          addressRef.current.value = value;
         }
       },
       set recipientPhoneNumber(value: string) {
-        if (isNotNone(nameRef.current)) {
-          nameRef.current.value = value;
+        if (isNotNone(recipientPhoneNumberRef.current)) {
+          recipientPhoneNumberRef.current.value = value;
         }
       },
     }),
