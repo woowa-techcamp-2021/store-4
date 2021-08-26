@@ -3,16 +3,18 @@ import { hasProperty } from '../utils/hasProperty';
 import { isNone } from '../utils/typeGuard';
 
 class CartItem {
-  id: number;
+  uuid: string;
+  productId: number;
   title: string;
   imgSrc: string;
   count: number;
   price: number;
   isSelected: boolean;
-  selectWithSelecteds?: SelectWithSelected[];
+  selectWithSelecteds: SelectWithSelected[];
 
   constructor(data: CartItem) {
-    this.id = data.id;
+    this.uuid = data.uuid;
+    this.productId = data.productId;
     this.title = data.title;
     this.imgSrc = data.imgSrc;
     this.count = data.count;
@@ -28,7 +30,7 @@ class CartItem {
 
     if (value instanceof Object) {
       if (
-        hasProperty(value, 'id') &&
+        hasProperty(value, 'uuid') &&
         hasProperty(value, 'isSelected') &&
         hasProperty(value, 'selectWithSelecteds')
       ) {

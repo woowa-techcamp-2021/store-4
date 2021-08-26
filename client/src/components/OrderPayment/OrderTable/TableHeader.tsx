@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import cartStore from '../../../../stores/cartStore';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -19,9 +18,6 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.color.grey1};
 `;
 
-const HeaderCheckBox = styled.input`
-  width: 38px;
-`;
 const HeaderTitle = styled(AlignCenterContainer)`
   width: 100%;
 `;
@@ -33,20 +29,8 @@ const HeaderPrice = styled(AlignCenterContainer)`
 `;
 
 const TableHeader = (): JSX.Element => {
-  const { cartItemList } = cartStore;
-  const isAllSelected = cartItemList.every((cartItem) => cartItem.isSelected);
-
-  const onClickCheckBox = () => {
-    cartStore.setCartItemSelectionAll(!isAllSelected);
-  };
-
   return (
     <Container>
-      <HeaderCheckBox
-        type="checkbox"
-        checked={isAllSelected}
-        onChange={onClickCheckBox}
-      ></HeaderCheckBox>
       <HeaderTitle>상품/옵션 정보</HeaderTitle>
       <HeaderCount>수량</HeaderCount>
       <HeaderPrice>상품금액</HeaderPrice>

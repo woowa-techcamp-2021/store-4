@@ -26,7 +26,7 @@ const CartItemList = styled.div`
 `;
 
 type Props = {
-  onOptionClick: (id: number) => void;
+  onOptionClick: (uuid: string) => void;
 };
 
 const CartTable = (props: Props): JSX.Element => {
@@ -39,8 +39,8 @@ const CartTable = (props: Props): JSX.Element => {
         <CartItemList>
           {cartStore.cartItemList.map((item) => (
             <CartItem
-              key={item.id}
-              id={item.id}
+              key={item.uuid}
+              uuid={item.uuid}
               title={item.title}
               imgSrc={item.imgSrc}
               count={item.count}

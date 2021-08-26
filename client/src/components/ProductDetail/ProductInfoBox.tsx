@@ -114,6 +114,8 @@ type Props = {
   product: Product;
   selectsWithSelected: SelectWithSelected[];
   onWishClick: MouseEventHandler;
+  onOrderClick: MouseEventHandler;
+  onCartClick: MouseEventHandler;
   getSelectChangeHandler: (selectWithSelected: SelectWithSelected) => ChangeEventHandler;
   getCountChangeHandler: (cartInProduct: CartInProduct) => ChangeEventHandler;
   getCountBlurHandler: (cartInProduct: CartInProduct) => FocusEventHandler;
@@ -135,6 +137,8 @@ const ProductInfoBox = (props: Props): JSX.Element => {
     getCountChangeHandler,
     getCountBlurHandler,
     onWishClick,
+    onOrderClick,
+    onCartClick,
   } = props;
 
   const ProductSelects = selectsWithSelected.map((selectWithSelected) => (
@@ -190,8 +194,8 @@ const ProductInfoBox = (props: Props): JSX.Element => {
         <WishButton onClick={onWishClick} isWished={product.isWished}>
           <FaHeart />
         </WishButton>
-        <ToCartButton>장바구니</ToCartButton>
-        <PurchaseButton>바로구매</PurchaseButton>
+        <ToCartButton onClick={onCartClick}>장바구니</ToCartButton>
+        <PurchaseButton onClick={onOrderClick}>바로구매</PurchaseButton>
       </ButtonWrapper>
     </Container>
   );

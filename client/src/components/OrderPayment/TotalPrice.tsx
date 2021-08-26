@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { toKoreanMoneyFormatPure } from '../../../utils/moneyFormater';
 import { observer } from 'mobx-react';
-import cartStore from '../../../stores/cartStore';
-import { getSelectedOptionPriceList } from '../helper';
+import { toKoreanMoneyFormatPure } from '../../utils/moneyFormater';
+import orderStore from '../../stores/orderStore';
 
 const Container = styled.div`
   display: flex;
@@ -47,29 +46,17 @@ const Price = styled.span<PriceProps>`
 `;
 
 const PriceTotal = (): JSX.Element => {
-  const cartItemList = cartStore.cartItemList;
-
-  let selectedItemCount = 0;
-  let totalPrice = 0;
-  for (const item of cartItemList) {
-    if (item.isSelected) {
-      selectedItemCount++;
-      const optionPrice = getSelectedOptionPriceList(item.selectWithSelecteds).reduce(
-        (total, current) => total + current,
-        0
-      );
-      totalPrice += (item.price + optionPrice) * item.count;
-    }
-  }
+  const orderDetailProductList = orderStore.orderDetailProductList;
+  const totalPrice = orderStore.totalPrice;
 
   return (
     <Container>
       <Wrapper>
         <Text>
-          총 <TextCount>{selectedItemCount}</TextCount> 개의 상품금액
+          총 <TextCount>{orderDetailProductList.length}</TextCount> 개의 상품금액
         </Text>
         <PriceWrapper>
-          <Price isTotal={false}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
+          <Price isTotal={true}>{toKoreanMoneyFormatPure(totalPrice)}</Price>원
         </PriceWrapper>
       </Wrapper>
     </Container>

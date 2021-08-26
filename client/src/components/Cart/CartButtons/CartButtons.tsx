@@ -48,7 +48,14 @@ const OrderAllButton = styled(OrderButton)`
   background-color: ${(props) => props.theme.color.black};
 `;
 
-const CartButtons = (): JSX.Element => {
+type Props = {
+  onClickAllProductOrderButton: React.MouseEventHandler;
+  onClickSelectedProductOrderButton: React.MouseEventHandler;
+};
+
+const CartButtons = (props: Props): JSX.Element => {
+  const { onClickAllProductOrderButton, onClickSelectedProductOrderButton } = props;
+
   const onClickRemoveSeleted = () => {
     cartStore.removeSelectedItem();
   };
@@ -59,8 +66,8 @@ const CartButtons = (): JSX.Element => {
         <RemoveButton onClick={onClickRemoveSeleted}>선택 상품 삭제</RemoveButton>
       </ProductButtonList>
       <OrderButtonList>
-        <OrderButton>선택 상품 주문</OrderButton>
-        <OrderAllButton>전체 상품 주문</OrderAllButton>
+        <OrderButton onClick={onClickSelectedProductOrderButton}>선택 상품 주문</OrderButton>
+        <OrderAllButton onClick={onClickAllProductOrderButton}>전체 상품 주문</OrderAllButton>
       </OrderButtonList>
     </Container>
   );
