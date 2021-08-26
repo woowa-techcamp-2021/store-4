@@ -46,13 +46,17 @@ type Props = {
   index: number;
   searchTerm: SearchTerm;
   onDeleteSearchTerm: React.MouseEventHandler;
+  onSearchTermClick: React.MouseEventHandler;
 };
 
 const SearchTermItem = (props: Props): JSX.Element => {
-  const { searchTerm, index, onDeleteSearchTerm } = props;
+  const { searchTerm, index, onDeleteSearchTerm, onSearchTermClick } = props;
   return (
     <Container>
-      <SearchTermItemLeft data-testid={`search-term-item-content-${index}`}>
+      <SearchTermItemLeft
+        data-testid={`search-term-item-content-${index}`}
+        onClick={onSearchTermClick}
+      >
         {searchTerm.content}
       </SearchTermItemLeft>
       <SearchTermItemRight>
