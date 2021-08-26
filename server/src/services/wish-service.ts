@@ -36,6 +36,21 @@ class WishService {
       await getCustomRepository(WishRepository).remove(wish);
     }
   }
+
+  async getWishList(userId: number) {
+    console.log('hit');
+    const user = await getCustomRepository(UserRepository).findOne(userId);
+    if (isNone(user)) {
+      throw new UserNotfoundException('유저가 없습니다.');
+    }
+
+    const wishList = await getCustomRepository(WishRepository).findByUser(userId);
+    if (!Array.isArray(wishList)) {
+      throw new Error('에러!!!');
+    }
+
+    return wishList;
+  }
 }
 
 export default new WishService();

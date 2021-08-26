@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Route, Switch } from '../lib/router';
+import { Route, Switch, useParams } from '../lib/router';
 import AccountNavList from '../components/Account/AccountNavList/AccountNavList';
 import AccountLanding from '../components/Account/AccountLanding/AccountLanding';
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
 import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
 import AccountReviewContainer from '../containers/AccountReviewContainer';
+import apis from '../api';
 
 type PathItem = {
   path: string;
@@ -38,8 +39,18 @@ const AccountPage = (): JSX.Element => {
   ));
   const pathTextList = PATH_ITEM_LIST.map(({ path, text }) => ({ path: `/account/${path}`, text }));
 
+  const { id } = useParams();
+
   return userStore.user ? (
     <Container>
+      <div
+        onClick={() => {
+          const token = localStorage.getItem('token');
+          apis.productAPI.fetchWishList(token, +id);
+        }}
+      >
+        찜리스트 fetch api 테스트
+      </div>
       <AccountNavList pathTextList={pathTextList} />
       <RouteContainer>
         <Switch>

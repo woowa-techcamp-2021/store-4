@@ -9,6 +9,10 @@ class WishRepository extends Repository<Wish> {
       .andWhere('product_id = :productId', { productId })
       .getOne();
   }
+
+  findByUser(userId: number) {
+    return createQueryBuilder(Wish).where('user_id = :userId', { userId });
+  }
 }
 
 export default WishRepository;
