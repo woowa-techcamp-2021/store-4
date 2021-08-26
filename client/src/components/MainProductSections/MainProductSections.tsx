@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import MainAdList from './MainAdList/MainAdList';
 import MainProductList from './MainProductList';
-import { MainProducts } from '../../types/product';
 import { MockProductAdItemType } from './mock';
+import Product from '../../models/product';
 
 const Container = styled.div`
   width: 1200px;
@@ -28,15 +28,25 @@ const SECTION_TITLE = {
 const AD_TITLE = '선물하기 딱 좋아요!';
 
 type Props = {
-  mainProducts: MainProducts;
+  discountingProducts: Product[];
+  popularProducts: Product[];
+  newProducts: Product[];
   mainAdProducts: MockProductAdItemType[];
+  getDiscountingWishClickHandler: (product: Product) => MouseEventHandler;
+  getNewWishClickHandler: (product: Product) => MouseEventHandler;
+  getPopularWishClickHandler: (product: Product) => MouseEventHandler;
 };
 
 const MainProductSections = (props: Props): JSX.Element => {
   const { MostSales, Recent, Discount } = FilterOption;
   const {
-    mainProducts: { discountingProducts, newProducts, popularProducts },
     mainAdProducts,
+    discountingProducts,
+    popularProducts,
+    newProducts,
+    getDiscountingWishClickHandler,
+    getNewWishClickHandler,
+    getPopularWishClickHandler,
   } = props;
 
   const filteredDatas = {
@@ -56,10 +66,16 @@ const MainProductSections = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <MainProductList {...filteredDatas[MostSales]} />
-      <MainProductList {...filteredDatas[Recent]} />
+      <MainProductList
+        getWishClickHandler={getPopularWishClickHandler}
+        {...filteredDatas[MostSales]}
+      />
+      <MainProductList getWishClickHandler={getNewWishClickHandler} {...filteredDatas[Recent]} />
       <MainAdList title={AD_TITLE} products={mainAdProducts} />
-      <MainProductList {...filteredDatas[Discount]} />
+      <MainProductList
+        getWishClickHandler={getDiscountingWishClickHandler}
+        {...filteredDatas[Discount]}
+      />
     </Container>
   );
 };

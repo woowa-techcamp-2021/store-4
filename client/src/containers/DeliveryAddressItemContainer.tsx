@@ -1,4 +1,6 @@
 import React, { useCallback, useReducer, useRef } from 'react';
+import { useContext } from 'react';
+import { AuthenticationContext } from '../components/Authentication/Authentication';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
 import { useHistory } from '../lib/router';
@@ -37,6 +39,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
   const [mode, dispatchMode] = useReducer(modeReducer, Modes.Read);
   const modifyFormRef = useRef<DeliveryAddressFormRef & HTMLFormElement>(null);
   const history = useHistory();
+  const { onErrorOccurred } = useContext(AuthenticationContext);
 
   const handleCancelModifying = () => {
     dispatchMode({
@@ -72,6 +75,11 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
         })
         .catch((error) => {
           switch (error.status) {
+            case 401:
+            case 410:
+              onErrorOccurred();
+              return;
+
             case 400:
               alert('양식을 확인해주세요');
               return;
@@ -82,7 +90,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
           }
         });
     }
-  }, [history, props.deliveryAddress.id]);
+  }, [history, onErrorOccurred, props.deliveryAddress.id]);
 
   if (mode === Modes.Modify) {
     return (

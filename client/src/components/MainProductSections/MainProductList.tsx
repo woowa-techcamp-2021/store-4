@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import Product from '../../models/product';
 import ProductItem from '../ProductList/ProductItem/ProductItem';
@@ -24,15 +24,16 @@ const EmptyProductList = styled.div``;
 type MainProductListProps = {
   title: string;
   products: Product[];
+  getWishClickHandler: (product: Product) => MouseEventHandler;
 };
 
 const NO_PRODUCT_ITEMS_IN_LIST_TEXT = '상품이 없습니다.';
 
 const MainProductList = (props: MainProductListProps): JSX.Element => {
-  const { title, products } = props;
+  const { title, products, getWishClickHandler } = props;
 
   const ProductItems = products.map((product) => (
-    <ProductItem key={product.id} product={product} />
+    <ProductItem onWishClick={getWishClickHandler(product)} key={product.id} product={product} />
   ));
 
   return (

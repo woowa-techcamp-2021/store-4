@@ -4,6 +4,7 @@ import CartItem from '../models/cart-item';
 import { isNone, isNotNone } from '../utils/typeGuard';
 import NOIMAGE from '../assets/images/no-image.png';
 import { SelectWithSelected } from '../types/product';
+import OrderDetailProduct from '../models/orderDetailProduct';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
 
@@ -78,7 +79,7 @@ class CartStore {
     });
 
     this.cartItemList.push(...noxExistedCartItemList);
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   getModalCartItem() {
@@ -98,7 +99,7 @@ class CartStore {
     }
 
     this.cartItemList[index] = { ...this.cartItemList[index], count: count };
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
   @action
@@ -108,9 +109,10 @@ class CartStore {
       return;
     }
     this.cartItemList[index] = { ...this.cartItemList[index], isSelected: isSelected };
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
+  @action
   setCartItemSelectionAll(isSelected: boolean) {
     const nextCartItemList = [...this.cartItemList];
     for (const cartItem of nextCartItemList) {
@@ -118,15 +120,16 @@ class CartStore {
     }
 
     this.cartItemList = nextCartItemList;
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
   }
 
+  @action
   setModalCartItemId(uuid: string) {
     this.modalCartItemUuid = uuid;
   }
 
-  setCartItemListToStorage(cartItemList: CartItem[]) {
-    localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(cartItemList));
+  setCartItemListToStorage() {
+    localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(this.cartItemList));
   }
 
   getCartItemListFromStorage() {
@@ -145,9 +148,20 @@ class CartStore {
     }
   }
 
+  @action
   removeSelectedItem() {
     this.cartItemList = this.cartItemList.filter((item) => !item.isSelected);
-    this.setCartItemListToStorage(this.cartItemList);
+    this.setCartItemListToStorage();
+  }
+
+  @action
+  removeOrderCompleteItems(orderDetailProductList: OrderDetailProduct[]) {
+    this.cartItemList = this.cartItemList.filter((cartItem) => {
+      return orderDetailProductList.some((orderDetailProduct) => {
+        return orderDetailProduct.uuid !== cartItem.uuid;
+      });
+    });
+    this.setCartItemListToStorage();
   }
 
   get isNothingSelectedCartItems() {

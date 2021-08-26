@@ -1,5 +1,24 @@
 import { getSelectedOptionPriceList } from '../components/Cart/helper';
+import { OrderDetail } from '../types/order';
 import { SelectWithSelected } from '../types/product';
+import { isNone } from '../utils/typeGuard';
+
+const getSelectedOptionIds = (selectWithSelecteds: SelectWithSelected[] | undefined): number[] => {
+  if (isNone(selectWithSelecteds)) {
+    return [];
+  }
+
+  const optionIds: number[] = [];
+
+  for (const selectWithSelected of selectWithSelecteds) {
+    const selectedOption = selectWithSelected.selectedOption;
+    if (selectedOption) {
+      optionIds.push(selectedOption.id);
+    }
+  }
+
+  return optionIds;
+};
 
 class OrderDetailProductAttributes {
   uuid: string;
@@ -29,6 +48,17 @@ class OrderDetailProduct extends OrderDetailProductAttributes {
     );
 
     return (this.price + optionsPrice) * this.count;
+  }
+
+  get orderDetail(): OrderDetail {
+    const { count, productId, selectWithSelecteds } = this;
+    const optionIds = getSelectedOptionIds(selectWithSelecteds);
+
+    return {
+      quantity: count,
+      productId,
+      optionIds,
+    };
   }
 }
 
