@@ -15,6 +15,7 @@ import NotfoundPage from '../../pages/Notfound';
 import ErrorPage from '../../pages/Error';
 import ToastPortal from '../Portal/ToastPortal';
 import OrderPage from '../../pages/Order';
+import ConfirmModalPortal from '../Portal/ConfirmModalPortal';
 
 const App = (): JSX.Element => {
   return (
@@ -36,6 +37,7 @@ const App = (): JSX.Element => {
         </Switch>
       </Router>
       <ToastPortal />
+      <ConfirmModalPortal />
     </ThemeProvider>
   );
 };
