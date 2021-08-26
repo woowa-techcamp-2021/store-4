@@ -26,12 +26,9 @@ const AuthenticationProvider = ({ children }: Props): JSX.Element => {
     setIsErrorOccurred(true);
   };
 
-  useEffect(() => {
-    if (isNone(localStorage.getItem('token'))) {
-      toast.error('로그인이 필요합니다');
-      history.back();
-    }
-  }, []);
+  const value = {
+    onErrorOccurred: handleOccurred,
+  };
 
   useEffect(() => {
     if (isErrorOccurred) {
@@ -41,9 +38,12 @@ const AuthenticationProvider = ({ children }: Props): JSX.Element => {
     }
   }, [isErrorOccurred, routerHistory]);
 
-  const value = {
-    onErrorOccurred: handleOccurred,
-  };
+  if (isNone(localStorage.getItem('token'))) {
+    toast.error('로그인이 필요합니다');
+    routerHistory.push('/login');
+
+    return <></>;
+  }
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 };
