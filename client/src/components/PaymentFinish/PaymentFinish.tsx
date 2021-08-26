@@ -21,7 +21,9 @@ const PaymentFinish = (props: Props): JSX.Element => {
   const { user, recipientName, address } = props;
 
   useEffect(() => {
-    orderStore.orderDetailProductList = [];
+    return () => {
+      orderStore.orderDetailProductList = [];
+    };
   }, []);
 
   return (
