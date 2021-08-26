@@ -1,8 +1,6 @@
 import { css } from 'styled-components';
 
 export const textUnderline = css`
-  position: relative;
-
   ::before {
     display: block;
     position: absolute;
@@ -17,8 +15,6 @@ export const textUnderline = css`
 `;
 
 const textUnderlineGrey = css`
-  position: relative;
-
   ::before {
     display: block;
     position: absolute;

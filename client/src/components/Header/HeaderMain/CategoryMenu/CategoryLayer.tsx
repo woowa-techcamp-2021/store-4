@@ -43,6 +43,7 @@ const CategoryListItem = styled.li<CategoryListItemProps>`
 `;
 
 const CategoryListItemText = styled.span<CategoryListItemProps>`
+  position: relative;
   ${(props) => (props.isCurrent ? textUnderline : '')};
 `;
 
