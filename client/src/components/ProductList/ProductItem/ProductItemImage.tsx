@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import NoImage from '../../../assets/images/no-image.png';
+import { FaHeart } from 'react-icons/fa';
 
 const ImageWrapper = styled.div`
   position: relative;
+
+  :hover {
+    .product-wish-wrapper {
+      display: inherit;
+    }
+  }
 `;
 
 const BadgeWrapper = styled.div`
@@ -32,14 +39,54 @@ const Img = styled.img`
   width: 100%;
 `;
 
+const ProductWishWrapper = styled.div`
+  bottom: 0px;
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  display: none;
+
+  background: linear-gradient(
+    ${(props) => props.theme.color.black}00,
+    ${(props) => props.theme.color.black}80
+  );
+`;
+
+type WishIconProps = {
+  isWished: boolean;
+};
+
+const WishIcon = styled.div<WishIconProps>`
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${(props) => props.theme.fontSize.large};
+  color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.white1)};
+
+  .product-wish-icon {
+    transition: all 0.125s;
+
+    :active {
+      transform: scale(0.8);
+    }
+  }
+`;
+
 type Props = {
   thumbnail: string | null;
   isNew: boolean;
   isDiscounting: boolean;
+  isWished: boolean;
+  onWishClick: MouseEventHandler;
 };
 
 const ProductItemImage = (props: Props): JSX.Element => {
-  const { thumbnail, isNew, isDiscounting } = props;
+  const { thumbnail, isNew, isDiscounting, isWished, onWishClick } = props;
+
   return (
     <ImageWrapper>
       <Img referrerPolicy="no-referrer" src={thumbnail || NoImage} />
@@ -47,6 +94,11 @@ const ProductItemImage = (props: Props): JSX.Element => {
         {isNew && <NewBadge>NEW</NewBadge>}
         {isDiscounting && <SalesBadge>SALE</SalesBadge>}
       </BadgeWrapper>
+      <ProductWishWrapper className="product-wish-wrapper">
+        <WishIcon isWished={isWished}>
+          <FaHeart className="product-wish-icon" onClick={onWishClick} />
+        </WishIcon>
+      </ProductWishWrapper>
     </ImageWrapper>
   );
 };

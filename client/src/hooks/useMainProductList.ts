@@ -1,28 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react';
 import { useHistory } from '../lib/router';
+import Product from '../models/product';
 import productStore from '../stores/productStore';
-import { MainProducts } from '../types/product';
 
-const DEFAULT_PRODUCT_LIST: MainProducts = {
-  discountingProducts: [],
-  popularProducts: [],
-  newProducts: [],
-};
+type UseMainProductList = [Product[], Dispatch<SetStateAction<Product[]>>][];
 
-export const useMainProductList = (): MainProducts => {
-  const [mainProducts, setMainProducts] = useState(DEFAULT_PRODUCT_LIST);
+export const useMainProductList = (): UseMainProductList => {
+  const [discountingProducts, setDiscountingProducts] = useState<Product[]>([]);
+  const [popularProducts, setPopularProducts] = useState<Product[]>([]);
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
   const history = useHistory();
 
   const fetchMainProducts = useCallback(async () => {
     try {
-      const { discountingProducts, popularProducts, newProducts } =
-        await productStore.fetchMainProducts();
+      const products = await productStore.fetchMainProducts();
 
-      setMainProducts({
-        discountingProducts,
-        popularProducts,
-        newProducts,
-      });
+      setDiscountingProducts(products.discountingProducts);
+      setPopularProducts(products.popularProducts);
+      setNewProducts(products.newProducts);
     } catch (error) {
       history.push('/error');
     }
@@ -32,5 +27,9 @@ export const useMainProductList = (): MainProducts => {
     fetchMainProducts();
   }, [fetchMainProducts]);
 
-  return mainProducts;
+  return [
+    [discountingProducts, setDiscountingProducts],
+    [popularProducts, setPopularProducts],
+    [newProducts, setNewProducts],
+  ];
 };

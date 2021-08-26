@@ -37,11 +37,17 @@ class ProductController {
   }
 
   async findMainProducts(req: Request, res: Response) {
-    const popularProducts = await productService.findPopularProducts(POPULAR_PRODUCTS_LIMIT);
+    const { decoded } = req;
+
+    const popularProducts = await productService.findPopularProducts(
+      decoded?.id,
+      POPULAR_PRODUCTS_LIMIT
+    );
     const discountingProducts = await productService.findDiscountingProducts(
+      decoded?.id,
       DISCOUNTING_PRODUCTS_LIMIT
     );
-    const newProducts = await productService.findNewProducts(NEW_PRODUCTS_LIMIT);
+    const newProducts = await productService.findNewProducts(decoded?.id, NEW_PRODUCTS_LIMIT);
 
     res.status(200).json({
       popularProducts,

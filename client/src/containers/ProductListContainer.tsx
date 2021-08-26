@@ -8,6 +8,7 @@ import { observer } from 'mobx-react';
 import productStore from '../stores/productStore';
 import buildQueryString from '../utils/build-query-string';
 import { useHistory } from '../lib/router';
+import useWish from '../hooks/useWish';
 
 export type SortButton = {
   key: ProductListOrder;
@@ -29,6 +30,8 @@ const ProductListContainer = (): JSX.Element => {
   const totalPageCount = useRef(1);
   const totalProductCount = useRef(0);
   const history = useHistory();
+
+  const [getWishClickHandler] = useWish(products, setProducts);
 
   const fetchProductList = useCallback(async (option: Option) => {
     const {
@@ -74,6 +77,7 @@ const ProductListContainer = (): JSX.Element => {
 
   return (
     <ProductList
+      getWishClickHandler={getWishClickHandler}
       products={products}
       buttons={SORT_BUTTONS}
       totalProductCount={totalProductCount.current}

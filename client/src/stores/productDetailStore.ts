@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import Product from '../models/product';
-import { isNone } from '../utils/typeGuard';
+import wishStore from './wishStore';
 
 class ProductDetailStore {
   @observable
@@ -27,11 +27,6 @@ class ProductDetailStore {
       return;
     }
 
-    const token = localStorage.getItem('token');
-    if (isNone(token)) {
-      return;
-    }
-
     const originWish = this.product.isWished;
     runInAction(() => {
       if (this.product !== null) {
@@ -44,11 +39,7 @@ class ProductDetailStore {
 
     const { id } = this.product;
     try {
-      if (originWish) {
-        await apis.productAPI.cancelWish(token, id);
-      } else {
-        await apis.productAPI.wish(token, id);
-      }
+      await wishStore.toggle(id, !this.product.isWished);
     } catch (error) {
       runInAction(() => {
         if (this.product !== null) {

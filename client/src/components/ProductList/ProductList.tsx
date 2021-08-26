@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import ProductItem from './ProductItem/ProductItem';
 import styled from 'styled-components';
 import Product from '../../models/product';
@@ -56,6 +56,7 @@ type Props = {
   searchTerm: string | null;
   onClickSortButton: (option: ProductListOrder) => () => void;
   onClickPageNum: (pageNum: number) => () => void;
+  getWishClickHandler: (product: Product) => MouseEventHandler;
 };
 
 const ProductList = (props: Props): JSX.Element => {
@@ -68,10 +69,11 @@ const ProductList = (props: Props): JSX.Element => {
     searchTerm,
     onClickSortButton,
     onClickPageNum,
+    getWishClickHandler,
   } = props;
 
   const ProductItems = products.map((product) => (
-    <ProductItem key={product.id} product={product} />
+    <ProductItem key={product.id} product={product} onWishClick={getWishClickHandler(product)} />
   ));
 
   const PageNavItems = range(totalPageCount).map((index) => {

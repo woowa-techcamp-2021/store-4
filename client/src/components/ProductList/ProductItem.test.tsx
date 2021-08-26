@@ -23,13 +23,15 @@ describe('ProductItem 테스트', () => {
     updatedAt: new Date(),
   };
 
+  const onWishClick = jest.fn();
+
   test('discountRate가 0보다 크고, createAt이 한달 이내이면 new, sale 뱃지 표시', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 15,
       createdAt: new Date('2021-08-19'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     screen.getByText('NEW');
     screen.getByText('SALE');
   });
@@ -40,7 +42,7 @@ describe('ProductItem 테스트', () => {
       discountRate: 0,
       createdAt: new Date('2021-05-19'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     expect(() => screen.getByText('NEW')).toThrowError();
     expect(() => screen.getByText('SALE')).toThrowError();
   });
@@ -51,7 +53,7 @@ describe('ProductItem 테스트', () => {
       discountRate: 0,
       createdAt: new Date('2021-08-03'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     screen.getByText('NEW');
     expect(() => screen.getByText('SALE')).toThrowError();
   });
@@ -62,7 +64,7 @@ describe('ProductItem 테스트', () => {
       discountRate: 0,
       createdAt: new Date('2021-08-19'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     screen.getByText('NEW');
     expect(() => screen.getByText('SALE')).toThrowError();
   });
@@ -73,7 +75,7 @@ describe('ProductItem 테스트', () => {
       discountRate: 15,
       createdAt: new Date('2021-08-19'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
 
     expect(screen.getByTestId('price').textContent).toBe(toKoreanMoneyFormat(product.price));
     expect(screen.getByTestId('discountedPrice').textContent).toBe(
@@ -87,7 +89,7 @@ describe('ProductItem 테스트', () => {
       discountRate: 0,
       createdAt: new Date('2021-08-19'),
     });
-    render(provideTheme2Test(<ProductItem product={product} />));
+    render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     expect(screen.getByTestId('price').textContent).toBe(toKoreanMoneyFormat(product.price));
     expect(() => screen.getByTestId('discountPrice')).toThrowError();
   });
