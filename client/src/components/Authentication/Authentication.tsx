@@ -22,7 +22,6 @@ const AuthenticationProvider = ({ children }: Props): JSX.Element => {
   const routerHistory = useHistory();
 
   const handleOccurred = () => {
-    console.log('pass');
     setIsErrorOccurred(true);
   };
 
