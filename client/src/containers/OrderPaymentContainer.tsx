@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
 import cartStore from '../stores/cartStore';
@@ -14,10 +14,11 @@ export type OrderDeliveryAddressFormRef = {
 
 const OrderContainer = (): JSX.Element => {
   const orderFormRef = useRef<OrderDeliveryAddressFormRef & HTMLFormElement>(null);
+  const [currentStep, setStep] = useState(2);
   const history = useHistory();
   const user = userStore.user;
 
-  const handleSumbitOrder = async () => {
+  const handleSumbitOrder = useCallback(async () => {
     if (isNone(orderFormRef.current)) {
       return;
     }
@@ -45,15 +46,31 @@ const OrderContainer = (): JSX.Element => {
       const orderDetailProductList = [...orderStore.orderDetailProductList];
 
       cartStore.removeOrderCompleteItems(orderDetailProductList);
-      orderStore.orderDetailProductList = [];
 
       alert('주문완료');
+
+      setStep(3);
     } catch (err) {
       alert('주문 실패 다시 시도해주세요');
     }
-  };
+  }, [history, user]);
 
-  return <OrderPayment currentStep={2} ref={orderFormRef} onOrderSubmit={handleSumbitOrder} />;
+  if (isNone(user)) {
+    alert('로그인이 필요합니다.');
+    history.push('/login');
+    return <></>;
+  }
+
+  return (
+    <OrderPayment
+      currentStep={currentStep}
+      ref={orderFormRef}
+      onOrderSubmit={handleSumbitOrder}
+      user={user}
+      recipientName={orderFormRef.current?.recipientName}
+      address={orderFormRef.current?.address}
+    />
+  );
 };
 
 export default OrderContainer;
