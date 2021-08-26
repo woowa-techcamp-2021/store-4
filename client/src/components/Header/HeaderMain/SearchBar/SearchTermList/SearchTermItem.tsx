@@ -27,13 +27,13 @@ const SearchTermItemRight = styled(FlexCenterWrapper)`
 
 const Date = styled.div`
   font-size: 10px;
-  color: ${(propss) => propss.theme.color.grey3};
+  color: ${(props) => props.theme.color.grey3};
   margin-right: 8px;
   cursor: default;
 `;
 
 const DeleteButton = styled.div`
-  color: ${(propss) => propss.theme.color.grey5};
+  color: ${(props) => props.theme.color.grey5};
   display: flex;
   align-items: center;
 
