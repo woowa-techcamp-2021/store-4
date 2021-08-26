@@ -2,6 +2,8 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { OrderDeliveryAddressFormRef } from '../../containers/OrderPaymentContainer';
 import { Link } from '../../lib/router';
+import User from '../../models/user';
+import PaymentFinish from '../PaymentFinish/PaymentFinish';
 import OrderForm from './OrderForm/OrderForm';
 import OrderHeader from './OrderHeader';
 import OrderTable from './OrderTable/OrderTable';
@@ -22,20 +24,30 @@ const MoveShopPage = styled.div`
 `;
 
 type Props = {
+  user: User;
   currentStep: number;
+  onOrderSubmit: React.MouseEventHandler;
+  recipientName?: string;
+  address?: string;
 };
 
 const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
-  const { currentStep } = props;
+  const { currentStep, onOrderSubmit, user, recipientName, address } = props;
   return (
     <Container>
       <OrderHeader currentStep={currentStep} />
       <OrderTable />
-      <Link to="/cart">
-        <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
-      </Link>
-      <TotalPrice />
-      <OrderForm ref={ref} />
+      {currentStep === 2 ? (
+        <>
+          <Link to="/cart">
+            <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
+          </Link>
+          <TotalPrice />
+          <OrderForm ref={ref} onOrderSubmit={onOrderSubmit} />
+        </>
+      ) : (
+        <PaymentFinish user={user} recipientName={recipientName ?? ''} address={address ?? ''} />
+      )}
     </Container>
   );
 };

@@ -58,9 +58,17 @@ const PaymentButton = styled.button`
   }
 `;
 
-const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
+type Props = {
+  onOrderSubmit: React.MouseEventHandler;
+};
+
+const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
+  const { onOrderSubmit } = props;
+
   const recipientNameRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLInputElement>(null);
+  const approveRef = useRef<HTMLInputElement>(null);
+
   const user = userStore.user;
   const finalPaymentAmount = orderStore.totalPrice;
 
@@ -82,6 +90,9 @@ const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
         if (isNotNone(addressRef.current)) {
           addressRef.current.value = value;
         }
+      },
+      get approve(): boolean {
+        return approveRef.current?.checked ?? false;
       },
     }),
     []
@@ -121,13 +132,13 @@ const OrderForm = (_: unknown, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX
           </Paragraph>
         </FinalCheckDesc>
         <FinalCheck>
-          <input type="checkbox" />
+          <input type="checkbox" ref={approveRef} />
           <Paragraph>
             <Strong>(필수)</Strong> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.
           </Paragraph>
         </FinalCheck>
         <FinalCheck>
-          <PaymentButton>결제하기</PaymentButton>
+          <PaymentButton onClick={onOrderSubmit}>결제하기</PaymentButton>
         </FinalCheck>
       </FinalCheckWrapper>
     </Container>
