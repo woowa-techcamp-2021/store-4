@@ -36,6 +36,7 @@ const Container = styled.div`
 `;
 
 const Overlay = styled.div`
+  cursor: pointer;
   width: 100%;
   height: 100vh;
   height: 100%;
@@ -45,6 +46,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(5px);
 `;
 
 const Modal = styled.div`
@@ -55,7 +57,7 @@ const Modal = styled.div`
   width: 280px;
   border-radius: 8px;
   background-color: ${(props) => props.theme.color.white1};
-  box-shadow: ${(props) => props.theme.color.grey5}05 0px 2px 12px;
+  box-shadow: ${(props) => props.theme.color.grey5}08 0px 2px 12px;
   animation: ${modalShowAnimation} 0.125s;
   transition: all 0.125s;
 `;
