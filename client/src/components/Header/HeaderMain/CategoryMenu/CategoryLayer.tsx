@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { rootListStyle, childListStyle, textUnderline } from './categoryLayerCss';
 import { CategoryClickHandler } from '../../../../containers/CategoryLayerContainer';
 import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
@@ -8,7 +9,7 @@ import buildQueryString from '../../../../utils/build-query-string';
 
 const Container = styled.div`
   position: absolute;
-  top: calc(100% + 5px);
+  top: calc(100% + 10px);
   left: 0;
   width: 290px;
   min-height: 300px;
@@ -28,19 +29,20 @@ const CategoryList = styled.ul<CategoryListProps>`
   margin: 0;
   padding: 0;
 
-  background-color: ${(props) =>
-    props.isRoot ? props.theme.color.white1 : props.theme.color.white2};
+  ${(props) => (props.isRoot ? rootListStyle : childListStyle)};
 `;
 
 type CategoryListItemProps = {
-  isCurrent: boolean;
+  isCurrent?: boolean;
 };
 
 const CategoryListItem = styled.li<CategoryListItemProps>`
-  padding: 12px 20px;
+  background-color: ${(props) => (props.isCurrent ? '#fdfdfd' : 'inherit')} !important;
+  color: ${(props) => (props.isCurrent ? props.theme.color.grey5 : 'inherit')} !important;
+`;
 
-  background-color: ${(props) =>
-    props.isCurrent ? props.theme.color.white2 : props.theme.color.white1};
+const CategoryListItemText = styled.span<CategoryListItemProps>`
+  ${(props) => (props.isCurrent ? textUnderline : '')};
 `;
 
 export type Props = {
@@ -74,17 +76,15 @@ const CategoryLayer = (props: Props): JSX.Element => {
       onMouseEnter={() => setCurrentCategory(category)}
       onClick={handleGetCategoryClickHandler(category)}
     >
-      {category.name}
+      <CategoryListItemText isCurrent={category.id === currentCategory.id}>
+        {category.name}
+      </CategoryListItemText>
     </CategoryListItem>
   ));
 
   const childItems = currentCategory.childCategories.map((category) => (
-    <CategoryListItem
-      isCurrent={true}
-      key={category.id}
-      onClick={handleGetCategoryClickHandler(category)}
-    >
-      {category.name}
+    <CategoryListItem key={category.id} onClick={handleGetCategoryClickHandler(category)}>
+      <CategoryListItemText>{category.name}</CategoryListItemText>
     </CategoryListItem>
   ));
 
