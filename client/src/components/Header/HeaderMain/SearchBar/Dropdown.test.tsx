@@ -22,6 +22,7 @@ describe('Dropdown 컴포넌트 테스트', () => {
     onCloseDropdown: jest.fn(),
     onDeleteAllSearchTerm: jest.fn(),
     getOnDeleteSearchTerm: jest.fn(() => onDeleteSearchTerm),
+    getSearchTermItemClickHandler: jest.fn(() => jest.fn),
   };
 
   const SEARCH_TERM_ITEM_TEST_PREFIX = 'search-term-item';

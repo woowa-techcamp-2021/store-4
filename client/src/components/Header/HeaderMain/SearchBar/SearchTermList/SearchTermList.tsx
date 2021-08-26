@@ -16,12 +16,14 @@ type Props = {
   searchTermList: SearchTerm[];
   getOnDeleteSearchTerm: (content: string) => React.MouseEventHandler;
   getSearchTermItemClickHandler: (content: string) => React.MouseEventHandler;
+  onCloseDropdown: () => void;
 };
 
 const NO_SEARCHTERM_LIST_TITLE = '최근 검색어가 없습니다.';
 
 const SearchTermList = (props: Props): JSX.Element => {
-  const { searchTermList, getOnDeleteSearchTerm, getSearchTermItemClickHandler } = props;
+  const { searchTermList, getOnDeleteSearchTerm, getSearchTermItemClickHandler, onCloseDropdown } =
+    props;
 
   const SearchTermItems = searchTermList.map((searchTerm, index) => (
     <SearchTermItem
@@ -30,6 +32,7 @@ const SearchTermList = (props: Props): JSX.Element => {
       searchTerm={searchTerm}
       onDeleteSearchTerm={getOnDeleteSearchTerm(searchTerm.content)}
       onSearchTermClick={getSearchTermItemClickHandler(searchTerm.content)}
+      onCloseDropdown={onCloseDropdown}
     />
   ));
 

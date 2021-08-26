@@ -74,6 +74,7 @@ const Dropdown = (props: Props): JSX.Element => {
           searchTermList={searchTermList}
           getOnDeleteSearchTerm={getOnDeleteSearchTerm}
           getSearchTermItemClickHandler={getSearchTermItemClickHandler}
+          onCloseDropdown={onCloseDropdown}
         />
       </DropdownBody>
       <DropdownController>

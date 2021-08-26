@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import SearchTerm from '../../../../../models/searchTerm';
 import { RiCloseFill } from 'react-icons/ri';
@@ -47,15 +47,22 @@ type Props = {
   searchTerm: SearchTerm;
   onDeleteSearchTerm: React.MouseEventHandler;
   onSearchTermClick: React.MouseEventHandler;
+  onCloseDropdown: () => void;
 };
 
 const SearchTermItem = (props: Props): JSX.Element => {
-  const { searchTerm, index, onDeleteSearchTerm, onSearchTermClick } = props;
+  const { searchTerm, index, onDeleteSearchTerm, onSearchTermClick, onCloseDropdown } = props;
+
+  const handleOnSearchTermClick: MouseEventHandler = (e) => {
+    onSearchTermClick(e);
+    onCloseDropdown();
+  };
+
   return (
     <Container>
       <SearchTermItemLeft
         data-testid={`search-term-item-content-${index}`}
-        onClick={onSearchTermClick}
+        onClick={handleOnSearchTermClick}
       >
         {searchTerm.content}
       </SearchTermItemLeft>
