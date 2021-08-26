@@ -8,10 +8,12 @@ import toastHelper from '../lib/toast';
 
 const DEFAULT_PRODUCT_NAME = '이 상품';
 
-const validateFileInputs = (files: FileList) => {
-  if (Array.from(files).some((file) => !file.type.startsWith('image'))) {
-    throw new Error('invalid file input');
+const validateFileInputs = (files: FileList): boolean => {
+  if (Array.from(files).every((file) => file.type.startsWith('image'))) {
+    return true;
   }
+
+  return false;
 };
 
 const readAsDataURLAsync = (file: File): Promise<string> => {
@@ -41,7 +43,12 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     const files = event.target.files;
     if (files === null) return;
 
-    validateFileInputs(files);
+    if (validateFileInputs(files) === false) {
+      toastHelper.error('이미지 파일만 추가할 수 있습니다');
+
+      event.target.value = '';
+      return;
+    }
 
     getThumbnails(files).then((data) => setThumbnails(data));
   };
@@ -65,7 +72,6 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
         return;
       })
       .catch((error) => {
-        console.log(error);
         switch (error.status) {
           case 401:
             toastHelper.error('해당 상품 구매내역이 없습니다');
