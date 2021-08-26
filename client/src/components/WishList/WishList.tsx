@@ -5,11 +5,11 @@ import { Wish } from '../../types/Wish';
 import { getWishList } from './mock';
 
 const Container = styled.div`
-  width: 960px;
+  width: 800px;
 `;
 
 const WishText = styled.h3`
-  font-size: ${(props) => props.theme.fontSize.normal};
+  font-size: ${(props) => props.theme.fontSize.medium};
   font-weight: 600;
   padding-bottom: 10px;
 `;
@@ -17,7 +17,6 @@ const WishText = styled.h3`
 const TableMain = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey3};
 `;
 
 const WishItemList = styled.div`
