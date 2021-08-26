@@ -9,7 +9,7 @@ import ProductListHeader from './ProductListHeader';
 import EmptyProducts from './EmptyProducts';
 
 const Container = styled.div`
-  width: 1200px;
+  width: ${(props) => props.theme.device.desktop};
   margin: 100px auto;
   display: flex;
   flex-direction: column;
