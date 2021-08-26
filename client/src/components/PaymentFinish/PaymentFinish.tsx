@@ -1,22 +1,35 @@
-import React from 'react';
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import OrderHeader from '../OrderPayment/OrderHeader';
-import OrderTable from '../OrderPayment/OrderTable/OrderTable';
+import User from '../../models/user';
+import orderStore from '../../stores/orderStore';
 import FinishedTotalPrice from './FinishedTotalPrice';
+import ShippingInfo from './ShippingInfo';
 
 const Container = styled.div`
   width: ${(props) => props.theme.device.desktop};
   margin: 0 auto;
 `;
 
-const PaymentFinish = (): JSX.Element => {
+type Props = {
+  user: User;
+  recipientName: string;
+  address: string;
+};
+
+const PaymentFinish = (props: Props): JSX.Element => {
+  const { user, recipientName, address } = props;
+
+  useEffect(() => {
+    orderStore.orderDetailProductList = [];
+  }, []);
+
   return (
     <Container>
-      <OrderHeader currentStep={3} />
-      <OrderTable />
       <FinishedTotalPrice />
+      <ShippingInfo user={user} recipientName={recipientName} address={address} />
     </Container>
   );
 };
 
-export default PaymentFinish;
+export default observer(PaymentFinish);
