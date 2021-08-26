@@ -13,13 +13,9 @@ const AccountReviewContainer = (): JSX.Element => {
       return;
     }
 
-    fetchReviews(userId).then(({ reviews }) => {
+    reviewStore.getReviewsByUser(userId).then(({ reviews }) => {
       setReviews(reviews.map((review) => new ReviewWithProduct(review)));
     });
-
-    function fetchReviews(userId: number) {
-      return reviewStore.getReviewsByUser(userId);
-    }
   }, [userId]);
 
   const handleDeleteReviewClick = (deleteReviews: ReviewWithProduct[]) => {
