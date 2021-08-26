@@ -7,7 +7,9 @@ import deliveryAddressStore from '../../stores/deliveryAddressStore';
 import { observer } from 'mobx-react';
 import { RiAddBoxFill } from 'react-icons/ri';
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+`;
 
 const CreateDeliveryAddress = styled.div`
   border: 1px dashed ${(props) => props.theme.color.grey3};
