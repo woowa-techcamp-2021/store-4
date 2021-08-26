@@ -1,25 +1,11 @@
-import { css } from 'styled-components';
+import { css, FlattenSimpleInterpolation } from 'styled-components';
 
-export const textUnderline = css`
+export const textUnderline = (color: string): FlattenSimpleInterpolation => css`
   ::before {
     display: block;
     position: absolute;
     content: ' ';
-    background: ${(props) => props.theme.color.mint2};
-    width: calc(100% + 4px);
-    height: 9px;
-    opacity: 0.4;
-    left: -2px;
-    bottom: -1px;
-  }
-`;
-
-const textUnderlineGrey = css`
-  ::before {
-    display: block;
-    position: absolute;
-    content: ' ';
-    background: ${(props) => props.theme.color.grey3};
+    background: ${color};
     width: calc(100% + 4px);
     height: 9px;
     opacity: 0.4;
@@ -50,7 +36,7 @@ export const childListStyle = css`
 
     :hover {
       span {
-        ${textUnderlineGrey}
+        ${(props) => textUnderline(props.theme.color.grey3)}
       }
     }
   }

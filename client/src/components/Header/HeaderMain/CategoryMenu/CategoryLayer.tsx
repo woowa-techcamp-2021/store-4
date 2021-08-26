@@ -44,7 +44,7 @@ const CategoryListItem = styled.li<CategoryListItemProps>`
 
 const CategoryListItemText = styled.span<CategoryListItemProps>`
   position: relative;
-  ${(props) => (props.isCurrent ? textUnderline : '')};
+  ${(props) => (props.isCurrent ? textUnderline(props.theme.color.mint2) : '')};
 `;
 
 export type Props = {
