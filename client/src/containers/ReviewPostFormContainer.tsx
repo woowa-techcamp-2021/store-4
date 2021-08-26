@@ -73,6 +73,9 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
           case 404:
             toastHelper.error('삭제된 상품입니다');
             return;
+          case 413:
+            toastHelper.error('리뷰 작성에 실패했습니다. 이미지 용량을 줄여보세요.');
+            return;
           default:
             toastHelper.error('오류가 발생했습니다');
             return;
