@@ -31,7 +31,7 @@ const errors: { [key: string]: HTTPErrors } = {
   [ProductNotfoundException.name]: { status: 404 },
   [ProductNotOrderedException.name]: { status: 401 },
   [ReviewNotfoundException.name]: { status: 404 },
-  [ReviewNotWrittenByUserException.name]: { status: 401 },
+  [ReviewNotWrittenByUserException.name]: { status: 403 },
   [DeliveryAddressNotfoundException.name]: { status: 404 },
   [NotMyDeliveryAddressException.name]: { status: 403 },
   [AWSS3Exception.name]: { status: 413 },

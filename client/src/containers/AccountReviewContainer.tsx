@@ -39,7 +39,7 @@ const AccountReviewContainer = (): JSX.Element => {
         })
         .catch((error) => {
           switch (error.status) {
-            case 401:
+            case 403:
               toastHelper.error('해당 후기에 대한 권한이 없습니다');
               history.push('/account');
               return;
