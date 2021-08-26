@@ -37,14 +37,7 @@ const WishButton = styled(CommonButton)<WishButtonProps>`
   background-color: ${(props) => props.theme.color.white1};
   width: 50px;
   font-size: ${(props) => props.theme.fontSize.large};
-  ${(props) =>
-    props.isWished
-      ? css`
-          color: ${(props) => props.theme.color.red};
-        `
-      : css`
-          color: ${(props) => props.theme.color.grey3};
-        `};
+color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
 `;
 
 const ItemTitleWrapper = styled.div`
