@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import cartStore from '../../../../stores/cartStore';
+import { Link } from '../../../../lib/router';
 import { SelectWithSelected } from '../../../../types/product';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 import { getOptionList, getSelectedOptionPriceList } from '../../helper';
@@ -93,6 +94,7 @@ const Price = styled(AlignCenterContainer)``;
 type Props = {
   onOptionClick: (uuid: string) => void;
   uuid: string;
+  productId: number;
   title: string;
   imgSrc: string;
   count: number;
@@ -106,6 +108,7 @@ const CartItem = (props: Props): JSX.Element => {
     onOptionClick,
     uuid,
     title,
+    productId,
     imgSrc,
     count,
     productPrice,
@@ -128,17 +131,21 @@ const CartItem = (props: Props): JSX.Element => {
         <CheckBox type="checkbox" onChange={onChangeCheckBox} checked={isSelected} />
       </CheckBoxWrapper>
       <ItemTitleWrapper>
-        <ItemImg src={imgSrc} />
+        <Link to={`/product/${productId}`}>
+          <ItemImg src={imgSrc} />
+        </Link>
         <ItemWrapper>
-          <ItemTitle>{title}</ItemTitle>
-          <OptionList>
-            {selectWithSelecteds &&
-              optionList.map((option) => (
-                <Option key={option.name}>
-                  {option.type} : {option.name} {`(+${toKoreanMoneyFormat(option.price)})`}
-                </Option>
-              ))}
-          </OptionList>
+          <Link to={`/product/${productId}`}>
+            <ItemTitle>{title}</ItemTitle>
+            <OptionList>
+              {selectWithSelecteds &&
+                optionList.map((option) => (
+                  <Option key={option.name}>
+                    {option.type} : {option.name} {`(+${toKoreanMoneyFormat(option.price)})`}
+                  </Option>
+                ))}
+            </OptionList>
+          </Link>
         </ItemWrapper>
       </ItemTitleWrapper>
       <CountWrapper>

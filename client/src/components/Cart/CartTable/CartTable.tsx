@@ -46,6 +46,7 @@ const CartTable = (props: Props): JSX.Element => {
     <CartItem
       key={item.uuid}
       uuid={item.uuid}
+      productId={item.productId}
       title={item.title}
       imgSrc={item.imgSrc}
       count={item.count}
