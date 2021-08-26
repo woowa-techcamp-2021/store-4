@@ -28,6 +28,8 @@ const useWish = (
           return;
         }
 
+        const originWished = products[productIndex].isWished;
+
         setProducts([
           ...products.slice(0, productIndex),
           new Product({
@@ -37,7 +39,16 @@ const useWish = (
           ...products.slice(productIndex + 1),
         ]);
 
-        wishStore.changeWishedTo(product.id, !product.isWished).catch((error) => {
+        wishStore.changeWishedTo(product.id, !originWished).catch((error) => {
+          setProducts([
+            ...products.slice(0, productIndex),
+            new Product({
+              ...product,
+              isWished: originWished,
+            }),
+            ...products.slice(productIndex + 1),
+          ]);
+
           switch (error.status) {
             case 401:
             case 410:
@@ -47,6 +58,10 @@ const useWish = (
 
             case 404:
               history.push('/notfound');
+              return;
+
+            case 409:
+              alert(originWished ? '이미 찜을 취소한 상품입니다' : '이미 찜한 상품입니다');
               return;
 
             case 500:
