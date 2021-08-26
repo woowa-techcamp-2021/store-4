@@ -1,4 +1,5 @@
 import TEST_IMG from '../../assets/images/towel.png';
+import { Wish } from '../../types/Wish';
 
 export let mockWishItems = [
   {
@@ -13,10 +14,10 @@ export let mockWishItems = [
   },
 ];
 
-export const getWishList = () => {
+export const getWishList = (): Wish[] => {
   return mockWishItems;
 };
 
-export const cancelWish = (itemId: number) => {
+export const cancelWish = (itemId: number): void => {
   mockWishItems = mockWishItems.filter((mockItem) => mockItem.id !== itemId);
 };
