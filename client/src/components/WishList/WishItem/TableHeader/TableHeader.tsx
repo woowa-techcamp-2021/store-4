@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
 import { Wish } from '../../../../types/Wish';
 
 const TextTinyBold = styled.div`
@@ -24,9 +23,6 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.color.grey1};
 `;
 
-const HeaderCheckBox = styled.input`
-  width: 78px;
-`;
 const HeaderTitle = styled(AlignCenterContainer)`
   flex: 1;
 `;
@@ -40,25 +36,14 @@ type Props = {
 };
 
 const TableHeader = (props: Props): JSX.Element => {
-  const { wishItems, setCheckBoxAll } = props;
-
-  const checkedAll = wishItems.length > 0 ? wishItems.every((item) => item.checked) : false;
-
-  const onClickCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckBoxAll(e.target.checked);
-  };
+  const { wishItems } = props;
 
   return (
     <Container>
-      <HeaderCheckBox
-        type="checkbox"
-        checked={checkedAll}
-        onChange={onClickCheckBox}
-      ></HeaderCheckBox>
       <HeaderTitle>상품/옵션 정보</HeaderTitle>
       <HeaderPriceCount>상품금액/수량</HeaderPriceCount>
     </Container>
   );
 };
 
-export default observer(TableHeader);
+export default TableHeader;

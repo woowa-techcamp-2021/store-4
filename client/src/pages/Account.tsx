@@ -8,6 +8,7 @@ import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
 import AccountReviewContainer from '../containers/AccountReviewContainer';
 import WishListContainer from '../containers/AccountWishListContainer';
+import User from '../models/user';
 
 type PathItem = {
   path: string;
@@ -40,20 +41,18 @@ const AccountPage = (): JSX.Element => {
   ));
   const pathTextList = PATH_ITEM_LIST.map(({ path, text }) => ({ path: `/account/${path}`, text }));
 
-  return userStore.user ? (
+  return (
     <Container>
       <AccountNavList pathTextList={pathTextList} />
       <RouteContainer>
         <Switch>
           <Route exact path={'/account'}>
-            <AccountLanding user={userStore.user} />
+            <AccountLanding user={new User({ id: 0, email: 'r', name: 'n' })} />
           </Route>
           {Routes}
         </Switch>
       </RouteContainer>
     </Container>
-  ) : (
-    <NotUser>로그인이 필요한 페이지입니다</NotUser>
   );
 };
 
