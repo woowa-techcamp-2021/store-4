@@ -14,6 +14,7 @@ import ReviewNotfoundException from '../exceptions/review-notfound-exception';
 import ReviewNotWrittenByUserException from '../exceptions/review-notwrittenbyuser-exception';
 import DeliveryAddressNotfoundException from '../exceptions/delivery-address-notfound-exception';
 import NotMyDeliveryAddressException from '../exceptions/not-my-delivery-address-exception';
+import AWSS3Exception from '../exceptions/aws-s3-exception';
 
 type HTTPErrors = {
   status: number;
@@ -30,9 +31,10 @@ const errors: { [key: string]: HTTPErrors } = {
   [ProductNotfoundException.name]: { status: 404 },
   [ProductNotOrderedException.name]: { status: 401 },
   [ReviewNotfoundException.name]: { status: 404 },
-  [ReviewNotWrittenByUserException.name]: { status: 401 },
+  [ReviewNotWrittenByUserException.name]: { status: 403 },
   [DeliveryAddressNotfoundException.name]: { status: 404 },
   [NotMyDeliveryAddressException.name]: { status: 403 },
+  [AWSS3Exception.name]: { status: 413 },
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {
