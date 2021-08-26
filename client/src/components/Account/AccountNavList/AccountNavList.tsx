@@ -28,9 +28,9 @@ const NavListItem = styled.li`
 `;
 
 const NavListItemText = styled.span`
-  :hover {
-    position: relative;
+  position: relative;
 
+  :hover {
     ::before {
       display: block;
       position: absolute;
