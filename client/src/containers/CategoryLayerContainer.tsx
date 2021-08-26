@@ -12,7 +12,7 @@ export type CategoryClickHandler = (category: Category) => void;
 
 export const CategoryAll = new Category({
   id: 0,
-  name: '전체',
+  name: '모든 상품',
   parentCategory: null,
   childCategories: [],
   isRoot: true,
