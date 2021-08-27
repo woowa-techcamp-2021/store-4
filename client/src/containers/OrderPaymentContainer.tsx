@@ -74,11 +74,12 @@ const OrderPaymentContainer = (): JSX.Element => {
     }
   }, [history, onErrorOccurred]);
 
-  if (isNotNone(user) && orderDetailProductList.length === 0) {
-    alert('주문 상품이 없습니다.');
-    history.push('/');
-    return <></>;
-  }
+  useEffect(() => {
+    if (orderDetailProductList.length === 0) {
+      alert('주문 상품이 없습니다.');
+      history.push('/');
+    }
+  }, [history, orderDetailProductList]);
 
   return (
     <OrderPayment
