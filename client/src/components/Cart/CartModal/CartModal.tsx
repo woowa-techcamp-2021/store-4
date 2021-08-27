@@ -55,17 +55,10 @@ const ModalButtons = styled.div`
 `;
 
 const ModalButton = styled.button`
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
   cursor: pointer;
-  outline: inherit;
 
   width: 80px;
   height: 38px;
-  border: 1px solid ${(props) => props.theme.color.grey3};
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: 700;
 `;
@@ -73,10 +66,17 @@ const ModalButton = styled.button`
 const CancelButton = styled(ModalButton)`
   color: ${(props) => props.theme.color.black};
   background-color: ${(props) => props.theme.color.white1};
+  border: 1px solid ${(props) => props.theme.color.grey3};
 `;
-const ConfirmButton = styled(ModalButton)`
+
+type ConfirmButtonProps = {
+  isConfirmed: boolean;
+};
+const ConfirmButton = styled(ModalButton)<ConfirmButtonProps>`
   color: ${(props) => props.theme.color.white1};
-  background-color: ${(props) => props.theme.color.black};
+  background-color: ${(props) =>
+    props.isConfirmed ? props.theme.color.black : props.theme.color.grey2};
+  border: none;
   margin-left: 10px;
 `;
 
@@ -98,8 +98,10 @@ const CartModal = (props: Props): JSX.Element => {
   }, []);
 
   const onConfirmClick = () => {
-    cartStore.setModalCartItemCount(productCount);
-    onCloseModalClick();
+    if (productCount > 0) {
+      cartStore.setModalCartItemCount(productCount);
+      onCloseModalClick();
+    }
   };
 
   return (
@@ -117,7 +119,9 @@ const CartModal = (props: Props): JSX.Element => {
         </ModalMain>
         <ModalButtons>
           <CancelButton onClick={onCloseModalClick}>취소</CancelButton>
-          <ConfirmButton onClick={onConfirmClick}>확인</ConfirmButton>
+          <ConfirmButton isConfirmed={productCount > 0} onClick={onConfirmClick}>
+            확인
+          </ConfirmButton>
         </ModalButtons>
       </OptionModalWrapper>
     </Container>

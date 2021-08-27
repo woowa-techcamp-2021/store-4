@@ -8,6 +8,8 @@ import { SetStateAction } from 'react';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
 import { getSelectedOptionPriceList } from '../../helper';
+import ProductCounter from './ProductCounter';
+import { isNumber } from '../../../../utils/typeGuard';
 
 const Container = styled.div`
   display: flex;
@@ -20,57 +22,22 @@ const CountWrapperProductTitle = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
   font-weight: 600;
 `;
-const CounterWrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-`;
-
-const Input = styled.input`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-`;
-
-const CountInput = styled(Input)`
-  width: 43px;
-  height: 34px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  text-align: center;
-  border: 1px solid ${(props) => props.theme.color.grey3};
-  outline: none;
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-const CountButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const CountButton = styled.button`
-  width: 23px;
-  height: 17px;
-  font-size: ${(props) => props.theme.fontSize.tiny};
-  color: ${(props) => props.theme.color.grey4};
-  background-color: ${(props) => props.theme.color.white1};
-  border: 1px solid ${(props) => props.theme.color.grey3};
-  padding: 0;
-  cursor: pointer;
-`;
-const CountUpButton = styled(CountButton)``;
-const CountDownButton = styled(CountButton)``;
 
 const ProductTotalPrice = styled.div`
   flex-grow: 1;
   font-size: ${(props) => props.theme.fontSize.small};
-  min-width: 100px;
+  min-width: 110px;
+  padding-right: 10px;
+
+  text-align: end;
 `;
 
 const PriceNumber = styled.span`
   font-weight: 600;
+`;
+
+const CounterWrapper = styled.div`
+  padding-right: 30px;
 `;
 
 type Props = {
@@ -95,7 +62,9 @@ const CountOption = (props: Props): JSX.Element => {
     : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setProductCount(parseInt(e.target.value));
+    if (isNumber(+e.target.value)) {
+      setProductCount(+e.target.value);
+    }
   };
 
   const onBlurCountInput = () => {
@@ -117,16 +86,13 @@ const CountOption = (props: Props): JSX.Element => {
     <Container>
       <CountWrapperProductTitle>{title}</CountWrapperProductTitle>
       <CounterWrapper>
-        <CountInput
-          type="number"
-          value={productCount !== 0 ? productCount : ''}
-          onChange={onChangeCountInput}
+        <ProductCounter
+          count={productCount}
           onBlur={onBlurCountInput}
-        />
-        <CountButtons>
-          <CountUpButton onClick={onClickPlus}>ᐱ</CountUpButton>
-          <CountDownButton onClick={onClickMinus}>ᐯ</CountDownButton>
-        </CountButtons>
+          onIncreaseClick={onClickPlus}
+          onDecreaseClick={onClickMinus}
+          onCountChange={onChangeCountInput}
+        ></ProductCounter>
       </CounterWrapper>
       <ProductTotalPrice>
         <PriceNumber>{toKoreanMoneyFormatPure(totalPrice)}</PriceNumber>원

@@ -25,6 +25,18 @@ const CartItemList = styled.div`
   width: 100%;
 `;
 
+const EmptyBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: ${(props) => props.theme.fontSize.normal};
+  font-weight: 400;
+  height: 100px;
+`;
+
+const Text = styled.span``;
+
 type Props = {
   onOptionClick: (uuid: string) => void;
 };
@@ -32,24 +44,33 @@ type Props = {
 const CartTable = (props: Props): JSX.Element => {
   const { onOptionClick } = props;
 
+  const CartItems = cartStore.cartItemList.map((item) => (
+    <CartItem
+      key={item.uuid}
+      uuid={item.uuid}
+      productId={item.productId}
+      title={item.title}
+      imgSrc={item.imgSrc}
+      count={item.count}
+      productPrice={item.price}
+      isSelected={item.isSelected}
+      selectWithSelecteds={item.selectWithSelecteds}
+      onOptionClick={onOptionClick}
+    />
+  ));
+
   return (
     <Container>
       <TableHeader />
       <TableMain>
         <CartItemList>
-          {cartStore.cartItemList.map((item) => (
-            <CartItem
-              key={item.uuid}
-              uuid={item.uuid}
-              title={item.title}
-              imgSrc={item.imgSrc}
-              count={item.count}
-              productPrice={item.price}
-              isSelected={item.isSelected}
-              selectWithSelecteds={item.selectWithSelecteds}
-              onOptionClick={onOptionClick}
-            />
-          ))}
+          {CartItems.length === 0 ? (
+            <EmptyBox>
+              <Text>장바구니에 담겨있는 상품이 없습니다</Text>
+            </EmptyBox>
+          ) : (
+            CartItems
+          )}
         </CartItemList>
       </TableMain>
     </Container>
