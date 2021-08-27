@@ -2,8 +2,8 @@ import React from 'react';
 import OrderPaymentContainer from '../containers/OrderPaymentContainer';
 import withAuthentication from '../hoc/withAuthentication';
 
-const OrderPage = (): JSX.Element => {
+const OrderPaymentPage = (): JSX.Element => {
   return <OrderPaymentContainer />;
 };
 
-export default withAuthentication(OrderPage, 'order');
+export default withAuthentication(OrderPaymentPage, 'order');
