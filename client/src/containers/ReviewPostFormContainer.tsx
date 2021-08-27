@@ -4,7 +4,7 @@ import userStore from '../stores/userStore';
 import productDetailStore from '../stores/productDetailStore';
 import { isNone } from '../utils/typeGuard';
 import reviewStore from '../stores/reviewStore';
-import toastHelper from '../lib/toast';
+import toast from '../lib/toast';
 
 const DEFAULT_PRODUCT_NAME = '이 상품';
 
@@ -44,7 +44,7 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     if (files === null) return;
 
     if (validateFileInputs(files) === false) {
-      toastHelper.error('이미지 파일만 추가할 수 있습니다');
+      toast.error('이미지 파일만 추가할 수 있습니다');
 
       event.target.value = '';
       return;
@@ -67,23 +67,23 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     reviewStore
       .postReview(formData, userStore.token)
       .then(() => {
-        toastHelper.success('리뷰가 작성되었습니다');
+        toast.success('리뷰가 작성되었습니다');
         productDetailStore.fetchProduct(currentProduct.id);
         return;
       })
       .catch((error) => {
         switch (error.status) {
           case 401:
-            toastHelper.error('해당 상품 구매내역이 없습니다');
+            toast.error('해당 상품 구매내역이 없습니다');
             return;
           case 404:
-            toastHelper.error('삭제된 상품입니다');
+            toast.error('삭제된 상품입니다');
             return;
           case 413:
-            toastHelper.error('리뷰 작성에 실패했습니다. 이미지 용량을 줄여보세요.');
+            toast.error('리뷰 작성에 실패했습니다. 이미지 용량을 줄여보세요.');
             return;
           default:
-            toastHelper.error('오류가 발생했습니다');
+            toast.error('오류가 발생했습니다');
             return;
         }
       })

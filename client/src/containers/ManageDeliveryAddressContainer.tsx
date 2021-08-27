@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AuthenticationContext } from '../components/Authentication/Authentication';
 import DeliveryAddressList from '../components/DeliveryAddress/DeliveryAddressList';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
 import { isNotNone } from '../utils/typeGuard';
 import { isBlank, isPhoneNumber } from '../utils/validation';
@@ -81,7 +82,7 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
               return;
 
             case 400:
-              alert('양식을 확인해주세요');
+              toast.error('양식을 확인해주세요');
               return;
 
             default:

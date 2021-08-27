@@ -5,10 +5,11 @@ import AuthenticationProvider, {
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
 import User from '../models/user';
+import toast from '../lib/toast';
 import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import userStore from '../stores/userStore';
-import { isNotNone, isNone } from '../utils/typeGuard';
+import { isNone } from '../utils/typeGuard';
 
 export type OrderDeliveryAddressFormRef = {
   readonly recipientName: string;
@@ -36,12 +37,12 @@ const OrderPaymentContainer = (): JSX.Element => {
     const { recipientName, address, approve } = orderFormRef.current;
 
     if (!(recipientName && address)) {
-      alert('배송정보는 빠짐없이 입력해주세요!');
+      toast.error('배송정보는 빠짐없이 입력해주세요');
       return;
     }
 
     if (!approve) {
-      alert('구매진행에 동의 해주세요!');
+      toast.error('구매진행에 동의 해주세요');
       return;
     }
 
@@ -51,7 +52,7 @@ const OrderPaymentContainer = (): JSX.Element => {
 
       cartStore.removeOrderCompleteItems(orderDetailProductList);
 
-      alert('주문완료');
+      toast.success('주문 완료');
 
       setStep(3);
     } catch (error) {
@@ -62,12 +63,13 @@ const OrderPaymentContainer = (): JSX.Element => {
           return;
 
         case 400:
-          alert('잘못된 데이터입니다.');
+          toast.error('잘못된 데이터입니다');
           history.push('/');
           orderStore.orderDetailProductList = [];
           return;
 
         default:
+          toast.error('주문 실패 다시 시도해주세요');
           history.push('/error');
           return;
       }
@@ -76,10 +78,16 @@ const OrderPaymentContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (orderDetailProductList.length === 0) {
-      alert('주문 상품이 없습니다.');
+      toast.error('주문 상품이 없습니다');
       history.push('/');
     }
   }, [history, orderDetailProductList]);
+
+  if (isNone(user)) {
+    toast.error('로그인이 필요합니다');
+    history.push('/login');
+    return <></>;
+  }
 
   return (
     <OrderPayment
