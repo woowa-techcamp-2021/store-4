@@ -43,9 +43,8 @@ class UserStore {
       runInAction(() => {
         this.user = user;
       });
-    } catch {
-      localStorage.removeItem(USER_TOKEN_KEY);
-      this.user = null;
+    } catch (error) {
+      this.onAuthError(error.status);
     }
   }
 
@@ -53,6 +52,21 @@ class UserStore {
   logoutUser() {
     localStorage.removeItem(USER_TOKEN_KEY);
     this.user = null;
+  }
+
+  onAuthError(status: unknown) {
+    switch (status) {
+      case 401:
+      case 410:
+        toast.error('다시 로그인해주세요');
+        break;
+      default:
+        toast.error('오류가 발생했습니다');
+        return;
+    }
+
+    this.logoutUser();
+    history.pushState(null, '', '/login');
   }
 
   get token() {
