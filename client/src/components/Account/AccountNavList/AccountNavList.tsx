@@ -23,7 +23,26 @@ const NavList = styled.ul`
 
 const NavListItem = styled.li`
   font-size: ${(props) => props.theme.fontSize.small};
-  margin: 16px 0;
+  margin: 8px 0;
+  padding: 8px 0;
+`;
+
+const NavListItemText = styled.span`
+  position: relative;
+
+  :hover {
+    ::before {
+      display: block;
+      position: absolute;
+      content: ' ';
+      background: ${(props) => props.theme.color.mint2};
+      width: calc(100% + 4px);
+      height: 9px;
+      opacity: 0.4;
+      left: -2px;
+      bottom: -1px;
+    }
+  }
 `;
 
 type Props = {
@@ -34,7 +53,9 @@ const AccountNavList = (props: Props): JSX.Element => {
 
   const NavListItems = pathTextList.map(({ path, text }, i) => (
     <NavListItem key={i}>
-      <Link to={path}>{text}</Link>
+      <Link to={path}>
+        <NavListItemText>{text}</NavListItemText>
+      </Link>
     </NavListItem>
   ));
 
