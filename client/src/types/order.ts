@@ -1,4 +1,4 @@
-export type OrderDetail = {
+export type OrderDetailSummary = {
   quantity: number;
   productId: number;
   optionIds: number[];
@@ -7,5 +7,5 @@ export type OrderDetail = {
 export type CreateOrderRequest = {
   address: string;
   recipientName: string;
-  orderDetails: OrderDetail[];
+  orderDetails: OrderDetailSummary[];
 };

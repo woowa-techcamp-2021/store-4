@@ -15,6 +15,12 @@ class OrderStore {
     makeAutoObservable(this);
   }
 
+  fetchOrders() {
+    const { token } = userStore;
+
+    return apis.orderAPI.fetchOrders(token);
+  }
+
   @action
   set replaceListToCartsInProduct(cartsInProduct: CartInProduct[]) {
     this.orderDetailProductList = cartsInProduct.map((cartInProduct) => {

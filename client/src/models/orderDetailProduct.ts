@@ -1,5 +1,5 @@
 import { getSelectedOptionPriceList } from '../components/Cart/helper';
-import { OrderDetail } from '../types/order';
+import { OrderDetailSummary } from '../types/order';
 import { SelectWithSelected } from '../types/product';
 import { isNone } from '../utils/typeGuard';
 
@@ -50,7 +50,7 @@ class OrderDetailProduct extends OrderDetailProductAttributes {
     return (this.price + optionsPrice) * this.count;
   }
 
-  get orderDetail(): OrderDetail {
+  get orderDetail(): OrderDetailSummary {
     const { count, productId, selectWithSelecteds } = this;
     const optionIds = getSelectedOptionIds(selectWithSelecteds);
 
