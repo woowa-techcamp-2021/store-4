@@ -8,10 +8,10 @@ const authRouter = Router();
 authRouter.post('/user', authMiddleware('user'), wrapAsync(authController.getUser));
 
 authRouter.get('/google-login', authController.googleLogin);
-authRouter.get('/google-callback', authController.googleCallback);
+authRouter.get('/google-callback', wrapAsync(authController.googleCallback));
 
 authRouter.get('/facebook-login', authController.facebookLogin);
-authRouter.get('/facebook-callback', authController.facebookCallback);
+authRouter.get('/facebook-callback', wrapAsync(authController.facebookCallback));
 
 authRouter.get('/demo', authController.demoLogin);
 
