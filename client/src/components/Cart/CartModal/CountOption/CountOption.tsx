@@ -9,6 +9,7 @@ import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
 import { getSelectedOptionPriceList } from '../../helper';
 import ProductCounter from './ProductCounter';
+import { isNumber } from '../../../../utils/typeGuard';
 
 const Container = styled.div`
   display: flex;
@@ -61,10 +62,9 @@ const CountOption = (props: Props): JSX.Element => {
     : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isNaN(+e.target.value)) {
-      return;
+    if (isNumber(+e.target.value)) {
+      setProductCount(+e.target.value);
     }
-    setProductCount(+e.target.value);
   };
 
   const onBlurCountInput = () => {
