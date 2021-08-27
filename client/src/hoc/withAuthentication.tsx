@@ -19,7 +19,7 @@ function withAuthentication<P>(
     }, [user]);
 
     if (user === null) {
-      toast.info('로그인이 필요합니다');
+      setTimeout(() => toast.info('로그인이 필요합니다'), 0);
 
       return <LoginPage />;
     }
