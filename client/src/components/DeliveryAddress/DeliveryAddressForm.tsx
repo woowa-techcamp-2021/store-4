@@ -1,6 +1,9 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
-import { DeliveryAddressFormRef } from '../../containers/ManageDeliveryAddressContainer';
+import {
+  DeliveryAddressFormRef,
+  FormInputs,
+} from '../../containers/ManageDeliveryAddressContainer';
 import DeliveryAddress from '../../models/delivery-address';
 import { isNotNone } from '../../utils/typeGuard';
 
@@ -9,27 +12,37 @@ const Container = styled.div`
   padding: 5px 8px;
   outline: none;
   color: ${(props) => props.theme.color.grey5};
+
+  .warning {
+    border: 1px solid ${(props) => props.theme.color.red};
+  }
 `;
 
 const DeliveryAddressFormInput = styled.input`
-  border: none;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
-  padding: 5px 8px;
+  font-size: ${(props) => props.theme.fontSize.small};
+  border: 1px solid ${(props) => props.theme.color.grey1};
+  border-radius: 3px;
+  padding: 8px;
   outline: none;
   color: ${(props) => props.theme.color.grey5};
+
+  ::placeholder {
+    color: ${(props) => props.theme.color.grey3};
+  }
+
+  &:focus {
+    border-color: ${(props) => props.theme.color.mint2};
+  }
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin: 8px 0;
   gap: 8px;
 `;
 
-const DeliveryAddressNickName = styled(DeliveryAddressFormInput)`
-  font-size: ${(props) => props.theme.fontSize.medium};
-  font-weight: bold;
-`;
+const DeliveryAddressNickName = styled(DeliveryAddressFormInput)``;
 
 const Address = styled(DeliveryAddressFormInput)`
   width: 500px;
@@ -38,6 +51,10 @@ const Address = styled(DeliveryAddressFormInput)`
 const RecipientName = styled(DeliveryAddressFormInput)``;
 
 const RecipientPhoneNumber = styled(DeliveryAddressFormInput)``;
+
+const DetailInfo = styled.span`
+  font-size: ${(props) => props.theme.fontSize.tiny};
+`;
 
 type Props = {
   deliveryAddress?: DeliveryAddress;
@@ -51,40 +68,44 @@ const DeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
   const addressRef = useRef<HTMLInputElement>(null);
   const recipientPhoneNumberRef = useRef<HTMLInputElement>(null);
 
+  const findRef = (formInput: FormInputs) => {
+    switch (formInput) {
+      case 'name':
+        return nameRef;
+
+      case 'recipientName':
+        return recipientNameRef;
+
+      case 'address':
+        return addressRef;
+
+      case 'recipientPhoneNumber':
+        return recipientPhoneNumberRef;
+    }
+  };
+
+  const onInputClick = (formInput: FormInputs) => () => {
+    const formRef = findRef(formInput);
+    if (isNotNone(formRef.current)) {
+      formRef.current?.classList.remove('warning');
+    }
+  };
+
   useImperativeHandle(
     ref,
     () => ({
-      get name(): string {
-        return nameRef.current?.value ?? '';
+      getValue(formInput: FormInputs) {
+        return findRef(formInput).current?.value ?? '';
       },
-      get recipientName(): string {
-        return recipientNameRef.current?.value ?? '';
-      },
-      get address(): string {
-        return addressRef.current?.value ?? '';
-      },
-      get recipientPhoneNumber(): string {
-        return recipientPhoneNumberRef.current?.value ?? '';
-      },
-      set name(value: string) {
-        if (isNotNone(nameRef.current)) {
-          nameRef.current.value = value;
+      setValue(formInput: FormInputs, value: string) {
+        const formRef = findRef(formInput);
+        if (isNotNone(formRef.current)) {
+          formRef.current.value = value;
         }
       },
-      set recipientName(value: string) {
-        if (isNotNone(recipientNameRef.current)) {
-          recipientNameRef.current.value = value;
-        }
-      },
-      set address(value: string) {
-        if (isNotNone(addressRef.current)) {
-          addressRef.current.value = value;
-        }
-      },
-      set recipientPhoneNumber(value: string) {
-        if (isNotNone(recipientPhoneNumberRef.current)) {
-          recipientPhoneNumberRef.current.value = value;
-        }
+      onValidationFailed(formInput: FormInputs) {
+        const formRef = findRef(formInput);
+        formRef.current?.classList.add('warning');
       },
     }),
     []
@@ -96,22 +117,31 @@ const DeliveryAddressForm = (props: Props, ref: Ref<DeliveryAddressFormRef>): JS
         ref={nameRef}
         defaultValue={deliveryAddress?.name}
         placeholder="이름"
+        onClick={onInputClick('name')}
       />
       <Row>
-        <Address ref={addressRef} defaultValue={deliveryAddress?.address} placeholder="배송지" />
+        <Address
+          ref={addressRef}
+          defaultValue={deliveryAddress?.address}
+          onClick={onInputClick('address')}
+          placeholder="배송지"
+        />
       </Row>
 
       <Row>
         <RecipientName
           ref={recipientNameRef}
+          onClick={onInputClick('recipientName')}
           defaultValue={deliveryAddress?.recipientName}
           placeholder="수령인"
         />
         <RecipientPhoneNumber
           ref={recipientPhoneNumberRef}
           defaultValue={deliveryAddress?.recipientPhoneNumber}
+          onClick={onInputClick('recipientPhoneNumber')}
           placeholder="수령인 전화번호"
         />
+        <DetailInfo>전화번호는 (-) 를 사용하여 입력해주세요</DetailInfo>
       </Row>
     </Container>
   );

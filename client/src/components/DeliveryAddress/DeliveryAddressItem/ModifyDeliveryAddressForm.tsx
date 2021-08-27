@@ -11,6 +11,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const ModifyFormWrapper = styled.div``;
