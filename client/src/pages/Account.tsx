@@ -7,6 +7,7 @@ import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressC
 import AccountReviewContainer from '../containers/AccountReviewContainer';
 import WishListContainer from '../containers/AccountWishListContainer';
 import withAuthentication from '../hoc/withAuthentication';
+import AccountOrderContainer from '../containers/AccountOrderContainer';
 
 type PathItem = {
   path: string;
@@ -14,6 +15,7 @@ type PathItem = {
   Component: () => JSX.Element;
 };
 const PATH_ITEM_LIST: PathItem[] = [
+  { path: 'order', text: '주문 관리', Component: AccountOrderContainer },
   { path: 'delivery-address', text: '배송지 관리', Component: ManageDeliveryAddressContainer },
   { path: 'reviews', text: '내 상품후기', Component: AccountReviewContainer },
   { path: 'wish', text: '찜리스트', Component: WishListContainer },
