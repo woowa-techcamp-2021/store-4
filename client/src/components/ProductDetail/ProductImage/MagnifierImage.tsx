@@ -22,8 +22,6 @@ const ImageViewer = styled.div`
   height: 400px;
 `;
 
-const ZOOM_LEVEL = 4;
-
 const Image = styled.img`
   width: 100%;
   height: 100%;
@@ -39,24 +37,31 @@ const MagnifierPointer = styled.div`
   opacity: 0.4;
 `;
 
-type MagnifiedViewerProps = {
-  backgroundURL: string;
-};
-
-const MagnifiedViewer = styled.div<MagnifiedViewerProps>`
-  background-image: url(${(props) => props.backgroundURL});
+const MagnifiedViewer = styled.div`
+  overflow: hidden;
   background-repeat: no-repeat;
   position: absolute;
   right: ${-MAGNIFIED_IMAGE_VIEWER.WIDTH - 20}px;
   top: 0;
-  background-color: red;
+  background-color: ${(props) => props.theme.color.white1};
   width: ${MAGNIFIED_IMAGE_VIEWER.WIDTH}px;
   height: ${MAGNIFIED_IMAGE_VIEWER.HEIGHT}px;
   border-radius: 8px;
 `;
 
-const MagnifyWrapper = styled.div`
+const ModifiedImage = styled.img`
+  width: 400%;
+  height: 400%;
+  object-fit: contain;
+`;
+
+type MagnifyWrapperProps = {
+  isMagnifierVisible: boolean;
+};
+
+const MagnifyWrapper = styled.div<MagnifyWrapperProps>`
   pointer-events: none;
+  visibility: ${(props) => (props.isMagnifierVisible ? 'visible' : 'hidden')};
 `;
 
 type Props = {
@@ -121,7 +126,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
   const { image } = props;
   const [isMagnifierVisible, setMagnifierVisible] = useState(false);
   const magnifier = useRef<HTMLDivElement>(null);
-  const magnifiedViewer = useRef<HTMLDivElement>(null);
+  const magnifiedViewer = useRef<HTMLImageElement>(null);
 
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
     const { clientX, clientY, currentTarget } = e;
@@ -146,13 +151,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
       const viewerX = (x * -MAGNIFIED_IMAGE_VIEWER.WIDTH) / MAGNIFIER_POINTER.WIDTH;
       const viewerY = (y * -MAGNIFIED_IMAGE_VIEWER.HEIGHT) / MAGNIFIER_POINTER.WIDTH;
 
-      magnifiedViewer.current.style.backgroundPositionX = `${viewerX}px`;
-      magnifiedViewer.current.style.backgroundPositionY = `${viewerY}px`;
-
-      const { clientWidth, clientHeight } = magnifiedViewer.current;
-      magnifiedViewer.current.style.backgroundSize = `${ZOOM_LEVEL * clientWidth}px ${
-        ZOOM_LEVEL * clientHeight
-      }px`;
+      magnifiedViewer.current.style.transform = `translate(${viewerX}px, ${viewerY}px)`;
     }
   }, []);
 
@@ -172,13 +171,13 @@ const MagnifierImage = (props: Props): JSX.Element => {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image data-testid="selected-image" src={image} />
-        {isMagnifierVisible && (
-          <MagnifyWrapper data-testid="magnifier">
-            <MagnifierPointer ref={magnifier} />
-            <MagnifiedViewer ref={magnifiedViewer} backgroundURL={image} />
-          </MagnifyWrapper>
-        )}
+        <Image data-testid="selected-image" src={image} referrerPolicy="no-referrer" />
+        <MagnifyWrapper data-testid="magnifier" isMagnifierVisible={isMagnifierVisible}>
+          <MagnifierPointer ref={magnifier} />
+          <MagnifiedViewer>
+            <ModifiedImage ref={magnifiedViewer} src={image} referrerPolicy="no-referrer" />
+          </MagnifiedViewer>
+        </MagnifyWrapper>
       </ImageViewer>
     </Container>
   );
