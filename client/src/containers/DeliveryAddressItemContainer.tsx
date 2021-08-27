@@ -4,6 +4,7 @@ import { AuthenticationContext } from '../components/Authentication/Authenticati
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import DeliveryAddress from '../models/delivery-address';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
 import { isNotNone } from '../utils/typeGuard';
@@ -111,7 +112,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
               return;
 
             case 400:
-              alert('양식을 확인해주세요');
+              toast.error('양식을 확인해주세요');
               return;
 
             default:
