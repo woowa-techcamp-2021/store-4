@@ -35,6 +35,8 @@ const EmptyBox = styled.div`
   height: 100px;
 `;
 
+const Text = styled.span``;
+
 type Props = {
   onOptionClick: (uuid: string) => void;
 };
@@ -64,7 +66,7 @@ const CartTable = (props: Props): JSX.Element => {
         <CartItemList>
           {CartItems.length === 0 ? (
             <EmptyBox>
-              <span>장바구니에 담겨있는 상품이 없습니다.</span>
+              <Text>장바구니에 담겨있는 상품이 없습니다</Text>
             </EmptyBox>
           ) : (
             CartItems
