@@ -12,7 +12,7 @@ import productDetailStore from '../stores/productDetailStore';
 import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
 import { isNone } from '../utils/typeGuard';
-import toastHelper from '../lib/toast';
+import toast from '../lib/toast';
 
 const ProductDetailContainer = (): JSX.Element => {
   const [product, productFetchErrorStatus] = useProduct();
@@ -92,7 +92,7 @@ const ProductDetailContainer = (): JSX.Element => {
 
   const handleWishButtonHandler = useCallback(() => {
     if (isNone(userStore.user)) {
-      toastHelper.info('로그인이 필요합니다');
+      toast.info('로그인이 필요합니다');
       return;
     }
 
@@ -100,17 +100,17 @@ const ProductDetailContainer = (): JSX.Element => {
       switch (error.status) {
         case 401:
         case 410:
-          toastHelper.error('세션이 만료되었습니다');
+          toast.error('세션이 만료되었습니다');
           history.push('/logout');
           return;
 
         case 404:
-          toastHelper.error('삭제된 상품입니다');
+          toast.error('삭제된 상품입니다');
           history.push('/notfound');
           return;
 
         case 409:
-          alert(
+          toast.info(
             productDetailStore.product?.isWished
               ? '이미 찜을 취소한 상품입니다.'
               : '이미 찜한 상품입니다'
@@ -118,7 +118,7 @@ const ProductDetailContainer = (): JSX.Element => {
           return;
 
         default:
-          toastHelper.error('오류가 발생했습니다');
+          toast.error('오류가 발생했습니다');
           return;
       }
     });
@@ -126,7 +126,7 @@ const ProductDetailContainer = (): JSX.Element => {
 
   const handleClickOrderButton = () => {
     if (cartsInProduct.length === 0) {
-      alert('상품의 옵션을 골라주세요.');
+      toast.info('상품의 옵션을 골라주세요.');
       return;
     }
 
@@ -136,7 +136,7 @@ const ProductDetailContainer = (): JSX.Element => {
 
   const handleClickCartButton = () => {
     if (cartsInProduct.length === 0) {
-      alert('상품의 옵션을 골라주세요.');
+      toast.info('상품의 옵션을 골라주세요.');
       return;
     }
     cartStore.addProductsToCart(cartsInProduct);
