@@ -5,8 +5,8 @@ import AccountNavList from '../components/Account/AccountNavList/AccountNavList'
 import AccountLanding from '../components/Account/AccountLanding/AccountLanding';
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
 import AccountReviewContainer from '../containers/AccountReviewContainer';
-import AuthenticationProvider from '../components/Authentication/Authentication';
 import WishListContainer from '../containers/AccountWishListContainer';
+import withAuthentication from '../hoc/withAuthentication';
 
 type PathItem = {
   path: string;
@@ -52,10 +52,4 @@ const AccountPage = (): JSX.Element => {
   );
 };
 
-const WithAuthentication = (): JSX.Element => (
-  <AuthenticationProvider>
-    <AccountPage />
-  </AuthenticationProvider>
-);
-
-export default WithAuthentication;
+export default withAuthentication(AccountPage, 'account');
