@@ -26,6 +26,10 @@ const DeliveryAddressFormInput = styled.input`
   outline: none;
   color: ${(props) => props.theme.color.grey5};
 
+  ::placeholder {
+    color: ${(props) => props.theme.color.grey3};
+  }
+
   &:focus {
     border-color: ${(props) => props.theme.color.mint2};
   }
