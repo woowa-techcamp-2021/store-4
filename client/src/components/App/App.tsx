@@ -16,6 +16,7 @@ import ErrorPage from '../../pages/Error';
 import ToastPortal from '../Portal/ToastPortal';
 import OrderPage from '../../pages/Order';
 import ConfirmModalPortal from '../Portal/ConfirmModalPortal';
+import Footer from '../Footer/Footer';
 
 const App = (): JSX.Element => {
   return (
@@ -38,6 +39,7 @@ const App = (): JSX.Element => {
       </Router>
       <ToastPortal />
       <ConfirmModalPortal />
+      <Footer></Footer>
     </ThemeProvider>
   );
 };
