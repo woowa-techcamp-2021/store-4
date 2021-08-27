@@ -6,6 +6,7 @@ import CartItem from '../models/cart-item';
 import { CreateOrderRequest } from '../types/order';
 import apis from '../api';
 import userStore from './userStore';
+import Order from '../models/order';
 
 class OrderStore {
   @observable
@@ -18,7 +19,7 @@ class OrderStore {
   async fetchOrders() {
     const { token } = userStore;
     const { orders } = await apis.orderAPI.fetchOrders(token);
-    return orders;
+    return orders.map((order) => new Order(order));
   }
 
   @action
