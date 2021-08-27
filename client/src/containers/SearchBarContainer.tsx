@@ -78,7 +78,7 @@ const SearchBarContainer = (): JSX.Element => {
 
     const query = buildQueryString({
       ...option,
-      inputSearchTerm,
+      searchTerm: inputSearchTerm,
       category: '',
     });
 
