@@ -26,7 +26,6 @@ const SORT_BUTTONS = [
 const ProductListContainer = (): JSX.Element => {
   const [products, setProducts] = useState<Product[]>([]);
   const option = optionStore.option;
-  const [currentPage, setCurrentPage] = useState(1);
   const totalPageCount = useRef(1);
   const totalProductCount = useRef(0);
   const history = useHistory();
@@ -69,7 +68,6 @@ const ProductListContainer = (): JSX.Element => {
         pageNum,
       });
       history.push(`/products${query}`);
-      setCurrentPage(pageNum);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     [option, history]
@@ -84,7 +82,7 @@ const ProductListContainer = (): JSX.Element => {
       totalPageCount={totalPageCount.current}
       onClickSortButton={handleClickSortButton}
       onClickPageNum={handleClickPageNum}
-      currentPage={currentPage}
+      currentPage={option.pageNum}
       searchTerm={option.searchTerm}
     />
   );

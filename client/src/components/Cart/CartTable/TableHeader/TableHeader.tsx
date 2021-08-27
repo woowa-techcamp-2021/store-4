@@ -34,7 +34,8 @@ const HeaderPrice = styled(AlignCenterContainer)`
 
 const TableHeader = (): JSX.Element => {
   const { cartItemList } = cartStore;
-  const isAllSelected = cartItemList.every((cartItem) => cartItem.isSelected);
+  const isAllSelected =
+    cartItemList.length > 0 && cartItemList.every((cartItem) => cartItem.isSelected);
 
   const onClickCheckBox = () => {
     cartStore.setCartItemSelectionAll(!isAllSelected);

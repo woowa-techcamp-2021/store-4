@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CategoryLayerContainer from '../../../../containers/CategoryLayerContainer';
 import { RiMenuFill } from 'react-icons/ri';
 
-const CATEGORY_BUTTON_TEXT = '전체 카테고리';
+const CATEGORY_BUTTON_TEXT = '카테고리';
 
 const Container = styled.div`
   position: relative;

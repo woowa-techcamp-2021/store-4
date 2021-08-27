@@ -1,6 +1,11 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
+import AuthenticationProvider, {
+  AuthenticationContext,
+} from '../components/Authentication/Authentication';
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
+import User from '../models/user';
+import toast from '../lib/toast';
 import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import userStore from '../stores/userStore';
@@ -12,11 +17,17 @@ export type OrderDeliveryAddressFormRef = {
   readonly approve: boolean;
 };
 
-const OrderContainer = (): JSX.Element => {
+const OrderPaymentContainer = (): JSX.Element => {
   const orderFormRef = useRef<OrderDeliveryAddressFormRef & HTMLFormElement>(null);
   const [currentStep, setStep] = useState(2);
+  const { onErrorOccurred } = useContext(AuthenticationContext);
   const history = useHistory();
-  const user = userStore.user;
+  const { user } = userStore;
+  const { orderDetailProductList } = orderStore;
+
+  useEffect(() => {
+    scrollTo({ top: 0 });
+  }, []);
 
   const handleSumbitOrder = useCallback(async () => {
     if (isNone(orderFormRef.current)) {
@@ -26,12 +37,12 @@ const OrderContainer = (): JSX.Element => {
     const { recipientName, address, approve } = orderFormRef.current;
 
     if (!(recipientName && address)) {
-      alert('배송정보는 빠짐없이 입력해주세요!');
+      toast.error('배송정보는 빠짐없이 입력해주세요');
       return;
     }
 
     if (!approve) {
-      alert('구매진행에 동의 해주세요!');
+      toast.error('구매진행에 동의 해주세요');
       return;
     }
 
@@ -41,16 +52,39 @@ const OrderContainer = (): JSX.Element => {
 
       cartStore.removeOrderCompleteItems(orderDetailProductList);
 
-      alert('주문완료');
+      toast.success('주문 완료');
 
       setStep(3);
-    } catch (err) {
-      alert('주문 실패 다시 시도해주세요');
+    } catch (error) {
+      switch (error.status) {
+        case 401:
+        case 410:
+          onErrorOccurred();
+          return;
+
+        case 400:
+          toast.error('잘못된 데이터입니다');
+          history.push('/');
+          orderStore.orderDetailProductList = [];
+          return;
+
+        default:
+          toast.error('주문 실패 다시 시도해주세요');
+          history.push('/error');
+          return;
+      }
     }
-  }, []);
+  }, [history, onErrorOccurred]);
+
+  useEffect(() => {
+    if (orderDetailProductList.length === 0) {
+      toast.error('주문 상품이 없습니다');
+      history.push('/');
+    }
+  }, [history, orderDetailProductList]);
 
   if (isNone(user)) {
-    alert('로그인이 필요합니다.');
+    toast.error('로그인이 필요합니다');
     history.push('/login');
     return <></>;
   }
@@ -60,11 +94,19 @@ const OrderContainer = (): JSX.Element => {
       currentStep={currentStep}
       ref={orderFormRef}
       onOrderSubmit={handleSumbitOrder}
-      user={user}
+      user={user as User}
       recipientName={orderFormRef.current?.recipientName}
       address={orderFormRef.current?.address}
     />
   );
 };
 
-export default OrderContainer;
+const OrderPaymentAuthentication = (): JSX.Element => {
+  return (
+    <AuthenticationProvider>
+      <OrderPaymentContainer />
+    </AuthenticationProvider>
+  );
+};
+
+export default OrderPaymentAuthentication;

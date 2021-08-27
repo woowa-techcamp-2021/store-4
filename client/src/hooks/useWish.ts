@@ -1,5 +1,6 @@
 import { Dispatch, MouseEventHandler, SetStateAction, useCallback } from 'react';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import Product from '../models/product';
 import wishStore from '../stores/wishStore';
 
@@ -18,7 +19,7 @@ const useWish = (
         e.preventDefault();
 
         if (localStorage.getItem('token') === null) {
-          alert('로그인이 필요합니다');
+          toast.error('로그인이 필요합니다');
           return;
         }
 
@@ -27,6 +28,8 @@ const useWish = (
         if (productIndex === -1) {
           return;
         }
+
+        const originWished = products[productIndex].isWished;
 
         setProducts([
           ...products.slice(0, productIndex),
@@ -37,16 +40,29 @@ const useWish = (
           ...products.slice(productIndex + 1),
         ]);
 
-        wishStore.toggle(product.id, !product.isWished).catch((error) => {
+        wishStore.changeWishedTo(product.id, !originWished).catch((error) => {
+          setProducts([
+            ...products.slice(0, productIndex),
+            new Product({
+              ...product,
+              isWished: originWished,
+            }),
+            ...products.slice(productIndex + 1),
+          ]);
+
           switch (error.status) {
             case 401:
             case 410:
-              alert('세션이 만료되었습니다');
+              toast.error('세션이 만료되었습니다');
               history.push('/logout');
               return;
 
             case 404:
               history.push('/notfound');
+              return;
+
+            case 409:
+              toast.info(originWished ? '이미 찜을 취소한 상품입니다' : '이미 찜한 상품입니다');
               return;
 
             case 500:

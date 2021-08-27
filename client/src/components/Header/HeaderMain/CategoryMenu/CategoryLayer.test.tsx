@@ -63,9 +63,13 @@ describe('CategoryLayer 컴포넌트', () => {
   });
 
   test('부모 카테고리 호버', () => {
+    jest.useFakeTimers();
+
     const $parentWithoutChild = screen.getByText(PARENT_CATEGORY_NAME_2);
     userEvent.hover($parentWithoutChild);
-    expect(screen.getByTestId('child-list')).toBeEmptyDOMElement();
+
+    setTimeout(() => expect(screen.getByTestId('child-list')).toBeEmptyDOMElement(), 100);
+    jest.runAllTimers();
 
     const $parentWithChild = screen.getByText(PARENT_CATEGORY_NAME);
     userEvent.hover($parentWithChild);

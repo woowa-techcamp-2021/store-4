@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react';
 import { AuthenticationContext } from '../components/Authentication/Authentication';
 import DeliveryAddressList from '../components/DeliveryAddress/DeliveryAddressList';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
 import { isNotNone } from '../utils/typeGuard';
+import { isBlank, isPhoneNumber } from '../utils/validation';
+
+export type FormInputs = 'name' | 'recipientName' | 'address' | 'recipientPhoneNumber';
 
 export type DeliveryAddressFormRef = {
-  readonly name: string;
-  readonly recipientName: string;
-  readonly address: string;
-  readonly recipientPhoneNumber: string;
+  getValue: (formInputs: FormInputs) => string;
+  setValue: (formInputs: FormInputs, value: string) => void;
+  onValidationFailed: (formInput: FormInputs) => void;
 };
 
 const ManageDeliveryAddressContainer = (): JSX.Element => {
@@ -30,7 +33,37 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
 
   const handleCreateClick = useCallback(() => {
     if (isNotNone(createFormRef.current)) {
-      const { address, name, recipientName, recipientPhoneNumber } = createFormRef.current;
+      const { getValue, onValidationFailed } = createFormRef.current;
+      let isValidated = true;
+
+      const name = getValue('name');
+      if (isBlank(name)) {
+        onValidationFailed('name');
+        isValidated = false;
+      }
+
+      const address = getValue('address');
+      if (isBlank(address)) {
+        onValidationFailed('address');
+        isValidated = false;
+      }
+
+      const recipientName = getValue('recipientName');
+      if (isBlank(recipientName)) {
+        onValidationFailed('recipientName');
+        isValidated = false;
+      }
+
+      const recipientPhoneNumber = getValue('recipientPhoneNumber');
+      if (!isPhoneNumber(recipientPhoneNumber)) {
+        onValidationFailed('recipientPhoneNumber');
+        isValidated = false;
+      }
+
+      if (!isValidated) {
+        return;
+      }
+
       deliveryAddressStore
         .createDeliveryAddress({
           address,
@@ -49,7 +82,7 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
               return;
 
             case 400:
-              alert('양식을 확인해주세요');
+              toast.error('양식을 확인해주세요');
               return;
 
             default:

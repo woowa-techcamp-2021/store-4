@@ -9,6 +9,7 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(128, 128, 128, 0.5);
+  z-index: 1;
 `;
 
 const Modal = styled.div`
@@ -22,8 +23,6 @@ const Modal = styled.div`
   background-color: ${(props) => props.theme.color.white1};
   border-radius: 8px;
   box-shadow: ${(props) => props.theme.color.grey4} 1px 1px 5px;
-
-  z-index: 999;
 `;
 
 type Props = {

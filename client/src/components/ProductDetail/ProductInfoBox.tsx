@@ -43,7 +43,7 @@ const InfoRowWrapper = styled.div`
 const ProductCartListWrapper = styled.div`
   margin-top: 30px;
   height: 100px;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const TotalPriceWrapper = styled.div`

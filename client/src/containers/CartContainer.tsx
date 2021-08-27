@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import Cart from '../components/Cart/Cart';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 
@@ -10,7 +11,7 @@ const CartContainer = (): JSX.Element => {
 
   const handleClickAllProductOrderButton = () => {
     if (cartStore.isNothingSelectedCartItems) {
-      alert('선택된 아이템이 없습니다.');
+      toast.error('선택된 아이템이 없습니다');
       return;
     }
 
@@ -22,7 +23,7 @@ const CartContainer = (): JSX.Element => {
 
   const handleClickSelectedProductOrderButton = () => {
     if (cartStore.isNothingSelectedCartItems) {
-      alert('선택된 아이템이 없습니다.');
+      toast.error('선택된 아이템이 없습니다');
       return;
     }
 

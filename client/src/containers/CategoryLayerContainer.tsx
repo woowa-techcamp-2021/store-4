@@ -10,8 +10,17 @@ const Empty = styled.div``;
 
 export type CategoryClickHandler = (category: Category) => void;
 
-const handleCategoryClick: CategoryClickHandler = (category: Category) =>
+export const CATEGORY_ALL = new Category({
+  id: 0,
+  name: '모든 상품',
+  parentCategory: null,
+  childCategories: [],
+  isRoot: true,
+});
+
+const handleCategoryClick: CategoryClickHandler = (category: Category) => {
   optionStore.setCategory(category.id);
+};
 
 const CategoryContainer = (): JSX.Element => {
   const categories = categoryStore.categories;
@@ -21,9 +30,9 @@ const CategoryContainer = (): JSX.Element => {
     return <Empty />;
   }
 
-  const rootCategories = categories.filter((category) => category.isRoot);
+  const rootCategories = [CATEGORY_ALL, ...categories.filter((category) => category.isRoot)];
 
-  if (rootCategories.length === 0) {
+  if (rootCategories.length === 1) {
     return <Empty />;
   }
 

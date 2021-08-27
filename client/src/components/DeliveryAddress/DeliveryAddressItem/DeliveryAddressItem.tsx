@@ -9,6 +9,11 @@ const Container = styled.div`
   justify-content: space-between;
   height: 150px;
   padding: 0px 20px;
+  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const DeliveryAddressWrapper = styled.div``;
@@ -17,22 +22,26 @@ const Row = styled.div`
   color: ${(props) => props.theme.color.grey5};
   display: flex;
   align-items: center;
-  margin: 10px 0;
   gap: 8px;
   padding: 5px 0px;
 `;
 
 const DeliveryAddressNickName = styled.div`
-  font-size: ${(props) => props.theme.fontSize.medium};
+  font-size: ${(props) => props.theme.fontSize};
   font-weight: bold;
   padding: 5px 0px;
+  margin-bottom: 10px;
 `;
 
-const Address = styled.div``;
+const Label = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
+`;
 
-const RecipientName = styled.div``;
+const Address = styled(Label)``;
 
-const RecipientPhoneNumber = styled.div``;
+const RecipientName = styled(Label)``;
+
+const RecipientPhoneNumber = styled(Label)``;
 
 const ButtonWrapper = styled.div`
   display: flex;

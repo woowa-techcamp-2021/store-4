@@ -55,8 +55,12 @@ const Cart = (props: Props): JSX.Element => {
           쇼핑 계속하기
         </MoveShopPage>
       </Link>
-      <PriceTotal />
-      <CartButtons {...props} />
+      {cartStore.cartItemList.length !== 0 && (
+        <>
+          <PriceTotal />
+          <CartButtons {...props} />
+        </>
+      )}
       {modalCartItem && <CartModal onCloseModalClick={onCloseModalClick} />}
     </Container>
   );

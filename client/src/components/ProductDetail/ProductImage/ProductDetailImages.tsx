@@ -43,6 +43,7 @@ const ProductDetailImages = (props: Props): JSX.Element => {
 
   const ImageSelectors = images.map((image, index) => (
     <ImageSelector
+      referrerPolicy="no-referrer"
       data-testid="image-selector"
       onMouseOver={onImageSelectorMouseover(index)}
       isSelected={selectedImageIndex === index}

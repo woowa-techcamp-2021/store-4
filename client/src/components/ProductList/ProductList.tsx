@@ -6,9 +6,10 @@ import { SortButton } from '../../containers/ProductListContainer';
 import { ProductListOrder } from '../../types/product';
 import { range } from '../../utils/range';
 import ProductListHeader from './ProductListHeader';
+import EmptyProducts from './EmptyProducts';
 
 const Container = styled.div`
-  width: 1200px;
+  width: ${(props) => props.theme.device.desktop};
   margin: 100px auto;
   display: flex;
   flex-direction: column;
@@ -98,7 +99,11 @@ const ProductList = (props: Props): JSX.Element => {
         totalProductCount={totalProductCount}
         onClickSortButton={onClickSortButton}
       />
-      <ProductListWrapper>{ProductItems}</ProductListWrapper>
+      {ProductItems.length <= 0 ? (
+        <EmptyProducts />
+      ) : (
+        <ProductListWrapper>{ProductItems}</ProductListWrapper>
+      )}
       <PageNav>{PageNavItems}</PageNav>
     </Container>
   );

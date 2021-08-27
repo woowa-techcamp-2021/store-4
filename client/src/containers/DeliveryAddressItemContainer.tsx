@@ -4,9 +4,11 @@ import { AuthenticationContext } from '../components/Authentication/Authenticati
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
 import { useHistory } from '../lib/router';
+import toast from '../lib/toast';
 import DeliveryAddress from '../models/delivery-address';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
 import { isNotNone } from '../utils/typeGuard';
+import { isBlank, isPhoneNumber } from '../utils/validation';
 import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
 
 type Props = {
@@ -61,7 +63,36 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
 
   const handleModifyClick = useCallback(() => {
     if (isNotNone(modifyFormRef.current)) {
-      const { address, name, recipientName, recipientPhoneNumber } = modifyFormRef.current;
+      const { getValue, onValidationFailed } = modifyFormRef.current;
+      let isValidated = true;
+
+      const name = getValue('name');
+      if (isBlank(name)) {
+        onValidationFailed('name');
+        isValidated = false;
+      }
+
+      const address = getValue('address');
+      if (isBlank(address)) {
+        onValidationFailed('address');
+        isValidated = false;
+      }
+
+      const recipientName = getValue('recipientName');
+      if (isBlank(recipientName)) {
+        onValidationFailed('recipientName');
+        isValidated = false;
+      }
+
+      const recipientPhoneNumber = getValue('recipientPhoneNumber');
+      if (!isPhoneNumber(recipientPhoneNumber)) {
+        onValidationFailed('recipientPhoneNumber');
+        isValidated = false;
+      }
+
+      if (!isValidated) {
+        return;
+      }
 
       deliveryAddressStore
         .modifyDeliveryAddress(props.deliveryAddress.id, {
@@ -81,7 +112,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
               return;
 
             case 400:
-              alert('양식을 확인해주세요');
+              toast.error('양식을 확인해주세요');
               return;
 
             default:

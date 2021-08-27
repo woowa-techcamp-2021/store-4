@@ -41,11 +41,13 @@ class OptionStore {
   setCategory(categoryId: number) {
     this.option.searchTerm = null;
     this.option.category = categoryId;
+    this.option.pageNum = 1;
   }
 
   @action
   setSortOption(sortOption: ProductListOrder) {
     this.option.sort = sortOption;
+    this.option.pageNum = 1;
   }
 
   @action
