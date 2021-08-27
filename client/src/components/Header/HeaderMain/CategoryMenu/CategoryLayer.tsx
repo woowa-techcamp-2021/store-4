@@ -2,10 +2,8 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rootListStyle, childListStyle, textUnderline } from './categoryLayerCss';
 import { CategoryClickHandler, CATEGORY_ALL } from '../../../../containers/CategoryLayerContainer';
-import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
 import { Option } from '../../../../types/option';
-import buildQueryString from '../../../../utils/build-query-string';
 import { debounce, clearDebounce } from '../../../../lib/debounce';
 
 const Container = styled.div`
@@ -54,21 +52,14 @@ export type Props = {
 };
 
 const CategoryLayer = (props: Props): JSX.Element => {
-  const { rootCategories, onCategoryClick, option } = props;
+  const { rootCategories, onCategoryClick } = props;
   const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
-  const history = useHistory();
 
   const handleGetCategoryClickHandler = useCallback(
     (category: Category) => () => {
-      const query = buildQueryString({
-        ...option,
-        category: category === CATEGORY_ALL ? null : category.id,
-        searchTerm: '',
-      });
-      history.push(`/products${query}`);
       onCategoryClick(category);
     },
-    [onCategoryClick, option, history]
+    [onCategoryClick]
   );
 
   const rootItems = rootCategories.map((category) => (

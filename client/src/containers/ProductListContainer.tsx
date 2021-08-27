@@ -6,9 +6,9 @@ import Product from '../models/product';
 import { ProductListOrder } from '../types/product';
 import { observer } from 'mobx-react';
 import productStore from '../stores/productStore';
-import buildQueryString from '../utils/build-query-string';
 import { useHistory } from '../lib/router';
 import useWish from '../hooks/useWish';
+import useOption from '../hooks/useOption';
 
 export type SortButton = {
   key: ProductListOrder;
@@ -26,6 +26,7 @@ const SORT_BUTTONS = [
 const ProductListContainer = (): JSX.Element => {
   const [products, setProducts] = useState<Product[]>([]);
   const option = optionStore.option;
+  const { changeSortOption, changePageNum } = useOption();
   const totalPageCount = useRef(1);
   const totalProductCount = useRef(0);
   const history = useHistory();
@@ -45,32 +46,23 @@ const ProductListContainer = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
+    const option = optionStore.parseQueryToOption(location.search);
+    console.log('pass');
     fetchProductList(option);
-  }, [option, option.category, option.pageNum, option.searchTerm, option.sort, fetchProductList]);
+  }, [fetchProductList, history]);
 
   const handleClickSortButton = useCallback(
     (order: ProductListOrder) => (): void => {
-      optionStore.setSortOption(order);
-      const query = buildQueryString({
-        ...option,
-        sort: order,
-      });
-      history.push(`/products${query}`);
+      changeSortOption(order);
     },
-    [option, history]
+    [changeSortOption]
   );
 
   const handleClickPageNum = useCallback(
     (pageNum: number) => () => {
-      optionStore.setPageNum(pageNum);
-      const query = buildQueryString({
-        ...option,
-        pageNum,
-      });
-      history.push(`/products${query}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      changePageNum(pageNum);
     },
-    [option, history]
+    [changePageNum]
   );
 
   return (

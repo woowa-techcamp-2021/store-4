@@ -12,6 +12,7 @@ class ProductAPI {
 
   fetchProducts(token: string | null, option: Option): Promise<ProductResponse> {
     const query = buildQueryString(option);
+
     return request<ProductResponse>({
       url: `${this.baseURL}/api/product${query}`,
       headers: {

@@ -5,6 +5,7 @@ import CategoryLayer, { Props } from '../components/Header/HeaderMain/CategoryMe
 import categoryStore from '../stores/categoryStore';
 import optionStore from '../stores/optionStore';
 import Category from '../models/category';
+import useOption from '../hooks/useOption';
 
 const Empty = styled.div``;
 
@@ -18,13 +19,14 @@ export const CATEGORY_ALL = new Category({
   isRoot: true,
 });
 
-const handleCategoryClick: CategoryClickHandler = (category: Category) => {
-  optionStore.setCategory(category.id);
-};
-
 const CategoryContainer = (): JSX.Element => {
+  const { changeCategory } = useOption();
   const categories = categoryStore.categories;
   const option = optionStore.option;
+
+  const handleCategoryClick: CategoryClickHandler = (category: Category) => {
+    changeCategory(category.id);
+  };
 
   if (categories.length === 0) {
     return <Empty />;
