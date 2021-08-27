@@ -39,7 +39,7 @@ const App = (): JSX.Element => {
       </Router>
       <ToastPortal />
       <ConfirmModalPortal />
-      <Footer></Footer>
+      <Footer />
     </ThemeProvider>
   );
 };
