@@ -20,6 +20,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
 `;
 const OptionModalWrapper = styled.div`
   width: 667px;
