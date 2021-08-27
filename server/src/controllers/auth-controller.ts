@@ -7,6 +7,8 @@ import dotenv from '../config/dotenv';
 import { isNone } from '../util/type-guard';
 import UserNotfoundException from '../exceptions/user-notfound-exception';
 
+let DEMO_USER_COUNT = 1;
+
 class AuthController {
   async getUser(req: Request, res: Response) {
     const user = req.decoded;
@@ -72,6 +74,23 @@ class AuthController {
       console.error(err);
       res.send('fail');
     }
+  }
+
+  async demoLogin(req: Request, res: Response) {
+    const demoUser = await userService.registerUser({
+      username: `게스트`,
+      email: `guest-${DEMO_USER_COUNT}@woowa.store`,
+    });
+
+    DEMO_USER_COUNT++;
+
+    const token = jwtService.generateToken({
+      id: demoUser.id,
+      name: demoUser.username,
+      email: demoUser.email,
+    });
+
+    res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
   }
 }
 
