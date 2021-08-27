@@ -15,10 +15,10 @@ class OrderStore {
     makeAutoObservable(this);
   }
 
-  fetchOrders() {
+  async fetchOrders() {
     const { token } = userStore;
-
-    return apis.orderAPI.fetchOrders(token);
+    const { orders } = await apis.orderAPI.fetchOrders(token);
+    return orders;
   }
 
   @action
