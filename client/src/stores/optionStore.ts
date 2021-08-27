@@ -46,6 +46,7 @@ class OptionStore {
   @action
   setSortOption(sortOption: ProductListOrder) {
     this.option.sort = sortOption;
+    this.option.pageNum = 1;
   }
 
   @action

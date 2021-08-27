@@ -56,6 +56,7 @@ const ProductListContainer = (): JSX.Element => {
         ...option,
         sort: order,
       });
+      setCurrentPage(1);
       history.push(`/products${query}`);
     },
     [option, history]
