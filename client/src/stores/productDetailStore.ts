@@ -27,25 +27,25 @@ class ProductDetailStore {
       return;
     }
 
-    const originWish = this.product.isWished;
+    const originWished = this.product.isWished;
     runInAction(() => {
       if (this.product !== null) {
         this.product = new Product({
           ...this.product,
-          isWished: !originWish,
+          isWished: !originWished,
         });
       }
     });
 
     const { id } = this.product;
     try {
-      await wishStore.toggle(id, !this.product.isWished);
+      await wishStore.changeWishedTo(id, !originWished);
     } catch (error) {
       runInAction(() => {
         if (this.product !== null) {
           this.product = new Product({
             ...this.product,
-            isWished: originWish,
+            isWished: originWished,
           });
         }
       });

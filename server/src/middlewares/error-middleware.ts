@@ -15,6 +15,8 @@ import ReviewNotWrittenByUserException from '../exceptions/review-notwrittenbyus
 import DeliveryAddressNotfoundException from '../exceptions/delivery-address-notfound-exception';
 import NotMyDeliveryAddressException from '../exceptions/not-my-delivery-address-exception';
 import AWSS3Exception from '../exceptions/aws-s3-exception';
+import AlreadyCanceledWish from '../exceptions/already-canceled-wish';
+import AlreadyExistWish from '../exceptions/already-exist-wish';
 
 type HTTPErrors = {
   status: number;
@@ -35,6 +37,8 @@ const errors: { [key: string]: HTTPErrors } = {
   [DeliveryAddressNotfoundException.name]: { status: 404 },
   [NotMyDeliveryAddressException.name]: { status: 403 },
   [AWSS3Exception.name]: { status: 413 },
+  [AlreadyCanceledWish.name]: { status: 409 },
+  [AlreadyExistWish.name]: { status: 409 },
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {

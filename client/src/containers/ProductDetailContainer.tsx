@@ -97,7 +97,6 @@ const ProductDetailContainer = (): JSX.Element => {
     }
 
     productDetailStore.toggleWish().catch((error) => {
-      console.log(error);
       switch (error.status) {
         case 401:
         case 410:
@@ -108,6 +107,14 @@ const ProductDetailContainer = (): JSX.Element => {
         case 404:
           toastHelper.error('삭제된 상품입니다');
           history.push('/notfound');
+          return;
+
+        case 409:
+          alert(
+            productDetailStore.product?.isWished
+              ? '이미 찜을 취소한 상품입니다.'
+              : '이미 찜한 상품입니다'
+          );
           return;
 
         default:
