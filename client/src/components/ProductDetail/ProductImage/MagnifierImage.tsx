@@ -43,13 +43,13 @@ type MagnifiedViewerProps = {
   backgroundURL: string;
 };
 
-const MagnifiedViewer = styled.div<MagnifiedViewerProps>`
+const MagnifiedViewer = styled.picture<MagnifiedViewerProps>`
   background-image: url(${(props) => props.backgroundURL});
   background-repeat: no-repeat;
   position: absolute;
   right: ${-MAGNIFIED_IMAGE_VIEWER.WIDTH - 20}px;
   top: 0;
-  background-color: red;
+  background-color: ${(props) => props.theme.color.grey2};
   width: ${MAGNIFIED_IMAGE_VIEWER.WIDTH}px;
   height: ${MAGNIFIED_IMAGE_VIEWER.HEIGHT}px;
   border-radius: 8px;
@@ -172,7 +172,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image data-testid="selected-image" src={image} />
+        <Image data-testid="selected-image" src={image} referrerPolicy="no-referrer" />
         {isMagnifierVisible && (
           <MagnifyWrapper data-testid="magnifier">
             <MagnifierPointer ref={magnifier} />
