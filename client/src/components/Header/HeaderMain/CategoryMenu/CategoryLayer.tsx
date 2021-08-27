@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { rootListStyle, childListStyle, textUnderline } from './categoryLayerCss';
-import { CategoryClickHandler, CategoryAll } from '../../../../containers/CategoryLayerContainer';
+import { CategoryClickHandler, CATEGORY_ALL } from '../../../../containers/CategoryLayerContainer';
 import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
 import { Option } from '../../../../types/option';
@@ -62,7 +62,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
     (category: Category) => () => {
       const query = buildQueryString({
         ...option,
-        category: category === CategoryAll ? null : category.id,
+        category: category === CATEGORY_ALL ? null : category.id,
         searchTerm: '',
       });
       history.push(`/products${query}`);
@@ -97,7 +97,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
   return (
     <Container>
       <CategoryList isRoot={true}>{rootItems}</CategoryList>
-      {currentCategory !== CategoryAll && (
+      {currentCategory !== CATEGORY_ALL && (
         <CategoryList isRoot={false} data-testid="child-list">
           {childItems}
         </CategoryList>

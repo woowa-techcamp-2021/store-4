@@ -10,7 +10,7 @@ const Empty = styled.div``;
 
 export type CategoryClickHandler = (category: Category) => void;
 
-export const CategoryAll = new Category({
+export const CATEGORY_ALL = new Category({
   id: 0,
   name: '모든 상품',
   parentCategory: null,
@@ -30,7 +30,7 @@ const CategoryContainer = (): JSX.Element => {
     return <Empty />;
   }
 
-  const rootCategories = [CategoryAll, ...categories.filter((category) => category.isRoot)];
+  const rootCategories = [CATEGORY_ALL, ...categories.filter((category) => category.isRoot)];
 
   if (rootCategories.length === 1) {
     return <Empty />;
