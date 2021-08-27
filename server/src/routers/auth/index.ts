@@ -13,4 +13,6 @@ authRouter.get('/google-callback', authController.googleCallback);
 authRouter.get('/facebook-login', authController.facebookLogin);
 authRouter.get('/facebook-callback', authController.facebookCallback);
 
+authRouter.get('/demo', authController.demoLogin);
+
 export default authRouter;
