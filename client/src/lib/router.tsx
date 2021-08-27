@@ -52,6 +52,7 @@ type CompilePathParams = {
 
 type HistoryType = {
   push: (pathname: string) => void;
+  replace: (pathname: string) => void;
 };
 
 const RouterContext = createContext({} as RouterContextType);
@@ -90,11 +91,20 @@ export const Router = (props: RouterProps): React.ReactElement => {
     [history]
   );
 
+  const handleHistoryReplace = useCallback(
+    (pathname: string) => {
+      history.replaceState({}, pathname, window.location.origin + pathname);
+      setCurrentPath(pathname);
+    },
+    [history]
+  );
+
   return (
     <RouterContext.Provider
       value={{
         history: {
           push: handleHistoryPush,
+          replace: handleHistoryReplace,
         },
         currentPathname,
         setCurrentPath,

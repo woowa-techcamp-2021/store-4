@@ -95,7 +95,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
   return (
     <Container>
       <CategoryList isRoot={true}>{rootItems}</CategoryList>
-      {currentCategory?.id !== CATEGORY_ALL?.id && (
+      {currentCategory?.id !== CATEGORY_ALL.id && (
         <CategoryList isRoot={false} data-testid="child-list">
           {childItems}
         </CategoryList>
