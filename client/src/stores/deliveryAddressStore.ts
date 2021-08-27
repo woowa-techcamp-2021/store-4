@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import DeliveryAddress from '../models/delivery-address';
 import { CreateDeliveryAddressRequest } from '../types/deliveryAddress';
-import { isNone } from '../utils/typeGuard';
+import userStore from './userStore';
 
 class DeliveryAddressStore {
   @observable
@@ -14,11 +14,7 @@ class DeliveryAddressStore {
 
   @action
   async fetchDeliveryAddresses(): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    if (isNone(token)) {
-      return;
-    }
+    const token = userStore.token;
 
     const { deliveryAddresses } = await apis.deliveryAddressAPI.fetchDeliveryAddresses(token);
 
@@ -29,11 +25,7 @@ class DeliveryAddressStore {
 
   @action
   async createDeliveryAddress(data: CreateDeliveryAddressRequest): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    if (isNone(token)) {
-      return;
-    }
+    const token = userStore.token;
 
     const { deliveryAddress } = await apis.deliveryAddressAPI.createDeliveryAddress(token, data);
 
@@ -44,11 +36,7 @@ class DeliveryAddressStore {
 
   @action
   async modifyDeliveryAddress(id: number, data: CreateDeliveryAddressRequest): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    if (isNone(token)) {
-      return;
-    }
+    const token = userStore.token;
 
     const { deliveryAddress } = await apis.deliveryAddressAPI.modifyDeliveryAddress(
       token,
@@ -73,11 +61,7 @@ class DeliveryAddressStore {
 
   @action
   async deleteDeliveryAddress(id: number): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    if (isNone(token)) {
-      return;
-    }
+    const token = userStore.token;
 
     await apis.deliveryAddressAPI.deleteDeliveryAddress(token, id);
 

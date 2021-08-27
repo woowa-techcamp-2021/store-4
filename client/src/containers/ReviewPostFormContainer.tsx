@@ -65,7 +65,7 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     formData.append('productId', currentProduct.id + '');
 
     reviewStore
-      .postReview(formData, userStore.token)
+      .postReview(formData)
       .then(() => {
         toast.success('리뷰가 작성되었습니다');
         productDetailStore.fetchProduct(currentProduct.id);
