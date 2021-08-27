@@ -21,7 +21,7 @@ const EmptyProducts = (): JSX.Element => {
   return (
     <Container>
       <RiDropboxFill />
-      <EmptyText>상품 목록이 없습니다</EmptyText>
+      <EmptyText>상품이 없습니다</EmptyText>
     </Container>
   );
 };
