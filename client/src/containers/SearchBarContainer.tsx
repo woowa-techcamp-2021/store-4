@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import SearchBar from '../components/Header/HeaderMain/SearchBar/SearchBar';
 import { useHistory } from '../lib/router';
 import SearchTerm from '../models/searchTerm';
@@ -39,8 +39,6 @@ const getSearchTermList = (): SearchTerm[] => {
   }
 };
 
-const descDate = (a: SearchTerm, b: SearchTerm) => b.createdAt.getTime() - a.createdAt.getTime();
-
 const SearchBarContainer = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermList, setSearchTermList] = useState(getSearchTermList);
@@ -56,44 +54,47 @@ const SearchBarContainer = (): JSX.Element => {
     localStorage.setItem(SEARCH_TERM_LIST_KEY, JSON.stringify(searchTermList));
   }, [searchTermList]);
 
-  const handleChangeSearchTermList = () => {
-    const foundSearchTermIndex = searchTermList.findIndex((term) => term.content === searchTerm);
+  const handleSearch = (inputSearchTerm: string) => {
+    const sameSearchTermIndex = searchTermList.findIndex(
+      (term) => term.content === inputSearchTerm
+    );
 
-    if (foundSearchTermIndex >= 0) {
-      const changedSearchTerm = new SearchTerm({
-        ...searchTermList[foundSearchTermIndex],
-        createdAt: new Date(),
-      });
-
-      setSearchTermList((prev) => {
-        const newSearchTermList = [...prev];
-        newSearchTermList[foundSearchTermIndex] = changedSearchTerm;
-        newSearchTermList.sort(descDate);
-
-        return newSearchTermList;
-      });
-    } else {
-      setSearchTermList((prev) => {
-        const newSearchTerm = new SearchTerm({
-          content: searchTerm,
-          createdAt: new Date(),
-        });
-
-        return [newSearchTerm, ...prev];
-      });
+    if (sameSearchTermIndex !== -1) {
+      setSearchTermList((prev) => [
+        ...prev.slice(0, sameSearchTermIndex),
+        ...prev.slice(sameSearchTermIndex + 1),
+      ]);
     }
+
+    setSearchTermList((prev) => [
+      new SearchTerm({
+        content: inputSearchTerm,
+        createdAt: new Date(),
+      }),
+      ...prev,
+    ]);
 
     setSearchTerm('');
 
     const query = buildQueryString({
       ...option,
-      searchTerm,
+      inputSearchTerm,
       category: '',
     });
 
     history.push(`/products${query}`);
-    optionStore.setSearchTerm(searchTerm);
+    optionStore.setSearchTerm(inputSearchTerm);
   };
+
+  const handleChangeSearchTermList = () => {
+    handleSearch(searchTerm);
+  };
+
+  const handleGetSearchTermItemClickHandler =
+    (searchTerm: string): MouseEventHandler =>
+    () => {
+      handleSearch(searchTerm);
+    };
 
   const handleDeleteAllSearchTerm = () => {
     setSearchTermList([]);
@@ -109,6 +110,7 @@ const SearchBarContainer = (): JSX.Element => {
 
   return (
     <SearchBar
+      getSearchTermItemClickHandler={handleGetSearchTermItemClickHandler}
       searchTermList={searchTermList}
       searchTerm={searchTerm}
       onChangeSearchTermInput={handleChangeSearchTermInput}

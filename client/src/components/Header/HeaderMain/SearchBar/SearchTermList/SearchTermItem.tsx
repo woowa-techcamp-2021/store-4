@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import SearchTerm from '../../../../../models/searchTerm';
 import { RiCloseFill } from 'react-icons/ri';
@@ -27,13 +27,13 @@ const SearchTermItemRight = styled(FlexCenterWrapper)`
 
 const Date = styled.div`
   font-size: 10px;
-  color: ${(propss) => propss.theme.color.grey3};
+  color: ${(props) => props.theme.color.grey3};
   margin-right: 8px;
   cursor: default;
 `;
 
 const DeleteButton = styled.div`
-  color: ${(propss) => propss.theme.color.grey5};
+  color: ${(props) => props.theme.color.grey5};
   display: flex;
   align-items: center;
 
@@ -46,13 +46,24 @@ type Props = {
   index: number;
   searchTerm: SearchTerm;
   onDeleteSearchTerm: React.MouseEventHandler;
+  onSearchTermClick: React.MouseEventHandler;
+  onCloseDropdown: () => void;
 };
 
 const SearchTermItem = (props: Props): JSX.Element => {
-  const { searchTerm, index, onDeleteSearchTerm } = props;
+  const { searchTerm, index, onDeleteSearchTerm, onSearchTermClick, onCloseDropdown } = props;
+
+  const handleOnSearchTermClick: MouseEventHandler = (e) => {
+    onSearchTermClick(e);
+    onCloseDropdown();
+  };
+
   return (
     <Container>
-      <SearchTermItemLeft data-testid={`search-term-item-content-${index}`}>
+      <SearchTermItemLeft
+        data-testid={`search-term-item-content-${index}`}
+        onClick={handleOnSearchTermClick}
+      >
         {searchTerm.content}
       </SearchTermItemLeft>
       <SearchTermItemRight>
