@@ -6,6 +6,7 @@ import userStore from '../stores/userStore';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
 import confirmModal from '../lib/confirmModal';
+import { observer } from 'mobx-react';
 
 const AccountReviewContainer = (): JSX.Element => {
   const userId = userStore.user?.id;
@@ -65,4 +66,4 @@ const AccountReviewContainer = (): JSX.Element => {
   return <AccountReview reviews={reviews} onDeleteButtonClick={handleDeleteReviewClick} />;
 };
 
-export default AccountReviewContainer;
+export default observer(AccountReviewContainer);
