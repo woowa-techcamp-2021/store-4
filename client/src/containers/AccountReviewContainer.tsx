@@ -5,6 +5,7 @@ import reviewStore from '../stores/reviewStore';
 import userStore from '../stores/userStore';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
+import confirmModal from '../lib/confirmModal';
 
 const AccountReviewContainer = (): JSX.Element => {
   const userId = userStore.user?.id;
@@ -23,12 +24,13 @@ const AccountReviewContainer = (): JSX.Element => {
 
   const handleDeleteReviewClick = (deleteReviews: ReviewWithProduct[]) => {
     const reviewsLength = deleteReviews.length;
+
     if (reviewsLength === 0) {
       toast.info('삭제할 후기를 선택하세요');
       return;
     }
 
-    if (window.confirm(`${reviewsLength}개의 상품 후기를 삭제하시겠습니까?`)) {
+    const deleteReviewsFn = () =>
       reviewStore
         .deleteReview(deleteReviews.map((review) => review.id))
         .then(() => {
@@ -52,7 +54,12 @@ const AccountReviewContainer = (): JSX.Element => {
               return;
           }
         });
-    }
+
+    confirmModal.show(
+      '정말 삭제하시겠어요?',
+      `${reviewsLength}개의 상품 후기가 삭제됩니다.`,
+      deleteReviewsFn
+    );
   };
 
   return <AccountReview reviews={reviews} onDeleteButtonClick={handleDeleteReviewClick} />;
