@@ -8,11 +8,10 @@ const Container = styled.footer`
   bottom: 0;
   width: 100%;
   height: 250px;
-
   padding-top: 50px;
   padding-bottom: 40px;
-
   background-color: ${(props) => props.theme.color.grey1};
+  z-index: -1;
 `;
 
 const Wrapper = styled.div`
