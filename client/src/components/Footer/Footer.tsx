@@ -11,7 +11,6 @@ const Container = styled.footer`
   padding-top: 50px;
   padding-bottom: 40px;
   background-color: ${(props) => props.theme.color.grey1};
-  z-index: -1;
 `;
 
 const Wrapper = styled.div`
