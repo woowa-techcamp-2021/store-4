@@ -4,6 +4,7 @@ import Login from '../components/Login/Login';
 export enum OAuthType {
   Facebook,
   Google,
+  Demo,
 }
 
 const BUTTONS = {
@@ -14,6 +15,10 @@ const BUTTONS = {
   [OAuthType.Google]: {
     content: '구글로 계속하기',
     redirectURL: `${process.env.SERVER_URL}/auth/google-login`,
+  },
+  [OAuthType.Demo]: {
+    content: '데모 계정으로 계속하기',
+    redirectURL: `${process.env.SERVER_URL}/auth/demo`,
   },
 };
 
