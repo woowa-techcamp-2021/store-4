@@ -10,8 +10,20 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  html {
+    height: 100%;
+  }
+
   body {
+    height: 100%;
     color: ${(props) => props.theme.color.black};
+  }
+
+  #root {
+    min-height: 100%;
+    padding-bottom: 300px;
+    position: relative;
   }
 
   a {
