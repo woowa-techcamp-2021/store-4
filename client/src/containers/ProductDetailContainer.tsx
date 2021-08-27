@@ -126,7 +126,7 @@ const ProductDetailContainer = (): JSX.Element => {
 
   const handleClickOrderButton = () => {
     if (cartsInProduct.length === 0) {
-      toast.info('상품의 옵션을 골라주세요.');
+      toast.info('상품의 옵션을 골라주세요');
       return;
     }
 
@@ -136,9 +136,11 @@ const ProductDetailContainer = (): JSX.Element => {
 
   const handleClickCartButton = () => {
     if (cartsInProduct.length === 0) {
-      toast.info('상품의 옵션을 골라주세요.');
+      toast.info('상품의 옵션을 골라주세요');
       return;
     }
+
+    toast.info('장바구니에 추가되었습니다');
     cartStore.addProductsToCart(cartsInProduct);
   };
 
