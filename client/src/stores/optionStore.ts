@@ -27,6 +27,11 @@ class OptionStore {
     this.option = this.parseQueryToOption(window.location.search);
   }
 
+  @action
+  init(option: Option) {
+    this.option = option;
+  }
+
   parseQueryToOption(query: string) {
     const queryParams = new URLSearchParams(query);
 

@@ -47,7 +47,7 @@ const ProductListContainer = (): JSX.Element => {
 
   useEffect(() => {
     const option = optionStore.parseQueryToOption(location.search);
-    console.log('pass');
+    optionStore.init(option);
     fetchProductList(option);
   }, [fetchProductList, history]);
 

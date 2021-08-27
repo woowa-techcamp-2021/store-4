@@ -64,15 +64,16 @@ const RouterContext = createContext({} as RouterContextType);
  */
 
 export const Router = (props: RouterProps): React.ReactElement => {
-  const initialPath = window.location.pathname;
+  const initialPath = `${window.location.pathname}${window.location.search}`;
   const [currentPathname, setCurrentPath] = useState(initialPath);
   const { children } = props;
   const { history } = window;
   const routeInfo = { isMatch: true, keys: {} };
+  initialPath;
 
   const handlePopState = useCallback((event: PopStateEvent) => {
     event.preventDefault();
-    const path = window.location.pathname;
+    const path = `${window.location.pathname}${window.location.search}`;
     setCurrentPath(path);
   }, []);
 
@@ -307,7 +308,10 @@ const compilePath = (params: CompilePathParams) => {
 export const matchPath = (params: MatchPathParams): MatchResult => {
   const { currentPathname, pathname, exact = false } = params;
 
-  const paths = pathname.split('/').filter((path) => path !== '');
+  const paths = pathname
+    .split('?')[0]
+    .split('/')
+    .filter((path) => path !== '');
   const currentPaths = removeUrlQuery(currentPathname)
     .split('/')
     .filter((path) => path !== '');
