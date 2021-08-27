@@ -1,11 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { rootListStyle, childListStyle, textUnderline } from './categoryLayerCss';
 import { CategoryClickHandler, CATEGORY_ALL } from '../../../../containers/CategoryLayerContainer';
 import Category from '../../../../models/category';
-import { Option } from '../../../../types/option';
 import { debounce, clearDebounce } from '../../../../lib/debounce';
-import { useEffect } from 'react';
 
 const Container = styled.div`
   position: absolute;
@@ -49,7 +47,6 @@ const CategoryListItemText = styled.span<CategoryListItemProps>`
 export type Props = {
   rootCategories: Category[];
   onCategoryClick: CategoryClickHandler;
-  option: Option;
 };
 
 const CategoryLayer = (props: Props): JSX.Element => {
@@ -102,8 +99,6 @@ const CategoryLayer = (props: Props): JSX.Element => {
       )}
     </Container>
   );
-
-  return <></>;
 };
 
 export default CategoryLayer;

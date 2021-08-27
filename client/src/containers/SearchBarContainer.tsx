@@ -2,9 +2,7 @@ import { observer } from 'mobx-react';
 import React, { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import SearchBar from '../components/Header/HeaderMain/SearchBar/SearchBar';
 import useOption from '../hooks/useOption';
-import { useHistory } from '../lib/router';
 import SearchTerm from '../models/searchTerm';
-import optionStore from '../stores/optionStore';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
 const SEARCH_TERM_LIST_KEY = 'search-term-list';

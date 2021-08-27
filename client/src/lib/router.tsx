@@ -70,7 +70,6 @@ export const Router = (props: RouterProps): React.ReactElement => {
   const { children } = props;
   const { history } = window;
   const routeInfo = { isMatch: true, keys: {} };
-  initialPath;
 
   const handlePopState = useCallback((event: PopStateEvent) => {
     event.preventDefault();

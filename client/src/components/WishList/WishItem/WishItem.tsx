@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Wish } from '../../../types/Wish';
 import { FaHeart } from 'react-icons/fa';
 import { useState } from 'react';
@@ -37,7 +37,7 @@ const WishButton = styled(CommonButton)<WishButtonProps>`
   background-color: ${(props) => props.theme.color.white1};
   width: 50px;
   font-size: ${(props) => props.theme.fontSize.large};
-color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
+  color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
 `;
 
 const ItemTitleWrapper = styled.div`
