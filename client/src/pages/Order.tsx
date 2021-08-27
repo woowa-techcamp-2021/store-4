@@ -1,8 +1,8 @@
 import React from 'react';
-import OrderPaymentContainer from '../containers/OrderPaymentContainer';
+import OrderPaymentAuthentication from '../containers/OrderPaymentContainer';
 
 const OrderPage = (): JSX.Element => {
-  return <OrderPaymentContainer />;
+  return <OrderPaymentAuthentication />;
 };
 
 export default OrderPage;
