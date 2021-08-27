@@ -37,12 +37,12 @@ const OrderPaymentContainer = (): JSX.Element => {
     const { recipientName, address, approve } = orderFormRef.current;
 
     if (!(recipientName && address)) {
-      toast.error('배송정보는 빠짐없이 입력해주세요!');
+      toast.error('배송정보는 빠짐없이 입력해주세요');
       return;
     }
 
     if (!approve) {
-      toast.error('구매진행에 동의 해주세요!');
+      toast.error('구매진행에 동의 해주세요');
       return;
     }
 
@@ -63,7 +63,7 @@ const OrderPaymentContainer = (): JSX.Element => {
           return;
 
         case 400:
-          toast.error('잘못된 데이터입니다.');
+          toast.error('잘못된 데이터입니다');
           history.push('/');
           orderStore.orderDetailProductList = [];
           return;
@@ -78,13 +78,13 @@ const OrderPaymentContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (orderDetailProductList.length === 0) {
-      toast.error('주문 상품이 없습니다.');
+      toast.error('주문 상품이 없습니다');
       history.push('/');
     }
   }, [history, orderDetailProductList]);
 
   if (isNone(user)) {
-    toast.error('로그인이 필요합니다.');
+    toast.error('로그인이 필요합니다');
     history.push('/login');
     return <></>;
   }

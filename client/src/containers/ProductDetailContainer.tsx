@@ -112,7 +112,7 @@ const ProductDetailContainer = (): JSX.Element => {
         case 409:
           toast.info(
             productDetailStore.product?.isWished
-              ? '이미 찜을 취소한 상품입니다.'
+              ? '이미 찜을 취소한 상품입니다'
               : '이미 찜한 상품입니다'
           );
           return;
