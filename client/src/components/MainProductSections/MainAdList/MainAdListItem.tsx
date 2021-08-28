@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from '../../../lib/router';
 import { MockProductAdItemType } from '../mock';
 
 const MainAdListItemContainer = styled.div`
@@ -28,12 +29,15 @@ type MainAddListItemProps = {
 };
 
 const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
-  const { title, subTitle, imgSrc } = props.product;
+  const { id, title, subTitle, imgSrc } = props.product;
+
   return (
     <MainAdListItemContainer>
-      <ImageWrapper>
-        <AdImage src={imgSrc} />
-      </ImageWrapper>
+      <Link to={`/product/${id}`}>
+        <ImageWrapper>
+          <AdImage src={imgSrc} />
+        </ImageWrapper>
+      </Link>
       <ItemTitles>
         <Title>{title}</Title>
         <SubTitle>{subTitle}</SubTitle>
