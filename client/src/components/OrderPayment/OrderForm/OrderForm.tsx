@@ -62,6 +62,17 @@ const PaymentButton = styled.button`
   }
 `;
 
+const setValueAtRef = <T extends HTMLInputElement>(
+  target: React.RefObject<T> | null,
+  str: string
+) => {
+  if (isNotNone(target)) {
+    if (isNotNone(target.current)) {
+      target.current.value = str;
+    }
+  }
+};
+
 type Props = {
   onOrderSubmit: React.MouseEventHandler;
   deliveryAddresses: DeliveryAddress[];
@@ -89,15 +100,20 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
   const handleChangeAddress = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { target } = event;
 
+    if (target.value === 'none') {
+      setValueAtRef(recipientNameRef, '');
+      setValueAtRef(addressRef, '');
+      setAddress(undefined);
+      return;
+    }
+
     const foundAddress = deliveryAddresses.find(
       (deliveryAddress) => deliveryAddress.id === +target.value
     );
 
-    if (isNotNone(foundAddress) && isNotNone(recipientNameRef) && isNotNone(addressRef)) {
-      if (isNotNone(recipientNameRef.current) && isNotNone(addressRef.current)) {
-        recipientNameRef.current.value = foundAddress.recipientName;
-        addressRef.current.value = foundAddress.address;
-      }
+    if (isNotNone(foundAddress)) {
+      setValueAtRef(recipientNameRef, foundAddress.recipientName);
+      setValueAtRef(addressRef, foundAddress.address);
 
       setAddress(foundAddress);
     }
