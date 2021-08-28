@@ -27,7 +27,7 @@ const OrderPaymentContainer = (): JSX.Element => {
 
   useEffect(() => {
     scrollTo({ top: 0 });
-  }, []);
+  }, [currentStep]);
 
   const handleSumbitOrder = useCallback(async () => {
     if (isNone(orderFormRef.current)) {
