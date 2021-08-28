@@ -1,6 +1,7 @@
 import request from '../lib/request';
 import { Option } from '../types/option';
 import { MainProductsResponse, ProductDetailResponse, ProductResponse } from '../types/product';
+import { WishResponse } from '../types/Wish';
 import buildQueryString from '../utils/build-query-string';
 
 class ProductAPI {
@@ -29,7 +30,7 @@ class ProductAPI {
     });
   }
 
-  fetchWishList(token: string | null, userId: number) {
+  fetchWishList(token: string | null, userId: number): Promise<{ wishList: WishResponse[] }> {
     return request({
       url: `${this.baseURL}/api/product/${userId}/wishList`,
       headers: {
