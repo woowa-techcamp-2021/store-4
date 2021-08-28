@@ -11,7 +11,7 @@ import orderStore from '../stores/orderStore';
 import productDetailStore from '../stores/productDetailStore';
 import userStore from '../stores/userStore';
 import { SelectWithSelected } from '../types/product';
-import { isNone } from '../utils/typeGuard';
+import { isNone, isNotPositiveInteger } from '../utils/typeGuard';
 import toast from '../lib/toast';
 
 const ProductDetailContainer = (): JSX.Element => {
@@ -59,7 +59,7 @@ const ProductDetailContainer = (): JSX.Element => {
       ({ target }: ChangeEvent<HTMLInputElement>) => {
         const { value } = target;
 
-        if (isNaN(+value)) {
+        if (isNotPositiveInteger(+value)) {
           return;
         }
 
