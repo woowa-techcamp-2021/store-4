@@ -5,11 +5,12 @@ import cartStore from '../../../../stores/cartStore';
 import { observer } from 'mobx-react';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
-import CartItem from '../../../../models/cart-item';
+import CartItem, { STOCK } from '../../../../models/cart-item';
 import { toJS } from 'mobx';
 import { getSelectedOptionPriceList } from '../../helper';
 import ProductCounter from './ProductCounter';
-import { isPositiveInteger } from '../../../../utils/typeGuard';
+import { isNotPositiveInteger } from '../../../../utils/typeGuard';
+import toast from '../../../../lib/toast';
 
 const Container = styled.div`
   display: flex;
@@ -61,23 +62,26 @@ const CountOption = (props: Props): JSX.Element => {
     ? (price + optionPriceList.reduce((total, current) => total + current, 0)) * productCount
     : 0;
 
-  const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isPositiveInteger(+e.target.value)) {
-      setProductCount(+e.target.value);
+  const onChangeProductCount = (nextCount: unknown) => {
+    if (isNotPositiveInteger(nextCount)) {
+      return;
     }
+
+    if (nextCount > STOCK) {
+      toast.info(`현재 구매 가능한 최대 수량은 ${STOCK}개입니다`);
+
+      return setProductCount(STOCK);
+    }
+
+    setProductCount(nextCount);
   };
 
-  const onClickPlus = () => {
-    if (isPositiveInteger(productCount + 1)) {
-      setProductCount(productCount + 1);
-    }
-  };
+  const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) =>
+    onChangeProductCount(+e.target.value);
 
-  const onClickMinus = () => {
-    if (isPositiveInteger(productCount - 1)) {
-      setProductCount(productCount - 1);
-    }
-  };
+  const onClickPlus = () => onChangeProductCount(productCount + 1);
+
+  const onClickMinus = () => onChangeProductCount(productCount - 1);
 
   return (
     <Container>
