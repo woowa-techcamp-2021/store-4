@@ -17,13 +17,7 @@ const NavBarContainer = (): JSX.Element => {
   const cartItemCount = cartStore.cartItemList.length;
   const { user } = userStore;
 
-  const handleAccountLinkClick = () => {
-    if (isNotNone(user)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  const handleAccountLinkClick = () => isNotNone(user);
   const handleFail = () => toast.info('로그인이 필요합니다');
 
   const navLinks = [
