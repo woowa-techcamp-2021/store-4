@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WishItem from './WishItem/WishItem';
-import { Wish } from '../../types/Wish';
-import { getWishList } from './mock';
+import { Wish, WishResponse } from '../../types/Wish';
+import wishStore from '../../stores/wishStore';
+import { useParams } from '../../lib/router';
 
 const Container = styled.div`
   width: 800px;
@@ -27,20 +28,30 @@ const WishItemList = styled.div`
 
 const WishList = (): JSX.Element => {
   const [wishItems, setWishItems] = useState<Wish[]>([]);
+  const { id: userId } = useParams();
 
   useEffect(() => {
-    const wishedProductList = getWishList(); // 찜목록 api 요청
-    const nextWishList = wishedProductList.map((item) => {
-      return {
-        id: item.id,
-        title: item.title,
-        imgSrc: item.imgSrc,
-      };
+    wishStore.getWishList(+userId).then((wishList: WishResponse[]) => {
+      const nextWishList = wishList.map((wish) => {
+        return {
+          id: wish.id,
+          productId: wish.product.id,
+          title: wish.product.name,
+          imgSrc: wish.product.productImages[0].url,
+        };
+      });
+      setWishItems(nextWishList);
     });
-    setWishItems(nextWishList);
-  }, []);
+  }, [userId]);
 
-  const WishItems = wishItems.map((wishItem) => <WishItem key={wishItem.id} wishItem={wishItem} />);
+  const WishItems = wishItems.map((wishItem) => (
+    <WishItem
+      key={wishItem.productId}
+      productId={wishItem.productId}
+      title={wishItem.title}
+      imgSrc={wishItem.imgSrc}
+    />
+  ));
 
   return (
     <Container>
