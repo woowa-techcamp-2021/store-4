@@ -1,3 +1,5 @@
+import Product from '../models/product';
+
 export type Wish = {
   id: number;
   productId: number;
@@ -8,16 +10,4 @@ export type Wish = {
 export type WishResponse = {
   id: number;
   product: Product;
-};
-
-type Product = {
-  id: number;
-  name: string;
-  price: string;
-  productImages: ProductImage[];
-};
-
-type ProductImage = {
-  id: number;
-  url: string;
 };
