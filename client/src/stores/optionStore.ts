@@ -46,10 +46,8 @@ class OptionStore {
   @action
   changeCategory(categoryId: number) {
     this.option = {
+      ...DEFAULT_OPTION,
       category: categoryId,
-      searchTerm: DEFAULT_OPTION.searchTerm,
-      pageNum: DEFAULT_OPTION.pageNum,
-      sort: DEFAULT_OPTION.sort,
     };
   }
 
@@ -73,10 +71,8 @@ class OptionStore {
   @action
   changeSearchTerm(searchTerm: string) {
     this.option = {
+      ...DEFAULT_OPTION,
       searchTerm,
-      category: DEFAULT_OPTION.category,
-      sort: DEFAULT_OPTION.sort,
-      pageNum: DEFAULT_OPTION.pageNum,
     };
   }
 
