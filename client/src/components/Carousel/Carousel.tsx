@@ -11,9 +11,14 @@ const Container = styled.div`
   overflow-x: hidden;
 `;
 
+export type CarouselSource = {
+  mp4: string;
+  webm: string;
+};
+
 export type CarouselImage = {
   index: number;
-  src: string;
+  src: CarouselSource;
 };
 
 type Props = {

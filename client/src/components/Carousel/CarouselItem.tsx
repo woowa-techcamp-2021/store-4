@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { hide, show } from '../../styles/animation';
+import { CarouselSource } from './Carousel';
 
 const Container = styled.div`
   top: 0;
@@ -15,21 +16,33 @@ type CarouselImgProps = {
   isShow: boolean;
 };
 
-const CarouselImg = styled.img<CarouselImgProps>`
+const CarouselVideo = styled.video<CarouselImgProps>`
   ${(props) => (props.isShow ? show : hide)};
 `;
+
+const VideoSource = styled.source``;
 
 type CarouselItemProps = {
   index: number;
   currentIndex: number;
-  src: string;
+  src: CarouselSource;
 };
 
 const CarouselItem = (props: CarouselItemProps): JSX.Element => {
   const { src, index, currentIndex } = props;
+
   return (
     <Container>
-      <CarouselImg data-testid={`img${index}`} isShow={index === currentIndex} src={src} />
+      <CarouselVideo
+        loop
+        autoPlay
+        muted
+        data-testid={`img${index}`}
+        isShow={index === currentIndex}
+      >
+        <VideoSource src={src.webm} />
+        <VideoSource src={src.mp4} />
+      </CarouselVideo>
     </Container>
   );
 };
