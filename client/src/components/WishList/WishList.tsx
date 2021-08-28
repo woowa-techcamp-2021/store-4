@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import WishItem from './WishItem/WishItem';
 import { Wish, WishResponse } from '../../types/Wish';
 import wishStore from '../../stores/wishStore';
+
 import { useParams } from '../../lib/router';
+import EmptyMessageBox from './EmptyMessageBox/EmptyMessageBox';
 
 const Container = styled.div`
   width: 800px;
@@ -57,7 +59,11 @@ const WishList = (): JSX.Element => {
     <Container>
       <WishText>찜리스트</WishText>
       <TableMain>
-        <WishItemList>{WishItems}</WishItemList>
+        {wishItems.length > 0 ? (
+          <WishItemList>{WishItems}</WishItemList>
+        ) : (
+          <EmptyMessageBox></EmptyMessageBox>
+        )}
       </TableMain>
     </Container>
   );
