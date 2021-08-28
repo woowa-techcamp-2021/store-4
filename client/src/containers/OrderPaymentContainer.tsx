@@ -65,7 +65,7 @@ const OrderPaymentContainer = (): JSX.Element => {
         case 400:
           toast.error('잘못된 데이터입니다');
           history.push('/');
-          orderStore.orderDetailProductList = [];
+          orderStore.clearOrder();
           return;
 
         default:

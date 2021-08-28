@@ -67,6 +67,11 @@ class OrderStore {
     await apis.orderAPI.createOrder(token, data);
   }
 
+  @action
+  clearOrder(): void {
+    this.orderDetailProductList = [];
+  }
+
   get totalPrice() {
     return this.orderDetailProductList.reduce(
       (total, orderDetailProduct) => total + orderDetailProduct.totalPrice,
