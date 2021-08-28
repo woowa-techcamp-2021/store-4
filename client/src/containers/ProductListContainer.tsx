@@ -61,7 +61,7 @@ const ProductListContainer = (): JSX.Element => {
   );
 
   const handleClickPageNum = useCallback(
-    (pageNum: number) => () => {
+    (pageNum: number) => {
       optionStore.setPageNum(pageNum);
       const query = buildQueryString({
         ...option,
