@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import CarouselController from './CarouselController';
 import CarouselItem from './CarouselItem';
-import generateUseInfiniteSlide from './hooks/useInfiniteSlide';
 
 const Container = styled.div`
   position: relative;
@@ -26,19 +26,13 @@ type Props = {
   interval: number;
 };
 
-const useInfiniteSlide = generateUseInfiniteSlide();
-
 const Carousel = (props: Props): JSX.Element => {
   const { images, interval } = props;
   const [currentIndex, setIndex] = useState(0);
 
   const handleInfiniteSlide = useCallback(() => {
-    if (images.length === currentIndex + 1) {
-      setIndex(0);
-      return;
-    }
-    setIndex(currentIndex + 1);
-  }, [currentIndex, setIndex, images.length]);
+    setIndex((currentIndex + 1) % images.length);
+  }, [currentIndex, images.length]);
 
   const handleDotClick = useCallback(
     (index: number) => () => {
@@ -47,7 +41,13 @@ const Carousel = (props: Props): JSX.Element => {
     []
   );
 
-  useInfiniteSlide(currentIndex, handleInfiniteSlide, interval);
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      handleInfiniteSlide();
+    }, interval);
+
+    return () => clearInterval(timerId);
+  }, [handleInfiniteSlide, interval]);
 
   const CarouselItems = images.map((data) => (
     <CarouselItem key={data.index} currentIndex={currentIndex} {...data} />

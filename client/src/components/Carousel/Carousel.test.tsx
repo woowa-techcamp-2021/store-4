@@ -7,7 +7,6 @@ import Carousel from './Carousel';
 import Beer from './mock/beer.gif';
 import Bottle from './mock/bottle.gif';
 import Pencil from './mock/pencil.gif';
-import { act } from 'react-dom/test-utils';
 
 describe('캐러셀 테스트', () => {
   const mockImages = [
