@@ -30,9 +30,9 @@ class ProductAPI {
     });
   }
 
-  fetchWishList(token: string | null, userId: number): Promise<{ wishList: WishResponse[] }> {
+  fetchWishList(token: string | null): Promise<{ wishList: WishResponse[] }> {
     return request({
-      url: `${this.baseURL}/api/product/${userId}/wishList`,
+      url: `${this.baseURL}/api/product/wishList`,
       headers: {
         authorization: token ?? '',
       },

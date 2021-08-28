@@ -4,7 +4,6 @@ import WishItem from './WishItem/WishItem';
 import { Wish, WishResponse } from '../../types/Wish';
 import wishStore from '../../stores/wishStore';
 
-import { useParams } from '../../lib/router';
 import EmptyMessageBox from './EmptyMessageBox/EmptyMessageBox';
 
 const Container = styled.div`
@@ -30,10 +29,9 @@ const WishItemList = styled.div`
 
 const WishList = (): JSX.Element => {
   const [wishItems, setWishItems] = useState<Wish[]>([]);
-  const { id: userId } = useParams();
 
   useEffect(() => {
-    wishStore.getWishList(+userId).then((wishList: WishResponse[]) => {
+    wishStore.getWishList().then((wishList: WishResponse[]) => {
       const nextWishList = wishList.map((wish) => {
         return {
           id: wish.id,
@@ -44,7 +42,7 @@ const WishList = (): JSX.Element => {
       });
       setWishItems(nextWishList);
     });
-  }, [userId]);
+  }, []);
 
   const WishItems = wishItems.map((wishItem) => (
     <WishItem

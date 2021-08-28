@@ -15,9 +15,9 @@ class WishStore {
     }
   }
 
-  async getWishList(userId: number): Promise<WishResponse[]> {
+  async getWishList(): Promise<WishResponse[]> {
     const token = localStorage.getItem('token');
-    const { wishList } = await apis.productAPI.fetchWishList(token, +userId);
+    const { wishList } = await apis.productAPI.fetchWishList(token);
     return wishList;
   }
 }
