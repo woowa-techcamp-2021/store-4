@@ -42,12 +42,7 @@ class OrderDetailProductAttributes {
 
 class OrderDetailProduct extends OrderDetailProductAttributes {
   get totalPrice(): number {
-    const optionsPrice = getSelectedOptionPriceList(this.selectWithSelecteds).reduce(
-      (total, option) => total + option,
-      0
-    );
-
-    return (this.price + optionsPrice) * this.count;
+    return this.price * this.count;
   }
 
   get orderDetail(): OrderDetailSummary {
