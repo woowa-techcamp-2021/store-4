@@ -1,4 +1,5 @@
 import apis from '../api';
+import { WishResponse } from '../types/Wish';
 
 class WishStore {
   async changeWishedTo(productId: number, wished: boolean) {
@@ -12,6 +13,12 @@ class WishStore {
     } else {
       await apis.productAPI.cancelWish(token, productId);
     }
+  }
+
+  async getWishList(userId: number): Promise<WishResponse[]> {
+    const token = localStorage.getItem('token');
+    const { wishList } = await apis.productAPI.fetchWishList(token, +userId);
+    return wishList;
   }
 }
 
