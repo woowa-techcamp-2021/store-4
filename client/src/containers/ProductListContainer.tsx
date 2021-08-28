@@ -68,7 +68,7 @@ const ProductListContainer = (): JSX.Element => {
         pageNum,
       });
       history.push(`/products${query}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0 });
     },
     [option, history]
   );
