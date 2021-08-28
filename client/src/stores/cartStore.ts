@@ -157,7 +157,7 @@ class CartStore {
   @action
   removeOrderCompleteItems(orderDetailProductList: OrderDetailProduct[]) {
     this.cartItemList = this.cartItemList.filter((cartItem) => {
-      return orderDetailProductList.some((orderDetailProduct) => {
+      return orderDetailProductList.every((orderDetailProduct) => {
         return orderDetailProduct.uuid !== cartItem.uuid;
       });
     });
