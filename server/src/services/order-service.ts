@@ -61,7 +61,7 @@ class OrderService {
         throw new OptionNotfoundException(ERROR_MESSAGES.OPTION_NOTFOUND);
       }
 
-      const productPrice = product.price * (1 - product.discountRate);
+      const productPrice = (product.price * product.discountRate) / 100;
       const additionalPrice = options.reduce(
         (acc, option) => acc + (Number(option?.additionalPrice) ?? 0),
         0
