@@ -9,7 +9,7 @@ import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
 import { getSelectedOptionPriceList } from '../../helper';
 import ProductCounter from './ProductCounter';
-import { isNumber } from '../../../../utils/typeGuard';
+import { isPositiveInteger } from '../../../../utils/typeGuard';
 
 const Container = styled.div`
   display: flex;
@@ -62,24 +62,21 @@ const CountOption = (props: Props): JSX.Element => {
     : 0;
 
   const onChangeCountInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isNumber(+e.target.value)) {
+    if (isPositiveInteger(+e.target.value)) {
       setProductCount(+e.target.value);
     }
   };
 
-  const onBlurCountInput = () => {
-    if (!Number.isInteger(productCount) || productCount <= 0) {
-      setProductCount(1);
+  const onClickPlus = () => {
+    if (isPositiveInteger(productCount + 1)) {
+      setProductCount(productCount + 1);
     }
   };
 
-  const onClickPlus = () => {
-    setProductCount(productCount + 1);
-  };
-
   const onClickMinus = () => {
-    if (productCount <= 0) return;
-    setProductCount(productCount - 1);
+    if (isPositiveInteger(productCount - 1)) {
+      setProductCount(productCount - 1);
+    }
   };
 
   return (
@@ -88,7 +85,6 @@ const CountOption = (props: Props): JSX.Element => {
       <CounterWrapper>
         <ProductCounter
           count={productCount}
-          onBlur={onBlurCountInput}
           onIncreaseClick={onClickPlus}
           onDecreaseClick={onClickMinus}
           onCountChange={onChangeCountInput}
