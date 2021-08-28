@@ -34,11 +34,20 @@ type WishButtonProps = {
 };
 
 const WishButton = styled(CommonButton)<WishButtonProps>`
-  border: 1px solid ${(props) => props.theme.color.grey1};
-  background-color: ${(props) => props.theme.color.white1};
+  border: none;
+  border-radius: 100%;
+  background-color: inherit;
   width: 50px;
   font-size: ${(props) => props.theme.fontSize.large};
   color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  :hover {
+    background-color: ${(props) => props.theme.color.white1};
+  }
 `;
 
 const ItemTitleWrapper = styled.div`
