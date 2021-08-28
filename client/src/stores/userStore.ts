@@ -62,7 +62,6 @@ class UserStore {
         break;
       default:
         toast.error('오류가 발생했습니다');
-        return;
     }
 
     this.logoutUser();
