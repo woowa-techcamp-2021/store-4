@@ -31,7 +31,7 @@ const WishList = (): JSX.Element => {
   const [wishItems, setWishItems] = useState<Wish[]>([]);
 
   useEffect(() => {
-    wishStore.getWishList().then((wishList: WishResponse[]) => {
+    wishStore.fetchWishList().then((wishList: WishResponse[]) => {
       const nextWishList = wishList.map((wish) => {
         return {
           id: wish.id,
