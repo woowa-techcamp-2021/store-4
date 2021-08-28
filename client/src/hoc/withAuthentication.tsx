@@ -5,10 +5,10 @@ import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
 import { useEffect } from 'react';
 
-function withAuthentication<P>(
+const withAuthentication = <P,>(
   WrappedComponent: React.ComponentType<P>,
   path: string
-): (props: P) => JSX.Element | null {
+): ((props: P) => JSX.Element) => {
   const WithAuth = (props: P) => {
     const { user } = userStore;
 
@@ -28,6 +28,6 @@ function withAuthentication<P>(
   };
 
   return observer(WithAuth);
-}
+};
 
 export default withAuthentication;
