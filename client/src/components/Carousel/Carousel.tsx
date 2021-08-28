@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { Link } from '../../lib/router';
 import CarouselController from './CarouselController';
 import CarouselItem from './CarouselItem';
 import generateUseInfiniteSlide from './hooks/useInfiniteSlide';
@@ -14,6 +15,7 @@ const Container = styled.div`
 export type CarouselImage = {
   index: number;
   src: string;
+  productId: number;
 };
 
 type Props = {
@@ -50,7 +52,7 @@ const Carousel = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      {CarouselItems}
+      <Link to={`/product/${images[currentIndex].productId}`}>{CarouselItems}</Link>
       <CarouselController images={images} currentIndex={currentIndex} onDotClick={handleDotClick} />
     </Container>
   );
