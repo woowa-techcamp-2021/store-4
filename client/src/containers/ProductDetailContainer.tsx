@@ -5,7 +5,7 @@ import useCartsInProduct from '../hooks/useCartsInProduct';
 import useProduct from '../hooks/useDetailProduct';
 import useSelectsWithSelected from '../hooks/useSelectsWithSelected';
 import { useHistory } from '../lib/router';
-import CartInProduct from '../models/cart-in-product';
+import CartInProduct, { STOCK } from '../models/cart-in-product';
 import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import productDetailStore from '../stores/productDetailStore';
@@ -63,6 +63,11 @@ const ProductDetailContainer = (): JSX.Element => {
           return;
         }
 
+        if (+value > STOCK) {
+          toast.info(`현재 구매 가능한 최대 수량은 ${STOCK}개입니다`);
+          return handleChangeCount(cartInProduct, STOCK);
+        }
+
         handleChangeCount(cartInProduct, +value);
       },
     [handleChangeCount]
@@ -76,7 +81,13 @@ const ProductDetailContainer = (): JSX.Element => {
   );
 
   const handleGetIncreaseHandler = useCallback(
-    (cartInProduct: CartInProduct) => () => handleIncrease(cartInProduct),
+    (cartInProduct: CartInProduct) => () => {
+      if (cartInProduct.count + 1 > STOCK) {
+        return toast.info(`현재 구매 가능한 최대 수량은 ${STOCK}개입니다`);
+      }
+
+      handleIncrease(cartInProduct);
+    },
     [handleIncrease]
   );
 

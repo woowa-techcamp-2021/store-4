@@ -2,6 +2,8 @@ import Product from './product';
 import { SelectWithSelected } from '../types/product';
 import ProductOption from './product-option';
 
+export const STOCK = 99;
+
 class CartInProductAttrs {
   uuid: string;
   options: SelectWithSelected[];
