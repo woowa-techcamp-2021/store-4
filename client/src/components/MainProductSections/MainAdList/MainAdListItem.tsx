@@ -32,17 +32,17 @@ const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
   const { id, title, subTitle, imgSrc } = props.product;
 
   return (
-    <MainAdListItemContainer>
-      <Link to={`/product/${id}`}>
+    <Link to={`/product/${id}`}>
+      <MainAdListItemContainer>
         <ImageWrapper>
           <AdImage src={imgSrc} />
         </ImageWrapper>
-      </Link>
-      <ItemTitles>
-        <Title>{title}</Title>
-        <SubTitle>{subTitle}</SubTitle>
-      </ItemTitles>
-    </MainAdListItemContainer>
+        <ItemTitles>
+          <Title>{title}</Title>
+          <SubTitle>{subTitle}</SubTitle>
+        </ItemTitles>
+      </MainAdListItemContainer>
+    </Link>
   );
 };
 
