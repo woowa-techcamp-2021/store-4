@@ -27,39 +27,21 @@ describe('캐러셀 테스트', () => {
     jest.clearAllTimers();
   });
 
-  test('캐러셀 무한 슬라이딩', () => {
-    let current = 0;
-
-    act(() => {
-      const imgs = mockImages.map((img) => screen.getByTestId(`img${img.index}`));
-      for (let i = 0; i < 20; i++) {
-        jest.advanceTimersByTime(INTERVAL_TIME + 40);
-
-        if (current === mockImages.length - 1) {
-          expect(imgs[0]).toBeVisible();
-          expect(imgs[current - 1]).not.toBeVisible();
-          current = 0;
-        } else {
-          expect(imgs[current]).not.toBeVisible();
-          current += 1;
-          expect(imgs[current]).toBeVisible();
-        }
-      }
-    });
-  });
-
   test('캐러셀 하단 컨트롤러 버튼 클릭 시 이미지 변경', async () => {
-    const imgs = mockImages.map((img) => screen.getByTestId(`img${img.index}`));
-    const dots = mockImages.map((img) => screen.getByTestId(`dot${img.index}`));
+    const videos = screen.getAllByTestId('carousel-item');
+    const dots = screen.getAllByTestId('carousel-dot');
+
     for (let i = 0; i < mockImages.length; i++) {
       const dot = dots[i];
+
       userEvent.click(dot);
+
       for (let j = 0; j < mockImages.length; j++) {
         if (i === j) {
-          expect(imgs[j]).toBeVisible();
+          expect(videos[j]).toBeVisible();
           continue;
         }
-        expect(imgs[j]).not.toBeVisible();
+        expect(videos[j]).not.toBeVisible();
       }
     }
   });

@@ -36,12 +36,12 @@ describe('캐러셀 테스트', () => {
   });
 
   test('images에 따른 Dot 렌더링', () => {
-    mockImages.forEach((img) => screen.getByTestId(`dot${img.index}`));
+    expect(screen.getAllByTestId('carousel-dot').length).toBe(mockImages.length);
   });
 
   test('dot 클릭 시 currentIndex 변화', () => {
-    mockImages.forEach((img) => {
-      const dot = screen.getByTestId(`dot${img.index}`);
+    mockImages.forEach((img, index) => {
+      const dot = screen.getAllByTestId('carousel-dot')[index];
       userEvent.click(dot);
       expect(currentIndex).toBe(img.index);
     });

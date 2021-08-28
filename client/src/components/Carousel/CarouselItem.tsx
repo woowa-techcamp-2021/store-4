@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { hide, show } from '../../styles/animation';
+import { fadein, fadeout } from '../../styles/animation';
 import { CarouselSource } from './Carousel';
 
 const Container = styled.div`
@@ -10,6 +10,10 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  .hide {
+    animation: ${fadeout} 1s;
+  }
 `;
 
 type CarouselImgProps = {
@@ -17,7 +21,9 @@ type CarouselImgProps = {
 };
 
 const CarouselVideo = styled.video<CarouselImgProps>`
-  ${(props) => (props.isShow ? show : hide)};
+  visibility: ${(props) => (props.isShow ? 'visible' : 'hidden')};
+  animation: ${fadein} 1s;
+  transition: all 1s;
 `;
 
 const VideoSource = styled.source``;
@@ -37,8 +43,9 @@ const CarouselItem = (props: CarouselItemProps): JSX.Element => {
         loop
         autoPlay
         muted
-        data-testid={`img${index}`}
         isShow={index === currentIndex}
+        data-testid="carousel-item"
+        className={index !== currentIndex ? 'hide' : ''}
       >
         <VideoSource src={src.webm} />
         <VideoSource src={src.mp4} />
