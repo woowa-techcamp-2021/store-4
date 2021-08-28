@@ -25,7 +25,7 @@ describe('ProductList 테스트', () => {
     onClickSortButton: () => () => {
       return;
     },
-    onClickPageNum: (pageNum: number) => () => {
+    onClickPageNum: (pageNum: number) => {
       optionStore.setPageNum(pageNum);
     },
   };
@@ -63,7 +63,7 @@ describe('ProductList 테스트', () => {
     render(provideTheme2Test(<ProductList {...mock} {...rest} />));
     range(rest.totalPageCount).forEach((index) => {
       const pageNum = index + 1;
-      const navItem = screen.getByTestId(`pageNav${pageNum}`);
+      const navItem = screen.getByTestId(`number-button-${pageNum}`);
       userEvent.click(navItem);
       expect(optionStore.option.pageNum).toBe(pageNum);
     });
