@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  Container,
-  Date,
-  Recipient,
-  Address,
-  TotalPrice,
-  ItemCount,
-} from './AccountOrderTableItem';
+import { Date, Recipient, Address, TotalPrice, ItemCount } from './AccountOrderTableItem';
+
+const Container = styled.div`
+  display: flex;
+  background-color: ${(props) => props.theme.color.grey1};
+`;
 
 const OrderDate = styled(Date)``;
 
