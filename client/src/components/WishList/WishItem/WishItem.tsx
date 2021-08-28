@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
 import { FaHeart } from 'react-icons/fa';
 import { useState } from 'react';
 import { Link } from '../../../lib/router';
@@ -109,4 +108,4 @@ const WishItem = (props: Props): JSX.Element => {
   );
 };
 
-export default observer(WishItem);
+export default WishItem;
