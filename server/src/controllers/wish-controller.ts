@@ -47,7 +47,6 @@ class WishController {
     }
 
     const { id: userId } = req.decoded;
-    console.log(userId);
     const wishList = await wishService.getWishList(userId);
 
     res.status(200).json({ wishList });

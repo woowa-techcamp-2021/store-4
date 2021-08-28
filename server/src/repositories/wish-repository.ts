@@ -6,7 +6,8 @@ class WishRepository extends Repository<Wish> {
   findByUser(userId: number): Promise<Wish[]> {
     return createQueryBuilder(Wish)
       .where('user_id = :userId', { userId })
-      .leftJoinAndSelect('Wish.product', 'product')
+      .innerJoinAndSelect('Wish.product', 'product')
+      .innerJoinAndSelect('product.productImages', 'productImages')
       .getMany();
   }
 
@@ -15,10 +16,6 @@ class WishRepository extends Repository<Wish> {
       .where('user_id = :userId', { userId })
       .andWhere('product_id = :productId', { productId })
       .getOne();
-  }
-
-  findByUser(userId: number) {
-    return createQueryBuilder(Wish).where('user_id = :userId', { userId });
   }
 }
 
