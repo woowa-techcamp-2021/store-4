@@ -80,7 +80,7 @@ type Props = {
 
 const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
   const { onOrderSubmit, deliveryAddresses } = props;
-  const [currentAddress, setAddress] = useState<DeliveryAddress | undefined>();
+  const [currentAddress, setAddress] = useState<DeliveryAddress>();
 
   const recipientNameRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLInputElement>(null);
