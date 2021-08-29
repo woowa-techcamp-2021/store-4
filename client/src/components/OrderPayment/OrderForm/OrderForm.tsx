@@ -157,7 +157,7 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
             {deliveryAddresses.length > 0 ? (
               <DeliverySelect value={currentAddress?.id ?? 'none'} onChange={handleChangeAddress}>
                 <Option key={'none'} value="none">
-                  없음
+                  직접 입력
                 </Option>
                 {Options}
               </DeliverySelect>
