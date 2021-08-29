@@ -7,6 +7,8 @@ import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import userStore from '../stores/userStore';
 import { isNone } from '../utils/typeGuard';
+import deliveryAddressStore from '../stores/deliveryAddressStore';
+import { observer } from 'mobx-react';
 
 export type OrderDeliveryAddressFormRef = {
   readonly recipientName: string;
@@ -14,15 +16,17 @@ export type OrderDeliveryAddressFormRef = {
   readonly approve: boolean;
 };
 
-const OrderPaymentContainer = (): JSX.Element => {
+const OrderPaymentContainer = observer((): JSX.Element => {
   const orderFormRef = useRef<OrderDeliveryAddressFormRef & HTMLFormElement>(null);
   const [currentStep, setStep] = useState(2);
   const history = useHistory();
   const { user } = userStore;
   const { orderDetailProductList } = orderStore;
+  const { deliveryAddresses } = deliveryAddressStore;
 
   useEffect(() => {
     scrollTo({ top: 0 });
+    deliveryAddressStore.fetchDeliveryAddresses();
   }, []);
 
   const handleSumbitOrder = useCallback(async () => {
@@ -87,8 +91,9 @@ const OrderPaymentContainer = (): JSX.Element => {
       user={user as User}
       recipientName={orderFormRef.current?.recipientName}
       address={orderFormRef.current?.address}
+      deliveryAddresses={deliveryAddresses}
     />
   );
-};
+});
 
 export default OrderPaymentContainer;

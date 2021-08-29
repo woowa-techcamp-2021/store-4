@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { OrderDeliveryAddressFormRef } from '../../containers/OrderPaymentContainer';
 import { Link } from '../../lib/router';
+import DeliveryAddress from '../../models/delivery-address';
 import User from '../../models/user';
 import PaymentFinish from '../PaymentFinish/PaymentFinish';
 import OrderForm from './OrderForm/OrderForm';
@@ -29,10 +30,12 @@ type Props = {
   onOrderSubmit: React.MouseEventHandler;
   recipientName?: string;
   address?: string;
+  deliveryAddresses: DeliveryAddress[];
 };
 
 const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
-  const { currentStep, onOrderSubmit, user, recipientName, address } = props;
+  const { currentStep, onOrderSubmit, user, recipientName, address, deliveryAddresses } = props;
+
   return (
     <Container>
       <OrderHeader currentStep={currentStep} />
@@ -43,7 +46,11 @@ const OrderPayment = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>)
             <MoveShopPage>{'< 장바구니 가기'}</MoveShopPage>
           </Link>
           <TotalPrice />
-          <OrderForm ref={ref} onOrderSubmit={onOrderSubmit} />
+          <OrderForm
+            ref={ref}
+            onOrderSubmit={onOrderSubmit}
+            deliveryAddresses={deliveryAddresses}
+          />
         </>
       ) : (
         <PaymentFinish user={user} recipientName={recipientName ?? ''} address={address ?? ''} />
