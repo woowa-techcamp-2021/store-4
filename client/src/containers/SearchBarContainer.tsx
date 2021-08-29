@@ -1,10 +1,8 @@
 import { observer } from 'mobx-react';
 import React, { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import SearchBar from '../components/Header/HeaderMain/SearchBar/SearchBar';
-import { useHistory } from '../lib/router';
+import useOption from '../hooks/useOption';
 import SearchTerm from '../models/searchTerm';
-import optionStore from '../stores/optionStore';
-import buildQueryString from '../utils/build-query-string';
 import { isNone, isNotNone } from '../utils/typeGuard';
 
 const SEARCH_TERM_LIST_KEY = 'search-term-list';
@@ -42,8 +40,7 @@ const getSearchTermList = (): SearchTerm[] => {
 const SearchBarContainer = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermList, setSearchTermList] = useState(getSearchTermList);
-  const option = optionStore.option;
-  const history = useHistory();
+  const { changeSearchTerm } = useOption();
 
   const handleChangeSearchTermInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
@@ -76,14 +73,7 @@ const SearchBarContainer = (): JSX.Element => {
 
     setSearchTerm('');
 
-    const query = buildQueryString({
-      ...option,
-      searchTerm: inputSearchTerm,
-      category: '',
-    });
-
-    history.push(`/products${query}`);
-    optionStore.setSearchTerm(inputSearchTerm);
+    changeSearchTerm(inputSearchTerm);
   };
 
   const handleChangeSearchTermList = () => {
@@ -100,13 +90,15 @@ const SearchBarContainer = (): JSX.Element => {
     setSearchTermList([]);
   };
 
-  const getOnDeleteSearchTerm = (content: string) => () => {
-    const nextSearchTermList = searchTermList.filter((searchTerm) => {
-      return searchTerm.content !== content;
-    });
-
-    setSearchTermList(nextSearchTermList);
-  };
+  const getOnDeleteSearchTerm =
+    (content: string): MouseEventHandler =>
+    (e) => {
+      e.stopPropagation();
+      const nextSearchTermList = searchTermList.filter((searchTerm) => {
+        return searchTerm.content !== content;
+      });
+      setSearchTermList(nextSearchTermList);
+    };
 
   return (
     <SearchBar

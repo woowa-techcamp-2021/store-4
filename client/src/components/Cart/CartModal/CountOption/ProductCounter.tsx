@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
+import React, { ChangeEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 
@@ -39,18 +39,17 @@ const ControlButtonWrapper = styled.div`
 
 type Props = {
   count: number;
-  onBlur: FocusEventHandler;
   onIncreaseClick: MouseEventHandler;
   onDecreaseClick: MouseEventHandler;
   onCountChange: ChangeEventHandler;
 };
 
 const ProductCounter = (props: Props): JSX.Element => {
-  const { count, onBlur, onIncreaseClick, onDecreaseClick, onCountChange } = props;
+  const { count, onIncreaseClick, onDecreaseClick, onCountChange } = props;
 
   return (
     <Container>
-      <CountInput value={count} onBlur={onBlur} onChange={onCountChange} />
+      <CountInput value={count} onChange={onCountChange} />
       <ControlButtonWrapper>
         <ControlButton onClick={onIncreaseClick} data-testid="product-counter-increase">
           <RiArrowUpSLine />

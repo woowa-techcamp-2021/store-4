@@ -2,6 +2,8 @@ import { SelectWithSelected } from '../types/product';
 import { hasProperty } from '../utils/hasProperty';
 import { isNone } from '../utils/typeGuard';
 
+export const STOCK = 99;
+
 class CartItem {
   uuid: string;
   productId: number;

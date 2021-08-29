@@ -26,7 +26,7 @@ describe('ProductList 테스트', () => {
       return;
     },
     onClickPageNum: (pageNum: number) => () => {
-      optionStore.setPageNum(pageNum);
+      optionStore.changePageNum(pageNum);
     },
   };
 

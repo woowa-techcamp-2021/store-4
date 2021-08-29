@@ -1,12 +1,11 @@
 import React, { useCallback, useReducer, useRef } from 'react';
-import { useContext } from 'react';
-import { AuthenticationContext } from '../components/Authentication/Authentication';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
 import DeliveryAddress from '../models/delivery-address';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
+import userStore from '../stores/userStore';
 import { isNotNone } from '../utils/typeGuard';
 import { isBlank, isPhoneNumber } from '../utils/validation';
 import { DeliveryAddressFormRef } from './ManageDeliveryAddressContainer';
@@ -41,7 +40,6 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
   const [mode, dispatchMode] = useReducer(modeReducer, Modes.Read);
   const modifyFormRef = useRef<DeliveryAddressFormRef & HTMLFormElement>(null);
   const history = useHistory();
-  const { onErrorOccurred } = useContext(AuthenticationContext);
 
   const handleCancelModifying = () => {
     dispatchMode({
@@ -108,7 +106,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
           switch (error.status) {
             case 401:
             case 410:
-              onErrorOccurred();
+              userStore.onAuthError(error.status);
               return;
 
             case 400:
@@ -121,7 +119,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
           }
         });
     }
-  }, [history, onErrorOccurred, props.deliveryAddress.id]);
+  }, [history, props.deliveryAddress.id]);
 
   if (mode === Modes.Modify) {
     return (

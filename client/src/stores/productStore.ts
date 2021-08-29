@@ -1,10 +1,11 @@
 import apis from '../api';
 import Product from '../models/product';
 import { Option } from '../types/option';
+import userStore from './userStore';
 
 class ProductStore {
   async fetchProducts(option: Option) {
-    const token = localStorage.getItem('token');
+    const token = userStore.token;
 
     const { products, totalPages, totalProductCount } = await apis.productAPI.fetchProducts(
       token,
@@ -18,7 +19,7 @@ class ProductStore {
   }
 
   async fetchMainProducts() {
-    const token = localStorage.getItem('token');
+    const token = userStore.token;
 
     const { popularProducts, discountingProducts, newProducts } =
       await apis.productAPI.fetchMainProducts(token);

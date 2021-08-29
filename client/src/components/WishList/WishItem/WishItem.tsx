@@ -39,7 +39,6 @@ const WishButton = styled(CommonButton)<WishButtonProps>`
   width: 50px;
   font-size: ${(props) => props.theme.fontSize.large};
   color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
-
   display: flex;
   justify-content: center;
   align-items: center;
