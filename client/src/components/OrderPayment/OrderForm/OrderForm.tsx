@@ -1,5 +1,4 @@
-import { observer } from 'mobx-react';
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 import { OrderDeliveryAddressFormRef } from '../../../containers/OrderPaymentContainer';
 import orderStore from '../../../stores/orderStore';
@@ -8,6 +7,7 @@ import { isNotNone } from '../../../utils/typeGuard';
 import { Row, RowTitle, Column, Label, InputWrapper, Input } from './OrderFormStyledComponent';
 import OrderFormSender from './OrderFormSender';
 import FinalPaymentAmount from './FinalPaymentAmount';
+import DeliveryAddress from '../../../models/delivery-address';
 
 const Container = styled.div`
   border: none;
@@ -45,6 +45,10 @@ const Paragraph = styled.p`
   margin: 0px 8px;
 `;
 
+const DeliverySelect = styled.select``;
+
+const Option = styled.option``;
+
 const PaymentButton = styled.button`
   color: ${(props) => props.theme.color.white1};
   width: 280px;
@@ -58,12 +62,25 @@ const PaymentButton = styled.button`
   }
 `;
 
+const setValueAtRef = <T extends HTMLInputElement>(
+  target: React.RefObject<T> | null,
+  str: string
+) => {
+  if (isNotNone(target)) {
+    if (isNotNone(target.current)) {
+      target.current.value = str;
+    }
+  }
+};
+
 type Props = {
   onOrderSubmit: React.MouseEventHandler;
+  deliveryAddresses: DeliveryAddress[];
 };
 
 const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): JSX.Element => {
-  const { onOrderSubmit } = props;
+  const { onOrderSubmit, deliveryAddresses } = props;
+  const [currentAddress, setAddress] = useState<DeliveryAddress>();
 
   const recipientNameRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLInputElement>(null);
@@ -71,6 +88,36 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
 
   const user = userStore.user;
   const finalPaymentAmount = orderStore.totalPrice;
+
+  const Options = deliveryAddresses.map((deliveryAddress) => {
+    return (
+      <Option key={deliveryAddress.id} value={deliveryAddress.id}>
+        {deliveryAddress.name}
+      </Option>
+    );
+  });
+
+  const handleChangeAddress = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { target } = event;
+
+    if (target.value === 'none') {
+      setValueAtRef(recipientNameRef, '');
+      setValueAtRef(addressRef, '');
+      setAddress(undefined);
+      return;
+    }
+
+    const foundAddress = deliveryAddresses.find(
+      (deliveryAddress) => deliveryAddress.id === +target.value
+    );
+
+    if (isNotNone(foundAddress)) {
+      setValueAtRef(recipientNameRef, foundAddress.recipientName);
+      setValueAtRef(addressRef, foundAddress.address);
+
+      setAddress(foundAddress);
+    }
+  };
 
   useImperativeHandle(
     ref,
@@ -104,6 +151,21 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
 
       <Row>
         <RowTitle>배송정보</RowTitle>
+        <Column>
+          <Label>배송지 선택</Label>
+          <InputWrapper>
+            {deliveryAddresses.length > 0 ? (
+              <DeliverySelect value={currentAddress?.id ?? 'none'} onChange={handleChangeAddress}>
+                <Option key={'none'} value="none">
+                  직접 입력
+                </Option>
+                {Options}
+              </DeliverySelect>
+            ) : (
+              '마이페이지에서 배송지를 추가하세요'
+            )}
+          </InputWrapper>
+        </Column>
         <Column>
           <Label>받으실 분</Label>
           <InputWrapper>
@@ -145,4 +207,4 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
   );
 };
 
-export default observer(forwardRef(OrderForm));
+export default forwardRef(OrderForm);

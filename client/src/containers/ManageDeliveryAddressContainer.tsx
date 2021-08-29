@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react';
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { AuthenticationContext } from '../components/Authentication/Authentication';
 import DeliveryAddressList from '../components/DeliveryAddress/DeliveryAddressList';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
 import deliveryAddressStore from '../stores/deliveryAddressStore';
+import userStore from '../stores/userStore';
 import { isNotNone } from '../utils/typeGuard';
 import { isBlank, isPhoneNumber } from '../utils/validation';
 
@@ -21,7 +21,6 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
   const [isCreating, setIsCreating] = useState(false);
   const history = useHistory();
   const createFormRef = useRef<DeliveryAddressFormRef>(null);
-  const { onErrorOccurred } = useContext(AuthenticationContext);
 
   const handleCreatingClick = useCallback(() => {
     setIsCreating(true);
@@ -78,7 +77,7 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
           switch (error.status) {
             case 401:
             case 410:
-              onErrorOccurred();
+              userStore.onAuthError(error.status);
               return;
 
             case 400:
@@ -91,7 +90,7 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
           }
         });
     }
-  }, [history, onErrorOccurred]);
+  }, [history]);
 
   useEffect(() => {
     deliveryAddressStore.fetchDeliveryAddresses().catch(() => {

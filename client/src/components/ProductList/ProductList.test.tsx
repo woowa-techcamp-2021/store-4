@@ -25,8 +25,8 @@ describe('ProductList 테스트', () => {
     onClickSortButton: () => () => {
       return;
     },
-    onClickPageNum: (pageNum: number) => {
-      optionStore.setPageNum(pageNum);
+    onClickPageNum: (pageNum: number) => () => {
+      optionStore.changePageNum(pageNum);
     },
   };
 

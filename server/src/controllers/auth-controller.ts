@@ -24,28 +24,22 @@ class AuthController {
   }
 
   async googleCallback(req: Request, res: Response) {
-    try {
-      const { code } = req.query;
-      const idToken = await googleAuth.getUserToken(code as string);
-      const { email, name } = jwtService.decode(idToken);
+    const { code } = req.query;
+    const idToken = await googleAuth.getUserToken(code as string);
+    const { email, name } = jwtService.decode(idToken);
 
-      let user = await userService.checkUserByEmail(email);
-      if (user === undefined) {
-        user = await userService.registerUser({ username: name, email });
-      }
-
-      const token = jwtService.generateToken({
-        id: user.id,
-        name: user.username,
-        email: user.email,
-      });
-
-      res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
-    } catch (err) {
-      // 임시 에러 처리
-      console.error(err);
-      res.send('fail');
+    let user = await userService.checkUserByEmail(email);
+    if (user === undefined) {
+      user = await userService.registerUser({ username: name, email });
     }
+
+    const token = jwtService.generateToken({
+      id: user.id,
+      name: user.username,
+      email: user.email,
+    });
+
+    res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
   }
 
   facebookLogin(req: Request, res: Response) {
@@ -53,27 +47,21 @@ class AuthController {
   }
 
   async facebookCallback(req: Request, res: Response) {
-    try {
-      const { code } = req.query;
-      const { email, name } = await facebookAuth.getUserData(code as string);
+    const { code } = req.query;
+    const { email, name } = await facebookAuth.getUserData(code as string);
 
-      let user = await userService.checkUserByEmail(email);
-      if (user === undefined) {
-        user = await userService.registerUser({ username: name, email });
-      }
-
-      const token = jwtService.generateToken({
-        id: user.id,
-        name: user.username,
-        email: user.email,
-      });
-
-      res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
-    } catch (err) {
-      // 임시 에러 처리
-      console.error(err);
-      res.send('fail');
+    let user = await userService.checkUserByEmail(email);
+    if (user === undefined) {
+      user = await userService.registerUser({ username: name, email });
     }
+
+    const token = jwtService.generateToken({
+      id: user.id,
+      name: user.username,
+      email: user.email,
+    });
+
+    res.redirect(`${dotenv.CLIENT_URL}?token=${token}`);
   }
 
   async demoLogin(req: Request, res: Response) {

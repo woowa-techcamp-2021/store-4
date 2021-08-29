@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { hide, show } from '../../styles/animation';
+import { fadein, fadeout } from '../../styles/animation';
+import { CarouselSource } from './Carousel';
 
 const Container = styled.div`
   top: 0;
@@ -9,27 +10,46 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  .hide {
+    animation: ${fadeout} 1s;
+  }
 `;
 
 type CarouselImgProps = {
   isShow: boolean;
 };
 
-const CarouselImg = styled.img<CarouselImgProps>`
-  ${(props) => (props.isShow ? show : hide)};
+const CarouselVideo = styled.video<CarouselImgProps>`
+  visibility: ${(props) => (props.isShow ? 'visible' : 'hidden')};
+  animation: ${fadein} 1s;
+  transition: all 1s;
 `;
+
+const VideoSource = styled.source``;
 
 type CarouselItemProps = {
   index: number;
   currentIndex: number;
-  src: string;
+  src: CarouselSource;
 };
 
 const CarouselItem = (props: CarouselItemProps): JSX.Element => {
   const { src, index, currentIndex } = props;
+
   return (
     <Container>
-      <CarouselImg data-testid={`img${index}`} isShow={index === currentIndex} src={src} />
+      <CarouselVideo
+        loop
+        autoPlay
+        muted
+        isShow={index === currentIndex}
+        data-testid="carousel-item"
+        className={index !== currentIndex ? 'hide' : ''}
+      >
+        <VideoSource src={src.webm} />
+        <VideoSource src={src.mp4} />
+      </CarouselVideo>
     </Container>
   );
 };

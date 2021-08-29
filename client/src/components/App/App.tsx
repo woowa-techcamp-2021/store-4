@@ -14,7 +14,7 @@ import AccountPage from '../../pages/Account';
 import NotfoundPage from '../../pages/Notfound';
 import ErrorPage from '../../pages/Error';
 import ToastPortal from '../Portal/ToastPortal';
-import OrderPage from '../../pages/Order';
+import OrderPaymentPage from '../../pages/OrderPayment';
 import ConfirmModalPortal from '../Portal/ConfirmModalPortal';
 import Footer from '../Footer/Footer';
 
@@ -32,7 +32,7 @@ const App = (): JSX.Element => {
           <Route exact path="/product/:id" component={ProductPage} />
           <Route exact path="/products" component={ProductsPage} />
           <Route path="/account" component={AccountPage} />
-          <Route exact path="/order" component={OrderPage} />
+          <Route exact path="/order" component={OrderPaymentPage} />
           <Route exact path="/error" component={ErrorPage} />
           <Route path="/" component={NotfoundPage} />
         </Switch>

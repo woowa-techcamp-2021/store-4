@@ -33,3 +33,13 @@ export default (date: Date): string => {
   const diffYears = Math.floor(diffMonths / 12);
   return `${diffYears}년 전`;
 };
+
+const padZeroForDate = (num: number): string => {
+  return String(num).padStart(2, '0');
+};
+
+export const getDate = (dateObj: Date): string => {
+  const month = padZeroForDate(dateObj.getMonth() + 1);
+  const date = padZeroForDate(dateObj.getDate());
+  return `${dateObj.getFullYear()}-${month}-${date}`;
+};

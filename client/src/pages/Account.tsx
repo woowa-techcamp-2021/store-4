@@ -5,8 +5,9 @@ import AccountNavList from '../components/Account/AccountNavList/AccountNavList'
 import AccountLanding from '../components/Account/AccountLanding/AccountLanding';
 import ManageDeliveryAddressContainer from '../containers/ManageDeliveryAddressContainer';
 import AccountReviewContainer from '../containers/AccountReviewContainer';
-import AuthenticationProvider from '../components/Authentication/Authentication';
 import WishListContainer from '../containers/AccountWishListContainer';
+import withAuthentication from '../hoc/withAuthentication';
+import AccountOrderContainer from '../containers/AccountOrderContainer';
 
 type PathItem = {
   path: string;
@@ -14,6 +15,7 @@ type PathItem = {
   Component: () => JSX.Element;
 };
 const PATH_ITEM_LIST: PathItem[] = [
+  { path: 'order', text: '주문 관리', Component: AccountOrderContainer },
   { path: 'delivery-address', text: '배송지 관리', Component: ManageDeliveryAddressContainer },
   { path: 'reviews', text: '내 상품후기', Component: AccountReviewContainer },
   { path: 'wish', text: '찜리스트', Component: WishListContainer },
@@ -52,10 +54,4 @@ const AccountPage = (): JSX.Element => {
   );
 };
 
-const WithAuthentication = (): JSX.Element => (
-  <AuthenticationProvider>
-    <AccountPage />
-  </AuthenticationProvider>
-);
-
-export default WithAuthentication;
+export default withAuthentication(AccountPage, 'account');

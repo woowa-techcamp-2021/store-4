@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import OrderFormRecipient from './OrderFormRecipient';
 import { useHistory } from '../../lib/router';
 import optionStore from '../../stores/optionStore';
-import buildQueryString from '../../utils/build-query-string';
 import User from '../../models/user';
 
 const Container = styled.div`
@@ -42,11 +41,8 @@ type Props = {
 const ShippingInfo = (props: Props): JSX.Element => {
   const { user, recipientName, address } = props;
   const history = useHistory();
-  const options = optionStore.option;
-
   const handleGoToProducts = () => {
-    const query = buildQueryString(options);
-    history.push(`/products${query}`);
+    history.push(`/products${optionStore.optionQuery}`);
   };
 
   return (

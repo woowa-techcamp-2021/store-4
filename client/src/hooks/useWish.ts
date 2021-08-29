@@ -2,6 +2,7 @@ import { Dispatch, MouseEventHandler, SetStateAction, useCallback } from 'react'
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
 import Product from '../models/product';
+import userStore from '../stores/userStore';
 import wishStore from '../stores/wishStore';
 
 type UseWish = [(product: Product) => MouseEventHandler];
@@ -18,7 +19,7 @@ const useWish = (
         e.stopPropagation();
         e.preventDefault();
 
-        if (localStorage.getItem('token') === null) {
+        if (userStore.user === null) {
           toast.error('로그인이 필요합니다');
           return;
         }
