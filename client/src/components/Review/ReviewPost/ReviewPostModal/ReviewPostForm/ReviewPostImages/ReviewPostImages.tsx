@@ -84,7 +84,7 @@ const ReviewPostImages = (props: Props): JSX.Element => {
 
   const ImageListItems = images.map((src, i) => (
     <ImageListItem key={i}>
-      <ThumbnailImage alt="리뷰 이미지" src={src}></ThumbnailImage>
+      <ThumbnailImage src={src}></ThumbnailImage>
     </ImageListItem>
   ));
 

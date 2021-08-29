@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const NAV_BAR_HEIGHT = 40;
 
@@ -26,22 +26,19 @@ const NavList = styled.ul`
   font-size: ${(props) => props.theme.fontSize.tiny};
 `;
 
-type NavListItemProps = {
-  isLastItem: boolean;
-};
-
-const NavListItem = styled.li<NavListItemProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const NavListItem = styled.li`
   color: ${(props) => props.theme.color.grey4};
   padding: 0 10px;
+`;
+
+type SeperatorProps = {
+  isLastItem: boolean;
+};
+const Seperator = styled.span<SeperatorProps>`
+  display: ${(props) => (props.isLastItem ? 'none' : '')};
+  width: 1px;
   height: 7px;
-  ${(props) =>
-    !props.isLastItem &&
-    css`
-      border-right: 1px solid ${props.theme.color.grey2};
-    `}
+  background-color: ${(props) => props.theme.color.grey2};
 `;
 
 type Props = {
@@ -53,7 +50,8 @@ const NavBar = (props: Props): JSX.Element => {
 
   const NavListContent = links.map((link, i) => (
     <React.Fragment key={i}>
-      <NavListItem isLastItem={i === links.length - 1}>{link}</NavListItem>
+      <NavListItem>{link}</NavListItem>
+      <Seperator isLastItem={i === links.length - 1} />
     </React.Fragment>
   ));
 

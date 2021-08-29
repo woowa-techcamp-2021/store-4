@@ -16,7 +16,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const MoveShopPage = styled.button`
+const MoveShopPage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@ const Cart = (props: Props): JSX.Element => {
       <CartHeader currentStep={1} />
       <CartTable onOptionClick={onItemOptionClick} />
       <Link to="/">
-        <MoveShopPage aria-label="Move to shopping">
+        <MoveShopPage>
           <RiArrowLeftSLine />
           쇼핑 계속하기
         </MoveShopPage>

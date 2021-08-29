@@ -177,12 +177,7 @@ const MagnifierImage = (props: Props): JSX.Element => {
         <MagnifyWrapper data-testid="magnifier" isMagnifierVisible={isMagnifierVisible}>
           <MagnifierPointer ref={magnifier} />
           <MagnifiedViewer>
-            <ModifiedImage
-              alt="상품 이미지"
-              ref={magnifiedViewer}
-              src={image}
-              referrerPolicy="no-referrer"
-            />
+            <ModifiedImage ref={magnifiedViewer} src={image} referrerPolicy="no-referrer" />
           </MagnifiedViewer>
         </MagnifyWrapper>
       </ImageViewer>
