@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../../lib/router';
+import LazyImage from '../../LazyImage/LazyImage';
 import { MockProductAdItemType } from '../mock';
 
 const MainAdListItemContainer = styled.div`
@@ -8,11 +9,6 @@ const MainAdListItemContainer = styled.div`
 `;
 
 const ImageWrapper = styled.div``;
-
-const AdImage = styled.img`
-  aspect-ratio: 3 / 1;
-  width: 900px;
-`;
 
 const ItemTitles = styled.div`
   padding: 16px;
@@ -38,7 +34,7 @@ const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
     <Link to={`/product/${id}`}>
       <MainAdListItemContainer>
         <ImageWrapper>
-          <AdImage src={imgSrc} alt="상품 이미지" />
+          <LazyImage width={900} aspectRatio={[3, 1]} src={imgSrc} alt="상품 이미지" />
         </ImageWrapper>
         <ItemTitles>
           <Title>{title}</Title>
