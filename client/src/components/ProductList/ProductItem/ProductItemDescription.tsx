@@ -13,8 +13,7 @@ const Name = styled.div`
 const DiscountRate = styled.div`
   color: ${(props) => props.theme.color.red};
   font-size: ${(props) => props.theme.fontSize.medium};
-  font-family: 'Montserrat' 'Nanum Gothic', 'Noto Sans KR', -apple-system, system-ui,
-    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: ${(props) => props.theme.fontFamily.number};
   font-weight: 600;
   margin-bottom: 10px;
 `;
@@ -25,16 +24,14 @@ const PriceWrapper = styled.div`
 
 const NormalPrice = styled.div`
   font-size: ${(props) => props.theme.fontSize.tiny};
-  font-family: 'Montserrat' 'Nanum Gothic', 'Noto Sans KR', -apple-system, system-ui,
-    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: ${(props) => props.theme.fontFamily.number};
   color: ${(props) => props.theme.color.grey5};
   text-decoration: line-through;
 `;
 
 const Price = styled.div`
   font-size: ${(props) => props.theme.fontSize.normal};
-  font-family: 'Montserrat' 'Nanum Gothic', 'Noto Sans KR', -apple-system, system-ui,
-    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: ${(props) => props.theme.fontFamily.number};
   font-weight: 600;
 `;
 
