@@ -4,6 +4,7 @@ import { FaHeart } from 'react-icons/fa';
 import { useState } from 'react';
 import { Link } from '../../../lib/router';
 import wishStore from '../../../stores/wishStore';
+import LazyImage from '../../LazyImage/LazyImage';
 
 const TextTinyBold = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
@@ -56,14 +57,9 @@ const ItemTitleWrapper = styled.div`
   padding: 0 20px;
 `;
 
-const ItemImg = styled.img`
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  padding-right: 10px;
+const ItemWrapper = styled.div`
+  padding-left: 10px;
 `;
-
-const ItemWrapper = styled.div``;
 
 const ItemTitle = styled(TextTinyBold)`
   padding-left: 10px;
@@ -97,7 +93,7 @@ const WishItem = (props: Props): JSX.Element => {
       </WishButton>
       <Link to={`product/${productId}`}>
         <ItemTitleWrapper>
-          <ItemImg src={imgSrc} alt="상품 이미지" />
+          <LazyImage width={60} height={60} src={imgSrc} objectFit={'cover'} alt="상품 이미지" />
           <ItemWrapper>
             <ItemTitle data-testid="item-title">{title}</ItemTitle>
           </ItemWrapper>
