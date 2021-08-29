@@ -16,7 +16,7 @@ const AccountOrderTableItemSummary = styled.div`
   }
 `;
 
-const Column = styled.div`
+export const Column = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
   display: flex;
   justify-content: center;
@@ -80,7 +80,7 @@ const AccountOrderTableItem = (props: Props): JSX.Element => {
         <Date>{getDate(createdAt)}</Date>
         <Recipient>{recipientName}</Recipient>
         <Address>{address}</Address>
-        <ItemCount>{`${orderDetails.length}개`}</ItemCount>
+        <ItemCount>{`${orderDetails.length}`}</ItemCount>
         <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
         <ArrowDownWrapper>
           <Seemore isCloseIcon={orderDetailOpen}>

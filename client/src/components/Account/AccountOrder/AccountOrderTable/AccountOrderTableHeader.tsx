@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Date, Recipient, Address, TotalPrice, ItemCount } from './AccountOrderTableItem';
+import { Date, Recipient, Address, TotalPrice, ItemCount, Column } from './AccountOrderTableItem';
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +18,10 @@ const OrderTotalPrice = styled(TotalPrice)`
 `;
 
 const OrderItemCount = styled(ItemCount)``;
+
+const Padding = styled(Column)`
+  flex: 1;
+`;
 
 const AccountOrderTableHeader = (): JSX.Element => {
   return (
@@ -37,6 +41,7 @@ const AccountOrderTableHeader = (): JSX.Element => {
       <OrderTotalPrice>
         <div>최종 결제 가격</div>
       </OrderTotalPrice>
+      <Padding></Padding>
     </Container>
   );
 };
