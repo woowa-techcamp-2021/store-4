@@ -36,7 +36,23 @@ const FinalCheck = styled.div`
   align-items: center;
 `;
 
+const FinalCheckInput = styled.input`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const Strong = styled.strong``;
+
+const FinalCheckLabel = styled.label`
+  text-align: center;
+  white-space: pre;
+  line-height: 1.5;
+  margin: 0px 8px;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const Paragraph = styled.p`
   text-align: center;
@@ -45,7 +61,15 @@ const Paragraph = styled.p`
   margin: 0px 8px;
 `;
 
-const DeliverySelect = styled.select``;
+const DeliverySelect = styled.select`
+  width: 250px;
+  border: 1px solid ${(props) => props.theme.color.grey3};
+  padding: 3px;
+  outline: none;
+  color: ${(props) => props.theme.color.grey5};
+  font-size: ${(props) => props.theme.fontSize.small};
+  cursor: pointer;
+`;
 
 const Option = styled.option``;
 
@@ -194,10 +218,10 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
           </Paragraph>
         </FinalCheckDesc>
         <FinalCheck>
-          <input type="checkbox" ref={approveRef} />
-          <Paragraph>
+          <FinalCheckInput id="final-check" type="checkbox" ref={approveRef} />
+          <FinalCheckLabel htmlFor="final-check">
             <Strong>(필수)</Strong> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.
-          </Paragraph>
+          </FinalCheckLabel>
         </FinalCheck>
         <FinalCheck>
           <PaymentButton onClick={onOrderSubmit}>결제하기</PaymentButton>

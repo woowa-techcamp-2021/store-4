@@ -48,18 +48,18 @@ const Login = (props: Props): JSX.Element => {
       <Header>회원 로그인</Header>
       <SocialLoginText>소셜계정으로 간편하게 가입하세요</SocialLoginText>
       <OAuthButtonWrapper>
-        {/* <OAuthButton
+        <OAuthButton
           index={0}
           onClick={onOAuthButtonClick(buttons[OAuthType.Facebook].redirectURL)}
           {...buttons[OAuthType.Facebook]}
-        /> */}
+        />
         <OAuthButton
-          index={0}
+          index={1}
           onClick={onOAuthButtonClick(buttons[OAuthType.Google].redirectURL)}
           {...buttons[OAuthType.Google]}
         />
         <OAuthButton
-          index={1}
+          index={2}
           onClick={onOAuthButtonClick(buttons[OAuthType.Demo].redirectURL)}
           {...buttons[OAuthType.Demo]}
         />

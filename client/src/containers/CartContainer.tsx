@@ -24,7 +24,7 @@ const CartContainer = (): JSX.Element => {
 
   const handleClickSelectedProductOrderButton = () => {
     if (cartStore.isNothingSelectedCartItems) {
-      toast.error('선택된 아이템이 없습니다');
+      toast.info('선택된 아이템이 없습니다');
       return;
     }
 

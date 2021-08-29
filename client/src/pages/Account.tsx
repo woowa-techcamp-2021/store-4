@@ -54,4 +54,4 @@ const AccountPage = (): JSX.Element => {
   );
 };
 
-export default withAuthentication(AccountPage, 'account');
+export default withAuthentication(AccountPage);

@@ -5,13 +5,18 @@ import getPaginatedArray from '../../../utils/getPaginatedArray';
 import ReviewList from './AccountReviewList/AccountReviewList';
 import ReviewPagination from '../../Review/ReviewPagination/ReviewPagination';
 
+const REVIEW_TITLE_TEXT = '내 상품후기';
 const REVIEW_EMPTY_TEXT = '작성한 후기가 없습니다';
 const REVIEW_PER_PAGE = 10;
 
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  margin-left: -80px;
+`;
+
+const ReviewTitle = styled.div`
+  font-size: ${(props) => props.theme.fontSize.medium};
+  font-weight: 600;
 `;
 
 const ReviewEmpty = styled.div`
@@ -90,6 +95,7 @@ const Review = (props: Props): JSX.Element => {
 
   return (
     <Container>
+      <ReviewTitle>{REVIEW_TITLE_TEXT}</ReviewTitle>
       {reviews.length === 0 ? (
         <ReviewEmpty data-testid="no-review">{REVIEW_EMPTY_TEXT}</ReviewEmpty>
       ) : (

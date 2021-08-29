@@ -20,6 +20,8 @@ const MoveShopPage = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  background-color: transparent;
   width: fit-content;
   margin-top: 12px;
   padding-bottom: 3px;

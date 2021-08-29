@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import toast from '../lib/toast';
 import LoginPage from '../pages/Login';
 import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
-import { useEffect } from 'react';
+import { useHistory } from '../lib/router';
 
 const withAuthentication = <P,>(
-  WrappedComponent: React.ComponentType<P>,
-  path: string
+  WrappedComponent: React.ComponentType<P>
 ): ((props: P) => JSX.Element) => {
   const WithAuth = (props: P) => {
-    const { user } = userStore;
+    const { user, status } = userStore;
+    const history = useHistory();
 
     useEffect(() => {
-      const replacePath = user === null ? 'login' : path;
+      if (status === 'DONE' && user === null) {
+        toast.info('로그인이 필요합니다');
+        history.replace('/login');
+      }
+    }, [status, user, history]);
 
-      history.replaceState(null, '', `/${replacePath}`);
-    }, [user]);
+    if (status !== 'DONE') {
+      return <></>;
+    }
 
     if (user === null) {
-      setTimeout(() => toast.info('로그인이 필요합니다'), 0);
-
       return <LoginPage />;
     }
 

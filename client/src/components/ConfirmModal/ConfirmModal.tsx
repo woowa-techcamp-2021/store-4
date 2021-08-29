@@ -46,7 +46,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(1px);
 `;
 
 const Modal = styled.div`
