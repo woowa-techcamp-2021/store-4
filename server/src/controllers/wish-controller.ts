@@ -40,6 +40,17 @@ class WishController {
 
     res.status(200).json({});
   }
+
+  async getWishList(req: Request, res: Response) {
+    if (!req.decoded) {
+      throw new UnauthenticatedException('인증이 필요합니다.');
+    }
+
+    const { id: userId } = req.decoded;
+    const wishList = await wishService.getWishList(userId);
+
+    res.status(200).json({ wishList });
+  }
 }
 
 export default new WishController();

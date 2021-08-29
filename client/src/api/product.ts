@@ -1,6 +1,7 @@
 import request from '../lib/request';
 import { Option } from '../types/option';
 import { MainProductsResponse, ProductDetailResponse, ProductResponse } from '../types/product';
+import { WishResponse } from '../types/Wish';
 import buildQueryString from '../utils/build-query-string';
 
 class ProductAPI {
@@ -24,6 +25,15 @@ class ProductAPI {
   fetchProduct(token: string | null, id: number): Promise<ProductDetailResponse> {
     return request<ProductDetailResponse>({
       url: `${this.baseURL}/api/product/${id}`,
+      headers: {
+        authorization: token ?? '',
+      },
+    });
+  }
+
+  fetchWishList(token: string | null): Promise<{ wishList: WishResponse[] }> {
+    return request({
+      url: `${this.baseURL}/api/product/wishList`,
       headers: {
         authorization: token ?? '',
       },
