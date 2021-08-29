@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import toast from '../lib/toast';
 import LoginPage from '../pages/Login';
 import userStore from '../stores/userStore';
 import { observer } from 'mobx-react';
-import { useEffect } from 'react';
+import { useHistory } from '../lib/router';
 
 const withAuthentication = <P,>(
   WrappedComponent: React.ComponentType<P>,
@@ -11,16 +11,18 @@ const withAuthentication = <P,>(
 ): ((props: P) => JSX.Element) => {
   const WithAuth = (props: P) => {
     const { user } = userStore;
+    const history = useHistory();
 
     useEffect(() => {
-      const replacePath = user === null ? 'login' : path;
+      if (user === null) {
+        toast.info('로그인이 필요합니다');
+      }
 
-      history.replaceState(null, '', `/${replacePath}`);
-    }, [user]);
+      const replacePath = user === null ? 'login' : path;
+      history.replace(`/${replacePath}`);
+    }, [user, history]);
 
     if (user === null) {
-      setTimeout(() => toast.info('로그인이 필요합니다'), 0);
-
       return <LoginPage />;
     }
 
