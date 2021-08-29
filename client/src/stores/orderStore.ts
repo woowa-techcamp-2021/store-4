@@ -4,8 +4,9 @@ import OrderDetailProduct from '../models/orderDetailProduct';
 import NOIMAGE from '../assets/images/no-image.png';
 import CartItem from '../models/cart-item';
 import { CreateOrderRequest } from '../types/order';
-import { isNone } from '../utils/typeGuard';
 import apis from '../api';
+import userStore from './userStore';
+import Order from '../models/order';
 
 class OrderStore {
   @observable
@@ -13,6 +14,12 @@ class OrderStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  async fetchOrders() {
+    const { token } = userStore;
+    const { orders } = await apis.orderAPI.fetchOrders(token);
+    return orders.map((order) => new Order(order));
   }
 
   @action
@@ -50,11 +57,7 @@ class OrderStore {
 
   @action
   async createOrder(address: string, recipientName: string): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    if (isNone(token)) {
-      return;
-    }
+    const token = userStore.token;
 
     const data: CreateOrderRequest = {
       address,

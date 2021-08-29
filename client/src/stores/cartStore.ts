@@ -1,14 +1,14 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import CartInProduct from '../models/cart-in-product';
 import CartItem from '../models/cart-item';
-import { isNone, isNotNone } from '../utils/typeGuard';
+import { isNone } from '../utils/typeGuard';
 import NOIMAGE from '../assets/images/no-image.png';
 import { SelectWithSelected } from '../types/product';
 import OrderDetailProduct from '../models/orderDetailProduct';
 
 const CART_LOCALSTORAGE_KEY = `cart`;
 
-const isDuplicated = (
+const isDuplicatedSelection = (
   selectsWithSelectedA: SelectWithSelected[],
   selectsWithSelectedB: SelectWithSelected[]
 ) => {
@@ -16,13 +16,6 @@ const isDuplicated = (
   const selectedOptionsB = selectsWithSelectedB.map((selects) => selects.selectedOption);
 
   return selectedOptionsA.every((value, index) => value?.id === selectedOptionsB[index]?.id);
-};
-
-const isDuplicatedCartItem = (cartInProduct: CartInProduct) => (cartItem: CartItem) => {
-  return (
-    isDuplicated(cartItem.selectWithSelecteds, cartInProduct.options) &&
-    cartItem.title === cartInProduct.product.name
-  );
 };
 
 class CartStore {
@@ -40,46 +33,49 @@ class CartStore {
 
   @action
   addProductsToCart(cartsInProduct: CartInProduct[]) {
-    const existedCartItems: { [key: number]: CartInProduct } = {};
-    const notExistedCartInProducts: CartInProduct[] = [];
+    const nextCartItemList = [...this.cartItemList];
 
-    cartsInProduct.forEach((cartInProduct, index) => {
-      if (this.cartItemList.some(isDuplicatedCartItem(cartInProduct))) {
-        existedCartItems[index] = cartInProduct;
-        return;
-      }
-      notExistedCartInProducts.push(cartInProduct);
-    });
+    cartsInProduct.forEach((cartInProduct) => {
+      const existedCartItemIndex = this.findDuplicateCartItemIndex(cartInProduct);
 
-    this.cartItemList = this.cartItemList.map((cartItem, index) => {
-      if (isNotNone(existedCartItems[index])) {
-        const count = cartItem.count + existedCartItems[index].count;
+      if (existedCartItemIndex !== -1) {
+        const existedCartItem = this.cartItemList[existedCartItemIndex];
+        const nextCount = existedCartItem.count + cartInProduct.count;
+
         const updatedCartItem = new CartItem({
-          ...cartItem,
-          count,
+          ...existedCartItem,
+          count: nextCount,
         });
 
-        return updatedCartItem;
+        nextCartItemList[existedCartItemIndex] = updatedCartItem;
+      } else {
+        const { uuid, product, count, options } = cartInProduct;
+        const newCartItem = new CartItem({
+          uuid,
+          productId: product.id,
+          title: product.name,
+          imgSrc: product.thumbnail || NOIMAGE,
+          count,
+          price: product.price,
+          isSelected: true,
+          selectWithSelecteds: options,
+        });
+
+        nextCartItemList.push(newCartItem);
       }
-      return cartItem;
     });
 
-    const noxExistedCartItemList = notExistedCartInProducts.map((cartInProduct) => {
-      const { uuid, product, count, options } = cartInProduct;
-      return new CartItem({
-        uuid,
-        productId: product.id,
-        title: product.name,
-        imgSrc: product.thumbnail || NOIMAGE,
-        count,
-        price: product.price,
-        isSelected: true,
-        selectWithSelecteds: options,
-      });
-    });
-
-    this.cartItemList.push(...noxExistedCartItemList);
+    this.cartItemList = nextCartItemList;
     this.setCartItemListToStorage();
+  }
+
+  private findDuplicateCartItemIndex(cartInProduct: CartInProduct): number {
+    return this.cartItemList.findIndex((cartItem) => {
+      return (
+        cartItem.title === cartInProduct.product.name &&
+        isDuplicatedSelection(cartItem.selectWithSelecteds, cartInProduct.options)
+      );
+    });
   }
 
   getModalCartItem() {

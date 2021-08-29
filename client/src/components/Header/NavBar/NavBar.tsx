@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '../../../lib/router';
 
 const NAV_BAR_HEIGHT = 40;
 
@@ -32,13 +31,6 @@ const NavListItem = styled.li`
   padding: 0 10px;
 `;
 
-const Badge = styled.span`
-  font-size: 10px;
-  line-height: 11px;
-  color: ${(props) => props.theme.color.mint2};
-  padding: 0 2px;
-`;
-
 type SeperatorProps = {
   isLastItem: boolean;
 };
@@ -49,27 +41,17 @@ const Seperator = styled.span<SeperatorProps>`
   background-color: ${(props) => props.theme.color.grey2};
 `;
 
-type NavItem = {
-  text: string;
-  path: string;
-  badge: number | null;
-};
-
 type Props = {
-  navItems: NavItem[];
+  links: JSX.Element[];
 };
 
 const NavBar = (props: Props): JSX.Element => {
-  const { navItems } = props;
+  const { links } = props;
 
-  const NavListContent = navItems.map((item, index) => (
-    <React.Fragment key={item.path}>
-      <NavListItem>
-        <Link to={item.path}>
-          {item.text} {item.badge !== null && <Badge>{item.badge}</Badge>}
-        </Link>
-      </NavListItem>
-      <Seperator isLastItem={index === navItems.length - 1} />
+  const NavListContent = links.map((link, i) => (
+    <React.Fragment key={i}>
+      <NavListItem>{link}</NavListItem>
+      <Seperator isLastItem={i === links.length - 1} />
     </React.Fragment>
   ));
 

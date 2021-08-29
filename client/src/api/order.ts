@@ -1,5 +1,5 @@
 import request from '../lib/request';
-import { CreateOrderRequest } from '../types/order';
+import { CreateOrderRequest, OrdersReponse } from '../types/order';
 
 class OrderAPI {
   private baseURL: string;
@@ -15,6 +15,17 @@ class OrderAPI {
       body: data,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+  }
+
+  fetchOrders(token: string): Promise<OrdersReponse> {
+    return request<OrdersReponse>({
+      url: `${this.baseURL}/api/order`,
+      method: 'GET',
+
+      headers: {
         Authorization: token,
       },
     });

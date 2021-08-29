@@ -1,11 +1,9 @@
 import apis from '../api';
+import userStore from './userStore';
 
 class WishStore {
   async changeWishedTo(productId: number, wished: boolean) {
-    const token = localStorage.getItem('token');
-    if (token === null) {
-      return;
-    }
+    const token = userStore.token;
 
     if (wished) {
       await apis.productAPI.wish(token, productId);

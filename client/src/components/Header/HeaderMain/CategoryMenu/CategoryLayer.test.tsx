@@ -6,7 +6,6 @@ import provideRouter2Test from '../../../../lib/provideRouter2Test';
 import CategoryLayer, { Props } from './CategoryLayer';
 import Category from '../../../../models/category';
 import userEvent from '@testing-library/user-event';
-import { Option } from '../../../../types/option';
 
 describe('CategoryLayer 컴포넌트', () => {
   const PARENT_CATEGORY_NAME = '문구';
@@ -50,7 +49,6 @@ describe('CategoryLayer 컴포넌트', () => {
   const props: Props = {
     rootCategories,
     onCategoryClick,
-    option: {} as Option,
   };
 
   beforeEach(() => {

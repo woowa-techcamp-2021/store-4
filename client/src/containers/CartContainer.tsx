@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cart from '../components/Cart/Cart';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
@@ -9,11 +9,12 @@ import orderStore from '../stores/orderStore';
 const CartContainer = (): JSX.Element => {
   const history = useHistory();
 
+  useEffect(() => {
+    cartStore.setCartItemSelectionAll(true);
+  }, []);
+
   const handleClickAllProductOrderButton = () => {
-    if (cartStore.isNothingSelectedCartItems) {
-      toast.error('선택된 아이템이 없습니다');
-      return;
-    }
+    cartStore.setCartItemSelectionAll(true);
 
     orderStore.replaceListToCartItemList = cartStore.selectedCartItemList;
     history.push('/order');

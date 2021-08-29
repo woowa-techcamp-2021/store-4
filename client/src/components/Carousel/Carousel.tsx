@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import CarouselController from './CarouselController';
 import CarouselItem from './CarouselItem';
-import generateUseInfiniteSlide from './hooks/useInfiniteSlide';
+import useInfiniteSlide from './hooks/useInfiniteSlide';
 
 const Container = styled.div`
   position: relative;
@@ -11,9 +12,14 @@ const Container = styled.div`
   overflow-x: hidden;
 `;
 
+export type CarouselSource = {
+  mp4: string;
+  webm: string;
+};
+
 export type CarouselImage = {
   index: number;
-  src: string;
+  src: CarouselSource;
 };
 
 type Props = {
@@ -21,28 +27,32 @@ type Props = {
   interval: number;
 };
 
-const useInfiniteSlide = generateUseInfiniteSlide();
-
 const Carousel = (props: Props): JSX.Element => {
   const { images, interval } = props;
   const [currentIndex, setIndex] = useState(0);
+  const [runTimer] = useInfiniteSlide();
 
   const handleInfiniteSlide = useCallback(() => {
-    if (images.length === currentIndex + 1) {
-      setIndex(0);
-      return;
-    }
-    setIndex(currentIndex + 1);
-  }, [currentIndex, setIndex, images.length]);
+    setIndex((currentIndex + 1) % images.length);
+  }, [currentIndex, images.length]);
+
+  const handleRestartAnimationTimer = useCallback(() => {
+    runTimer(() => {
+      handleInfiniteSlide();
+    }, interval);
+  }, [handleInfiniteSlide, interval, runTimer]);
 
   const handleDotClick = useCallback(
     (index: number) => () => {
       setIndex(index);
+      handleRestartAnimationTimer();
     },
-    []
+    [handleRestartAnimationTimer]
   );
 
-  useInfiniteSlide(currentIndex, handleInfiniteSlide, interval);
+  useEffect(() => {
+    handleRestartAnimationTimer();
+  }, [handleRestartAnimationTimer]);
 
   const CarouselItems = images.map((data) => (
     <CarouselItem key={data.index} currentIndex={currentIndex} {...data} />
