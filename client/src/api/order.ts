@@ -1,5 +1,4 @@
 import request from '../lib/request';
-import Order from '../models/order';
 import { CreateOrderRequest, OrdersReponse } from '../types/order';
 
 class OrderAPI {

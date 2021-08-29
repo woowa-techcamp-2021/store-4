@@ -1,4 +1,3 @@
-import { getSelectedOptionPriceList } from '../components/Cart/helper';
 import { OrderDetailSummary } from '../types/order';
 import { SelectWithSelected } from '../types/product';
 import { isNone } from '../utils/typeGuard';
