@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import { Option } from '../types/option';
 import { ProductListOrder } from '../types/product';
+import buildQueryString from '../utils/build-query-string';
 
 const DEFAULT_OPTION: Option = {
   category: null,
@@ -23,42 +24,60 @@ class OptionStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.option = this.parseQueryToOption();
+    this.option = this.parseQueryToOption(window.location.search);
   }
 
-  private parseQueryToOption() {
-    const queryParams = new URLSearchParams(window.location.search);
+  @action
+  init(option: Option) {
+    this.option = option;
+  }
 
-    const category = +(queryParams.get('category') || '') || DEFAULT_OPTION.category;
-    const sort = SORT_OPTION[queryParams.get('sort') || ''] || DEFAULT_OPTION.sort;
-    const pageNum = +(queryParams.get('pageNum') || '') || DEFAULT_OPTION.pageNum;
-    const searchTerm = queryParams.get('search') || DEFAULT_OPTION.searchTerm;
+  parseQueryToOption(query: string) {
+    const queryParams = new URLSearchParams(query);
+
+    const category = Number(queryParams.get('category')) || DEFAULT_OPTION.category;
+    const sort = SORT_OPTION[queryParams.get('sort') ?? DEFAULT_OPTION.sort];
+    const pageNum = Number(queryParams.get('pageNum')) ?? DEFAULT_OPTION.pageNum;
+    const searchTerm = queryParams.get('searchTerm') ?? DEFAULT_OPTION.searchTerm;
 
     return { category, sort, pageNum, searchTerm };
   }
 
   @action
-  setCategory(categoryId: number) {
-    this.option.searchTerm = null;
-    this.option.category = categoryId;
-    this.option.pageNum = 1;
+  changeCategory(categoryId: number) {
+    this.option = {
+      ...DEFAULT_OPTION,
+      category: categoryId,
+    };
   }
 
   @action
-  setSortOption(sortOption: ProductListOrder) {
-    this.option.sort = sortOption;
-    this.option.pageNum = 1;
+  changeSortOption(sortOption: ProductListOrder) {
+    this.option = {
+      ...this.option,
+      sort: sortOption,
+      pageNum: DEFAULT_OPTION.pageNum,
+    };
   }
 
   @action
-  setPageNum(pageNum: number) {
-    this.option.pageNum = pageNum;
+  changePageNum(pageNum: number) {
+    this.option = {
+      ...this.option,
+      pageNum,
+    };
   }
 
   @action
-  setSearchTerm(searchTerm: string) {
-    this.option.category = null;
-    this.option.searchTerm = searchTerm;
+  changeSearchTerm(searchTerm: string) {
+    this.option = {
+      ...DEFAULT_OPTION,
+      searchTerm,
+    };
+  }
+
+  get optionQuery(): string {
+    return buildQueryString(this.option);
   }
 }
 

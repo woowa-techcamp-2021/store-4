@@ -52,6 +52,7 @@ type CompilePathParams = {
 
 type HistoryType = {
   push: (pathname: string) => void;
+  replace: (pathname: string) => void;
 };
 
 const RouterContext = createContext({} as RouterContextType);
@@ -64,7 +65,7 @@ const RouterContext = createContext({} as RouterContextType);
  */
 
 export const Router = (props: RouterProps): React.ReactElement => {
-  const initialPath = window.location.pathname;
+  const initialPath = `${window.location.pathname}${window.location.search}`;
   const [currentPathname, setCurrentPath] = useState(initialPath);
   const { children } = props;
   const { history } = window;
@@ -72,7 +73,7 @@ export const Router = (props: RouterProps): React.ReactElement => {
 
   const handlePopState = useCallback((event: PopStateEvent) => {
     event.preventDefault();
-    const path = window.location.pathname;
+    const path = `${window.location.pathname}${window.location.search}`;
     setCurrentPath(path);
   }, []);
 
@@ -89,11 +90,20 @@ export const Router = (props: RouterProps): React.ReactElement => {
     [history]
   );
 
+  const handleHistoryReplace = useCallback(
+    (pathname: string) => {
+      history.replaceState({}, pathname, window.location.origin + pathname);
+      setCurrentPath(pathname);
+    },
+    [history]
+  );
+
   return (
     <RouterContext.Provider
       value={{
         history: {
           push: handleHistoryPush,
+          replace: handleHistoryReplace,
         },
         currentPathname,
         setCurrentPath,
@@ -307,7 +317,10 @@ const compilePath = (params: CompilePathParams) => {
 export const matchPath = (params: MatchPathParams): MatchResult => {
   const { currentPathname, pathname, exact = false } = params;
 
-  const paths = pathname.split('/').filter((path) => path !== '');
+  const paths = pathname
+    .split('?')[0]
+    .split('/')
+    .filter((path) => path !== '');
   const currentPaths = removeUrlQuery(currentPathname)
     .split('/')
     .filter((path) => path !== '');
