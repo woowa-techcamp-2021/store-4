@@ -8,10 +8,10 @@ export enum OAuthType {
 }
 
 const BUTTONS = {
-  [OAuthType.Facebook]: {
-    content: '페이스북으로 계속하기',
-    redirectURL: `${process.env.SERVER_URL}/auth/facebook-login`,
-  },
+  // [OAuthType.Facebook]: {
+  //   content: '페이스북으로 계속하기',
+  //   redirectURL: `${process.env.SERVER_URL}/auth/facebook-login`,
+  // },
   [OAuthType.Google]: {
     content: '구글로 계속하기',
     redirectURL: `${process.env.SERVER_URL}/auth/google-login`,
