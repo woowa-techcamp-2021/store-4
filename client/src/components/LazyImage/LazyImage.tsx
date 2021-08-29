@@ -35,9 +35,9 @@ const setCssSize =
     }
 
     if (Array.isArray(value)) {
+      console.log(value);
       return `aspect-ratio: ${value[0]} / ${value[1]};`;
     }
-
     return `${str}: ${+value * ratio}px;`;
   };
 
@@ -73,7 +73,7 @@ const Img = styled.img<ImgProps>`
   width: 100%;
   ${setCssSize('width')};
   ${setCssSize('height')};
-  ${setCssSize('aspectRatio')}
+  ${setCssSize('aspectRatio')};
   object-fit: ${(props) => props.objectFit};
 `;
 
@@ -96,7 +96,6 @@ type ImgSkeleton = ImgProps & {
 const ImgSkeleton = styled.div<ImgSkeleton>`
   position: relative;
   overflow-y: hidden;
-  width: 100%;
   ${setCssSize('width')};
   ${setCssSize('height')};
   ${setCssSize('aspectRatio')}
@@ -167,6 +166,8 @@ const LazyImage = (props: Props): JSX.Element => {
           objectFit={objectFit}
           height={height}
           width={width}
+          data-testid={testId ?? ''}
+          aspectRatio={aspectRatio}
           referrerPolicy="no-referrer"
           className="thumbnail hide"
           ref={imgRef}
