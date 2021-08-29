@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import OrderDetailProduct from '../../../models/orderDetailProduct';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { getOptionList } from '../../Cart/helper';
+import NO_IMAGE from '../../../assets/images/no-image.png';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -76,7 +77,7 @@ const OrderDetailProductItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <ItemTitleWrapper>
-        <ItemImg src={thumbnail} referrerPolicy="no-referrer" />
+        <ItemImg src={thumbnail ?? NO_IMAGE} referrerPolicy="no-referrer" />
         <ItemWrapper>
           <ItemTitle>{name}</ItemTitle>
           <OptionList>
