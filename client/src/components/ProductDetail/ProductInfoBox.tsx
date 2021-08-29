@@ -80,12 +80,10 @@ type WishButtonProps = {
   isWished: boolean;
 };
 
-const WishButton = styled.div<WishButtonProps>`
+const WishButton = styled(CommonButton)<WishButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
-  cursor: pointer;
   border: 1px solid ${(props) => props.theme.color.grey1};
   background-color: ${(props) => props.theme.color.white1};
   width: 50px;
@@ -206,7 +204,7 @@ const ProductInfoBox = (props: Props): JSX.Element => {
         <TotalPrice>{toKoreanMoneyFormat(totalPrice)}</TotalPrice>
       </TotalPriceWrapper>
       <ButtonWrapper>
-        <WishButton onClick={onWishClick} isWished={product.isWished}>
+        <WishButton aria-label="Wish" onClick={onWishClick} isWished={product.isWished}>
           <FaHeart className="product-wish-icon" />
         </WishButton>
         <ToCartButton onClick={onCartClick}>장바구니</ToCartButton>

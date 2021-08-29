@@ -18,10 +18,7 @@ const CountInput = styled.input.attrs({
   outline: none;
 `;
 
-const ControlButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const ControlButton = styled.button`
   width: 30px;
   height: 16px;
   background-color: ${(props) => props.theme.color.white2};
@@ -60,10 +57,18 @@ const ProductCounter = (props: Props): JSX.Element => {
         data-testid="product-counter-count"
       />
       <ControlButtonWrapper>
-        <ControlButton onClick={onIncreaseClick} data-testid="product-counter-increase">
+        <ControlButton
+          aria-label="Count up"
+          onClick={onIncreaseClick}
+          data-testid="product-counter-increase"
+        >
           <RiArrowUpSLine />
         </ControlButton>
-        <ControlButton onClick={onDecreaseClick} data-testid="product-counter-decrease">
+        <ControlButton
+          aria-label="Count down"
+          onClick={onDecreaseClick}
+          data-testid="product-counter-decrease"
+        >
           <RiArrowDownSLine />
         </ControlButton>
       </ControlButtonWrapper>
