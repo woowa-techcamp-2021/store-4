@@ -9,6 +9,7 @@ type ImgProps = {
   height?: number;
   aspectRatio?: [number, number];
   objectFit: string;
+  borderRadius: number;
 };
 
 const isLongerWidth = (aspectRatio?: [number, number], width?: number, height?: number) => {
@@ -75,6 +76,7 @@ const Img = styled.img<ImgProps>`
   ${setCssSize('height')};
   ${setCssSize('aspectRatio')};
   object-fit: ${(props) => props.objectFit};
+  border-radius: ${(props) => props.borderRadius + 'px'};
 `;
 
 const loading = (isLongerWidth: boolean) => keyframes`
@@ -99,6 +101,7 @@ const ImgSkeleton = styled.div<ImgSkeleton>`
   ${setCssSize('width')};
   ${setCssSize('height')};
   ${setCssSize('aspectRatio')}
+  border-radius: ${(props) => props.borderRadius + 'px'};
   background-color: ${(props) => props.theme.color.grey1};
   border: none;
   ::after {
@@ -132,11 +135,23 @@ type Props = React.PropsWithChildren<{
   height?: number;
   aspectRatio?: [number, number];
   objectFit?: string;
+  testId?: string;
+  borderRadius?: number;
   alt?: string;
 }>;
 
 const LazyImage = (props: Props): JSX.Element => {
-  const { src, children, height, width, aspectRatio, objectFit = 'fill', alt = '' } = props;
+  const {
+    src,
+    children,
+    height,
+    width,
+    aspectRatio,
+    objectFit = 'fill',
+    testId,
+    alt = '',
+    borderRadius = 0,
+  } = props;
   const imgRef = useRef<HTMLImageElement>(null);
   const imgWrapperRef = useRef<HTMLDivElement>(null);
   const imgSkeletonRef = useRef<HTMLDivElement>(null);
@@ -160,6 +175,7 @@ const LazyImage = (props: Props): JSX.Element => {
         isLongerWidth={isLongerWidth(aspectRatio, width, height)}
         ref={imgSkeletonRef}
         className="image-skeleton"
+        borderRadius={borderRadius}
       />
       <ImageWrapper ref={imgWrapperRef} className="image-wrapper none">
         <Img
@@ -168,6 +184,7 @@ const LazyImage = (props: Props): JSX.Element => {
           width={width}
           data-testid={testId ?? ''}
           aspectRatio={aspectRatio}
+          borderRadius={borderRadius}
           referrerPolicy="no-referrer"
           className="thumbnail hide"
           ref={imgRef}
