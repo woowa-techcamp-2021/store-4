@@ -26,6 +26,9 @@ const OrderPaymentContainer = observer((): JSX.Element => {
 
   useEffect(() => {
     scrollTo({ top: 0 });
+  }, [currentStep]);
+
+  useEffect(() => {
     deliveryAddressStore.fetchDeliveryAddresses();
   }, []);
 
@@ -65,7 +68,7 @@ const OrderPaymentContainer = observer((): JSX.Element => {
         case 400:
           toast.error('잘못된 데이터입니다');
           history.push('/');
-          orderStore.orderDetailProductList = [];
+          orderStore.clearOrder();
           return;
 
         default:
