@@ -23,8 +23,8 @@ const ImageViewer = styled.div`
 `;
 
 const Image = styled.img`
+  aspect-ratio: 1 / 1;
   width: 400px;
-  height: 400px;
   object-fit: contain;
 `;
 
@@ -50,8 +50,8 @@ const MagnifiedViewer = styled.div`
 `;
 
 const ModifiedImage = styled.img`
+  aspect-ratio: 1 / 1;
   width: 1600px;
-  height: 1600px;
   object-fit: contain;
 `;
 

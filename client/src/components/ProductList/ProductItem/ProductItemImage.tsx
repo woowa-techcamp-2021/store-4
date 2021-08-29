@@ -47,8 +47,8 @@ const SalesBadge = styled(Badge)`
 `;
 
 const Img = styled.img`
+  aspect-ratio: 4 / 5;
   width: 280px;
-  height: 350px;
 `;
 
 const loading = keyframes`

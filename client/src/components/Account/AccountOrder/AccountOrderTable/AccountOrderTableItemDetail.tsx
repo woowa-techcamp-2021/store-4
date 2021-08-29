@@ -25,8 +25,8 @@ const Column = styled.div`
 const ProductThumbnailWrapper = styled(Column)``;
 
 const ProductThumbnail = styled.img`
+  aspect-ratio: 4 / 5;
   width: 48px;
-  height: 60px;
   :hover {
     transform: scale(1.1);
   }

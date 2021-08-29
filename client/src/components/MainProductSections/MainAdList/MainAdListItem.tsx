@@ -10,8 +10,8 @@ const MainAdListItemContainer = styled.div`
 const ImageWrapper = styled.div``;
 
 const AdImage = styled.img`
+  aspect-ratio: 3 / 1;
   width: 900px;
-  height: 303px;
 `;
 
 const ItemTitles = styled.div`

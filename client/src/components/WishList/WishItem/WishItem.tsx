@@ -57,8 +57,8 @@ const ItemTitleWrapper = styled.div`
 `;
 
 const ItemImg = styled.img`
+  aspect-ratio: 1 / 1;
   width: 60px;
-  height: 60px;
   object-fit: cover;
   padding-right: 10px;
 `;
