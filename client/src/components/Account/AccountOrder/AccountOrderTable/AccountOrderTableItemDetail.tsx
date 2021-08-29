@@ -24,14 +24,6 @@ const Column = styled.div`
 
 const ProductThumbnailWrapper = styled(Column)``;
 
-const ProductThumbnail = styled.img`
-  aspect-ratio: 4 / 5;
-  width: 48px;
-  :hover {
-    transform: scale(1.1);
-  }
-`;
-
 const ProductName = styled(Column)`
   flex: 2;
   overflow: scroll;
