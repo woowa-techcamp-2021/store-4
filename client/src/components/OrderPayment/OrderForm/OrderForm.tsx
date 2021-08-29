@@ -44,9 +44,7 @@ const FinalCheckInput = styled.input`
 
 const Strong = styled.strong``;
 
-const FinalCheckLabel = styled.label.attrs({
-  for: 'final-check',
-})`
+const FinalCheckLabel = styled.label`
   text-align: center;
   white-space: pre;
   line-height: 1.5;
@@ -221,7 +219,7 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
         </FinalCheckDesc>
         <FinalCheck>
           <FinalCheckInput id="final-check" type="checkbox" ref={approveRef} />
-          <FinalCheckLabel>
+          <FinalCheckLabel htmlFor="final-check">
             <Strong>(필수)</Strong> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.
           </FinalCheckLabel>
         </FinalCheck>
