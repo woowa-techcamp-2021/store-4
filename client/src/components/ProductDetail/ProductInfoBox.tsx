@@ -80,7 +80,12 @@ type WishButtonProps = {
   isWished: boolean;
 };
 
-const WishButton = styled(CommonButton)<WishButtonProps>`
+const WishButton = styled.div<WishButtonProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  cursor: pointer;
   border: 1px solid ${(props) => props.theme.color.grey1};
   background-color: ${(props) => props.theme.color.white1};
   width: 50px;

@@ -28,8 +28,7 @@ const SearchInput = styled.input`
   }
 `;
 
-const SearchButton = styled.button`
-  border: none;
+const SearchButton = styled.div`
   background-color: #fff;
   cursor: pointer;
 `;
@@ -98,7 +97,7 @@ const SearchBar = (props: Props): JSX.Element => {
         onKeyPress={handlePressEnterChangeSearchTermList}
         onFocus={handleOpenDropdown}
       />
-      <SearchButton type="button" onClick={onChangeSearchTermList}>
+      <SearchButton onClick={onChangeSearchTermList}>
         <RiSearchLine />
       </SearchButton>
       {isOpenDropBox && (

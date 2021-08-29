@@ -18,7 +18,10 @@ const CountInput = styled.input.attrs({
   outline: none;
 `;
 
-const ControlButton = styled.button`
+const ControlButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 16px;
   background-color: ${(props) => props.theme.color.white2};
