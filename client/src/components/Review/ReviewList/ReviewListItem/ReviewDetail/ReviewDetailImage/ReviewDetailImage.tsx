@@ -8,8 +8,8 @@ const Container = styled.li`
 `;
 
 const ReviewDetailImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 165px;
+  height: 210px;
   object-fit: cover;
   border-radius: 5px;
 `;
@@ -23,7 +23,7 @@ const ReviewDetailImage = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ReviewDetailImg src={imageUrl} />
+      <ReviewDetailImg src={imageUrl} alt="리뷰 이미지" />
     </Container>
   );
 };

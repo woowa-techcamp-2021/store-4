@@ -17,8 +17,8 @@ const ProductImgWrapper = styled.div`
   padding: 20px;
 `;
 const ProductImg = styled.img`
+  aspect-ratio: 1 / 1;
   width: 72px;
-  height: 72px;
   object-fit: cover;
 `;
 const ProductInfoWrapper = styled.div`
@@ -100,7 +100,7 @@ const Option = (): JSX.Element => {
   return (
     <Container>
       <ProductImgWrapper>
-        <ProductImg src={TEST_IMG}></ProductImg>
+        <ProductImg src={TEST_IMG} alt="상품 이미지"></ProductImg>
       </ProductImgWrapper>
       <ProductInfoWrapper>
         <ProductTitle>{title}</ProductTitle>

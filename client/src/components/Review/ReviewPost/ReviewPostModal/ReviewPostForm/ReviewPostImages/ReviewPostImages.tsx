@@ -60,8 +60,8 @@ const ImageListItem = styled.li`
 `;
 
 const ThumbnailImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 90px;
+  height: 84px;
   object-fit: cover;
   border-radius: 3px;
 `;
@@ -84,7 +84,7 @@ const ReviewPostImages = (props: Props): JSX.Element => {
 
   const ImageListItems = images.map((src, i) => (
     <ImageListItem key={i}>
-      <ThumbnailImage src={src}></ThumbnailImage>
+      <ThumbnailImage alt="리뷰 이미지" src={src}></ThumbnailImage>
     </ImageListItem>
   ));
 

@@ -18,8 +18,8 @@ const ImageSelectorWrapper = styled.div`
 type ImageSelectorProps = { isSelected: boolean };
 
 const ImageSelector = styled.img<ImageSelectorProps>`
+  aspect-ratio: 1 / 1;
   width: 80px;
-  height: 80px;
   object-fit: contain;
   cursor: pointer;
 
@@ -45,6 +45,7 @@ const ProductDetailImages = (props: Props): JSX.Element => {
     <ImageSelector
       referrerPolicy="no-referrer"
       data-testid="image-selector"
+      alt="상품 이미지"
       onMouseOver={onImageSelectorMouseover(index)}
       isSelected={selectedImageIndex === index}
       key={index}

@@ -27,6 +27,7 @@ const LogoWrapper = styled.div`
 
 const LogoImg = styled.img`
   width: 100px;
+  height: 76px;
 `;
 
 const ContentWrapper = styled.div`
@@ -65,7 +66,7 @@ const Footer = (): JSX.Element => {
     <Container>
       <Wrapper>
         <LogoWrapper>
-          <LogoImg src={LOGO_IMG}></LogoImg>
+          <LogoImg src={LOGO_IMG} alt="로고"></LogoImg>
         </LogoWrapper>
         <ContentWrapper>
           <LegalList>

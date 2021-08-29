@@ -6,9 +6,14 @@ import toast from '../lib/toast';
 
 const USER_TOKEN_KEY = 'token';
 
+type Status = 'IDLE' | 'FETCHING' | 'DONE';
+
 class UserStore {
   @observable
   user: User | null = null;
+
+  @observable
+  status: Status = 'IDLE';
 
   constructor() {
     makeAutoObservable(this);
@@ -31,6 +36,7 @@ class UserStore {
 
   @action
   private async fetchUser() {
+    this.setStatus('FETCHING');
     try {
       const token = this.token;
 
@@ -45,7 +51,14 @@ class UserStore {
       });
     } catch (error) {
       this.onAuthError(error.status);
+    } finally {
+      this.setStatus('DONE');
     }
+  }
+
+  @action
+  setStatus(status: Status) {
+    this.status = status;
   }
 
   @action
@@ -65,7 +78,6 @@ class UserStore {
     }
 
     this.logoutUser();
-    history.pushState(null, '', '/login');
   }
 
   get token() {

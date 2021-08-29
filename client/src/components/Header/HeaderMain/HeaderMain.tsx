@@ -27,7 +27,8 @@ const LogoContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 100%;
+  aspect-ratio: 4 / 1;
+  width: 160px;
   height: auto;
   object-fit: contain;
 `;
@@ -38,7 +39,7 @@ const HeaderMain = (): JSX.Element => {
       <CategoryMenu />
       <LogoContainer>
         <Link to="/">
-          <LogoImage src={LOGO} />
+          <LogoImage src={LOGO} alt="로고" />
         </Link>
       </LogoContainer>
       <SearchBarContainer />

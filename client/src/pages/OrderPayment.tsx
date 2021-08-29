@@ -6,4 +6,4 @@ const OrderPaymentPage = (): JSX.Element => {
   return <OrderPaymentContainer />;
 };
 
-export default withAuthentication(OrderPaymentPage, 'order');
+export default withAuthentication(OrderPaymentPage);

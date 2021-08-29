@@ -47,8 +47,8 @@ const SalesBadge = styled(Badge)`
 `;
 
 const Img = styled.img`
-  width: 100%;
-  min-height: 350px;
+  aspect-ratio: 4 / 5;
+  width: 280px;
 `;
 
 const loading = keyframes`
@@ -157,6 +157,7 @@ const ProductItemImage = (props: Props): JSX.Element => {
       <ImgSkeleton ref={imgSkeletonRef} className="image-skeleton" />
       <ImageWrapper ref={imgWrapperRef} className="image-wrapper none">
         <Img
+          alt="상품 이미지"
           referrerPolicy="no-referrer"
           className="thumbnail hide"
           ref={imgRef}

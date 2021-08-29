@@ -59,7 +59,7 @@ const ProductListContainer = (): JSX.Element => {
   );
 
   const handleClickPageNum = useCallback(
-    (pageNum: number) => () => {
+    (pageNum: number) => {
       changePageNum(pageNum);
     },
     [changePageNum]

@@ -33,8 +33,8 @@ const ProductItem = (props: Props): JSX.Element => {
   } = product;
 
   return (
-    <Link to={`/product/${id}`}>
-      <ProductItemContainer>
+    <ProductItemContainer>
+      <Link to={`/product/${id}`}>
         <ProductItemImage
           onWishClick={onWishClick}
           thumbnail={thumbnail}
@@ -49,8 +49,8 @@ const ProductItem = (props: Props): JSX.Element => {
           isDiscounting={isDiscounting}
           discountedPrice={discountedPrice}
         />
-      </ProductItemContainer>
-    </Link>
+      </Link>
+    </ProductItemContainer>
   );
 };
 

@@ -9,7 +9,10 @@ const MainAdListItemContainer = styled.div`
 
 const ImageWrapper = styled.div``;
 
-const AdImage = styled.img``;
+const AdImage = styled.img`
+  aspect-ratio: 3 / 1;
+  width: 900px;
+`;
 
 const ItemTitles = styled.div`
   padding: 16px;
@@ -35,7 +38,7 @@ const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
     <Link to={`/product/${id}`}>
       <MainAdListItemContainer>
         <ImageWrapper>
-          <AdImage src={imgSrc} />
+          <AdImage src={imgSrc} alt="상품 이미지" />
         </ImageWrapper>
         <ItemTitles>
           <Title>{title}</Title>

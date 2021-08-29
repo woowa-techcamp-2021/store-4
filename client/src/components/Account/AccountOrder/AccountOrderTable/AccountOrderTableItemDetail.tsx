@@ -25,7 +25,8 @@ const Column = styled.div`
 const ProductThumbnailWrapper = styled(Column)``;
 
 const ProductThumbnail = styled.img`
-  height: 60px;
+  aspect-ratio: 4 / 5;
+  width: 48px;
   :hover {
     transform: scale(1.1);
   }
@@ -76,6 +77,7 @@ const AccountOrderTableItemDetail = (props: Props): JSX.Element => {
         <ProductThumbnailWrapper>
           <Link to={`/product/${orderDetail.product.id}`}>
             <ProductThumbnail
+              alt="상품 이미지"
               referrerPolicy="no-referrer"
               src={orderDetail.product.thumbnail || NO_IMAGE}
             />
