@@ -10,18 +10,13 @@ const TextTinyBold = styled.div`
   font-weight: 600;
 `;
 
-const CommonButton = styled.button`
-  height: 50px;
-  cursor: pointer;
-`;
-
 const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   height: 92px;
   padding: 0px 20px;
-  border-bottom: 1px solid ${(props) => props.theme.color.grey3};
+  border-bottom: 1px solid ${(props) => props.theme.color.grey1};
 
   :hover {
     background-color: ${(props) => props.theme.color.grey1};
@@ -32,19 +27,19 @@ type WishButtonProps = {
   isWished: boolean;
 };
 
-const WishButton = styled(CommonButton)<WishButtonProps>`
+const WishButton = styled.div<WishButtonProps>`
   border: none;
-  border-radius: 100%;
-  background-color: inherit;
-  width: 50px;
+  background-color: transparent;
   font-size: ${(props) => props.theme.fontSize.large};
   color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  :hover {
-    background-color: ${(props) => props.theme.color.white1};
+  .product-wish-icon {
+    transition: all 0.125s;
+    cursor: pointer;
+
+    :active {
+      transform: scale(0.8);
+    }
   }
 `;
 
@@ -93,7 +88,7 @@ const WishItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <WishButton onClick={onWishClick} isWished={isWished}>
-        <FaHeart />
+        <FaHeart className="product-wish-icon" />
       </WishButton>
       <Link to={`product/${productId}`}>
         <ItemTitleWrapper>
