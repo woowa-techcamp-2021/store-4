@@ -79,7 +79,7 @@ const AccountOrderTableItemDetail = (props: Props): JSX.Element => {
         <ProductName>
           <Link to={`/product/${orderDetail.product.id}`}>{orderDetail.product.name}</Link>
         </ProductName>
-        <ProductOption>{orderDetail.option || 'X'}</ProductOption>
+        <ProductOption>{orderDetail.option || ''}</ProductOption>
         <Quantity>{`${orderDetail.quantity}개`}</Quantity>
         <Price>
           <OriginPrice>{toKoreanMoneyFormat(orderDetail.price * orderDetail.quantity)}</OriginPrice>
