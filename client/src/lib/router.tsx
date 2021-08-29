@@ -34,6 +34,11 @@ type LinkProps = PropsWithChildren<{
   to: string;
 }>;
 
+type ConditionLinkProps = LinkProps & {
+  onClick: () => boolean;
+  onFail: () => void;
+};
+
 type MatchPathParams = {
   currentPathname: string;
   pathname: string;
@@ -228,6 +233,36 @@ export const Link = (props: LinkProps): React.ReactElement => {
     event.preventDefault();
     history.pushState({}, '', to);
     setCurrentPath(to);
+  };
+
+  return (
+    <a href={to} onClick={handleClickLink}>
+      {children}
+    </a>
+  );
+};
+
+/**
+ * 조건부 링크
+ * @param {LinkProps} props
+ * @param {string} props.to - 이동하려고하는 path
+ * @param {ReactNode} props.children
+ * @param {function} props.onClick - 링크 클릭시 실행되는 함수: () => boolean
+ * @param {function} props.onFail - 위 함수에서 false 반환시 실행될 함수: () => void
+ * @returns
+ */
+export const ConditionLink = (props: ConditionLinkProps): React.ReactElement => {
+  const { setCurrentPath } = useContext(RouterContext);
+  const { to, children, onClick, onFail } = props;
+
+  const handleClickLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (onClick()) {
+      history.pushState({}, '', to);
+      setCurrentPath(to);
+    } else {
+      onFail();
+    }
   };
 
   return (

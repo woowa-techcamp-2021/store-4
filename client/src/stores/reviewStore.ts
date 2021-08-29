@@ -7,7 +7,9 @@ class ReviewStore {
     return apis.reviewAPI.getReviewsByUser(userId);
   }
 
-  postReview(formData: FormData, token: string): Promise<void> {
+  postReview(formData: FormData): Promise<void> {
+    const token = userStore.token;
+
     return apis.reviewAPI.postReview(formData, token);
   }
 

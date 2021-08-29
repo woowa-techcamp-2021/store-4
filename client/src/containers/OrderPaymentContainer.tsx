@@ -1,7 +1,4 @@
-import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
-import AuthenticationProvider, {
-  AuthenticationContext,
-} from '../components/Authentication/Authentication';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
 import User from '../models/user';
@@ -20,7 +17,6 @@ export type OrderDeliveryAddressFormRef = {
 const OrderPaymentContainer = (): JSX.Element => {
   const orderFormRef = useRef<OrderDeliveryAddressFormRef & HTMLFormElement>(null);
   const [currentStep, setStep] = useState(2);
-  const { onErrorOccurred } = useContext(AuthenticationContext);
   const history = useHistory();
   const { user } = userStore;
   const { orderDetailProductList } = orderStore;
@@ -59,7 +55,7 @@ const OrderPaymentContainer = (): JSX.Element => {
       switch (error.status) {
         case 401:
         case 410:
-          onErrorOccurred();
+          userStore.onAuthError(error.status);
           return;
 
         case 400:
@@ -74,7 +70,7 @@ const OrderPaymentContainer = (): JSX.Element => {
           return;
       }
     }
-  }, [history, onErrorOccurred]);
+  }, [history]);
 
   useEffect(() => {
     if (orderDetailProductList.length === 0) {
@@ -82,12 +78,6 @@ const OrderPaymentContainer = (): JSX.Element => {
       history.push('/');
     }
   }, [history, orderDetailProductList]);
-
-  if (isNone(user)) {
-    toast.error('로그인이 필요합니다');
-    history.push('/login');
-    return <></>;
-  }
 
   return (
     <OrderPayment
@@ -101,12 +91,4 @@ const OrderPaymentContainer = (): JSX.Element => {
   );
 };
 
-const OrderPaymentAuthentication = (): JSX.Element => {
-  return (
-    <AuthenticationProvider>
-      <OrderPaymentContainer />
-    </AuthenticationProvider>
-  );
-};
-
-export default OrderPaymentAuthentication;
+export default OrderPaymentContainer;
