@@ -8,8 +8,8 @@ const Container = styled.li`
 `;
 
 const ReviewDetailImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 165px;
+  height: 210px;
   object-fit: cover;
   border-radius: 5px;
 `;

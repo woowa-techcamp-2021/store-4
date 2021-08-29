@@ -9,7 +9,10 @@ const MainAdListItemContainer = styled.div`
 
 const ImageWrapper = styled.div``;
 
-const AdImage = styled.img``;
+const AdImage = styled.img`
+  width: 900px;
+  height: 303px;
+`;
 
 const ItemTitles = styled.div`
   padding: 16px;
