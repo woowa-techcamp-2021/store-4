@@ -44,7 +44,7 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     if (files === null) return;
 
     if (validateFileInputs(files) === false) {
-      toast.error('이미지 파일만 추가할 수 있습니다');
+      toast.info('이미지 파일만 추가할 수 있습니다');
 
       event.target.value = '';
       return;

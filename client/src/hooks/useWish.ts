@@ -20,7 +20,7 @@ const useWish = (
         e.preventDefault();
 
         if (userStore.user === null) {
-          toast.error('로그인이 필요합니다');
+          toast.info('로그인이 필요합니다');
           return;
         }
 
@@ -63,7 +63,7 @@ const useWish = (
               return;
 
             case 409:
-              toast.info(originWished ? '이미 찜을 취소한 상품입니다' : '이미 찜한 상품입니다');
+              toast.error(originWished ? '이미 찜을 취소한 상품입니다' : '이미 찜한 상품입니다');
               return;
 
             case 500:
