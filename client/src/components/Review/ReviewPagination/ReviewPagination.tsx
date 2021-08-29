@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 
 const PAGINATION_WIDTH = 450;
-const PREV_BUTTON_TEXT = '<';
-const NEXT_BUTTON_TEXT = '>';
 const MAX_NUMBER_BUTTONS = 9;
 
 const Container = styled.nav`
@@ -16,9 +15,12 @@ const Container = styled.nav`
 `;
 
 const NavButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   background: none;
-  font-size: ${(props) => props.theme.fontSize.small};
+  font-size: 24px;
   color: ${(props) => props.theme.color.grey5};
   cursor: pointer;
 
@@ -85,11 +87,11 @@ const ReviewPagination = (props: Props): JSX.Element => {
   return (
     <Container>
       <NavButton onClick={onPrevButtonClick} disabled={currentPage === 1}>
-        {PREV_BUTTON_TEXT}
+        <RiArrowLeftSLine />
       </NavButton>
       <NavList data-testid="pagination-button-list">{NavListItemsSliced}</NavList>
       <NavButton onClick={onNextButtonClick} disabled={currentPage === totalPages}>
-        {NEXT_BUTTON_TEXT}
+        <RiArrowRightSLine />
       </NavButton>
     </Container>
   );

@@ -5,11 +5,17 @@ import userEvent from '@testing-library/user-event';
 import provideTheme2Test from '../../lib/provideTheme2Test';
 import Product from '../../models/product';
 import { ProductListOrder } from '../../types/product';
-import optionStore from '../../stores/optionStore';
 import ProductList from './ProductList';
 import { range } from '../../utils/range';
 
 describe('ProductList 테스트', () => {
+  const optionStore = {
+    option: { pageNum: 0 },
+    changePageNum(pageNum: number) {
+      this.option.pageNum = pageNum;
+    },
+  };
+
   const SORT_BUTTONS = [
     { key: ProductListOrder.Recommend, body: '추천순' },
     { key: ProductListOrder.Popularity, body: '인기순' },
@@ -25,7 +31,7 @@ describe('ProductList 테스트', () => {
     onClickSortButton: () => () => {
       return;
     },
-    onClickPageNum: (pageNum: number) => () => {
+    onClickPageNum: (pageNum: number) => {
       optionStore.changePageNum(pageNum);
     },
   };
@@ -63,7 +69,7 @@ describe('ProductList 테스트', () => {
     render(provideTheme2Test(<ProductList {...mock} {...rest} />));
     range(rest.totalPageCount).forEach((index) => {
       const pageNum = index + 1;
-      const navItem = screen.getByTestId(`pageNav${pageNum}`);
+      const navItem = screen.getByTestId(`number-button-${pageNum}`);
       userEvent.click(navItem);
       expect(optionStore.option.pageNum).toBe(pageNum);
     });
