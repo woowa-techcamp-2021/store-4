@@ -51,10 +51,18 @@ const ProductCounter = (props: Props): JSX.Element => {
     <Container>
       <CountInput value={count} onChange={onCountChange} />
       <ControlButtonWrapper>
-        <ControlButton onClick={onIncreaseClick} data-testid="product-counter-increase">
+        <ControlButton
+          onClick={onIncreaseClick}
+          data-testid="product-counter-increase"
+          aria-label="Count up"
+        >
           <RiArrowUpSLine />
         </ControlButton>
-        <ControlButton onClick={onDecreaseClick} data-testid="product-counter-decrease">
+        <ControlButton
+          onClick={onDecreaseClick}
+          data-testid="product-counter-decrease"
+          aria-label="Count down"
+        >
           <RiArrowDownSLine />
         </ControlButton>
       </ControlButtonWrapper>
