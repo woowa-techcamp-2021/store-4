@@ -12,7 +12,7 @@ export const slidedown = keyframes`
   }
 `;
 
-const fadein = keyframes`
+export const fadein = keyframes`
   from{
     opacity:0;
   }
