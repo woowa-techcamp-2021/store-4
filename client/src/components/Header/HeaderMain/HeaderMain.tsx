@@ -38,7 +38,7 @@ const HeaderMain = (): JSX.Element => {
       <CategoryMenu />
       <LogoContainer>
         <Link to="/">
-          <LogoImage src={LOGO} alt="로고" />
+          <LogoImage src={LOGO} />
         </Link>
       </LogoContainer>
       <SearchBarContainer />

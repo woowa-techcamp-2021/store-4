@@ -23,7 +23,7 @@ const ReviewDetailImage = (props: Props): JSX.Element => {
 
   return (
     <Container>
-      <ReviewDetailImg src={imageUrl} alt="리뷰 이미지" />
+      <ReviewDetailImg src={imageUrl} />
     </Container>
   );
 };
