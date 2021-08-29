@@ -31,15 +31,20 @@ const ProductThumbnail = styled.img`
   }
 `;
 
-const ProductName = styled(Column)`
+const ProductNameWrapper = styled(Column)`
   flex: 2;
-  overflow: scroll;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   :hover {
-    color: ${(props) => props.theme.color.grey5};
+    color: ${(props) => props.theme.color.grey3};
   }
 `;
+
+const ProductName = styled.div`
+  width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
 const ProductOption = styled(Column)`
   flex: 2;
 `;
@@ -76,9 +81,11 @@ const AccountOrderTableItemDetail = (props: Props): JSX.Element => {
             />
           </Link>
         </ProductThumbnailWrapper>
-        <ProductName>
-          <Link to={`/product/${orderDetail.product.id}`}>{orderDetail.product.name}</Link>
-        </ProductName>
+        <ProductNameWrapper>
+          <Link to={`/product/${orderDetail.product.id}`}>
+            <ProductName>{orderDetail.product.name}</ProductName>
+          </Link>
+        </ProductNameWrapper>
         <ProductOption>{orderDetail.option || ''}</ProductOption>
         <Quantity>{`${orderDetail.quantity}개`}</Quantity>
         <Price>
