@@ -8,13 +8,6 @@ const Container = styled.li`
   border-radius: 5px;
 `;
 
-const ReviewDetailImg = styled.img`
-  width: 165px;
-  height: 210px;
-  object-fit: cover;
-  border-radius: 5px;
-`;
-
 type Props = {
   imageUrl: string;
 };
@@ -32,7 +25,6 @@ const ReviewDetailImage = (props: Props): JSX.Element => {
         borderRadius={5}
         alt="리뷰 이미지"
       />
-      <ReviewDetailImg src={imageUrl} />
     </Container>
   );
 };
