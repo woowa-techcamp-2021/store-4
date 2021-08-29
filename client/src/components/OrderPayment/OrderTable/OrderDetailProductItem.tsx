@@ -76,7 +76,7 @@ const OrderDetailProductItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <ItemTitleWrapper>
-        <ItemImg src={thumbnail} />
+        <ItemImg src={thumbnail} referrerPolicy="no-referrer" />
         <ItemWrapper>
           <ItemTitle>{name}</ItemTitle>
           <OptionList>
