@@ -1,3 +1,24 @@
+import ProductOption from '../models/product-option';
+import ProductSelect from '../models/product-select';
+import Product from '../models/product';
+
+export type ProductResponse = {
+  products: Product[];
+  totalPages: number;
+  totalProductCount: number;
+};
+export type ProductDetailResponse = {
+  product: Product;
+};
+
+export type MainProducts = {
+  popularProducts: Product[];
+  discountingProducts: Product[];
+  newProducts: Product[];
+};
+
+export type MainProductsResponse = MainProducts;
+
 export type ProductListResponseType = {
   totalProductCount: number;
   totalPage: number;
@@ -13,9 +34,20 @@ export type ProductItemType = {
   imgSrc: string;
 };
 
+export type SelectWithSelected = ProductSelect & {
+  selectedOption: ProductOption | null;
+};
+
+export type OptionWithSelected = ProductOption & {
+  selected: boolean;
+};
+
 export enum ProductListOrder {
-  Popularity,
-  Recent,
-  PriceLow,
-  PriceHigh,
+  Recommend = 'recommend',
+  Popularity = 'popularity',
+  Recent = 'recent',
+  PriceLow = 'priceLow',
+  PriceHigh = 'priceHigh',
 }
+
+export type CartType = 'single' | 'multi';

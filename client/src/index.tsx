@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ProductListWrapper from './components/ProductList/ProductList';
+import App from './components/App/App';
 
-ReactDOM.render(
-  <div>
-    <ProductListWrapper></ProductListWrapper>
-  </div>,
-  document.querySelector('#root')
-);
+ReactDOM.render(<App />, document.querySelector('#root'));

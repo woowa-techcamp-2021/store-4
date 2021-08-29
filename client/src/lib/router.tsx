@@ -34,6 +34,11 @@ type LinkProps = PropsWithChildren<{
   to: string;
 }>;
 
+type ConditionLinkProps = LinkProps & {
+  onClick: () => boolean;
+  onFail: () => void;
+};
+
 type MatchPathParams = {
   currentPathname: string;
   pathname: string;
@@ -52,6 +57,7 @@ type CompilePathParams = {
 
 type HistoryType = {
   push: (pathname: string) => void;
+  replace: (pathname: string) => void;
 };
 
 const RouterContext = createContext({} as RouterContextType);
@@ -64,7 +70,7 @@ const RouterContext = createContext({} as RouterContextType);
  */
 
 export const Router = (props: RouterProps): React.ReactElement => {
-  const initialPath = window.location.pathname;
+  const initialPath = `${window.location.pathname}${window.location.search}`;
   const [currentPathname, setCurrentPath] = useState(initialPath);
   const { children } = props;
   const { history } = window;
@@ -72,7 +78,7 @@ export const Router = (props: RouterProps): React.ReactElement => {
 
   const handlePopState = useCallback((event: PopStateEvent) => {
     event.preventDefault();
-    const path = window.location.pathname;
+    const path = `${window.location.pathname}${window.location.search}`;
     setCurrentPath(path);
   }, []);
 
@@ -89,11 +95,20 @@ export const Router = (props: RouterProps): React.ReactElement => {
     [history]
   );
 
+  const handleHistoryReplace = useCallback(
+    (pathname: string) => {
+      history.replaceState({}, pathname, window.location.origin + pathname);
+      setCurrentPath(pathname);
+    },
+    [history]
+  );
+
   return (
     <RouterContext.Provider
       value={{
         history: {
           push: handleHistoryPush,
+          replace: handleHistoryReplace,
         },
         currentPathname,
         setCurrentPath,
@@ -228,6 +243,36 @@ export const Link = (props: LinkProps): React.ReactElement => {
 };
 
 /**
+ * 조건부 링크
+ * @param {LinkProps} props
+ * @param {string} props.to - 이동하려고하는 path
+ * @param {ReactNode} props.children
+ * @param {function} props.onClick - 링크 클릭시 실행되는 함수: () => boolean
+ * @param {function} props.onFail - 위 함수에서 false 반환시 실행될 함수: () => void
+ * @returns
+ */
+export const ConditionLink = (props: ConditionLinkProps): React.ReactElement => {
+  const { setCurrentPath } = useContext(RouterContext);
+  const { to, children, onClick, onFail } = props;
+
+  const handleClickLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (onClick()) {
+      history.pushState({}, '', to);
+      setCurrentPath(to);
+    } else {
+      onFail();
+    }
+  };
+
+  return (
+    <a href={to} onClick={handleClickLink}>
+      {children}
+    </a>
+  );
+};
+
+/**
  * path parameter에 대한 정보를 반환하는 함수
  * @returns { [key:string]: string } - path parameters들을 가지고 있는 객체를 반환
  */
@@ -307,7 +352,10 @@ const compilePath = (params: CompilePathParams) => {
 export const matchPath = (params: MatchPathParams): MatchResult => {
   const { currentPathname, pathname, exact = false } = params;
 
-  const paths = pathname.split('/').filter((path) => path !== '');
+  const paths = pathname
+    .split('?')[0]
+    .split('/')
+    .filter((path) => path !== '');
   const currentPaths = removeUrlQuery(currentPathname)
     .split('/')
     .filter((path) => path !== '');

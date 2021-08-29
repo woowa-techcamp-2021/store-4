@@ -1,123 +1,94 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import ProductItemContainer from './ProductItem';
-import { apiMock } from './mock/api';
-import { ProductListResponseType, ProductListOrder } from '../../types/product';
-import { range } from '../../utils/range';
-
+import React, { MouseEventHandler } from 'react';
+import ProductItem from './ProductItem/ProductItem';
 import styled from 'styled-components';
+import Product from '../../models/product';
+import { SortButton } from '../../containers/ProductListContainer';
+import { ProductListOrder } from '../../types/product';
+import ProductListHeader from './ProductListHeader';
+import EmptyProducts from './EmptyProducts';
+import ReviewPagination from '../Review/ReviewPagination/ReviewPagination';
 
-const Main = styled.div`
-  width: 1200px;
-
+const Container = styled.div`
+  width: ${(props) => props.theme.device.desktop};
+  margin: 100px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
-const ListHeader = styled.div`
-  box-sizing: border-box;
-  width: 1200px;
 
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-`;
-const TotalCount = styled.div``;
 const ProductListWrapper = styled.ul`
   width: 1200px;
 
   display: flex;
   flex-wrap: wrap;
+  gap: 24px;
 
   padding: 0;
 `;
-const SortButtonList = styled.div``;
-const SortButton = styled.button``;
-const PageNav = styled.ul`
-  list-style: none;
 
-  display: flex;
-  justify-content: center;
+const ProductPagination = styled(ReviewPagination)``;
 
-  padding: 0;
-`;
-const PageNavItem = styled.li`
-  padding: 5px;
+type Props = {
+  products: Product[];
+  buttons: SortButton[];
+  totalProductCount: number;
+  totalPageCount: number;
+  currentPage: number;
+  searchTerm: string | null;
+  onClickSortButton: (option: ProductListOrder) => () => void;
+  onClickPageNum: (pageNum: number) => void;
+  getWishClickHandler: (product: Product) => MouseEventHandler;
+};
 
-  cursor: pointer;
-`;
+const ProductList = (props: Props): JSX.Element => {
+  const {
+    products,
+    buttons,
+    totalProductCount,
+    totalPageCount,
+    currentPage,
+    searchTerm,
+    onClickSortButton,
+    onClickPageNum,
+    getWishClickHandler,
+  } = props;
 
-const ProductList = (): React.ReactElement => {
-  const [productListResponse, setProductListResponse] = useState<ProductListResponseType | null>(
-    null
-  );
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [listOrder, setListOrder] = useState(ProductListOrder.Recent);
-
-  const fetchProductList = useCallback(() => {
-    const resData = apiMock.getProductList(listOrder, currentPage);
-    setProductListResponse(resData);
-  }, [currentPage, listOrder]);
-
-  useEffect(() => {
-    fetchProductList();
-  }, [fetchProductList, currentPage, listOrder]);
-
-  const onClickSortButton = (order: ProductListOrder) => (): void => {
-    setListOrder(order);
-  };
-
-  const onClickPageButton = (pageNum: number) => (): void => {
-    setCurrentPage(pageNum);
-  };
-
-  const productItemList = productListResponse?.productList.map((product) => (
-    <ProductItemContainer
-      key={product.id}
-      name={product.name}
-      price={product.price}
-      imgSrc={product.imgSrc}
-    ></ProductItemContainer>
+  const ProductItems = products.map((product) => (
+    <ProductItem key={product.id} product={product} onWishClick={getWishClickHandler(product)} />
   ));
 
-  const pageNavItem = () => {
-    if (productListResponse === null) return <></>;
-    return range(productListResponse.totalPage).map((index) => {
-      const pageNum = index + 1;
-      return (
-        <PageNavItem key={pageNum} onClick={onClickPageButton(pageNum)}>
-          {pageNum}
-        </PageNavItem>
-      );
-    });
+  const onPageNavButtonClick = (type: 'prev' | 'next') => {
+    if (type === 'prev') {
+      onClickPageNum(currentPage - 1);
+    } else {
+      onClickPageNum(currentPage + 1);
+    }
   };
 
+  const showPagination = totalPageCount > 1;
+
   return (
-    <>
-      {productListResponse === null ? (
-        <div>로딩중..</div>
+    <Container>
+      <ProductListHeader
+        searchTerm={searchTerm}
+        buttons={buttons}
+        totalProductCount={totalProductCount}
+        onClickSortButton={onClickSortButton}
+      />
+      {ProductItems.length <= 0 ? (
+        <EmptyProducts />
       ) : (
-        <Main>
-          <ListHeader>
-            <TotalCount>총 {productListResponse.totalProductCount}개</TotalCount>
-            <SortButtonList>
-              <SortButton onClick={onClickSortButton(ProductListOrder.Popularity)}>
-                인기순
-              </SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.Recent)}>최신순</SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.PriceLow)}>
-                낮은가격순
-              </SortButton>
-              <SortButton onClick={onClickSortButton(ProductListOrder.PriceHigh)}>
-                높은가격순
-              </SortButton>
-            </SortButtonList>
-          </ListHeader>
-          <ProductListWrapper>{productItemList}</ProductListWrapper>
-          <PageNav>{pageNavItem()}</PageNav>
-        </Main>
+        <ProductListWrapper>{ProductItems}</ProductListWrapper>
       )}
-    </>
+      {showPagination && (
+        <ProductPagination
+          totalPages={totalPageCount}
+          currentPage={currentPage}
+          onPageNumClick={onClickPageNum}
+          onPageNavButtonClick={onPageNavButtonClick}
+        />
+      )}
+    </Container>
   );
 };
 

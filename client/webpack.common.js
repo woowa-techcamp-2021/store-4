@@ -16,7 +16,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpg)$/,
+        test: /\.(png|svg|jpg|gif|mp4|webm)$/,
         type: 'asset',
       },
     ],
@@ -25,6 +25,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     clean: true,
+    publicPath: '/',
   },
   plugins: [new ForkTsCheckerWebpackPlugin()],
 };
