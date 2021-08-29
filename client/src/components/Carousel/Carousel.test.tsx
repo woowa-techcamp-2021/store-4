@@ -11,9 +11,9 @@ import { act } from 'react-dom/test-utils';
 
 describe('캐러셀 테스트', () => {
   const mockImages = [
-    { index: 0, src: Pencil },
-    { index: 1, src: Bottle },
-    { index: 2, src: Beer },
+    { index: 0, src: Pencil, productId: 0 },
+    { index: 1, src: Bottle, productId: 1 },
+    { index: 2, src: Beer, productId: 2 },
   ];
 
   const INTERVAL_TIME = 2000;
