@@ -72,6 +72,7 @@ const AccountOrderTableItemDetail = (props: Props): JSX.Element => {
         <ProductThumbnailWrapper>
           <Link to={`/product/${orderDetail.product.id}`}>
             <ProductThumbnail
+              alt="상품 이미지"
               referrerPolicy="no-referrer"
               src={orderDetail.product.thumbnail || NO_IMAGE}
             />

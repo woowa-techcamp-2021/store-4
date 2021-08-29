@@ -171,11 +171,21 @@ const MagnifierImage = (props: Props): JSX.Element => {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image data-testid="selected-image" src={image} referrerPolicy="no-referrer" />
+        <Image
+          data-testid="selected-image"
+          alt="상품 이미지"
+          src={image}
+          referrerPolicy="no-referrer"
+        />
         <MagnifyWrapper data-testid="magnifier" isMagnifierVisible={isMagnifierVisible}>
           <MagnifierPointer ref={magnifier} />
           <MagnifiedViewer>
-            <ModifiedImage ref={magnifiedViewer} src={image} referrerPolicy="no-referrer" />
+            <ModifiedImage
+              alt="상품 이미지"
+              ref={magnifiedViewer}
+              src={image}
+              referrerPolicy="no-referrer"
+            />
           </MagnifiedViewer>
         </MagnifyWrapper>
       </ImageViewer>
