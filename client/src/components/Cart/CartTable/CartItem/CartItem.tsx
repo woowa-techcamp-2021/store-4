@@ -132,7 +132,7 @@ const CartItem = (props: Props): JSX.Element => {
       </CheckBoxWrapper>
       <ItemTitleWrapper>
         <Link to={`/product/${productId}`}>
-          <ItemImg src={imgSrc} alt="상품 이미지" />
+          <ItemImg src={imgSrc} />
         </Link>
         <ItemWrapper>
           <Link to={`/product/${productId}`}>

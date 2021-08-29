@@ -236,7 +236,7 @@ export const Link = (props: LinkProps): React.ReactElement => {
   };
 
   return (
-    <a href={to} aria-label="Link" onClick={handleClickLink}>
+    <a href={to} onClick={handleClickLink}>
       {children}
     </a>
   );

@@ -157,7 +157,6 @@ const ProductItemImage = (props: Props): JSX.Element => {
       <ImgSkeleton ref={imgSkeletonRef} className="image-skeleton" />
       <ImageWrapper ref={imgWrapperRef} className="image-wrapper none">
         <Img
-          alt="상품 이미지"
           referrerPolicy="no-referrer"
           className="thumbnail hide"
           ref={imgRef}

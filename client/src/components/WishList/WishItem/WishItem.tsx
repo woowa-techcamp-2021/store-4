@@ -97,7 +97,7 @@ const WishItem = (props: Props): JSX.Element => {
       </WishButton>
       <Link to={`product/${productId}`}>
         <ItemTitleWrapper>
-          <ItemImg src={imgSrc} alt="상품 이미지" />
+          <ItemImg src={imgSrc} />
           <ItemWrapper>
             <ItemTitle data-testid="item-title">{title}</ItemTitle>
           </ItemWrapper>

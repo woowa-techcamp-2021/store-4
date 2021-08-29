@@ -13,7 +13,7 @@ const ProductListTitle = styled.div`
   margin: 32px 0px;
 `;
 
-const ProductItemWrapper = styled.ul`
+const ProductItemWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   flex-wrap: wrap;
