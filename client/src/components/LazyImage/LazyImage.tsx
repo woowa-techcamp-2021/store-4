@@ -36,7 +36,6 @@ const setCssSize =
     }
 
     if (Array.isArray(value)) {
-      console.log(value);
       return `aspect-ratio: ${value[0]} / ${value[1]};`;
     }
     return `${str}: ${+value * ratio}px;`;
