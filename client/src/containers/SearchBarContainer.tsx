@@ -90,13 +90,15 @@ const SearchBarContainer = (): JSX.Element => {
     setSearchTermList([]);
   };
 
-  const getOnDeleteSearchTerm = (content: string) => () => {
-    const nextSearchTermList = searchTermList.filter((searchTerm) => {
-      return searchTerm.content !== content;
-    });
-
-    setSearchTermList(nextSearchTermList);
-  };
+  const getOnDeleteSearchTerm =
+    (content: string): MouseEventHandler =>
+    (e) => {
+      e.stopPropagation();
+      const nextSearchTermList = searchTermList.filter((searchTerm) => {
+        return searchTerm.content !== content;
+      });
+      setSearchTermList(nextSearchTermList);
+    };
 
   return (
     <SearchBar
