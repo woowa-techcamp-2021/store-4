@@ -1,13 +1,37 @@
 import React from 'react';
-import Carousel from '../components/Carousel/Carousel';
-import Beer from '../components/Carousel/mock/beer.gif';
-import Bottle from '../components/Carousel/mock/bottle.gif';
-import Pencil from '../components/Carousel/mock/pencil.gif';
+import Carousel, { CarouselImage } from '../components/Carousel/Carousel';
+import BEER_MP4 from '../components/Carousel/mock/beer.mp4';
+import BOTTLE_MP4 from '../components/Carousel/mock/bottle.mp4';
+import PENCIL_MP4 from '../components/Carousel/mock/pencil.mp4';
+import BEER_WEBM from '../components/Carousel/mock/beer.webm';
+import BOTTLE_WEBM from '../components/Carousel/mock/bottle.webm';
+import PENCIL_WEBM from '../components/Carousel/mock/pencil.webm';
 
-const mockImages = [
-  { index: 0, src: Pencil, productId: 196 },
-  { index: 1, src: Bottle, productId: 162 },
-  { index: 2, src: Beer, productId: 387 },
+const mockImages: CarouselImage[] = [
+  {
+    index: 0,
+    src: {
+      mp4: PENCIL_MP4,
+      webm: PENCIL_WEBM,
+    },
+    productId: 196,
+  },
+  {
+    index: 1,
+    src: {
+      mp4: BOTTLE_MP4,
+      webm: BOTTLE_WEBM,
+    },
+    productId: 162,
+  },
+  {
+    index: 2,
+    src: {
+      mp4: BEER_MP4,
+      webm: BEER_WEBM,
+    },
+    productId: 387,
+  },
 ];
 
 const CAROUSEL_INTERVAL_TIME = 4000;

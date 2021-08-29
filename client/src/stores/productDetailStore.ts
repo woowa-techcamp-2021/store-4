@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import apis from '../api';
 import Product from '../models/product';
+import userStore from './userStore';
 import wishStore from './wishStore';
 
 class ProductDetailStore {
@@ -13,7 +14,8 @@ class ProductDetailStore {
 
   @action
   async fetchProduct(id: number): Promise<void> {
-    const token = localStorage.getItem('token');
+    const token = userStore.token;
+
     const { product } = await apis.productAPI.fetchProduct(token, id);
 
     runInAction(() => {

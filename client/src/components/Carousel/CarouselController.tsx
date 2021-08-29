@@ -38,10 +38,10 @@ const CarouselController = (props: Props): JSX.Element => {
 
   const CarouselDots = images.map((image) => (
     <Dot
+      data-testid="carousel-dot"
       key={image.index}
       isSelected={currentIndex === image.index}
       onClick={onDotClick(image.index)}
-      data-testid={`dot${image.index}`}
     />
   ));
 

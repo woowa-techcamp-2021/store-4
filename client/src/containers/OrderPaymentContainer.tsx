@@ -1,7 +1,4 @@
-import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
-import AuthenticationProvider, {
-  AuthenticationContext,
-} from '../components/Authentication/Authentication';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import OrderPayment from '../components/OrderPayment/OrderPayment';
 import { useHistory } from '../lib/router';
 import User from '../models/user';
@@ -10,6 +7,8 @@ import cartStore from '../stores/cartStore';
 import orderStore from '../stores/orderStore';
 import userStore from '../stores/userStore';
 import { isNone } from '../utils/typeGuard';
+import deliveryAddressStore from '../stores/deliveryAddressStore';
+import { observer } from 'mobx-react';
 
 export type OrderDeliveryAddressFormRef = {
   readonly recipientName: string;
@@ -17,16 +16,20 @@ export type OrderDeliveryAddressFormRef = {
   readonly approve: boolean;
 };
 
-const OrderPaymentContainer = (): JSX.Element => {
+const OrderPaymentContainer = observer((): JSX.Element => {
   const orderFormRef = useRef<OrderDeliveryAddressFormRef & HTMLFormElement>(null);
   const [currentStep, setStep] = useState(2);
-  const { onErrorOccurred } = useContext(AuthenticationContext);
   const history = useHistory();
   const { user } = userStore;
   const { orderDetailProductList } = orderStore;
+  const { deliveryAddresses } = deliveryAddressStore;
 
   useEffect(() => {
     scrollTo({ top: 0 });
+  }, [currentStep]);
+
+  useEffect(() => {
+    deliveryAddressStore.fetchDeliveryAddresses();
   }, []);
 
   const handleSumbitOrder = useCallback(async () => {
@@ -59,13 +62,13 @@ const OrderPaymentContainer = (): JSX.Element => {
       switch (error.status) {
         case 401:
         case 410:
-          onErrorOccurred();
+          userStore.onAuthError(error.status);
           return;
 
         case 400:
           toast.error('잘못된 데이터입니다');
           history.push('/');
-          orderStore.orderDetailProductList = [];
+          orderStore.clearOrder();
           return;
 
         default:
@@ -74,7 +77,7 @@ const OrderPaymentContainer = (): JSX.Element => {
           return;
       }
     }
-  }, [history, onErrorOccurred]);
+  }, [history]);
 
   useEffect(() => {
     if (orderDetailProductList.length === 0) {
@@ -82,12 +85,6 @@ const OrderPaymentContainer = (): JSX.Element => {
       history.push('/');
     }
   }, [history, orderDetailProductList]);
-
-  if (isNone(user)) {
-    toast.error('로그인이 필요합니다');
-    history.push('/login');
-    return <></>;
-  }
 
   return (
     <OrderPayment
@@ -97,16 +94,9 @@ const OrderPaymentContainer = (): JSX.Element => {
       user={user as User}
       recipientName={orderFormRef.current?.recipientName}
       address={orderFormRef.current?.address}
+      deliveryAddresses={deliveryAddresses}
     />
   );
-};
+});
 
-const OrderPaymentAuthentication = (): JSX.Element => {
-  return (
-    <AuthenticationProvider>
-      <OrderPaymentContainer />
-    </AuthenticationProvider>
-  );
-};
-
-export default OrderPaymentAuthentication;
+export default OrderPaymentContainer;

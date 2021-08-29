@@ -17,7 +17,7 @@ describe('SortButtonList 테스트', () => {
   ];
 
   const handleSortButton = (sortOption: ProductListOrder) => () => {
-    optionStore.setSortOption(sortOption);
+    optionStore.changeSortOption(sortOption);
   };
 
   beforeEach(() => {

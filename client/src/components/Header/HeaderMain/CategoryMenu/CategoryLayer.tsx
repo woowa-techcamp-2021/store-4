@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { rootListStyle, childListStyle, textUnderline } from './categoryLayerCss';
 import { CategoryClickHandler, CATEGORY_ALL } from '../../../../containers/CategoryLayerContainer';
-import { useHistory } from '../../../../lib/router';
 import Category from '../../../../models/category';
-import { Option } from '../../../../types/option';
-import buildQueryString from '../../../../utils/build-query-string';
 import { debounce, clearDebounce } from '../../../../lib/debounce';
 
 const Container = styled.div`
@@ -50,41 +47,39 @@ const CategoryListItemText = styled.span<CategoryListItemProps>`
 export type Props = {
   rootCategories: Category[];
   onCategoryClick: CategoryClickHandler;
-  option: Option;
 };
 
 const CategoryLayer = (props: Props): JSX.Element => {
-  const { rootCategories, onCategoryClick, option } = props;
-  const [currentCategory, setCurrentCategory] = useState(rootCategories[0]);
-  const history = useHistory();
+  const { rootCategories, onCategoryClick } = props;
+  const [currentCategory, setCurrentCategory] = useState<null | Category>();
 
   const handleGetCategoryClickHandler = useCallback(
     (category: Category) => () => {
-      const query = buildQueryString({
-        ...option,
-        category: category === CATEGORY_ALL ? null : category.id,
-        searchTerm: '',
-      });
-      history.push(`/products${query}`);
       onCategoryClick(category);
     },
-    [onCategoryClick, option, history]
+    [onCategoryClick]
   );
+
+  useEffect(() => {
+    if (rootCategories.length > 0) {
+      setCurrentCategory(rootCategories[0]);
+    }
+  }, [rootCategories]);
 
   const rootItems = rootCategories.map((category) => (
     <CategoryListItem
       key={category.id}
-      isCurrent={category.id === currentCategory.id}
+      isCurrent={category.id === currentCategory?.id}
       onMouseEnter={() => debounce(100, () => setCurrentCategory(category))}
       onClick={handleGetCategoryClickHandler(category)}
     >
-      <CategoryListItemText isCurrent={category.id === currentCategory.id}>
+      <CategoryListItemText isCurrent={category.id === currentCategory?.id}>
         {category.name}
       </CategoryListItemText>
     </CategoryListItem>
   ));
 
-  const childItems = currentCategory.childCategories.map((category) => (
+  const childItems = currentCategory?.childCategories.map((category) => (
     <CategoryListItem
       key={category.id}
       onMouseEnter={clearDebounce}
@@ -97,7 +92,7 @@ const CategoryLayer = (props: Props): JSX.Element => {
   return (
     <Container>
       <CategoryList isRoot={true}>{rootItems}</CategoryList>
-      {currentCategory !== CATEGORY_ALL && (
+      {currentCategory?.id !== CATEGORY_ALL.id && (
         <CategoryList isRoot={false} data-testid="child-list">
           {childItems}
         </CategoryList>

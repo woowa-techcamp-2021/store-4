@@ -22,7 +22,7 @@ const PaymentFinish = (props: Props): JSX.Element => {
 
   useEffect(() => {
     return () => {
-      orderStore.orderDetailProductList = [];
+      orderStore.clearOrder();
     };
   }, []);
 

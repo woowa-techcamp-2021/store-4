@@ -2,6 +2,9 @@ import { action, makeAutoObservable, observable, runInAction } from 'mobx';
 import User from '../models/user';
 import apis from '../api';
 import { isNone } from '../utils/typeGuard';
+import toast from '../lib/toast';
+
+const USER_TOKEN_KEY = 'token';
 
 class UserStore {
   @observable
@@ -16,22 +19,23 @@ class UserStore {
 
   private setTokenToLocalStorage() {
     const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get('token');
+    const token = searchParams.get(USER_TOKEN_KEY);
 
     if (isNone(token)) {
       return;
     }
 
-    localStorage.setItem('token', token);
+    localStorage.setItem(USER_TOKEN_KEY, token);
     history.replaceState(null, '', '/');
   }
 
   @action
   private async fetchUser() {
     try {
-      const token = localStorage.getItem('token');
-      if (isNone(token)) {
-        throw new Error();
+      const token = this.token;
+
+      if (token === '') {
+        return;
       }
 
       const { user } = await apis.userAPI.fetchUser(token);
@@ -39,22 +43,36 @@ class UserStore {
       runInAction(() => {
         this.user = user;
       });
-    } catch {
-      localStorage.removeItem('token');
-      this.user = null;
+    } catch (error) {
+      this.onAuthError(error.status);
     }
   }
 
   @action
   logoutUser() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(USER_TOKEN_KEY);
     this.user = null;
   }
 
+  onAuthError(status: unknown) {
+    switch (status) {
+      case 401:
+      case 410:
+        toast.error('다시 로그인해주세요');
+        break;
+      default:
+        toast.error('오류가 발생했습니다');
+    }
+
+    this.logoutUser();
+    history.pushState(null, '', '/login');
+  }
+
   get token() {
-    const token = localStorage.getItem('token');
-    if (isNone(token)) {
-      throw new Error('invalid token');
+    const token = localStorage.getItem(USER_TOKEN_KEY);
+
+    if (token === null) {
+      return '';
     }
 
     return token;

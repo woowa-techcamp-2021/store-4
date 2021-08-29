@@ -6,7 +6,8 @@ class OrderRepository extends Repository<Order> {
   findWithOrderDetails(userId: number): Promise<Order[]> {
     return createQueryBuilder(Order)
       .leftJoinAndSelect('Order.orderDetails', 'orderDetails')
-      .leftJoinAndSelect('orderDetails.product', 'orderDetails.product')
+      .leftJoinAndSelect('orderDetails.product', 'product')
+      .leftJoinAndSelect('product.productImages', 'productImages')
       .where('Order.user_id = :userId', { userId })
       .orderBy('Order.created_at', 'DESC')
       .getMany();

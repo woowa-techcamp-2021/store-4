@@ -1,9 +1,9 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { Wish } from '../../../types/Wish';
+import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import { useState } from 'react';
 import { Link } from '../../../lib/router';
+import wishStore from '../../../stores/wishStore';
 
 const TextTinyBold = styled.div`
   font-size: ${(props) => props.theme.fontSize.small};
@@ -33,11 +33,19 @@ type WishButtonProps = {
 };
 
 const WishButton = styled(CommonButton)<WishButtonProps>`
-  border: 1px solid ${(props) => props.theme.color.grey1};
-  background-color: ${(props) => props.theme.color.white1};
+  border: none;
+  border-radius: 100%;
+  background-color: inherit;
   width: 50px;
   font-size: ${(props) => props.theme.fontSize.large};
-color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
+  color: ${(props) => (props.isWished ? props.theme.color.red : props.theme.color.grey3)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  :hover {
+    background-color: ${(props) => props.theme.color.white1};
+  }
 `;
 
 const ItemTitleWrapper = styled.div`
@@ -62,21 +70,22 @@ const ItemTitle = styled(TextTinyBold)`
 `;
 
 type Props = {
-  wishItem: Wish;
+  productId: number;
+  title: string;
+  imgSrc: string;
 };
 
 const WishItem = (props: Props): JSX.Element => {
   const [isWished, setIsWished] = useState(true);
 
-  const { wishItem } = props;
-  const { id, title, imgSrc } = wishItem;
+  const { productId, title, imgSrc } = props;
 
-  const onWishClick = () => {
+  const onWishClick = async () => {
     if (isWished) {
-      // 상품 찜 취소 api 요청
+      await wishStore.changeWishedTo(productId, false);
       setIsWished(false);
     } else {
-      // 상품 찜 추가 api 요청
+      await wishStore.changeWishedTo(productId, true);
       setIsWished(true);
     }
   };
@@ -86,7 +95,7 @@ const WishItem = (props: Props): JSX.Element => {
       <WishButton onClick={onWishClick} isWished={isWished}>
         <FaHeart />
       </WishButton>
-      <Link to={`product/${id}`}>
+      <Link to={`product/${productId}`}>
         <ItemTitleWrapper>
           <ItemImg src={imgSrc} />
           <ItemWrapper>
