@@ -4,15 +4,33 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import provideTheme2Test from '../../lib/provideTheme2Test';
 import CarouselController from './CarouselController';
-import Beer from './mock/beer.gif';
-import Bottle from './mock/bottle.gif';
-import Pencil from './mock/pencil.gif';
 
 describe('캐러셀 테스트', () => {
   const mockImages = [
-    { index: 0, src: Pencil },
-    { index: 1, src: Bottle },
-    { index: 2, src: Beer },
+    {
+      index: 0,
+      src: {
+        webm: '',
+        mp4: '',
+      },
+      productId: 0,
+    },
+    {
+      index: 1,
+      src: {
+        webm: '',
+        mp4: '',
+      },
+      productId: 1,
+    },
+    {
+      index: 2,
+      src: {
+        webm: '',
+        mp4: '',
+      },
+      productId: 2,
+    },
   ];
   let currentIndex = 0;
 
