@@ -133,10 +133,11 @@ type Props = React.PropsWithChildren<{
   height?: number;
   aspectRatio?: [number, number];
   objectFit?: string;
+  alt?: string;
 }>;
 
 const LazyImage = (props: Props): JSX.Element => {
-  const { src, children, height, width, aspectRatio, objectFit = 'fill' } = props;
+  const { src, children, height, width, aspectRatio, objectFit = 'fill', alt = '' } = props;
   const imgRef = useRef<HTMLImageElement>(null);
   const imgWrapperRef = useRef<HTMLDivElement>(null);
   const imgSkeletonRef = useRef<HTMLDivElement>(null);
@@ -170,6 +171,7 @@ const LazyImage = (props: Props): JSX.Element => {
           className="thumbnail hide"
           ref={imgRef}
           data-src={src ?? NoImage}
+          alt={alt}
         />
         {children}
       </ImageWrapper>

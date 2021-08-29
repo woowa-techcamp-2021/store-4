@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import TEST_IMG from '../../../../assets/images/towel.png';
 import cartStore from '../../../../stores/cartStore';
 import CartItem from '../../../../models/cart-item';
 import { toJS } from 'mobx';
 import { getOptionList } from '../../helper';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
+import LazyImage from '../../../LazyImage/LazyImage';
 
 const Container = styled.div`
   display: flex;
@@ -16,11 +15,7 @@ const Container = styled.div`
 const ProductImgWrapper = styled.div`
   padding: 20px;
 `;
-const ProductImg = styled.img`
-  aspect-ratio: 1 / 1;
-  width: 72px;
-  object-fit: cover;
-`;
+
 const ProductInfoWrapper = styled.div`
   width: 100%;
   padding-left: 30px;
@@ -87,7 +82,7 @@ const Option = (): JSX.Element => {
     return <Container></Container>;
   }
 
-  const { title, selectWithSelecteds, price } = toJSModalCartItem;
+  const { title, selectWithSelecteds, price, imgSrc } = toJSModalCartItem;
   const optionList = getOptionList(selectWithSelecteds);
   const OptionItemList = optionList.map((option) => (
     <OptionItem key={option.name}>
@@ -100,7 +95,13 @@ const Option = (): JSX.Element => {
   return (
     <Container>
       <ProductImgWrapper>
-        <ProductImg src={TEST_IMG} alt="상품 이미지"></ProductImg>
+        <LazyImage
+          height={72}
+          aspectRatio={[1, 1]}
+          src={imgSrc}
+          objectFit={'cover'}
+          alt="상품 이미지"
+        />
       </ProductImgWrapper>
       <ProductInfoWrapper>
         <ProductTitle>{title}</ProductTitle>
