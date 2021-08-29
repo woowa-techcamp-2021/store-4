@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import OrderDetailProduct from '../../../models/orderDetailProduct';
 import { toKoreanMoneyFormat } from '../../../utils/moneyFormater';
 import { getOptionList } from '../../Cart/helper';
+import LazyImage from '../../LazyImage/LazyImage';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -27,13 +28,9 @@ const ItemTitleWrapper = styled.div`
   padding: 0 10px;
 `;
 
-const ItemImg = styled.img`
-  width: 52px;
-  height: 52px;
-  padding-right: 10px;
+const ItemWrapper = styled.div`
+  padding-left: 10px;
 `;
-
-const ItemWrapper = styled.div``;
 
 const ItemTitle = styled.div``;
 
@@ -76,7 +73,7 @@ const OrderDetailProductItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <ItemTitleWrapper>
-        <ItemImg src={thumbnail} alt="상품 이미지" />
+        <LazyImage height={52} width={52} src={thumbnail} alt="상품 이미지" />
         <ItemWrapper>
           <ItemTitle>{name}</ItemTitle>
           <OptionList>
