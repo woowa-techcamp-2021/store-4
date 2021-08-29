@@ -35,7 +35,7 @@ const MainAdListItem = (props: MainAddListItemProps): JSX.Element => {
     <Link to={`/product/${id}`}>
       <MainAdListItemContainer>
         <ImageWrapper>
-          <AdImage src={imgSrc} />
+          <AdImage src={imgSrc} alt="상품 이미지" />
         </ImageWrapper>
         <ItemTitles>
           <Title>{title}</Title>

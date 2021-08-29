@@ -100,7 +100,7 @@ const Option = (): JSX.Element => {
   return (
     <Container>
       <ProductImgWrapper>
-        <ProductImg src={TEST_IMG}></ProductImg>
+        <ProductImg src={TEST_IMG} alt="상품 이미지"></ProductImg>
       </ProductImgWrapper>
       <ProductInfoWrapper>
         <ProductTitle>{title}</ProductTitle>
