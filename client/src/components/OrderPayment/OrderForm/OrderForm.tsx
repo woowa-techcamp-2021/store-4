@@ -36,7 +36,25 @@ const FinalCheck = styled.div`
   align-items: center;
 `;
 
+const FinalCheckInput = styled.input`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const Strong = styled.strong``;
+
+const FinalCheckLabel = styled.label.attrs({
+  for: 'final-check',
+})`
+  text-align: center;
+  white-space: pre;
+  line-height: 1.5;
+  margin: 0px 8px;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const Paragraph = styled.p`
   text-align: center;
@@ -202,10 +220,10 @@ const OrderForm = (props: Props, ref: React.Ref<OrderDeliveryAddressFormRef>): J
           </Paragraph>
         </FinalCheckDesc>
         <FinalCheck>
-          <input type="checkbox" ref={approveRef} />
-          <Paragraph>
+          <FinalCheckInput id="final-check" type="checkbox" ref={approveRef} />
+          <FinalCheckLabel>
             <Strong>(필수)</Strong> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.
-          </Paragraph>
+          </FinalCheckLabel>
         </FinalCheck>
         <FinalCheck>
           <PaymentButton onClick={onOrderSubmit}>결제하기</PaymentButton>
