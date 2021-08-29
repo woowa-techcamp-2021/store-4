@@ -6,8 +6,7 @@ import userService from '../services/user-service';
 import dotenv from '../config/dotenv';
 import { isNone } from '../util/type-guard';
 import UserNotfoundException from '../exceptions/user-notfound-exception';
-
-let DEMO_USER_COUNT = 1;
+import uuid from '../util/uuid';
 
 class AuthController {
   async getUser(req: Request, res: Response) {
@@ -67,10 +66,8 @@ class AuthController {
   async demoLogin(req: Request, res: Response) {
     const demoUser = await userService.registerUser({
       username: `게스트`,
-      email: `guest-${DEMO_USER_COUNT}@woowa.store`,
+      email: `guest-${uuid()}`,
     });
-
-    DEMO_USER_COUNT++;
 
     const token = jwtService.generateToken({
       id: demoUser.id,
