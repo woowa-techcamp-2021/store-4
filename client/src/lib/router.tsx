@@ -266,7 +266,7 @@ export const ConditionLink = (props: ConditionLinkProps): React.ReactElement => 
   };
 
   return (
-    <a href={to} onClick={handleClickLink}>
+    <a href={to} onClick={handleClickLink} aria-label="Link">
       {children}
     </a>
   );

@@ -30,13 +30,11 @@ const ProductCounterWrapper = styled.div`
   flex: 1;
 `;
 
-const RemoveButton = styled.button`
+const RemoveButton = styled.div`
   margin-left: 10px;
   width: 16px;
   height: 16px;
   cursor: pointer;
-  outline: none;
-  border: none;
   font-size: ${(props) => props.theme.fontSize.normal};
   color: ${(props) => props.theme.color.grey5};
   background-color: transparent;

@@ -98,7 +98,7 @@ const SearchBar = (props: Props): JSX.Element => {
         onKeyPress={handlePressEnterChangeSearchTermList}
         onFocus={handleOpenDropdown}
       />
-      <SearchButton type="button" onClick={onChangeSearchTermList}>
+      <SearchButton onClick={onChangeSearchTermList}>
         <RiSearchLine />
       </SearchButton>
       {isOpenDropBox && (
