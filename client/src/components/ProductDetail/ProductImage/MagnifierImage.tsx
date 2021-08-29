@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import LazyImage from '../../LazyImage/LazyImage';
 
 const Container = styled.div``;
 
@@ -20,12 +21,6 @@ const ImageViewer = styled.div`
   position: relative;
   width: 400px;
   height: 400px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 `;
 
 const MagnifierPointer = styled.div`
@@ -50,8 +45,8 @@ const MagnifiedViewer = styled.div`
 `;
 
 const ModifiedImage = styled.img`
-  width: 400%;
-  height: 400%;
+  aspect-ratio: 1 / 1;
+  width: 1600px;
   object-fit: contain;
 `;
 
@@ -171,7 +166,14 @@ const MagnifierImage = (props: Props): JSX.Element => {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image data-testid="selected-image" src={image} referrerPolicy="no-referrer" />
+        <LazyImage
+          width={400}
+          testId={'selected-image'}
+          aspectRatio={[1, 1]}
+          src={image}
+          objectFit="contain"
+          alt="상품 이미지"
+        />
         <MagnifyWrapper data-testid="magnifier" isMagnifierVisible={isMagnifierVisible}>
           <MagnifierPointer ref={magnifier} />
           <MagnifiedViewer>

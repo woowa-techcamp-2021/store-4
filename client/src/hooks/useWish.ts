@@ -20,7 +20,7 @@ const useWish = (
         e.preventDefault();
 
         if (userStore.user === null) {
-          toast.error('로그인이 필요합니다');
+          toast.info('로그인이 필요합니다');
           return;
         }
 
@@ -67,6 +67,7 @@ const useWish = (
               return;
 
             case 500:
+              toast.error('오류가 발생했습니다');
               history.push('/error');
               return;
           }

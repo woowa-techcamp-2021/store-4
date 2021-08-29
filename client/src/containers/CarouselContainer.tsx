@@ -14,7 +14,7 @@ const mockImages: CarouselImage[] = [
       mp4: PENCIL_MP4,
       webm: PENCIL_WEBM,
     },
-    productId: 196,
+    productId: 228,
   },
   {
     index: 1,
@@ -22,7 +22,7 @@ const mockImages: CarouselImage[] = [
       mp4: BOTTLE_MP4,
       webm: BOTTLE_WEBM,
     },
-    productId: 162,
+    productId: 163,
   },
   {
     index: 2,
@@ -30,7 +30,7 @@ const mockImages: CarouselImage[] = [
       mp4: BEER_MP4,
       webm: BEER_WEBM,
     },
-    productId: 387,
+    productId: 134,
   },
 ];
 

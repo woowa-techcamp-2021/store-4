@@ -85,6 +85,7 @@ const ManageDeliveryAddressContainer = (): JSX.Element => {
               return;
 
             default:
+              toast.error('오류가 발생했습니다');
               history.push('/error');
               return;
           }

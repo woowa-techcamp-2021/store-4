@@ -1,6 +1,7 @@
 import React, { useCallback, useReducer, useRef } from 'react';
 import DeliveryAddressItem from '../components/DeliveryAddress/DeliveryAddressItem/DeliveryAddressItem';
 import ModifyDeliveryAddressForm from '../components/DeliveryAddress/DeliveryAddressItem/ModifyDeliveryAddressForm';
+import confirmModal from '../lib/confirmModal';
 import { useHistory } from '../lib/router';
 import toast from '../lib/toast';
 import DeliveryAddress from '../models/delivery-address';
@@ -53,11 +54,15 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
     });
   };
 
-  const handleDeleteClick = useCallback(() => {
+  const handleDelete = useCallback(() => {
     deliveryAddressStore.deleteDeliveryAddress(props.deliveryAddress.id).catch(() => {
       history.push('/error');
     });
   }, [history, props.deliveryAddress.id]);
+
+  const handleDeleteClick = useCallback(() => {
+    confirmModal.show('배송지 삭제', '배송지가 영구적으로 삭제됩니다.', handleDelete);
+  }, [handleDelete]);
 
   const handleModifyClick = useCallback(() => {
     if (isNotNone(modifyFormRef.current)) {
@@ -114,6 +119,7 @@ const DeliveryAddressItemContainer = (props: Props): JSX.Element => {
               return;
 
             default:
+              toast.error('오류가 발생했습니다');
               history.push('/error');
               return;
           }

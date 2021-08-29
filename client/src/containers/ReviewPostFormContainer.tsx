@@ -5,6 +5,7 @@ import productDetailStore from '../stores/productDetailStore';
 import { isNone } from '../utils/typeGuard';
 import reviewStore from '../stores/reviewStore';
 import toast from '../lib/toast';
+import { useHistory } from '../lib/router';
 
 const DEFAULT_PRODUCT_NAME = '이 상품';
 
@@ -37,6 +38,7 @@ type Props = {
 const ReviewPostFormContainer = (props: Props): JSX.Element => {
   const { onClose } = props;
   const [thumbnails, setThumbnails] = useState<string[]>([]);
+  const history = useHistory();
   const currentProduct = productDetailStore.product;
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +46,7 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
     if (files === null) return;
 
     if (validateFileInputs(files) === false) {
-      toast.error('이미지 파일만 추가할 수 있습니다');
+      toast.info('이미지 파일만 추가할 수 있습니다');
 
       event.target.value = '';
       return;
@@ -84,6 +86,7 @@ const ReviewPostFormContainer = (props: Props): JSX.Element => {
             return;
           default:
             toast.error('오류가 발생했습니다');
+            history.push('/error');
             return;
         }
       })

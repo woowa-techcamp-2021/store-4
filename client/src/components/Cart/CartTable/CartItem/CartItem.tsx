@@ -6,6 +6,7 @@ import { Link } from '../../../../lib/router';
 import { SelectWithSelected } from '../../../../types/product';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 import { getOptionList, getSelectedOptionPriceList } from '../../helper';
+import LazyImage from '../../../LazyImage/LazyImage';
 
 const AlignCenterContainer = styled.div`
   display: flex;
@@ -46,13 +47,9 @@ const CheckBoxWrapper = styled(AlignCenterContainer)`
 
 const CheckBox = styled.input``;
 
-const ItemImg = styled.img`
-  width: 52px;
-  height: 52px;
-  padding-right: 10px;
+const ItemWrapper = styled.div`
+  padding-left: 10px;
 `;
-
-const ItemWrapper = styled.div``;
 
 const ItemTitle = styled.div``;
 
@@ -132,7 +129,7 @@ const CartItem = (props: Props): JSX.Element => {
       </CheckBoxWrapper>
       <ItemTitleWrapper>
         <Link to={`/product/${productId}`}>
-          <ItemImg src={imgSrc} />
+          <LazyImage height={52} width={52} src={imgSrc} alt="상품 이미지" />
         </Link>
         <ItemWrapper>
           <Link to={`/product/${productId}`}>

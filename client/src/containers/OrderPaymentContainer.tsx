@@ -40,12 +40,12 @@ const OrderPaymentContainer = observer((): JSX.Element => {
     const { recipientName, address, approve } = orderFormRef.current;
 
     if (!(recipientName && address)) {
-      toast.error('배송정보는 빠짐없이 입력해주세요');
+      toast.info('배송정보는 빠짐없이 입력해주세요');
       return;
     }
 
     if (!approve) {
-      toast.error('구매진행에 동의 해주세요');
+      toast.info('구매진행에 동의 해주세요');
       return;
     }
 
@@ -81,7 +81,7 @@ const OrderPaymentContainer = observer((): JSX.Element => {
 
   useEffect(() => {
     if (orderDetailProductList.length === 0) {
-      toast.error('주문 상품이 없습니다');
+      toast.info('주문 상품이 없습니다');
       history.push('/');
     }
   }, [history, orderDetailProductList]);

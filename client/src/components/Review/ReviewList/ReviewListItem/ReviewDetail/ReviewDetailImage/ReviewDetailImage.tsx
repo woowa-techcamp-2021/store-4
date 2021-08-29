@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import LazyImage from '../../../../../LazyImage/LazyImage';
 
 const Container = styled.li`
   width: 100%;
@@ -8,8 +9,8 @@ const Container = styled.li`
 `;
 
 const ReviewDetailImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 165px;
+  height: 210px;
   object-fit: cover;
   border-radius: 5px;
 `;
@@ -23,6 +24,14 @@ const ReviewDetailImage = (props: Props): JSX.Element => {
 
   return (
     <Container>
+      <LazyImage
+        width={165}
+        height={210}
+        objectFit={'cover'}
+        src={imageUrl}
+        borderRadius={5}
+        alt="리뷰 이미지"
+      />
       <ReviewDetailImg src={imageUrl} />
     </Container>
   );

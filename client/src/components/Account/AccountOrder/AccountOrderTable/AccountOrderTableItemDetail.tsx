@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import OrderDetail from '../../../../models/orderDetail';
-import NO_IMAGE from '../../../../assets/images/no-image.png';
 import { toKoreanMoneyFormat } from '../../../../utils/moneyFormater';
 import { Link } from '../../../../lib/router';
+import LazyImage from '../../../LazyImage/LazyImage';
 
 const Container = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.color.grey2};
@@ -24,22 +24,20 @@ const Column = styled.div`
 
 const ProductThumbnailWrapper = styled(Column)``;
 
-const ProductThumbnail = styled.img`
-  height: 60px;
+const ProductNameWrapper = styled(Column)`
+  flex: 2;
   :hover {
-    transform: scale(1.1);
+    color: ${(props) => props.theme.color.grey3};
   }
 `;
 
-const ProductName = styled(Column)`
-  flex: 2;
-  overflow: scroll;
+const ProductName = styled.div`
+  width: 220px;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  :hover {
-    color: ${(props) => props.theme.color.grey5};
-  }
 `;
+
 const ProductOption = styled(Column)`
   flex: 2;
 `;
@@ -70,16 +68,20 @@ const AccountOrderTableItemDetail = (props: Props): JSX.Element => {
       <Row key={orderDetail.id}>
         <ProductThumbnailWrapper>
           <Link to={`/product/${orderDetail.product.id}`}>
-            <ProductThumbnail
-              referrerPolicy="no-referrer"
-              src={orderDetail.product.thumbnail || NO_IMAGE}
+            <LazyImage
+              width={48}
+              aspectRatio={[4, 5]}
+              src={orderDetail.product.thumbnail}
+              alt="상품 이미지"
             />
           </Link>
         </ProductThumbnailWrapper>
-        <ProductName>
-          <Link to={`/product/${orderDetail.product.id}`}>{orderDetail.product.name}</Link>
-        </ProductName>
-        <ProductOption>{orderDetail.option || 'X'}</ProductOption>
+        <ProductNameWrapper>
+          <Link to={`/product/${orderDetail.product.id}`}>
+            <ProductName>{orderDetail.product.name}</ProductName>
+          </Link>
+        </ProductNameWrapper>
+        <ProductOption>{orderDetail.option || ''}</ProductOption>
         <Quantity>{`${orderDetail.quantity}개`}</Quantity>
         <Price>
           <OriginPrice>{toKoreanMoneyFormat(orderDetail.price * orderDetail.quantity)}</OriginPrice>

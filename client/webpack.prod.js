@@ -19,4 +19,16 @@ module.exports = merge(common, {
     }),
     new EnvironmentPlugin(['SERVER_URL']),
   ],
+  optimization: {
+    moduleIds: 'deterministic',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 });

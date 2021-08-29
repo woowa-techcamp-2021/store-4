@@ -6,9 +6,14 @@ import toast from '../lib/toast';
 
 const USER_TOKEN_KEY = 'token';
 
+type Status = 'IDLE' | 'FETCHING' | 'DONE';
+
 class UserStore {
   @observable
   user: User | null = null;
+
+  @observable
+  status: Status = 'IDLE';
 
   constructor() {
     makeAutoObservable(this);
@@ -31,6 +36,7 @@ class UserStore {
 
   @action
   private async fetchUser() {
+    this.setStatus('FETCHING');
     try {
       const token = this.token;
 
@@ -42,10 +48,20 @@ class UserStore {
 
       runInAction(() => {
         this.user = user;
+        if (this.user.name === '게스트') {
+          toast.info('시연용 계정으로 로그인 되었습니다. 로그아웃시 정보가 삭제됩니다');
+        }
       });
     } catch (error) {
       this.onAuthError(error.status);
+    } finally {
+      this.setStatus('DONE');
     }
+  }
+
+  @action
+  setStatus(status: Status) {
+    this.status = status;
   }
 
   @action
@@ -65,7 +81,6 @@ class UserStore {
     }
 
     this.logoutUser();
-    history.pushState(null, '', '/login');
   }
 
   get token() {

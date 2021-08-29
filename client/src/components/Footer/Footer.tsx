@@ -27,6 +27,7 @@ const LogoWrapper = styled.div`
 
 const LogoImg = styled.img`
   width: 100px;
+  height: 76px;
 `;
 
 const ContentWrapper = styled.div`
