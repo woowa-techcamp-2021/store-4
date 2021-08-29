@@ -76,7 +76,7 @@ const OrderDetailProductItem = (props: Props): JSX.Element => {
   return (
     <Container>
       <ItemTitleWrapper>
-        <ItemImg src={thumbnail} />
+        <ItemImg src={thumbnail} alt="상품 이미지" />
         <ItemWrapper>
           <ItemTitle>{name}</ItemTitle>
           <OptionList>
