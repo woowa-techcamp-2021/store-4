@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef, useEffect } from 'react';
+import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import LazyImage from '../../LazyImage/LazyImage';
@@ -64,20 +64,6 @@ const WishIcon = styled.div<WishIconProps>`
   }
 `;
 
-const lazy = (img: HTMLImageElement | null) => {
-  return new Promise<HTMLImageElement>((res, rej) => {
-    if (img) {
-      img.onload = () => {
-        res(img);
-      };
-      img.onerror = (err) => {
-        rej(err);
-      };
-      img.src = img.dataset.src as string;
-    }
-  });
-};
-
 type Props = {
   thumbnail: string | null;
   isNew: boolean;
@@ -88,18 +74,6 @@ type Props = {
 
 const ProductItemImage = (props: Props): JSX.Element => {
   const { thumbnail, isNew, isDiscounting, isWished, onWishClick } = props;
-  const imgRef = useRef<HTMLImageElement>(null);
-  const imgWrapperRef = useRef<HTMLDivElement>(null);
-  const imgSkeletonRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    lazy(imgRef.current).then((img) => {
-      imgWrapperRef.current?.classList.remove('none');
-      imgSkeletonRef.current?.classList.add('none');
-      img.classList.remove('hide');
-      img.classList.add('animation-show');
-    });
-  }, []);
 
   return (
     <Container>
