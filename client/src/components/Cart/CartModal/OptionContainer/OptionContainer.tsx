@@ -17,8 +17,8 @@ const ProductImgWrapper = styled.div`
   padding: 20px;
 `;
 const ProductImg = styled.img`
+  aspect-ratio: 1 / 1;
   width: 72px;
-  height: 72px;
   object-fit: cover;
 `;
 const ProductInfoWrapper = styled.div`
