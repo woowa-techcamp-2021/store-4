@@ -31,6 +31,9 @@ const ProductContentTitle = styled.h1`
 `;
 
 const ProductContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: fit-content;
   margin: 40px auto;
 `;
