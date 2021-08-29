@@ -45,7 +45,15 @@ const Paragraph = styled.p`
   margin: 0px 8px;
 `;
 
-const DeliverySelect = styled.select``;
+const DeliverySelect = styled.select`
+  width: 250px;
+  border: 1px solid ${(props) => props.theme.color.grey3};
+  padding: 3px;
+  outline: none;
+  color: ${(props) => props.theme.color.grey5};
+  font-size: ${(props) => props.theme.fontSize.small};
+  cursor: pointer;
+`;
 
 const Option = styled.option``;
 
