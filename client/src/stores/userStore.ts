@@ -65,7 +65,6 @@ class UserStore {
     }
 
     this.logoutUser();
-    history.pushState(null, '', '/login');
   }
 
   get token() {
