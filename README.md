@@ -19,6 +19,7 @@
   ### [소개 영상](https://youtu.be/TgIW2UyZpu8)
 </div>
 
+
 ## 프로젝트 구조
 
 <div align="center">
@@ -53,6 +54,12 @@
 </div>
 <div align="center">
 </div>
+
+## 기술적 과제 해결
+- [Store와 Router를 사용한 상품목록 querystring 관리](https://github.com/woowa-techcamp-2021/store-4/wiki/Store%EC%99%80-Router%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%83%81%ED%92%88%EB%AA%A9%EB%A1%9D-querystring-%EA%B4%80%EB%A6%AC)
+- [성능 최적화](https://github.com/woowa-techcamp-2021/store-4/wiki/%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94)
+- [예외 처리](https://github.com/woowa-techcamp-2021/store-4/wiki/%EC%98%88%EC%99%B8-%EC%B2%98%EB%A6%AC)
+- [상태관리 구조](https://github.com/woowa-techcamp-2021/store-4/wiki/%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC-%EA%B5%AC%EC%A1%B0)
 
 ## 팀활동
 
