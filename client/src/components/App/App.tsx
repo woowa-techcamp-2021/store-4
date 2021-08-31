@@ -25,7 +25,7 @@ const App = (): JSX.Element => {
       <GlobalStyle />
       <Router>
         <Header />
-        <Suspense fallback={Loading}>
+        <Suspense fallback={<Loading />}>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/login" component={LoginPage} />
