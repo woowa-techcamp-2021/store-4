@@ -9,6 +9,8 @@ import Review from '../../models/review';
 import ProductSelect from '../../models/product-select';
 import { toKoreanMoneyFormat } from '../../utils/moneyFormater';
 
+const MONTH = 1000 * 60 * 60 * 24 * 31;
+
 describe('ProductItem 테스트', () => {
   const PRODUCT_ATTRS = {
     id: 1,
@@ -29,7 +31,7 @@ describe('ProductItem 테스트', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 15,
-      createdAt: new Date('2021-08-19'),
+      createdAt: new Date(),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     screen.getByText('NEW');
@@ -40,7 +42,7 @@ describe('ProductItem 테스트', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 0,
-      createdAt: new Date('2021-05-19'),
+      createdAt: new Date(Date.now() - MONTH),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     expect(() => screen.getByText('NEW')).toThrowError();
@@ -51,7 +53,7 @@ describe('ProductItem 테스트', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 0,
-      createdAt: new Date('2021-08-03'),
+      createdAt: new Date(),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     screen.getByText('NEW');
@@ -61,19 +63,19 @@ describe('ProductItem 테스트', () => {
   test('discountRate가 0보다 크고, createAt이 한달 이상이면 sale 뱃지만 표시', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
-      discountRate: 0,
-      createdAt: new Date('2021-08-19'),
+      discountRate: 10,
+      createdAt: new Date(Date.now() - MONTH),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
-    screen.getByText('NEW');
-    expect(() => screen.getByText('SALE')).toThrowError();
+    expect(() => screen.getByText('NEW')).toThrowError();
+    screen.getByText('SALE');
   });
 
   test('discountRate가 존재하면, 정상가, 할인가가 모두 존재', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 15,
-      createdAt: new Date('2021-08-19'),
+      createdAt: new Date(),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
 
@@ -87,7 +89,7 @@ describe('ProductItem 테스트', () => {
     const product: Product = new Product({
       ...PRODUCT_ATTRS,
       discountRate: 0,
-      createdAt: new Date('2021-08-19'),
+      createdAt: new Date(),
     });
     render(provideTheme2Test(<ProductItem onWishClick={onWishClick} product={product} />));
     expect(screen.getByTestId('price').textContent).toBe(toKoreanMoneyFormat(product.price));
