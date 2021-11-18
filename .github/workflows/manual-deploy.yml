@@ -33,12 +33,16 @@ jobs:
       - name: Checkout and Pull origin
         run: ssh production 'cd ~/store-4 && git checkout main && git pull origin'
 
-      - name: if changed dependencies, install dependencies
+      - name: install packages
         run: ssh production 'cd ~/store-4/server && npm i'
         if: env.MATCHED_FILES
 
+        working-directory: server
+      - name: Run build script && Sync build files to server
+        run: cd server && npm i && npm run build && rsync -avz ./dist/ production:~/store-4/server/dist
+
       - name: Reload Pm2
-        run: ssh production 'cd ~/store-4/server && npm run build && sudo pm2 reload store-4'
+        run: ssh production 'cd ~/store-4/server && sudo pm2 reload store-4'
   frontend:
     runs-on: ubuntu-latest
     strategy:
@@ -78,4 +82,3 @@ jobs:
         working-directory: client
       - name: Run build script && Sync build files to server
         run: cd client && npm i && npm run build && rsync -avz ./dist/ production:~/store-4/client/dist
-        if: env.GIT_DIFF
