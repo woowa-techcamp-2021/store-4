@@ -16,6 +16,7 @@
   ![aws](https://img.shields.io/badge/-aws-222E3D?style=for-the-badge&logo=amazon-aws)
   
   ### [https://chakani.shop](https://chakani.shop/)
+  ### [위 주소 오류 발생시 링크](http://ec2-3-36-100-77.ap-northeast-2.compute.amazonaws.com/)
   ### [소개 영상](https://youtu.be/TgIW2UyZpu8)
 </div>
 
